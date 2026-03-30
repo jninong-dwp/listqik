@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/container";
+import { LeadCaptureForm } from "@/components/lead-capture-form";
 import { listings } from "@/data/listings";
 
 function formatMoney(n: number) {
@@ -18,9 +19,9 @@ export function generateStaticParams() {
 export default async function ListingDetailPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const { slug } = params;
+  const { slug } = await params;
   const listing = listings.find((l) => l.slug === slug);
   if (!listing) return notFound();
 
@@ -82,6 +83,17 @@ export default async function ListingDetailPage({
           </div>
 
           <aside className="lg:col-span-2 space-y-6">
+            <LeadCaptureForm
+              source="listing-detail"
+              listing={{
+                slug: listing.slug,
+                title: listing.title,
+                city: listing.city,
+                state: listing.state,
+                price: listing.price,
+                url: `/listings/${listing.slug}`,
+              }}
+            />
             <div className="glass-surface p-6">
               <div className="text-xs font-semibold tracking-widest text-white/60">
                 DEPLOYMENT PANEL

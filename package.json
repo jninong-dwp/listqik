@@ -3,8 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "postinstall": "node scripts/patch-next-trace.mjs",
+    "predev": "node scripts/ensure-next-junction.mjs",
+    "prebuild": "node scripts/ensure-next-junction.mjs",
+    "clean": "node scripts/clean-next.mjs",
+    "dev": "cross-env NEXT_TRACE_SPAN_THRESHOLD_MS=2147483647 next dev",
+    "build": "cross-env NEXT_TRACE_SPAN_THRESHOLD_MS=2147483647 next build",
     "start": "next start",
     "lint": "cross-env ESLINT_USE_FLAT_CONFIG=false eslint ."
   },

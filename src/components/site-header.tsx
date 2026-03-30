@@ -13,13 +13,12 @@ export function SiteHeader() {
               className="grid h-9 w-9 place-items-center rounded-xl border border-white/10 bg-white/5 shadow-[0_0_0_1px_rgba(255,255,255,0.04)]"
             >
               <span className="font-mono text-xs font-bold tracking-widest text-white/90">
-                LP
+                LQ
               </span>
             </span>
             <span className="text-sm font-semibold tracking-wide text-white">
-              ListPath
+              ListQik.com
             </span>
-            <span className="chip hidden sm:inline-flex">FSBO Fintech</span>
           </Link>
         </div>
 

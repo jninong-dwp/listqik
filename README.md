@@ -20,6 +20,19 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## GoHighLevel (GHL) lead capture
+
+Lead capture submissions are sent to GoHighLevel via a server-side forwarder endpoint.
+
+- **Endpoint**: `POST /api/ghl/lead`
+- **Env var**: `GHL_LEAD_WEBHOOK_URL`
+
+Create an `.env.local` file:
+
+```bash
+GHL_LEAD_WEBHOOK_URL="https://hooks.leadconnectorhq.com/..."
+```
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Inter, Roboto_Mono } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
@@ -18,10 +18,16 @@ const robotoMono = Roboto_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "ListPath",
-    template: "%s · ListPath",
+    default: "ListQik.com",
+    template: "%s · ListQik.com",
   },
   description: "Deploy listings fast. Keep more equity. Local Texas broker support.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
@@ -34,7 +40,7 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${robotoMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full min-w-0 flex flex-col">
         <a
           href="#content"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 rounded-full bg-black px-4 py-2 text-sm font-semibold text-white"

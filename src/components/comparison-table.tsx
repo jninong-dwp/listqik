@@ -1,24 +1,27 @@
 export function ComparisonTable() {
   return (
-    <div className="glass-surface p-6 sm:p-8">
+    <div className="glass-surface p-4 sm:p-6 lg:p-8">
       <div className="flex flex-col gap-2">
         <div className="text-xs font-semibold tracking-widest text-white/60">
           COMPARISON SPEC SHEET
         </div>
-        <h2 className="text-xl font-semibold tracking-tight text-white sm:text-2xl">
-          ListPath vs. Houzeo / Beycome
+        <h2 className="text-lg font-semibold leading-snug tracking-tight text-white sm:text-2xl">
+          ListQik.com vs. Houzeo / Beycome
         </h2>
         <p className="text-sm text-muted">
           Built for Texas sellers who want broker-backed compliance with a controller-grade workflow.
         </p>
       </div>
 
-      <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10">
-        <table className="min-w-[760px] w-full border-separate border-spacing-0 text-left text-sm">
+      <div className="mt-4 overflow-x-auto overscroll-x-contain rounded-2xl border border-white/10 sm:mt-6">
+        <p className="px-3 py-2 text-[11px] text-white/45 sm:hidden">
+          Swipe sideways to see the full table.
+        </p>
+        <table className="w-full min-w-[640px] border-separate border-spacing-0 text-left text-sm sm:min-w-[760px]">
           <thead>
             <tr className="bg-white/5">
               <Th>Capability</Th>
-              <Th highlight>ListPath</Th>
+              <Th highlight>ListQik.com</Th>
               <Th>Houzeo</Th>
               <Th>Beycome</Th>
             </tr>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Container } from "@/components/container";
 
 export function SiteFooter() {
@@ -8,7 +9,7 @@ export function SiteFooter() {
         <div className="grid gap-8 md:grid-cols-3">
           <div className="space-y-2">
             <div className="text-sm font-semibold tracking-wide text-white">
-              ListPath
+              ListQik.com
             </div>
             <p className="text-sm text-muted">
               A technical utility for deploying listings fast while retaining
@@ -16,6 +17,21 @@ export function SiteFooter() {
             </p>
             <div className="text-xs text-white/50 font-mono">
               Local Texas broker support · 4-hour rapid deployment
+            </div>
+            <div className="pt-2 text-xs text-white/60">
+              <div className="font-semibold text-white/70">
+                Resolution Realty Group
+              </div>
+              <div className="mt-2 flex items-center gap-3">
+                <Image
+                  src="/central-metro-realty-logo.svg"
+                  alt="Central Metro Realty"
+                  width={160}
+                  height={40}
+                  className="h-8 w-auto opacity-90"
+                  priority={false}
+                />
+              </div>
             </div>
           </div>
 
@@ -69,6 +85,26 @@ export function SiteFooter() {
               </div>
               <ul className="space-y-2 text-sm">
                 <li>
+                  <a
+                    className="text-white/70 hover:text-white"
+                    href="https://www.trec.texas.gov/sites/default/files/pdf-forms/IABS_1-0.pdf"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    Information About Brokerage Services (IABS)
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="text-white/70 hover:text-white"
+                    href="https://www.trec.texas.gov/sites/default/files/pdf-forms/CN_1-2.pdf"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    Consumer Protection Notice
+                  </a>
+                </li>
+                <li>
                   <Link
                     className="text-white/70 hover:text-white"
                     href="/resources/legal/privacy"
@@ -90,7 +126,10 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-10 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-white/50 sm:flex-row sm:items-center sm:justify-between">
-          <div>© {new Date().getFullYear()} ListPath. All rights reserved.</div>
+          <div>
+            © {new Date().getFullYear()} ListQik.com · Resolution Realty Group. All
+            rights reserved.
+          </div>
           <div className="font-mono">
             Status: <span className="text-white/70">Operational</span>
           </div>

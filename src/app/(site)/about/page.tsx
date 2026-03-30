@@ -17,7 +17,7 @@ export default function AboutPage() {
               A fintech-grade FSBO stack for Texas.
             </h1>
             <p className="text-base text-muted">
-              ListPath is positioned like a technical utility: precise workflow, measurable outcomes,
+              ListQik.com is positioned like a technical utility: precise workflow, measurable outcomes,
               and a UI that feels like a cockpit, not a brochure.
             </p>
           </header>

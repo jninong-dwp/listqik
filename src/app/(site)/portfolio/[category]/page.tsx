@@ -5,9 +5,9 @@ import { portfolioItems } from "@/data/portfolio";
 export default async function PortfolioCategoryPage({
   params,
 }: {
-  params: { category: string };
+  params: Promise<{ category: string }>;
 }) {
-  const { category } = params;
+  const { category } = await params;
   const items = portfolioItems.filter((p) => p.category === category);
   const title = items[0]?.title;
   if (!title) return notFound();
