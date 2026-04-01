@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/container";
@@ -14,6 +15,43 @@ function formatMoney(n: number) {
 
 export function generateStaticParams() {
   return listings.map((l) => ({ slug: l.slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const listing = listings.find((l) => l.slug === slug);
+  if (!listing) return {};
+
+  const title = `${listing.title} in ${listing.city}, ${listing.state}`;
+  return {
+    title,
+    description: listing.summary,
+    alternates: {
+      canonical: `/listings/${listing.slug}`,
+    },
+    openGraph: {
+      type: "website",
+      title,
+      description: listing.summary,
+      url: `/listings/${listing.slug}`,
+      images: [
+        {
+          url: listing.heroImage.src,
+          alt: listing.heroImage.alt,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: listing.summary,
+      images: [listing.heroImage.src],
+    },
+  };
 }
 
 export default async function ListingDetailPage({

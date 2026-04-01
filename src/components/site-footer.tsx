@@ -42,6 +42,11 @@ export function SiteFooter() {
               </div>
               <ul className="space-y-2 text-sm">
                 <li>
+                  <Link className="text-white/70 hover:text-white" href="/pricing">
+                    Pricing
+                  </Link>
+                </li>
+                <li>
                   <Link className="text-white/70 hover:text-white" href="/listings">
                     Listings
                   </Link>
@@ -85,24 +90,20 @@ export function SiteFooter() {
               </div>
               <ul className="space-y-2 text-sm">
                 <li>
-                  <a
+                  <Link
                     className="text-white/70 hover:text-white"
-                    href="https://www.trec.texas.gov/sites/default/files/pdf-forms/IABS_1-0.pdf"
-                    target="_blank"
-                    rel="noreferrer noopener"
+                    href="/resources/legal/iabs"
                   >
                     Information About Brokerage Services (IABS)
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
+                  <Link
                     className="text-white/70 hover:text-white"
-                    href="https://www.trec.texas.gov/sites/default/files/pdf-forms/CN_1-2.pdf"
-                    target="_blank"
-                    rel="noreferrer noopener"
+                    href="/resources/legal/consumer-protection-notice"
                   >
                     Consumer Protection Notice
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <Link

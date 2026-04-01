@@ -18,5 +18,15 @@ export const videos: Video[] = [
 export const legalPages: LegalPage[] = [
   { slug: "privacy", title: "Privacy Policy", updatedAt: "2026-03-10" },
   { slug: "terms", title: "Terms of Service", updatedAt: "2026-03-10" },
+  {
+    slug: "iabs",
+    title: "Information About Brokerage Services (IABS)",
+    updatedAt: "2026-03-31",
+  },
+  {
+    slug: "consumer-protection-notice",
+    title: "Consumer Protection Notice",
+    updatedAt: "2026-03-31",
+  },
 ];
 

@@ -1,9 +1,40 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/container";
 import { blogs } from "@/data/blogs";
 
 export function generateStaticParams() {
   return blogs.map((b) => ({ slug: b.slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const post = blogs.find((b) => b.slug === slug);
+  if (!post) return {};
+
+  return {
+    title: post.title,
+    description: post.summary,
+    alternates: {
+      canonical: `/resources/blogs/${post.slug}`,
+    },
+    openGraph: {
+      type: "article",
+      title: post.title,
+      description: post.summary,
+      url: `/resources/blogs/${post.slug}`,
+      publishedTime: post.publishedAt,
+    },
+    twitter: {
+      card: "summary",
+      title: post.title,
+      description: post.summary,
+    },
+  };
 }
 
 export default async function BlogPostPage({

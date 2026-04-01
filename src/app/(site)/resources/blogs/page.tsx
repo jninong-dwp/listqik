@@ -1,9 +1,15 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/container";
 import { blogs } from "@/data/blogs";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Blogs",
+  description:
+    "Read practical Texas home-selling guides on pricing, disclosures, and listing workflows.",
+  alternates: {
+    canonical: "/resources/blogs",
+  },
 };
 
 export default function BlogsPage() {

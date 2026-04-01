@@ -1,6 +1,31 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/container";
 import { portfolioItems } from "@/data/portfolio";
+
+export function generateStaticParams() {
+  return Array.from(new Set(portfolioItems.map((p) => p.category))).map((category) => ({
+    category,
+  }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ category: string }>;
+}): Promise<Metadata> {
+  const { category } = await params;
+  const item = portfolioItems.find((p) => p.category === category);
+  if (!item) return {};
+
+  return {
+    title: `${item.title} Portfolio`,
+    description: item.summary,
+    alternates: {
+      canonical: `/portfolio/${category}`,
+    },
+  };
+}
 
 export default async function PortfolioCategoryPage({
   params,

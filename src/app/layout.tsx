@@ -16,12 +16,49 @@ const robotoMono = Roboto_Mono({
   display: "swap",
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://listqik.com";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: "ListQik.com",
     template: "%s · ListQik.com",
   },
-  description: "Deploy listings fast. Keep more equity. Local Texas broker support.",
+  description:
+    "ListQik.com helps Texas home sellers list faster, keep more equity, and get broker-backed support from Resolution Realty Group.",
+  applicationName: "ListQik.com",
+  authors: [{ name: "Resolution Realty Group" }],
+  creator: "Resolution Realty Group",
+  publisher: "Resolution Realty Group",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "/",
+    siteName: "ListQik.com",
+    title: "ListQik.com",
+    description:
+      "Texas listing platform with broker-backed support, clear compliance guidance, and fast listing workflows.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ListQik.com",
+    description:
+      "Texas listing platform with broker-backed support and fast listing workflows.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
+    },
+  },
 };
 
 export const viewport: Viewport = {

@@ -1,8 +1,14 @@
+import type { Metadata } from "next";
 import { Container } from "@/components/container";
 import { videos } from "@/data/resources";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Videos",
+  description:
+    "Watch Texas real estate strategy and compliance videos from ListQik.com.",
+  alternates: {
+    canonical: "/resources/videos",
+  },
 };
 
 export default function VideosPage() {

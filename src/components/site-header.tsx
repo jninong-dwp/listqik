@@ -23,6 +23,7 @@ export function SiteHeader() {
         </div>
 
         <nav aria-label="Primary" className="hidden items-center gap-1 md:flex">
+          <NavLink href="/pricing">Pricing</NavLink>
           <NavLink href="/about">About</NavLink>
           <NavLink href="/listings">Listings</NavLink>
           <NavLink href="/portfolio/launch-systems">Portfolio</NavLink>

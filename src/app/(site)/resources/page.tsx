@@ -1,8 +1,14 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/container";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Resources",
+  description:
+    "Browse ListQik.com resources: blogs, videos, legal disclosures, and consumer notices for Texas sellers.",
+  alternates: {
+    canonical: "/resources",
+  },
 };
 
 export default function ResourcesPage() {
@@ -38,6 +44,17 @@ export default function ResourcesPage() {
             <Link href="/resources/legal/terms" className="glass-surface p-6 hover:border-white/20 transition">
               <div className="text-lg font-semibold text-white">Terms</div>
               <div className="mt-2 text-sm text-muted">Placeholder terms page.</div>
+            </Link>
+            <Link href="/resources/legal/iabs" className="glass-surface p-6 hover:border-white/20 transition">
+              <div className="text-lg font-semibold text-white">IABS</div>
+              <div className="mt-2 text-sm text-muted">Information About Brokerage Services (Texas).</div>
+            </Link>
+            <Link
+              href="/resources/legal/consumer-protection-notice"
+              className="glass-surface p-6 hover:border-white/20 transition"
+            >
+              <div className="text-lg font-semibold text-white">Consumer Protection Notice</div>
+              <div className="mt-2 text-sm text-muted">TREC consumer rights and resources.</div>
             </Link>
           </div>
         </div>

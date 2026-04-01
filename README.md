@@ -33,6 +33,14 @@ Create an `.env.local` file:
 GHL_LEAD_WEBHOOK_URL="https://hooks.leadconnectorhq.com/..."
 ```
 
+## SEO configuration
+
+Set your production site URL so canonical tags, robots, and sitemap URLs are generated correctly:
+
+```bash
+NEXT_PUBLIC_SITE_URL="https://listqik.com"
+```
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

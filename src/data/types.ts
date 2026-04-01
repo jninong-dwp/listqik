@@ -41,7 +41,7 @@ export type Video = {
 };
 
 export type LegalPage = {
-  slug: "privacy" | "terms";
+  slug: string;
   title: string;
   updatedAt: string; // ISO date
 };

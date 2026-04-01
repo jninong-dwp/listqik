@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { CockpitGauge } from "@/components/cockpit-gauge";
 import { Container } from "@/components/container";
@@ -5,6 +6,15 @@ import { ComparisonTable } from "@/components/comparison-table";
 import { ListingCard } from "@/components/listing-card";
 import { NetProceedsCalculator } from "@/components/net-proceeds-calculator";
 import { listings } from "@/data/listings";
+
+export const metadata: Metadata = {
+  title: "ListQik.com | Texas Home Listing Platform",
+  description:
+    "List your Texas home with a guided workflow, broker-backed support, and tools built to help you keep more equity.",
+  alternates: {
+    canonical: "/",
+  },
+};
 
 export default function HomePage() {
   const featured = listings.filter((l) => l.featured).slice(0, 3);

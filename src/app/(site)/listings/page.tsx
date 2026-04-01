@@ -1,9 +1,15 @@
+import type { Metadata } from "next";
 import { Container } from "@/components/container";
 import { ListingsExplorer } from "@/components/listings-explorer";
 import { listings } from "@/data/listings";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Listings",
+  description:
+    "Browse Texas home listings on ListQik.com with local broker-backed support from Resolution Realty Group.",
+  alternates: {
+    canonical: "/listings",
+  },
 };
 
 export default function ListingsPage() {
