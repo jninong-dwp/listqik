@@ -1,8 +1,12 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { CockpitGauge } from "@/components/cockpit-gauge";
 import { Container } from "@/components/container";
+import {
+  AddressAutocompleteInput,
+  type ParsedPlace,
+} from "@/components/pricing/address-autocomplete-input";
 
 type PlanId = "subsonic" | "supersonic" | "hypersonic";
 type PropertyType =
@@ -284,6 +288,20 @@ export function PricingConsole() {
     }));
   }
 
+  const onAddressPlaceSelected = useCallback((place: ParsedPlace) => {
+      setWizard((s) => ({
+        ...s,
+        propertyAddress: place.streetLine,
+        unit: place.unit ? place.unit : s.unit,
+        city: place.city || s.city,
+        state: place.state || s.state,
+        zip: place.zip || s.zip,
+        county: place.county || s.county,
+      }));
+    },
+    [],
+  );
+
   function canGoStep2() {
     return (
       wizard.plan &&
@@ -500,11 +518,11 @@ export function PricingConsole() {
             <div className="grid gap-4">
               <h2 className="text-xl font-semibold text-white">Step 1: Property Details</h2>
               <div className="grid gap-3 sm:grid-cols-2">
-                <Input
+                <AddressAutocompleteInput
                   label="Property address"
                   value={wizard.propertyAddress}
                   onChange={(v) => setWizard((s) => ({ ...s, propertyAddress: v }))}
-                  placeholder="e.g. 6808 Pentridge Drive"
+                  onPlaceSelected={onAddressPlaceSelected}
                 />
                 <Input
                   label="Apt / Suite / Unit"

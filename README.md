@@ -54,6 +54,16 @@ Set your production site URL so canonical tags, robots, and sitemap URLs are gen
 NEXT_PUBLIC_SITE_URL="https://listqik.com"
 ```
 
+## Pricing wizard — address autocomplete (optional)
+
+For Google Places suggestions on the property address field, add a browser key with **Maps JavaScript API** and **Places API** enabled, and restrict it by HTTP referrer to your domain.
+
+```bash
+NEXT_PUBLIC_GOOGLE_MAPS_API_KEY="your-key"
+```
+
+Without this variable, the field still works as a normal address input (with `autocomplete="street-address"`).
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
