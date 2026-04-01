@@ -33,6 +33,19 @@ Create an `.env.local` file:
 GHL_LEAD_WEBHOOK_URL="https://hooks.leadconnectorhq.com/..."
 ```
 
+### Pricing wizard → GHL + checkout
+
+- **Endpoint**: `POST /api/ghl/pricing/checkout`
+- **Optional webhook**: `GHL_PRICING_WEBHOOK_URL` (receive plan/contact/property/upgrades payload)
+- **Checkout URL base**: `GHL_STORE_CHECKOUT_BASE_URL`
+
+Example:
+
+```bash
+GHL_PRICING_WEBHOOK_URL="https://hooks.leadconnectorhq.com/..."
+GHL_STORE_CHECKOUT_BASE_URL="https://your-subdomain.myghl.com/v2/checkout/..."
+```
+
 ## SEO configuration
 
 Set your production site URL so canonical tags, robots, and sitemap URLs are generated correctly:
