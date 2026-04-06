@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { CockpitGauge } from "@/components/cockpit-gauge";
 import { Container } from "@/components/container";
 import {
@@ -260,6 +260,7 @@ const initialState: WizardState = {
 
 export function PricingConsole() {
   const [wizard, setWizard] = useState<WizardState>(initialState);
+  const [isWizardOpen, setIsWizardOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
@@ -276,7 +277,13 @@ export function PricingConsole() {
       step: 1,
       selectedUpgrades: [],
     }));
-    document.getElementById("pricing-wizard")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    setError("");
+    setIsWizardOpen(true);
+  }
+
+  function closeWizard() {
+    if (submitting) return;
+    setIsWizardOpen(false);
   }
 
   function toggleUpgrade(slug: string) {
@@ -381,6 +388,15 @@ export function PricingConsole() {
     setError("Checkout URL is not configured yet.");
   }
 
+  useEffect(() => {
+    if (!isWizardOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isWizardOpen]);
+
   return (
     <div className="py-10 sm:py-14">
       <Container className="space-y-8 sm:space-y-10">
@@ -480,7 +496,25 @@ export function PricingConsole() {
           ))}
         </section>
 
-        <section id="pricing-wizard" className="glass-surface p-4 sm:p-6">
+        {isWizardOpen ? (
+          <div
+            className="fixed inset-0 z-50 grid place-items-end bg-slate-950/75 p-0 backdrop-blur-sm sm:place-items-center sm:p-4"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Pricing intake wizard"
+          >
+            <section className="glass-surface h-[92vh] w-full overflow-y-auto rounded-t-2xl p-4 sm:h-auto sm:max-h-[90vh] sm:max-w-5xl sm:rounded-2xl sm:p-6">
+              <div className="mb-4 flex items-center justify-between gap-3">
+                <div className="text-sm font-semibold tracking-widest text-white/70">PRICING INTAKE</div>
+                <button
+                  type="button"
+                  onClick={closeWizard}
+                  className="rounded-full border border-white/20 px-3 py-1.5 text-xs font-semibold text-white/80 hover:bg-white/10"
+                >
+                  Close
+                </button>
+              </div>
+
           <div className="mb-6 flex items-center justify-between gap-2">
             {[1, 2, 3].map((step) => {
               const active = wizard.step === step;
@@ -702,7 +736,9 @@ export function PricingConsole() {
               </div>
             </div>
           ) : null}
-        </section>
+            </section>
+          </div>
+        ) : null}
       </Container>
     </div>
   );
