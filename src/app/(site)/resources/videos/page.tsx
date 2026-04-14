@@ -24,8 +24,7 @@ export default function VideosPage() {
               Local insider clips (embed-ready).
             </h1>
             <p className="text-base text-muted">
-              Today: standard YouTube embeds. Phase 3: swap to GoHighLevel’s video
-              element for watch-time tracking.
+              Watch short videos on pricing strategy, compliance topics, and listing workflow best practices.
             </p>
           </header>
 

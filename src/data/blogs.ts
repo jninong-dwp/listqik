@@ -8,7 +8,7 @@ export const blogs: BlogPost[] = [
     readingMinutes: 6,
     category: "playbooks",
     summary:
-      "A step-by-step deployment checklist: assets, MLS pipeline, compliance checks, and launch QA.",
+      "A step-by-step deployment checklist: assets, broker-assisted listing pipeline, compliance checks, and launch QA.",
   },
   {
     slug: "trec-disclosures-zero-drama",

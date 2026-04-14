@@ -24,8 +24,7 @@ export default function ListingsPage() {
             Browse inventory. Filter locally.
           </h1>
           <p className="text-base text-muted">
-            Everything is local/static for now (typed objects in <span className="font-mono">src/data</span>),
-            so you can later swap to CMS/DB without rebuilding UI.
+            Review active home listings with local market context and broker-backed support options.
           </p>
         </div>
 

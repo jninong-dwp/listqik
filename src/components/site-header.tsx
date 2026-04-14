@@ -34,8 +34,8 @@ export function SiteHeader() {
           <Link href="/listings" className="btn-secondary hidden sm:inline-flex">
             View Listings
           </Link>
-          <Link href="/resources/blogs" className="btn-primary">
-            Deploy Listing
+          <Link href="/pricing" className="btn-primary">
+            Start Listing
           </Link>
         </div>
       </Container>

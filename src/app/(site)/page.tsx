@@ -44,13 +44,13 @@ export default function HomePage() {
                   List your home — clear steps, fast support.
                 </h1>
                 <p className="max-w-xl font-mono text-[13px] leading-relaxed text-slate-300/90 sm:text-base">
-                  Texas-focused workflow: broker-backed guidance, quick turnaround, and
-                  tools that read like a mission display — not a brochure.
+                  Texas-focused workflow: list through a licensed brokerage with guided marketing and
+                  compliance support.
                 </p>
 
                 <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-                  <Link href="/listings" className="btn-primary min-h-[48px] w-full justify-center sm:w-auto sm:min-h-0">
-                    Deploy Listing
+                  <Link href="/pricing" className="btn-primary min-h-[48px] w-full justify-center sm:w-auto sm:min-h-0">
+                    Start Listing
                   </Link>
                   <Link
                     href="/about"

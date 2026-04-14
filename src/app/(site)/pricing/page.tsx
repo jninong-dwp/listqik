@@ -4,7 +4,7 @@ import { PricingConsole } from "@/components/pricing/pricing-console";
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "Compare ListQik.com pricing tiers for Texas MLS listing services. Plans start at $99 with broker-backed compliance support.",
+    "Compare ListQik.com pricing tiers for Texas broker-assisted listing services, including marketing support and licensed brokerage submission.",
   alternates: {
     canonical: "/pricing",
   },

@@ -24,7 +24,7 @@ export default function ResourcesPage() {
               Documentation, playbooks, and media.
             </h1>
             <p className="text-base text-muted">
-              Everything here is designed to later connect into GoHighLevel tracking and attribution.
+              Educational content, legal disclosures, and practical seller guidance for Texas listings.
             </p>
           </header>
 
@@ -39,11 +39,11 @@ export default function ResourcesPage() {
             </Link>
             <Link href="/resources/legal/privacy" className="glass-surface p-6 hover:border-white/20 transition">
               <div className="text-lg font-semibold text-white">Privacy</div>
-              <div className="mt-2 text-sm text-muted">Placeholder policy page.</div>
+              <div className="mt-2 text-sm text-muted">Policy and data handling disclosures.</div>
             </Link>
             <Link href="/resources/legal/terms" className="glass-surface p-6 hover:border-white/20 transition">
               <div className="text-lg font-semibold text-white">Terms</div>
-              <div className="mt-2 text-sm text-muted">Placeholder terms page.</div>
+              <div className="mt-2 text-sm text-muted">Service terms and user responsibilities.</div>
             </Link>
             <Link href="/resources/legal/iabs" className="glass-surface p-6 hover:border-white/20 transition">
               <div className="text-lg font-semibold text-white">IABS</div>

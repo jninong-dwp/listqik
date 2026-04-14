@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     template: "%s · ListQik.com",
   },
   description:
-    "ListQik.com helps Texas home sellers list faster, keep more equity, and get broker-backed support from Resolution Realty Group.",
+    "ListQik.com helps Texas home sellers list through a licensed brokerage, keep more equity, and access broker-backed support from Resolution Realty Group.",
   applicationName: "ListQik.com",
   authors: [{ name: "Resolution Realty Group" }],
   creator: "Resolution Realty Group",
@@ -40,13 +40,13 @@ export const metadata: Metadata = {
     siteName: "ListQik.com",
     title: "ListQik.com",
     description:
-      "Texas listing platform with broker-backed support, clear compliance guidance, and fast listing workflows.",
+      "Texas listing platform with licensed brokerage support, clear compliance guidance, and marketing workflow tools.",
   },
   twitter: {
     card: "summary_large_image",
     title: "ListQik.com",
     description:
-      "Texas listing platform with broker-backed support and fast listing workflows.",
+      "Texas listing platform with licensed brokerage support and guided listing workflows.",
   },
   robots: {
     index: true,

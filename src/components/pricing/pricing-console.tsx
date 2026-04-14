@@ -7,8 +7,9 @@ import {
   AddressAutocompleteInput,
   type ParsedPlace,
 } from "@/components/pricing/address-autocomplete-input";
+import { staticWizardUpgrades } from "@/data/pricing-static-upgrades";
+import type { PlanId, WizardUpgrade } from "@/types/pricing-wizard";
 
-type PlanId = "subsonic" | "supersonic" | "hypersonic";
 type PropertyType =
   | "single-family"
   | "condo"
@@ -31,15 +32,6 @@ type Plan = {
   optional: string[];
 };
 
-type Upgrade = {
-  slug: string;
-  name: string;
-  description: string;
-  price: number;
-  ghlProductId: string;
-  recommendedFor: PlanId[];
-};
-
 const plans: Plan[] = [
   {
     id: "subsonic",
@@ -51,11 +43,11 @@ const plans: Plan[] = [
     photos: "Up to 25 photos",
     support: "7-day support (chat/email/phone)",
     included: [
-      "MLS launch target within 24 hours of complete docs",
+      "Broker-assisted listing submission target within 24 hours of complete docs",
       "Distribution to major home-search portals",
       "Required listing forms and disclosure workflow",
       "Unlimited listing edits while active",
-      "Your contact details shown in MLS where allowed",
+      "Your contact details shown where listing rules allow",
       "Buyer inquiries routed to you",
       "You control buyer-agent concessions in negotiations",
     ],
@@ -77,7 +69,7 @@ const plans: Plan[] = [
     price: "$195",
     closeFee: "0.25% at closing",
     listTerm: "6 months",
-    photos: "Max photos allowed by MLS",
+    photos: "Max-photo submission where listing rules allow",
     support: "7-day support (priority queue)",
     highlight: true,
     included: [
@@ -105,7 +97,7 @@ const plans: Plan[] = [
     price: "$395",
     closeFee: "0.25% at closing",
     listTerm: "12 months",
-    photos: "Max photos allowed by MLS",
+    photos: "Max-photo submission where listing rules allow",
     support: "7-day support + enhanced setup",
     included: [
       "Everything in Supersonic (Premium)",
@@ -121,7 +113,7 @@ const plans: Plan[] = [
       "Offer/counter prep and review",
       "Comparative market analysis (CMA)",
       "Professional photography add-on",
-      "Additional MLS territory",
+      "Additional broker-facilitated listing territory",
     ],
   },
 ];
@@ -156,73 +148,6 @@ const propertyTypes: { id: PropertyType; label: string; description: string }[] 
     id: "mobile-manufactured",
     label: "Mobile / Manufactured",
     description: "Factory-built residential structure.",
-  },
-];
-
-const upgrades: Upgrade[] = [
-  {
-    slug: "pro-photography",
-    name: "Pro Photography Boost",
-    description: "Photo package tuned for stronger portal CTR and visual quality.",
-    price: 495,
-    ghlProductId: "prod_pro_photography",
-    recommendedFor: ["subsonic", "supersonic", "hypersonic"],
-  },
-  {
-    slug: "comparative-market-analysis",
-    name: "Comparative Market Analysis (CMA)",
-    description: "Pricing support report to calibrate list price and negotiation range.",
-    price: 195,
-    ghlProductId: "prod_cma",
-    recommendedFor: ["subsonic", "supersonic", "hypersonic"],
-  },
-  {
-    slug: "showing-service",
-    name: "Online Showing Service",
-    description: "Centralized showing requests and schedule coordination.",
-    price: 59,
-    ghlProductId: "prod_showing_service",
-    recommendedFor: ["subsonic", "supersonic"],
-  },
-  {
-    slug: "yard-sign",
-    name: "Yard Sign Kit",
-    description: "Professional yard sign package with shipping/handling.",
-    price: 49,
-    ghlProductId: "prod_yard_sign",
-    recommendedFor: ["subsonic", "supersonic"],
-  },
-  {
-    slug: "lockbox",
-    name: "Lockbox",
-    description: "Combination lockbox add-on for agent-access showings.",
-    price: 49,
-    ghlProductId: "prod_lockbox",
-    recommendedFor: ["subsonic", "supersonic", "hypersonic"],
-  },
-  {
-    slug: "virtual-tour",
-    name: "Add a Video / Tour",
-    description: "Virtual walkthrough/3D tour posting module.",
-    price: 40,
-    ghlProductId: "prod_virtual_tour",
-    recommendedFor: ["subsonic", "supersonic", "hypersonic"],
-  },
-  {
-    slug: "open-house-signs",
-    name: "Open House Directional Signs",
-    description: "Directional signage pack for event-day traffic flow.",
-    price: 49,
-    ghlProductId: "prod_open_house_signs",
-    recommendedFor: ["subsonic", "supersonic"],
-  },
-  {
-    slug: "offer-negotiation-support",
-    name: "Offer / Counter Review",
-    description: "Contract prep, review, and negotiation guidance module.",
-    price: 595,
-    ghlProductId: "prod_offer_support",
-    recommendedFor: ["subsonic", "supersonic", "hypersonic"],
   },
 ];
 
@@ -261,12 +186,39 @@ const initialState: WizardState = {
 export function PricingConsole() {
   const [wizard, setWizard] = useState<WizardState>(initialState);
   const [isWizardOpen, setIsWizardOpen] = useState(false);
+  const [wizardUpgrades, setWizardUpgrades] = useState<WizardUpgrade[]>([]);
+  const [upgradesLoading, setUpgradesLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    if (!isWizardOpen) return;
+    let cancelled = false;
+    setUpgradesLoading(true);
+    fetch("/api/ghl/pricing/upgrades")
+      .then((r) => r.json())
+      .then((data: { ok?: boolean; upgrades?: WizardUpgrade[] }) => {
+        if (cancelled) return;
+        if (data?.ok && Array.isArray(data.upgrades) && data.upgrades.length > 0) {
+          setWizardUpgrades(data.upgrades);
+        } else {
+          setWizardUpgrades(staticWizardUpgrades);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setWizardUpgrades(staticWizardUpgrades);
+      })
+      .finally(() => {
+        if (!cancelled) setUpgradesLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [isWizardOpen]);
+
   const selectedUpgradeRows = useMemo(
-    () => upgrades.filter((u) => wizard.selectedUpgrades.includes(u.slug)),
-    [wizard.selectedUpgrades],
+    () => wizardUpgrades.filter((u) => wizard.selectedUpgrades.includes(u.slug)),
+    [wizard.selectedUpgrades, wizardUpgrades],
   );
   const upgradesSubtotal = selectedUpgradeRows.reduce((sum, u) => sum + u.price, 0);
 
@@ -496,6 +448,12 @@ export function PricingConsole() {
           ))}
         </section>
 
+        <section className="rounded-2xl border border-cyan-500/25 bg-cyan-950/20 p-4 text-sm text-cyan-100/90">
+          Brokerage-regulated services, including listing submission and compliance approval, are
+          provided through a licensed brokerage. ListQik.com provides marketing, technology, and
+          administrative support.
+        </section>
+
         {isWizardOpen ? (
           <div
             className="fixed inset-0 z-50 grid place-items-end bg-slate-950/75 p-0 backdrop-blur-sm sm:place-items-center sm:p-4"
@@ -663,15 +621,20 @@ export function PricingConsole() {
           {wizard.step === 3 ? (
             <div className="grid gap-4">
               <h2 className="text-xl font-semibold text-white">Step 3: Package Upgrades</h2>
+              {upgradesLoading ? (
+                <div className="rounded-xl border border-white/10 bg-black/25 px-4 py-6 text-sm text-white/65">
+                  Loading add-ons from your store…
+                </div>
+              ) : null}
               <div className="grid gap-3 md:grid-cols-2">
-                {upgrades.map((item) => {
+                {wizardUpgrades.map((item) => {
                   const selected = wizard.selectedUpgrades.includes(item.slug);
                   const recommended = wizard.plan
                     ? item.recommendedFor.includes(wizard.plan.id)
                     : false;
                   return (
                     <div
-                      key={item.slug}
+                      key={item.ghlProductId}
                       className={[
                         "rounded-2xl border p-4",
                         selected ? "border-cyan-400/60 bg-cyan-500/10" : "border-white/10 bg-white/5",
@@ -695,7 +658,9 @@ export function PricingConsole() {
                           onClick={() => toggleUpgrade(item.slug)}
                           className={selected ? "btn-secondary w-full" : "btn-primary w-full justify-center"}
                         >
-                          {selected ? "Remove" : "Add to package"}
+                          {selected
+                            ? item.toggleRemoveLabel ?? `Remove ${item.name}`
+                            : item.toggleAddLabel ?? `Add ${item.name}`}
                         </button>
                       </div>
                     </div>

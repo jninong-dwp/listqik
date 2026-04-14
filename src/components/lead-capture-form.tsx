@@ -157,8 +157,8 @@ export function LeadCaptureForm({
               className="mt-1 accent-[color:var(--lp-accent)]"
             />
             <span>
-              I agree to be contacted about this listing and related real estate
-              services.
+              I agree to be contacted about this listing, broker-facilitated real estate services,
+              and related marketing support.
             </span>
           </label>
 

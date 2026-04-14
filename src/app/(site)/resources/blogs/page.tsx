@@ -25,7 +25,7 @@ export default function BlogsPage() {
               Playbooks for analytical sellers.
             </h1>
             <p className="text-base text-muted">
-              Static metadata today. CMS tomorrow. Same routes.
+              Practical guidance on pricing, compliance, and listing preparation.
             </p>
           </header>
 

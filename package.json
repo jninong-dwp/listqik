@@ -13,6 +13,7 @@
     "lint": "cross-env ESLINT_USE_FLAT_CONFIG=false eslint ."
   },
   "dependencies": {
+    "@gohighlevel/api-client": "^2.2.2",
     "next": "15.5.14",
     "react": "19.2.4",
     "react-dom": "19.2.4"

@@ -4,7 +4,7 @@ import { Container } from "@/components/container";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Learn how ListQik.com and Resolution Realty Group help Texas sellers list faster with broker-backed guidance.",
+    "Learn how ListQik.com and Resolution Realty Group help Texas sellers list through a licensed brokerage with broker-backed guidance.",
   alternates: {
     canonical: "/about",
   },
@@ -55,7 +55,7 @@ export default function AboutPage() {
           <div className="glass-surface p-6 sm:p-8">
             <h2 className="text-lg font-semibold text-white">Copy style (SaaS rebrand)</h2>
             <p className="mt-2 text-sm text-muted">
-              You’ll see phrasing like “Deploy Listing”, “AI Compliance Audit”, and “Telemetry”.
+              You’ll see phrasing like “Start Listing”, “AI Compliance Audit”, and “Telemetry”.
               This is deliberate: it signals precision, speed, and control to the analytical demographic.
             </p>
           </div>

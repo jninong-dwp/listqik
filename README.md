@@ -46,6 +46,35 @@ GHL_PRICING_WEBHOOK_URL="https://hooks.leadconnectorhq.com/..."
 GHL_STORE_CHECKOUT_BASE_URL="https://your-subdomain.myghl.com/v2/checkout/..."
 ```
 
+### GHL API — load store products (pricing upgrades)
+
+The pricing wizard loads add-ons from **GHL Payments / Products** via the official API (no webhook required for the product list). Create a **Private Integration** in GHL (Settings → Private Integrations), enable **Products** / **Payments** scopes as needed, then set:
+
+```bash
+# Sub-account Private Integration token (server-only — never NEXT_PUBLIC)
+GHL_PRIVATE_INTEGRATION_TOKEN="pit-..."
+# Location ID for that sub-account (same place as in GHL URL / settings)
+GHL_LOCATION_ID="xxxxxxxxxxxxxxxx"
+# Optional; default is 2021-07-28
+# GHL_API_VERSION="2021-07-28"
+```
+
+**How upgrades are chosen**
+
+1. **Recommended:** `GHL_UPGRADE_PRODUCT_IDS` — JSON map from our stable slug → GHL product `_id` (copy IDs from Payments → Products):
+
+   ```json
+   {"pro-photography":"<productId>","yard-sign":"<productId>"}
+   ```
+
+2. **Or** omit the map: the app lists products with `includedInStore: true`. Optionally restrict with comma-separated IDs:
+
+   ```bash
+   GHL_UPGRADE_PRODUCT_IDS_LIST="id1,id2,id3"
+   ```
+
+**Endpoint used by the UI:** `GET /api/ghl/pricing/upgrades` (returns merged names, prices from GHL, or a static fallback if env is missing).
+
 ## SEO configuration
 
 Set your production site URL so canonical tags, robots, and sitemap URLs are generated correctly:
