@@ -17,7 +17,7 @@ export function ConsumerProtectionNoticeContent() {
             href="https://www.trec.texas.gov/"
             target="_blank"
             rel="noreferrer noopener"
-            className="text-cyan-300/90 underline underline-offset-2 hover:text-white"
+            className="text-emerald-300/90 underline underline-offset-2 hover:text-white"
           >
             www.trec.texas.gov
           </a>
@@ -60,7 +60,7 @@ export function ConsumerProtectionNoticeContent() {
           <div>Austin, Texas 78711-2188</div>
           <div className="mt-2">
             Phone:{" "}
-            <a href="tel:+15129363000" className="text-cyan-300/90 hover:text-white">
+            <a href="tel:+15129363000" className="text-emerald-300/90 hover:text-white">
               (512) 936-3000
             </a>
           </div>
@@ -70,7 +70,7 @@ export function ConsumerProtectionNoticeContent() {
               href="https://www.trec.texas.gov/"
               target="_blank"
               rel="noreferrer noopener"
-              className="text-cyan-300/90 underline underline-offset-2 hover:text-white"
+              className="text-emerald-300/90 underline underline-offset-2 hover:text-white"
             >
               www.trec.texas.gov
             </a>

@@ -28,7 +28,7 @@ export function IabsContent() {
               href="https://www.trec.texas.gov/"
               target="_blank"
               rel="noreferrer noopener"
-              className="text-cyan-300/90 underline underline-offset-2 hover:text-white"
+              className="text-emerald-300/90 underline underline-offset-2 hover:text-white"
             >
               www.trec.texas.gov
             </a>
@@ -75,7 +75,7 @@ export function IabsContent() {
           Texas law also requires that you receive the{" "}
           <Link
             href="/resources/legal/consumer-protection-notice"
-            className="text-cyan-300/90 underline underline-offset-2 hover:text-white"
+            className="text-emerald-300/90 underline underline-offset-2 hover:text-white"
           >
             Consumer Protection Notice
           </Link>{" "}

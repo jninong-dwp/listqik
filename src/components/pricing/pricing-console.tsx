@@ -353,18 +353,18 @@ export function PricingConsole() {
     <div className="py-10 sm:py-14">
       <Container className="space-y-8 sm:space-y-10">
         <header className="cockpit-hud-frame p-4 sm:p-6">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-cyan-500/20 pb-4">
-            <div className="font-mono text-xs tracking-[0.22em] text-cyan-300/80">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-emerald-500/20 pb-4">
+            <div className="font-mono text-xs tracking-[0.22em] text-emerald-300/80">
               LISTQIK PRICING CONSOLE
             </div>
-            <div className="rounded border border-fuchsia-500/40 bg-fuchsia-950/30 px-2.5 py-1 font-mono text-[10px] tracking-[0.18em] text-fuchsia-200">
+            <div className="rounded border border-lime-500/40 bg-lime-950/30 px-2.5 py-1 font-mono text-[10px] tracking-[0.18em] text-lime-200">
               TEXAS · LIVE
             </div>
           </div>
 
           <div className="mt-5 grid gap-6 lg:grid-cols-2 lg:items-end">
             <div className="space-y-3">
-              <h1 className="bg-gradient-to-r from-cyan-200 via-white to-fuchsia-200 bg-clip-text text-3xl font-semibold tracking-tight text-transparent sm:text-4xl">
+              <h1 className="bg-gradient-to-r from-lime-200 via-emerald-100 to-emerald-300 bg-clip-text text-3xl font-semibold tracking-tight text-transparent sm:text-4xl">
                 Pricing that keeps your equity in your hands.
               </h1>
               <p className="max-w-2xl text-sm text-muted sm:text-base">
@@ -373,9 +373,9 @@ export function PricingConsole() {
               </p>
             </div>
             <div className="flex flex-wrap items-end justify-start gap-2 sm:gap-4 lg:justify-end">
-              <CockpitGauge label="VALUE" sublabel="RPM" value={83} size="sm" accent="cyan" />
-              <CockpitGauge label="SPEED" sublabel="RPM" value={91} size="sm" accent="amber" />
-              <CockpitGauge label="COMPLIANCE" sublabel="RPM" value={88} size="sm" accent="magenta" />
+              <CockpitGauge label="VALUE" sublabel="RPM" value={83} size="sm" accent="emerald" />
+              <CockpitGauge label="SPEED" sublabel="RPM" value={91} size="sm" accent="emerald" />
+              <CockpitGauge label="COMPLIANCE" sublabel="RPM" value={88} size="sm" accent="emerald" />
             </div>
           </div>
         </header>
@@ -387,7 +387,7 @@ export function PricingConsole() {
               className={[
                 "glass-surface flex h-full min-w-0 flex-col p-5",
                 plan.highlight
-                  ? "border-cyan-400/45 shadow-[0_0_28px_rgba(34,211,238,0.18)]"
+                  ? "border-emerald-400/45 shadow-[0_0_28px_rgba(16,185,129,0.2)]"
                   : "",
               ].join(" ")}
             >
@@ -397,7 +397,7 @@ export function PricingConsole() {
                   <h2 className="mt-1 text-2xl font-semibold text-white">{plan.name}</h2>
                 </div>
                 {plan.highlight ? (
-                  <span className="rounded-full border border-cyan-300/50 bg-cyan-500/10 px-3 py-1 text-xs font-semibold text-cyan-200">
+                  <span className="rounded-full border border-emerald-300/50 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-200">
                     Recommended
                   </span>
                 ) : null}
@@ -448,7 +448,7 @@ export function PricingConsole() {
           ))}
         </section>
 
-        <section className="rounded-2xl border border-cyan-500/25 bg-cyan-950/20 p-4 text-sm text-cyan-100/90">
+        <section className="rounded-2xl border border-emerald-500/25 bg-emerald-950/20 p-4 text-sm text-emerald-100/90">
           Brokerage-regulated services, including listing submission and compliance approval, are
           provided through a licensed brokerage. ListQik.com provides marketing, technology, and
           administrative support.
@@ -483,7 +483,7 @@ export function PricingConsole() {
                     className={[
                       "grid h-9 w-9 place-items-center rounded-full border text-sm font-semibold",
                       complete || active
-                        ? "border-cyan-400 bg-cyan-400/20 text-cyan-200"
+                        ? "border-emerald-400 bg-emerald-400/20 text-emerald-200"
                         : "border-white/15 bg-black/30 text-white/50",
                     ].join(" ")}
                   >
@@ -588,7 +588,7 @@ export function PricingConsole() {
                       className={[
                         "rounded-2xl border p-4 text-left transition",
                         selected
-                          ? "border-cyan-400/60 bg-cyan-500/10"
+                          ? "border-emerald-400/60 bg-emerald-500/10"
                           : "border-white/10 bg-white/5 hover:border-white/30",
                       ].join(" ")}
                     >
@@ -637,7 +637,7 @@ export function PricingConsole() {
                       key={item.ghlProductId}
                       className={[
                         "rounded-2xl border p-4",
-                        selected ? "border-cyan-400/60 bg-cyan-500/10" : "border-white/10 bg-white/5",
+                        selected ? "border-emerald-400/60 bg-emerald-500/10" : "border-white/10 bg-white/5",
                       ].join(" ")}
                     >
                       <div className="flex items-start justify-between gap-3">
@@ -648,7 +648,7 @@ export function PricingConsole() {
                         <div className="text-right">
                           <div className="font-mono text-xl font-bold text-white">${item.price}</div>
                           {recommended ? (
-                            <div className="text-[11px] text-cyan-300/90">Recommended</div>
+                            <div className="text-[11px] text-emerald-300/90">Recommended</div>
                           ) : null}
                         </div>
                       </div>

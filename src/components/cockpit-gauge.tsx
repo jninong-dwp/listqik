@@ -7,10 +7,11 @@ type CockpitGaugeProps = {
   sublabel?: string;
   value: number; // 0–100
   size?: "sm" | "md" | "lg";
-  accent?: "cyan" | "amber" | "magenta";
+  accent?: "emerald" | "cyan" | "amber" | "magenta";
 };
 
 const accentMap = {
+  emerald: { stroke: "#34d399", glow: "rgba(52, 211, 153, 0.55)" },
   cyan: { stroke: "#22d3ee", glow: "rgba(34, 211, 238, 0.55)" },
   amber: { stroke: "#fbbf24", glow: "rgba(251, 191, 36, 0.5)" },
   magenta: { stroke: "#e879f9", glow: "rgba(232, 121, 249, 0.45)" },
@@ -26,18 +27,20 @@ export function CockpitGauge({
   sublabel = "RPM",
   value,
   size = "md",
-  accent = "cyan",
+  accent = "emerald",
 }: CockpitGaugeProps) {
   const filterId = `glow-${accent}-${size}-${label.replace(/\s+/g, "-")}`;
   const base = clamp(value, 0, 100);
   const revBoost = size === "lg" ? 26 : 22;
 
   const [hovered, setHovered] = useState(false);
+  const [pressed, setPressed] = useState(false);
   const hoveredRef = useRef(false);
   const [displayV, setDisplayV] = useState(base);
   const displayRef = useRef(base);
 
-  const target = hovered ? clamp(base + revBoost, 0, 100) : base;
+  const isActive = hovered || pressed;
+  const target = isActive ? clamp(base + revBoost, 0, 100) : base;
 
   useEffect(() => {
     hoveredRef.current = hovered;
@@ -99,10 +102,23 @@ export function CockpitGauge({
 
   return (
     <div
-      className="group flex flex-col items-center rounded-xl p-2 transition-[transform,filter] duration-200 ease-out hover:scale-[1.05] hover:drop-shadow-[0_0_18px_rgba(34,211,238,0.25)]"
+      className="group flex flex-col items-center rounded-xl p-2 transition-[transform,filter] duration-200 ease-out hover:scale-[1.05]"
       style={{ width: dim, minWidth: dim }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onPointerEnter={() => setHovered(true)}
+      onPointerLeave={() => {
+        setHovered(false);
+        setPressed(false);
+      }}
+      onPointerDown={() => setPressed(true)}
+      onPointerUp={() => setPressed(false)}
+      onFocus={() => setHovered(true)}
+      onBlur={() => {
+        setHovered(false);
+        setPressed(false);
+      }}
+      tabIndex={0}
     >
       <svg
         width={dim}
@@ -176,16 +192,17 @@ export function CockpitGauge({
       </svg>
       <div className="-mt-1 text-center">
         <div
-          className="font-mono text-[10px] font-bold tracking-[0.2em] text-cyan-300/90 sm:text-[11px]"
-          style={{ textShadow: `0 0 12px ${glow}` }}
+          className="font-mono text-[10px] font-bold tracking-[0.2em] sm:text-[11px]"
+          style={{ color: stroke, textShadow: `0 0 12px ${glow}` }}
         >
           {label}
         </div>
         <div className="font-mono text-[9px] tracking-widest text-slate-500">{sublabel}</div>
         <div
-          className="mt-0.5 font-mono text-lg font-bold tabular-nums text-white transition-[text-shadow] duration-200 sm:text-xl group-hover:text-cyan-50"
+          className="mt-0.5 font-mono text-lg font-bold tabular-nums text-white transition-[text-shadow,color] duration-200 sm:text-xl"
           style={{
-            textShadow: hovered
+            color: isActive ? stroke : undefined,
+            textShadow: isActive
               ? `0 0 24px ${glow}, 0 0 8px ${glow}`
               : `0 0 20px ${glow}`,
           }}

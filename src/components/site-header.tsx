@@ -4,19 +4,23 @@ import { NavLink } from "@/components/nav-link";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b border-white/10 bg-black/20 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-emerald-500/25 bg-black/55 backdrop-blur">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-emerald-300/80 to-transparent"
+      />
       <Container className="flex h-16 items-center justify-between">
         <div className="flex items-center gap-3">
           <Link href="/" className="group inline-flex items-center gap-2">
             <span
               aria-hidden
-              className="grid h-9 w-9 place-items-center rounded-xl border border-white/10 bg-white/5 shadow-[0_0_0_1px_rgba(255,255,255,0.04)]"
+              className="grid h-9 w-9 place-items-center rounded-xl border border-emerald-400/35 bg-emerald-950/35 shadow-[0_0_14px_rgba(16,185,129,0.2)]"
             >
-              <span className="font-mono text-xs font-bold tracking-widest text-white/90">
+              <span className="font-mono text-xs font-bold tracking-widest text-emerald-200">
                 LQ
               </span>
             </span>
-            <span className="text-sm font-semibold tracking-wide text-white">
+            <span className="text-sm font-semibold tracking-wide text-emerald-100">
               ListQik.com
             </span>
           </Link>
@@ -31,10 +35,16 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Link href="/listings" className="btn-secondary hidden sm:inline-flex">
+          <Link
+            href="/listings"
+            className="hidden min-h-[40px] items-center rounded-full border border-emerald-400/35 bg-emerald-950/30 px-4 text-sm font-semibold tracking-wide text-emerald-100 transition hover:border-emerald-300/70 hover:bg-emerald-900/35 sm:inline-flex"
+          >
             View Listings
           </Link>
-          <Link href="/pricing" className="btn-primary">
+          <Link
+            href="/pricing"
+            className="inline-flex min-h-[40px] items-center rounded-full border border-emerald-400/70 bg-emerald-500/20 px-4 text-sm font-semibold tracking-wide text-emerald-100 transition hover:bg-emerald-400/30"
+          >
             Start Listing
           </Link>
         </div>
