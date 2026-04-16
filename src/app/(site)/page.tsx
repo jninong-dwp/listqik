@@ -18,6 +18,37 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   const featured = listings.filter((l) => l.featured).slice(0, 3);
+  const missionPanels = [
+    {
+      title: "Target Acquisition",
+      description: "Start your listing with guided property intake and broker-backed workflow.",
+      href: "/pricing",
+    },
+    {
+      title: "Fuel System",
+      description: "Run equity and fee checks before launch.",
+      href: "/pricing",
+    },
+    {
+      title: "Navigation System",
+      description: "Track market context and active inventory.",
+      href: "/listings",
+    },
+  ];
+  const modules = [
+    {
+      title: "Rapid Deployment",
+      description: "Launch listing workflows in hours, not days.",
+    },
+    {
+      title: "Compliance Review",
+      description: "Structured process with broker-backed oversight.",
+    },
+    {
+      title: "Equity Focus",
+      description: "Decision support tools designed to protect seller proceeds.",
+    },
+  ];
 
   return (
     <div className="relative min-w-0 overflow-x-hidden pb-[max(1rem,env(safe-area-inset-bottom))]">
@@ -33,67 +64,123 @@ export default function HomePage() {
               <span className="text-emerald-400/80">SYS · NOM</span>
             </div>
 
-            <div className="grid min-w-0 gap-6 lg:grid-cols-2 lg:items-start lg:gap-8">
-              <div className="min-w-0 space-y-4 sm:space-y-6">
+            <div className="relative overflow-hidden rounded-2xl border border-cyan-500/20 bg-black/50 p-4 sm:p-6 lg:p-8">
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(34,211,238,0.2),rgba(0,0,0,0.85)_65%)]"
+              />
+              <div className="relative mx-auto max-w-3xl text-center">
                 <div className="inline-flex max-w-full items-center gap-2 rounded border border-fuchsia-500/40 bg-fuchsia-950/30 px-2.5 py-1.5 font-mono text-[9px] font-bold tracking-[0.15em] text-fuchsia-200 sm:px-3 sm:text-[10px] sm:tracking-[0.2em]">
                   <span className="h-2 w-2 shrink-0 animate-pulse rounded-full bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.8)]" />
                   COCKPIT MODE
                 </div>
-
-                <h1 className="bg-gradient-to-r from-cyan-200 via-white to-fuchsia-200 bg-clip-text font-mono text-lg font-bold uppercase leading-snug tracking-tight text-transparent max-sm:normal-case sm:text-3xl lg:text-4xl">
-                  List your home — clear steps, fast support.
+                <h1 className="mt-4 bg-gradient-to-r from-cyan-200 via-white to-fuchsia-200 bg-clip-text font-mono text-2xl font-bold uppercase tracking-tight text-transparent max-sm:normal-case sm:text-4xl lg:text-5xl">
+                  Pilot Your Listing
                 </h1>
-                <p className="max-w-xl font-mono text-[13px] leading-relaxed text-slate-300/90 sm:text-base">
-                  Texas-focused workflow: list through a licensed brokerage with guided marketing and
-                  compliance support.
+                <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-300/90 sm:text-base">
+                  Deploy listings faster, retain more equity, and run a guided workflow through a
+                  licensed brokerage.
                 </p>
-
-                <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-                  <Link href="/pricing" className="btn-primary min-h-[48px] w-full justify-center sm:w-auto sm:min-h-0">
-                    Start Listing
+                <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
+                  <Link href="/pricing" className="btn-primary min-h-[48px] justify-center px-6">
+                    Start Your Mission
                   </Link>
+                  <Link href="/listings" className="btn-secondary min-h-[48px] justify-center px-6">
+                    View Active Listings
+                  </Link>
+                </div>
+              </div>
+
+              <div className="relative mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {missionPanels.map((panel) => (
                   <Link
-                    href="/about"
-                    className="inline-flex min-h-[48px] w-full items-center justify-center rounded-full border border-cyan-500/30 bg-cyan-950/20 px-5 py-3 text-sm font-semibold tracking-wide text-cyan-100 transition hover:border-cyan-400/50 hover:bg-cyan-950/40 sm:min-h-0 sm:w-auto"
+                    key={panel.title}
+                    href={panel.href}
+                    className="group rounded-2xl border border-cyan-400/35 bg-black/60 p-4 transition duration-200 hover:scale-[1.02] hover:border-cyan-300/60 hover:bg-cyan-950/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/70"
                   >
-                    Read the system spec
+                    <h3 className="text-sm font-semibold tracking-wide text-cyan-200 sm:text-base">
+                      {panel.title}
+                    </h3>
+                    <p className="mt-2 text-sm text-white/75">{panel.description}</p>
                   </Link>
-                </div>
+                ))}
+              </div>
+            </div>
 
-                <div className="flex w-full min-w-0 flex-col items-center gap-5 border-t border-cyan-500/15 pt-5 sm:flex-row sm:items-end sm:justify-between sm:gap-6 sm:pt-6">
-                  <div className="flex w-full min-w-0 justify-center sm:w-auto sm:justify-start">
-                    <div className="origin-top scale-[0.82] sm:scale-100">
-                      <CockpitGauge
-                        label="CONTRACTS"
-                        sublabel="RPM"
-                        value={72}
-                        size="lg"
-                        accent="cyan"
-                      />
-                    </div>
+            <div className="relative mt-6 grid min-w-0 gap-4 overflow-hidden rounded-2xl border border-cyan-500/20 p-3 sm:gap-5 sm:p-4 lg:gap-6 lg:p-5">
+              <div
+                aria-hidden
+                className="absolute inset-0 bg-[url('/cockpit-homepage.webp')] bg-cover bg-center opacity-60"
+              />
+              <div
+                aria-hidden
+                className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/70 to-black/25"
+              />
+
+              <div className="relative w-full min-w-0 overflow-hidden rounded-xl border border-cyan-500/20 bg-black/35">
+                <div
+                  aria-hidden
+                  className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 via-transparent to-transparent"
+                />
+
+                <div className="relative flex w-full flex-col items-center gap-5 p-3 pt-5 sm:p-4 md:grid md:grid-cols-3 md:items-end md:justify-items-center md:gap-6 lg:p-6">
+                  <div className="origin-top scale-95">
+                    <CockpitGauge label="DEPLOY" sublabel="RPM" value={88} size="sm" accent="amber" />
                   </div>
-                  <div className="flex w-full min-w-0 shrink-0 items-end justify-center gap-3 sm:w-auto sm:gap-6">
-                    <CockpitGauge
-                      label="DEPLOY"
-                      sublabel="RPM"
-                      value={88}
-                      size="sm"
-                      accent="amber"
-                    />
-                    <CockpitGauge
-                      label="EQUITY"
-                      sublabel="RPM"
-                      value={64}
-                      size="sm"
-                      accent="magenta"
-                    />
+                  <div className="origin-top scale-[0.78] min-[400px]:scale-[0.88] sm:scale-95 lg:scale-100">
+                    <CockpitGauge label="CONTRACTS" sublabel="RPM" value={72} size="lg" accent="cyan" />
+                  </div>
+                  <div className="origin-top scale-95">
+                    <CockpitGauge label="EQUITY" sublabel="RPM" value={64} size="sm" accent="magenta" />
                   </div>
                 </div>
               </div>
 
-              <div className="cockpit-mfd-wrap min-w-0 bg-slate-950/40 p-0.5 sm:p-1">
-                <NetProceedsCalculator />
+              <div className="w-full lg:grid lg:grid-cols-5">
+                <div className="cockpit-mfd-wrap relative min-w-0 bg-slate-950/65 p-0.5 sm:p-1 lg:col-span-3 lg:col-start-2">
+                  <NetProceedsCalculator />
+                </div>
               </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      <section className="pt-8 sm:pt-10 lg:pt-14">
+        <Container>
+          <div className="grid gap-4 md:grid-cols-3">
+            {modules.map((module) => (
+              <article key={module.title} className="glass-surface rounded-2xl p-5">
+                <h3 className="text-base font-semibold text-cyan-200">{module.title}</h3>
+                <p className="mt-2 text-sm text-white/75">{module.description}</p>
+              </article>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      <section className="pt-8 sm:pt-10 lg:pt-14">
+        <Container>
+          <div className="glass-surface rounded-2xl p-6 text-center sm:p-8">
+            <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">Mission Stats</h2>
+            <div className="mt-6 grid gap-4 text-cyan-200 sm:grid-cols-3 sm:gap-6">
+              <div className="rounded-xl border border-cyan-400/30 bg-black/35 px-4 py-5">
+                <p className="text-3xl font-bold">72</p>
+                <p className="mt-1 text-xs tracking-wider text-white/65">RAPID DEPLOYMENTS</p>
+              </div>
+              <div className="rounded-xl border border-cyan-400/30 bg-black/35 px-4 py-5">
+                <p className="text-3xl font-bold">64%</p>
+                <p className="mt-1 text-xs tracking-wider text-white/65">EQUITY RETENTION INDEX</p>
+              </div>
+              <div className="rounded-xl border border-cyan-400/30 bg-black/35 px-4 py-5">
+                <p className="text-3xl font-bold">100+</p>
+                <p className="mt-1 text-xs tracking-wider text-white/65">ACTIVE LISTINGS</p>
+              </div>
+            </div>
+            <div className="mt-6">
+              <Link href="/pricing" className="btn-primary min-h-[48px] justify-center px-8">
+                Launch Platform
+              </Link>
             </div>
           </div>
         </Container>

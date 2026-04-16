@@ -191,9 +191,16 @@ function Row({
   strong?: boolean;
 }) {
   return (
-    <div className="flex items-center justify-between gap-3">
-      <span className={strong ? "text-white" : "text-white/70"}>{label}</span>
-      <span className={["font-mono", strong ? "text-white" : "text-white/80"].join(" ")}>
+    <div className="flex min-w-0 items-center justify-between gap-3">
+      <span className={["min-w-0 truncate", strong ? "text-white" : "text-white/70"].join(" ")}>
+        {label}
+      </span>
+      <span
+        className={[
+          "shrink-0 whitespace-nowrap text-right font-mono tabular-nums",
+          strong ? "text-white" : "text-white/80",
+        ].join(" ")}
+      >
         {value}
       </span>
     </div>
