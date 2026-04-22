@@ -32,6 +32,12 @@ export function SiteHeader() {
 
         <div className="flex flex-wrap items-center justify-end gap-2">
           <Link
+            href="/login"
+            className="hidden min-h-[40px] items-center rounded-full border border-emerald-400/25 px-3 text-sm font-semibold tracking-wide text-emerald-100/90 transition hover:border-emerald-300/50 sm:inline-flex"
+          >
+            Log in
+          </Link>
+          <Link
             href="/dashboard"
             className="hidden min-h-[40px] items-center rounded-full border border-emerald-400/35 bg-emerald-950/30 px-3 text-sm font-semibold tracking-wide text-emerald-100 transition hover:border-emerald-300/70 hover:bg-emerald-900/35 sm:inline-flex"
           >

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 export type DashboardListing = {
@@ -257,13 +258,12 @@ export function ListingDashboard() {
                       </div>
                     </div>
                     <div className="mt-3 flex flex-wrap gap-2">
-                      <button
-                        type="button"
-                        onClick={() => setExpanded(l.id)}
+                      <Link
+                        href={`/dashboard/listings/${l.id}/setup`}
                         className="rounded-full border border-cyan-400/45 bg-cyan-500/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-cyan-100 transition hover:border-cyan-300/70 hover:bg-cyan-400/20"
                       >
                         View listing setup
-                      </button>
+                      </Link>
                       <button
                         type="button"
                         onClick={() => setExpanded(open ? null : l.id)}

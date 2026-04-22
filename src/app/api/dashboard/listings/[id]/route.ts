@@ -20,6 +20,86 @@ type PatchBody = {
   expiresOn?: string | null;
 };
 
+function iso(d: unknown): string | null {
+  if (!d) {
+    return null;
+  }
+  if (d instanceof Date) {
+    return d.toISOString();
+  }
+  const t = new Date(String(d));
+  return Number.isNaN(t.getTime()) ? null : t.toISOString();
+}
+
+function serializeListing(doc: {
+  _id: Types.ObjectId;
+  street: string;
+  unit?: string | null;
+  city: string;
+  state: string;
+  zip: string;
+  county?: string | null;
+  mlsName?: string | null;
+  mlsNumber?: string | null;
+  listingId?: string | null;
+  status: string;
+  planLabel?: string | null;
+  price: number;
+  buyerAgentCompPct?: number | null;
+  description?: string | null;
+  heroImageUrl?: string | null;
+  orderedOn?: Date | null;
+  listedOn?: Date | null;
+  expiresOn?: Date | null;
+  createdAt?: Date | null;
+  updatedAt?: Date | null;
+}) {
+  return {
+    id: doc._id.toString(),
+    street: doc.street,
+    unit: doc.unit ?? "",
+    city: doc.city,
+    state: doc.state,
+    zip: doc.zip,
+    county: doc.county ?? "",
+    mlsName: doc.mlsName ?? "",
+    mlsNumber: doc.mlsNumber ?? "",
+    listingId: doc.listingId ?? "",
+    status: doc.status,
+    planLabel: doc.planLabel ?? "",
+    price: doc.price,
+    buyerAgentCompPct: doc.buyerAgentCompPct ?? null,
+    description: doc.description ?? "",
+    heroImageUrl: doc.heroImageUrl ?? "",
+    orderedOn: iso(doc.orderedOn),
+    listedOn: iso(doc.listedOn),
+    expiresOn: iso(doc.expiresOn),
+    createdAt: iso(doc.createdAt),
+    updatedAt: iso(doc.updatedAt),
+  };
+}
+
+export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> }) {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.id) {
+    return NextResponse.json({ ok: false, error: "Unauthorized." }, { status: 401 });
+  }
+
+  const { id } = await ctx.params;
+  if (!Types.ObjectId.isValid(id)) {
+    return NextResponse.json({ ok: false, error: "Invalid listing id." }, { status: 400 });
+  }
+
+  await connectDb();
+  const userId = new Types.ObjectId(session.user.id);
+  const listing = await Listing.findOne({ _id: id, userId }).lean();
+  if (!listing) {
+    return NextResponse.json({ ok: false, error: "Listing not found." }, { status: 404 });
+  }
+
+  return NextResponse.json({ ok: true, listing: serializeListing(listing) });
+}
+
 export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
