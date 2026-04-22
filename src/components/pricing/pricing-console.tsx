@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { signIn } from "next-auth/react";
 import { CockpitGauge } from "@/components/cockpit-gauge";
 import { Container } from "@/components/container";
 import {
@@ -152,7 +153,7 @@ const propertyTypes: { id: PropertyType; label: string; description: string }[] 
 ];
 
 type WizardState = {
-  step: 1 | 2 | 3;
+  step: 1 | 2 | 3 | 4;
   plan: Plan | null;
   propertyAddress: string;
   unit: string;
@@ -165,6 +166,9 @@ type WizardState = {
   phone: string;
   propertyType: PropertyType | "";
   selectedUpgrades: string[];
+  agreementAccepted: boolean;
+  password: string;
+  passwordConfirm: string;
 };
 
 const initialState: WizardState = {
@@ -181,6 +185,9 @@ const initialState: WizardState = {
   phone: "",
   propertyType: "",
   selectedUpgrades: [],
+  agreementAccepted: false,
+  password: "",
+  passwordConfirm: "",
 };
 
 export function PricingConsole() {
@@ -275,23 +282,32 @@ export function PricingConsole() {
     );
   }
 
-  async function continueToCheckout() {
+  function canSubmitIntake() {
+    return (
+      wizard.agreementAccepted &&
+      wizard.password.length >= 8 &&
+      wizard.passwordConfirm.length >= 8 &&
+      wizard.password === wizard.passwordConfirm
+    );
+  }
+
+  async function submitIntakeAndCreateAccount() {
     if (!wizard.plan || !wizard.propertyType) return;
     setSubmitting(true);
     setError("");
 
     const payload = {
-      source: "pricing-wizard",
+      agreementAccepted: wizard.agreementAccepted,
+      account: {
+        fullName: wizard.fullName.trim(),
+        email: wizard.email.trim(),
+        phone: wizard.phone.trim(),
+        password: wizard.password,
+      },
       plan: {
         id: wizard.plan.id,
         name: wizard.plan.name,
         price: wizard.plan.price,
-        closeFee: wizard.plan.closeFee,
-      },
-      contact: {
-        fullName: wizard.fullName.trim(),
-        email: wizard.email.trim(),
-        phone: wizard.phone.trim(),
       },
       property: {
         address: wizard.propertyAddress.trim(),
@@ -310,7 +326,7 @@ export function PricingConsole() {
       })),
     };
 
-    const res = await fetch("/api/ghl/pricing/checkout", {
+    const res = await fetch("/api/pricing/intake/complete", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(payload),
@@ -318,26 +334,33 @@ export function PricingConsole() {
 
     if (!res) {
       setSubmitting(false);
-      setError("Network error while creating checkout.");
+      setError("Network error while creating account.");
       return;
     }
 
     const data = (await res.json().catch(() => null)) as
-      | { ok: boolean; checkoutUrl?: string; error?: string }
+      | { ok: boolean; error?: string }
       | null;
     if (!res.ok || !data?.ok) {
       setSubmitting(false);
-      setError(data?.error || "Could not create checkout.");
+      setError(data?.error || "Could not complete intake.");
       return;
     }
 
-    if (data.checkoutUrl) {
-      window.location.href = data.checkoutUrl;
+    const signInResult = await signIn("credentials", {
+      email: wizard.email.trim(),
+      password: wizard.password,
+      redirect: false,
+      callbackUrl: "/dashboard",
+    });
+
+    if (signInResult?.error) {
+      setSubmitting(false);
+      setError("Account created, but auto sign-in failed. Please use Log in.");
       return;
     }
 
-    setSubmitting(false);
-    setError("Checkout URL is not configured yet.");
+    window.location.href = signInResult?.url ?? "/dashboard";
   }
 
   useEffect(() => {
@@ -368,8 +391,8 @@ export function PricingConsole() {
                 Pricing that keeps your equity in your hands.
               </h1>
               <p className="max-w-2xl text-sm text-muted sm:text-base">
-                Select your speed tier, run property intake, choose upgrades, then continue to GHL
-                store checkout.
+                Select your speed tier, run property intake, choose upgrades, then accept the
+                agreement to create your account and draft listing.
               </p>
             </div>
             <div className="flex flex-wrap items-end justify-start gap-2 sm:gap-4 lg:justify-end">
@@ -474,7 +497,7 @@ export function PricingConsole() {
               </div>
 
           <div className="mb-6 flex items-center justify-between gap-2">
-            {[1, 2, 3].map((step) => {
+            {[1, 2, 3, 4].map((step) => {
               const active = wizard.step === step;
               const complete = wizard.step > step;
               return (
@@ -489,7 +512,7 @@ export function PricingConsole() {
                   >
                     {complete ? "✓" : step}
                   </div>
-                  {step < 3 ? <div className="h-[2px] flex-1 bg-white/10" /> : null}
+                  {step < 4 ? <div className="h-[2px] flex-1 bg-white/10" /> : null}
                 </div>
               );
             })}
@@ -693,10 +716,73 @@ export function PricingConsole() {
                 <button
                   type="button"
                   className="btn-primary"
-                  onClick={continueToCheckout}
+                  onClick={() => setWizard((s) => ({ ...s, step: 4 }))}
                   disabled={submitting}
                 >
-                  {submitting ? "Creating checkout..." : "Continue to Checkout"}
+                  Continue: Agreement
+                </button>
+              </div>
+            </div>
+          ) : null}
+          {wizard.step === 4 ? (
+            <div className="grid gap-4">
+              <h2 className="text-xl font-semibold text-white">Step 4: Agreement & Account Setup</h2>
+              <div className="rounded-2xl border border-amber-300/35 bg-amber-950/25 p-4 text-sm text-amber-100/95">
+                <p className="font-semibold">Test checkout bypass</p>
+                <p className="mt-2 text-amber-100/85">
+                  By continuing, you confirm this test flow bypasses card entry and directly creates
+                  your seller account, active plan record, and an initial draft listing.
+                </p>
+              </div>
+              <label className="flex items-start gap-3 rounded-2xl border border-white/10 bg-black/25 p-3 text-sm text-white/85">
+                <input
+                  type="checkbox"
+                  checked={wizard.agreementAccepted}
+                  onChange={(e) => setWizard((s) => ({ ...s, agreementAccepted: e.target.checked }))}
+                  className="mt-1 h-4 w-4 rounded border-white/20 bg-black/40"
+                />
+                <span>I understand and agree to create my account through this test flow.</span>
+              </label>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <Input
+                  label="Password (min 8 chars)"
+                  value={wizard.password}
+                  onChange={(v) => setWizard((s) => ({ ...s, password: v }))}
+                  type="password"
+                />
+                <Input
+                  label="Confirm password"
+                  value={wizard.passwordConfirm}
+                  onChange={(v) => setWizard((s) => ({ ...s, passwordConfirm: v }))}
+                  type="password"
+                />
+              </div>
+              {!canSubmitIntake() && wizard.passwordConfirm ? (
+                <div className="rounded-xl border border-red-400/40 bg-red-950/30 p-3 text-sm text-red-300">
+                  Passwords must match, be at least 8 characters, and agreement must be checked.
+                </div>
+              ) : null}
+              {error ? (
+                <div className="rounded-xl border border-red-400/40 bg-red-950/30 p-3 text-sm text-red-300">
+                  {error}
+                </div>
+              ) : null}
+              <div className="flex items-center justify-between">
+                <button
+                  type="button"
+                  className="btn-secondary"
+                  onClick={() => setWizard((s) => ({ ...s, step: 3 }))}
+                  disabled={submitting}
+                >
+                  Back
+                </button>
+                <button
+                  type="button"
+                  className="btn-primary"
+                  onClick={submitIntakeAndCreateAccount}
+                  disabled={submitting || !canSubmitIntake()}
+                >
+                  {submitting ? "Creating account..." : "I Understand — Create Account"}
                 </button>
               </div>
             </div>
@@ -720,7 +806,7 @@ function Input({
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
-  type?: "text" | "email" | "tel";
+  type?: "text" | "email" | "tel" | "password";
 }) {
   return (
     <label className="grid gap-1.5">

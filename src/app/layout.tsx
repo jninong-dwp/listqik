@@ -1,8 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Inter, Roboto_Mono } from "next/font/google";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { AuthSessionProvider } from "@/components/auth/session-provider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -84,11 +83,11 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <SiteHeader />
-        <main id="content" className="flex-1">
-          {children}
-        </main>
-        <SiteFooter />
+        <AuthSessionProvider>
+          <main id="content" className="flex-1">
+            {children}
+          </main>
+        </AuthSessionProvider>
       </body>
     </html>
   );
