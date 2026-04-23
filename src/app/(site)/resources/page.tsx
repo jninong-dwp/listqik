@@ -56,6 +56,24 @@ export default function ResourcesPage() {
               <div className="text-lg font-semibold text-white">Consumer Protection Notice</div>
               <div className="mt-2 text-sm text-muted">TREC consumer rights and resources.</div>
             </Link>
+            <Link
+              href="/resources/legal/mls-rule-schedule-of-fines"
+              className="glass-surface p-6 hover:border-white/20 transition"
+            >
+              <div className="text-lg font-semibold text-white">MLS Rule Schedule of Fines</div>
+              <div className="mt-2 text-sm text-muted">
+                Administrative sanctions and fine amounts by MLS rule section.
+              </div>
+            </Link>
+            <Link
+              href="/resources/legal/mls-rules-and-regulations"
+              className="glass-surface p-6 hover:border-white/20 transition"
+            >
+              <div className="text-lg font-semibold text-white">MLS Rules and Regulations</div>
+              <div className="mt-2 text-sm text-muted">
+                Full document text for Texas REALTORS MLS rules.
+              </div>
+            </Link>
           </div>
         </div>
       </Container>

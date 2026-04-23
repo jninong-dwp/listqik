@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { Container } from "@/components/container";
 import { ConsumerProtectionNoticeContent } from "@/components/legal/consumer-protection-notice-content";
 import { IabsContent } from "@/components/legal/iabs-content";
+import { MlsRulesAndRegulationsContent } from "@/components/legal/mls-rules-and-regulations-content";
+import { MlsRuleScheduleOfFinesContent } from "@/components/legal/mls-rule-schedule-of-fines-content";
 import { legalPages } from "@/data/resources";
 
 export function generateStaticParams() {
@@ -32,6 +34,10 @@ export async function generateMetadata({
         ? "Texas Information About Brokerage Services (IABS) for Resolution Realty Group and Central Metro Realty."
         : slug === "consumer-protection-notice"
           ? "Texas Real Estate Commission Consumer Protection Notice — key rights and resources."
+        : slug === "mls-rules-and-regulations"
+          ? "Full Texas REALTORS MLS Rules and Regulations document."
+        : slug === "mls-rule-schedule-of-fines"
+          ? "Texas REALTORS MLS Rule Schedule of Fines for administrative sanctions."
           : undefined,
   };
 }
@@ -66,6 +72,10 @@ export default async function LegalPage({
               <IabsContent />
             ) : slug === "consumer-protection-notice" ? (
               <ConsumerProtectionNoticeContent />
+            ) : slug === "mls-rules-and-regulations" ? (
+              <MlsRulesAndRegulationsContent />
+            ) : slug === "mls-rule-schedule-of-fines" ? (
+              <MlsRuleScheduleOfFinesContent />
             ) : (
               <div className="space-y-4 text-sm text-white/80">
                 <p>

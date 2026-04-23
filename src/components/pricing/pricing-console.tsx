@@ -70,7 +70,7 @@ const plans: Plan[] = [
     price: "$195",
     closeFee: "0.25% at closing",
     listTerm: "6 months",
-    photos: "Max-photo submission where listing rules allow",
+    photos: "Max Photos",
     support: "7-day support (priority queue)",
     highlight: true,
     included: [
@@ -98,7 +98,7 @@ const plans: Plan[] = [
     price: "$395",
     closeFee: "0.25% at closing",
     listTerm: "12 months",
-    photos: "Max-photo submission where listing rules allow",
+    photos: "Max Photos",
     support: "7-day support + enhanced setup",
     included: [
       "Everything in Supersonic (Premium)",

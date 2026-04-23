@@ -28,5 +28,15 @@ export const legalPages: LegalPage[] = [
     title: "Consumer Protection Notice",
     updatedAt: "2026-03-31",
   },
+  {
+    slug: "mls-rule-schedule-of-fines",
+    title: "MLS Rule Schedule of Fines",
+    updatedAt: "2026-04-23",
+  },
+  {
+    slug: "mls-rules-and-regulations",
+    title: "MLS Rules and Regulations",
+    updatedAt: "2026-04-23",
+  },
 ];
 

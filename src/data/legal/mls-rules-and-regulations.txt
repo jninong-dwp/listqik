@@ -1,0 +1,1765 @@
+As Amended By TEXAS REALTORS® Executive Board on 02/14/22 Page 1 of 27  
+ 
+ 
+ 
+ 
+RULES & REGULATIONS 
+TEXAS REALTORS® MULTIPLE LISTING SERVICE 
+ 
+Texas REALTORS® (the “Association”) adopts these Rules and Regulations concerning its Multiple 
+Listing Service (MLS).  All Participants and subscribers to the MLS must comply with these Rules and  
+Regulations as a condition of accessing and using the MLS.  As used in these Rules and Regulations, the  
+following terms have the following meanings. 
+ 
+“MLS” means the multiple listing service operated by the Association, which is: 
+ 
+* a facility for the orderly correlation and dissemination of listing information so Participants  
+may better serve their clients and customers and the public; 
+* a means by which authorized Participants make blanket unilateral offers of compensation to 
+other Participants (acting as subagents, buyer agents, or in other agency or nonagency  
+capacities defined by law); 
+* a means by which cooperation among participants is enhanced; 
+* a means by which information is accumulated and disseminated to enable authorized 
+Participants to prepare appraisals, analyses, and other valuations of real property for bona  
+fide clients and customers; 
+* a means by which Participants contribute to common databases; and 
+* a cooperative system in which entitlement to compensation is determined by the cooperating  
+broker’s performance as procuring cause of the sale or lease. 
+ 
+“MLS aggregate data” means the information concerning active listings in the MLS that is publicly 
+available to nonsubscribers on-line from the MLS. 
+ 
+“Participant” means an individual who: 
+ 
+* is a REALTOR®; 
+* is a principal, partner, corporate officer, or branch office manager acting on behalf of a 
+principal of a firm participating in the MLS; 
+* holds a valid Texas real estate broker’s license issued by the Texas Real Estate Commission 
+or a valid Texas appraiser license or certification issued by the Texas Appraiser Licensing 
+and Certification Board; 
+* offers or accepts cooperation and compensation to and from other Participants if the 
+Participant is licensed as a real estate broker; 
+* voluntarily participates and subscribes to the MLS by paying the required fees and complying  
+with these Rules and Regulations; and 
+* is responsible to the MLS for compliance with these Rules and Regulations and is 
+responsible for compliance by all subscribers associated with the Participant. 
+ 
+Note: Mere possession of a broker’s license is not sufficient to qualify for MLS participation.  
+Rather, the requirement that an individual or firm ‘offers or accepts cooperation and 
+compensation’ means that the Participant actively endeavors during the operation of its real  
+estate business to list real property of the type listed on the MLS and/or to accept offers of  
+cooperation and compensation made by listing brokers or agents in the MLS. “Actively” means on 
+a continual and on-going basis during the operation of the Participant’s real estate business.  The 
+“actively” requirement is not intended to preclude MLS participation by a Participant or  potential 
+Participant that operates a real estate business on a part time, seasonal, or similarly 
+
+
+As Amended By TEXAS REALTORS® Executive Board on 02/14/22 Page 2 of 27  
+time-limited basis or that has its business interrupted by periods of relative inactivity occasioned  
+by market conditions.  Similarly, the requirement is not intended to deny MLS participation to a  
+Participant or potential Participant who has not achieved a minimum number of transactions  
+despite good faith efforts.  Nor is it intended to permit an MLS to deny participation based on the  
+level of service provided by the Participant or potential Participant as long as the level of service 
+satisfies state law. 
+ 
+The key is that the Participant or potential Participant actively endeavors to make or accept offers  
+of cooperation and compensation with respect to properties of the type that are listed on the MLS  
+in which participation is sought.  This requirement does not permit an MLS to deny partici pation to 
+a Participant or potential Participant that operates a Virtual Office Website (“VOW”) (including a  
+VOW that the Participant uses to refer customers to other Participants) if the Participant or  
+potential Participant actively endeavors to make or a ccept offers of cooperation and 
+compensation. An MLS may evaluate whether a Participant or potential Participant “actively  
+endeavors during the operation of its real estate business” to “offer or accept cooperation and  
+compensation” only if the MLS has a reasonable basis to believe that the Participant or potential  
+Participant is in fact not doing so. The membership requirement shall be applied on a 
+nondiscriminatory manner to all Participants and potential Participants. 
+ 
+“Principal” means an owner, partner, corporate officer, or branch office manager acting on behalf of a 
+principal. 
+ 
+“Subscriber” means non-principal brokers, salespersons, and licensed or certified real estate 
+appraisers affiliated with a Participant and who  offices at the location where the Participant will  
+access the MLS.  A Participant may waive the subscriber status of a person affiliated with the 
+Participant who qualifies as a subscriber if: 
+ 
+(1) the Participant provides a written statement to the Association that: 
+(a) identifies the person whose subscriber’s status will be waived; and 
+(b) represents that the Participant will not permit  the named  person whose subscriber’s 
+status will be waived to access or use the MLS or information in the MLS for any  
+purpose; and 
+(2) the Participant provides information satisfactory to the Association that establishes the 
+person whose subscriber’s status will be waived is a subscriber to a different commercial  
+information exchange (CIE) or multiple listing service that is owned or operated by an 
+association of REALTORS®. 
+ 
+“To take a listing” means to enter into a binding written exclusive right to sell or exclusive agency  
+listing agreement with a seller of real property. 
+ 
+“To file a listing with the MLS ” means to input information about a listed property into the MLS  
+database for dissemination to other Participants. A Participant files a listing by: 
+ 
+* inputting the required information about the listed property via the Internet at the MLS web 
+site in accordance with the instructions at the MLS web site; 
+* completing all required data fields that the MLS may require; 
+* inputting the gross listing price of each listing the Participant inputs in the MLS; and 
+* inputting the listing in the appropriate category or subcategory. 
+ 
+“To file or report information to the MLS ” means to amend the information about the listing (whether  
+categorized as an active listing, withdrawn, pending sale, closed sale, etc.) by inputting the 
+information via the Internet at the MLS web site in accordance with the instructions at the MLS web 
+site and placing the listing or sale in the appropriate category or subcategory. 
+
+As Amended By TEXAS REALTORS® Executive Board on 02/14/22 Page 3 of 27  
+SECTION 1.    LISTING PROCEDURES. 
+ 
+A Participant that enters into an exclusive right to sell or exclusive agency listing agreement to  sell any of 
+the following types of real property in Texas shall file the listing with the MLS within three (3) days after all  
+necessary signatures of the seller(s) have been obtained: 
+ 
+(1) single family homes for sale or exchange; 
+(2) vacant residential lots and residential acreage for sale or exchange; 
+(3) two-family, three-family, and four-family residential buildings for sale or exchange; and 
+(4) vacant and improved farm and ranch properties for sale or exchange. 
+ 
+Other types of properties may be, but are not required to be, inputted into the MLS if a category for such 
+properties is available in the MLS.  If available on the MLS, properties for lease may be, but are not  
+required to be, inputted into the MLS. 
+ 
+The MLS does not requi re a Participant to enter into listing agreements on a form other than the form the  
+Participant chooses to utilize provided the listing is an exclusive right to sell or exclusive agency. 
+ 
+The Participant may submit only those listings that: 
+ 
+(1) include the seller’s authorization to file the agreement to the MLS; 
+(2) make it possible for the listing broker to offer cooperation and compensation to the other 
+Participants of the MLS acting as subagents, buyer agents, or in other agency or non- agency 
+capacities defined by law; and 
+(3) disclose to the owner that information about the listing may be uploaded on the Internet. 
+ 
+The MLS may not accept net listings or open listings. Participants are free to accept net or open listings 
+to be handled outside the MLS subject to state laws. 
+ 
+Exclusive-agency listings and exclusive- right-to-sell listings with named prospects exempted should be  
+clearly distinguished by a simple designation, such as a code or symbol, from exclusive- right-to-sell 
+listings with no named prospects exempted, since they can present special risks of procuring cause 
+controversies and administrative problems not posed by exclusive- right-to-sell listings, with no named  
+prospects exempted.  Care should be exercised to ensure that different codes or symbols are used to  
+denote exclusive agency and exclusive right to sell listings with prospect reservations. 
+ 
+Section. 1.01 Clear Cooperation. 
+ 
+Within one (1) business day of marketing a property to the public, the listing broker must submit the 
+listing to the MLS for cooperation with other MLS participants. Public marketing includes, but is not  
+limited to, flyers displayed in windows, yard signs, digital marketing on public facing websites,  
+brokerage website displays (including IDX and VOW), digital communications marketing (email 
+blasts), multi-brokerage listing sharing networks, and applications available to the general public.  
+(Adopted 11/19) 
+ 
+Note: Exclusive listing information for required property types must be filed and distribut ed to other 
+MLS Participants for cooperation under the Clear Cooperation Policy. This applies to listings filed  
+under Section 1 and listings exempt from distribution under Section 1.3 of the MLS rules if it is  
+being publicly marketed, and any other situation where the listing broker is publicly marketing an 
+exclusive listing that is required to be filed with the service and is not currently available to other  
+MLS Participants. 
+
+As Amended By TEXAS REALTORS® Executive Board on 02/14/22 Page 4 of 27  
+Section 1.1. Listings subject to Rules and Regulations of the MLS. 
+ 
+Any listing taken by a Participant that is required by these Rules and Regulations to be filed in the 
+MLS is subject to these Rules and Regulations upon signature of the seller(s). 
+ 
+Section 1.2. Detail on Listings Filed with the MLS. 
+ 
+A listing agreement, when filed with the MLS by the Participant, shall be complete in every detail. A 
+Participant must provide a copy of the listing agreement to the MLS upon request. 
+ 
+Section 1.2.0. Accuracy of Listing Data. 
+ 
+Participants and Subscribers are required to submit accurate listing data and required to correct any 
+known errors. 
+ 
+Section 1.2.1. Public Remarks. 
+ 
+The public remarks field is intended to describe the physical attributes of the listed property only. The  
+public remarks field shall not include contact information such as names, phone numbers, email  
+addresses, web site addresses, or service provider information. 
+ 
+Section 1.3.    Listings Required to filed with the MLS. 
+ 
+A Participant must file all listings taken by or on behalf of the Participant except for the listings  
+described in this subsection. 
+ 
+(1) If the seller refuses to permit the listing to be filed with the MLS, the Participant may take the  
+listing (“office exclusive”) and such listing shall be filed with the MLS bu t not disseminated to  
+the Participants. A Participant must maintain a copy of the seller(s) written instruction and  
+provide a copy to the MLS upon request. 
+ 
+Note: MLS Participants must distribute exempt listings within (1) one business day once 
+the listing is publicly marketed. See Section 1.01, Clear Cooperation. 
+ 
+(2) The listing is filed with another multiple listing service owned or operated by an association of  
+REALTORS®; provided, however, that if the Participant files such a listing with the MLS,  
+these Rules and Regulations apply. 
+ 
+(3) Listings for the sale of the types of properties that are not described in the first paragraph of  
+Section 1 above; provided, however, that if the Participant files such a listing with the MLS,  
+these Rules and Regulations apply. 
+ 
+(4) Listings for the lease of real property; provided, however, that if a Participant files such a 
+listing with the MLS, these Rules and Regulations apply. 
+ 
+If a Participant files a listing with the MLS and that listing is filed in another multiple listing service, the  
+Participant must input, as the listing agent’s or contact person’s name, the same name identified as  
+the listing agent or contact name in the other multiple listing service. 
+ 
+Section 1.4.    Change of Status of Listing. 
+ 
+Any change in listed price or other change in the original listing agreement shall be made only when  
+authorized in writing by the seller and shall be filed with the MLS not later than two (2) business days 
+
+As Amended By TEXAS REALTORS® Executive Board on 02/14/22 Page 5 of 27  
+after the authorized change is received by the listing broker. 
+ 
+Section 1.5. Withdrawal of Listing Prior to Expiration. 
+ 
+Listings may be withdrawn from the MLS by the Participant before the expiration date of the listing  
+agreement provided the Participant maintains a copy of the agreement between the seller and the  
+Participant which authorizes the withdrawal. 
+ 
+Sellers do not have the unilateral right to require the MLS to withdraw a listing without the 
+Participant’s concurrence. However, when a seller(s) can document that the seller’s exclusive 
+relationship with the Participant has been terminated, the MLS may remove the listing at the request  
+of the seller. 
+ 
+Section 1.6.    Contingencies Applicable to Listings. 
+ 
+Any contingency or conditions of any term in a listing shall be s pecified and noticed to all Participants  
+in the MLS. 
+ 
+Section 1.7. Potential Short Sale Disclosure. 
+ 
+Participants may, but are not required to, disclose potential short sales (defined as a transaction  
+where title transfers, where the sale price is insuffic ient to pay the total of all liens and costs of sale 
+and where the seller does not bring sufficient liquid assets to the closing to cure all deficiencies) to  
+other Participants and Subscribers. When disclosed, Participants may, at their discretion, 
+communicate to other Participants whether and how any reduction in the gross commission 
+established in the listing contract, required by the lender as a condition of approving the sale, will be 
+apportioned between listing and cooperating Partic ipants. All confidential disclosures and confidential  
+information related to short sales must be communicated through dedicated fields or confidential  
+“remarks” available only to Participants and Subscribers. 
+ 
+Section 1.8.    Listing Price Specified. 
+ 
+The full gross listing price stated in the listing agreement will be included in the information published 
+in the MLS compilation of current listings.  The gross listing price is the highest price if the listing price 
+is specified as a range in the listing agreement. 
+ 
+Section 1.9.    Listing Multiple Unit Properties. 
+ 
+All properties which are to be sold or which may be sold separately must be indicated individually in 
+the listing. When part of a listed property has been sold, proper notification should be given in the 
+MLS. 
+ 
+Section 1.10. No Control of Commissions or Fees Charged by Participants. 
+ 
+The MLS shall not fix, control, recommend, suggest, or maintain commission rates or  fees for 
+services to be rendered by Participants.  Further, the MLS shall not fix, control, recommend, suggest,  
+or maintain the division of commissions or fees between cooperating Participants or between 
+Participants and non- participants. 
+ 
+Section 1.11.      Expiration, Extension, and Renewal of Listings. 
+ 
+Any listing filed with the MLS automatically expires on the dates specified in the agreement unless  
+renewed by the Participant and the Participant amends the listing in the MLS. 
+
+As Amended By TEXAS REALTORS® Executive Board on 02/14/22 Page 6 of 27  
+A Participant may not amend a listing for the purpose of renewing or  extending it after the expiration  
+date of the listing.  If a listing is to be extended or renewed after the expiration date, the Participant  
+must input the listing as a new listing.  Any extension or renewal of a listing must be signed by the  
+seller(s) and provided to the MLS upon request. 
+ 
+Section 1.12.      Termination Dates on Listings. 
+ 
+Listings filed with the MLS shall bear a definite and final termination date as negotiated between the 
+Participant and the seller. 
+ 
+Section 1.13.      Service Area. 
+ 
+Only listings of the types of property designated in Section 1 above and that are located within the  
+State of Texas are required to be filed with the MLS.  Listings of property located outside of Texas will  
+not be accepted. 
+ 
+Section 1.14.      Listings of Suspended Participants. 
+ 
+When a Participant of the MLS is suspended from the MLS for failing to abide by a membership duty  
+(i.e., violation of the  Code of Ethics, Board  Bylaws, MLS Bylaws, MLS Rules and Regulations, or  
+other membership obligation except fai lure to pay appropriate dues, fees, or charges), all listings  
+currently filed with the MLS by the suspended Participant shall be retained in the Service until sold,  
+withdrawn or expired, and shall not be renewed or extended by the MLS beyond the terminatio n date 
+of the listing agreement in effect when the suspension became effective. 
+ 
+If a Participant has been suspended from the Association or the MLS (or both) for failure to pay  
+appropriate dues, fees or charges, the MLS is not obligated to provide MLS services, including 
+continued inclusion of the suspended Participant’s listings in the MLS compilation of current listing  
+information. Prior to any removal of a suspended Participant’s listings from the MLS, the suspended  
+Participant will be advised in wri ting of the intended removal so that the suspended Participant may  
+advise the Participant’s clients. 
+ 
+Section 1.15.      Listings of Expelled Participants. 
+ 
+When a Participant is expelled from the MLS for failing to abide by a membership duty (i.e., violation 
+of the Code of Ethics, Board Bylaws, MLS Bylaws, MLS Rules and Regulations, or other membership  
+obligation except failure to pay appropriate dues, fees, or charges), all listings currently filed with the  
+MLS by the suspended Participant shall be retained in the MLS until sold, withdrawn or expired, and  
+shall not be renewed or extended by the MLS beyond the termination date of the listing agreement in 
+effect when the expulsion became effective. 
+ 
+If a Participant has been expelled from the Associati on or MLS (or both) for failure to pay appropriate 
+dues, fees or charges, the MLS is not obligated to provide MLS services, including continued 
+inclusion of the expelled Participant’s listings in the MLS compilation of current listing information.  
+Prior to any removal of an expelled Participant’s listings from the MLS, the expelled Participant will be 
+advised in writing of the intended removal so that the expelled Participant may advise the 
+Participant’s clients. 
+ 
+Section 1.16.      Listings of Resigned Participants. 
+ 
+When a Participant resigns from the MLS, the MLS is not obligated to provide services, including 
+continued inclusion of the resigned Participant’s listings in the MLS compilation of current listing 
+
+As Amended By TEXAS REALTORS® Executive Board on 02/14/22 Page 7 of 27  
+information. Prior t o any removal of a resigned Participant’s listing from the MLS, the resigned  
+Participant will be advised in writing of the intended removal so that the resigned Participant may  
+advise the Participant’s clients. 
+ 
+Section 1.17.     Property Addresses. 
+ 
+At the time of filing a listing, participants and subscribers must include a property address available to  
+other participants and subscribers, and if an address doesn’t exist, a parcel identification number can  
+be used. Where an address or parc el identification number are unavailable, the information filed with 
+the MLS must include a legal description of the property sufficient to describe its location. 
+ 
+Section 1.18. Digital Images (Photos). 
+ 
+Digital images submitted to the MLS shall only contain photos pertinent to the listed property and 
+must show an accurate representation of the property in its current state. Digital images shall not  
+contain legible contact information such as names, phone numbers, email addresses or web site 
+addresses, including the use of embedded, overlaid, or digitally stamped information. 
+ 
+SECTION 2.    SHOWINGS. 
+ 
+Appointments for showings with the seller or lessor for the purchase or lease of listed property filed with 
+the MLS shall be conducted through the Participant that listed the Property (listing broker), except under  
+the following circumstances: 
+ 
+(1) the listing broker gives the cooperating broker specific authority to contact the seller or lessor  
+directly for showings; however, the cooperating broker is precluded from negotiating, directly or  
+indirectly, with the seller or lessor; or 
+ 
+(2) after reasonable effort, the cooperating broker cannot contact the listing broker or the listing  
+broker’s representative; however, the cooperating broker is precluded from negotiating, directly or 
+indirectly, with the seller or lessor. 
+ 
+Section 2.1.     Presentation of Offers. 
+ 
+The listing broker must make arrangements to present any offer to purchase or lease a listed property  
+as soon as possible, or give the cooperating broker a satisfactory reason for not doing so. 
+ 
+Section 2.2.    Submission of Written Offers. 
+ 
+The listing broker shall submit to the seller all written offers until closing unless precluded by law,  
+government rule, regulation, or agreed otherwise in writing between the seller and the listing broker.  
+Unless the subsequent offer is contingent upon the termination of an existing contract, the listing  
+broker shall recommend that the seller obtain the advice of legal counsel before accepting the  
+subsequent offer. 
+ 
+Participants representing buyers or tenants shall submit to the buyer or tenant all offers and counter - 
+offers until acceptance, and shall recommend that buyers and tenants obtain legal advice where there 
+is a question about whether a pre-existing contract has been terminated. 
+ 
+Section 2.3. Right of Cooperating Broker in Presentation of Offer. 
+ 
+The cooperating broker (subagent or buyer agent) or the cooperating broker’s representative has the 
+right to participate in the presentation to the seller or lessor of any offer he secures to purchase or 
+
+As Amended By TEXAS REALTORS® Executive Board on 02/14/22 Page 8 of 27  
+lease. The cooperating broker does not have the right to be present at any discussion or evaluation  of 
+that offer by the seller or lessor and the listing broker.  However, if the seller or lessor gives written  
+instructions to the listing broker that the cooperating broker not be present when an offer the 
+cooperating broker secured is presented, the cooperating broker has the right to a copy of the seller’s 
+written instructions. None of the foregoing diminishes the listing broker’s right to control the 
+establishment of appointments for such presentations. 
+ 
+Where the cooperating broker is not present during the presentation of the offer, the cooperating 
+broker can request in writing, and the listing broker must provide,  as soon as practical, written 
+affirmation stating that the offer has been submitted to the seller or lessor, or written notification that  
+the seller or lessor has waived the obligation to have the offer presented. 
+ 
+Section 2.4.    Right of Listing Broker in Presentation of Counter-Offers. 
+ 
+The listing broker or the listing broker’s representative has the right to participate in the presentation 
+of any counter -offer made by the seller or lessor. The listing broker does not have the right to be 
+present at any discussion or evaluation of a counter -offer by the purchaser or lessees (except where  
+the cooperating broker is a subagent).  However, if the purchaser or lessee gives written instructions  
+to the cooperating broker that the listing broker not be present when a counter -offer is presented, the  
+listing broker has the right to a copy of the purchaser’s or lessee’s written instructions. 
+ 
+Section 2.5.    Reporting Sales to the Service. 
+ 
+Status changes, including final closing of sales and sales prices, shall be reported to the MLS by the  
+Participant within two (2) business days after they have occurred.  A Participant reports a pending or  
+closed sale to the MLS by moving the listing to the appropriate category directly via the Internet at the  
+MLS web site and making all necessary amendments to the data fields. 
+ 
+MLS Listing Status Definitions: 
+ 
+“Pending”: The Participant must report the sale as pending in the appropriate category at the time 
+the buyer and seller enter into a binding written contract to sell the property.  A binding contract in 
+which a party retains the unilateral right to terminate the contract within a specified period of time  
+(option) is a pending sale. 
+ 
+“Sold”: The Participant must report the sale as sold in the appropriate category at the time the 
+sale closes and must accurately report the sales price. 
+ 
+The listing agreement of a property filed with the MLS by the listing broker must include a provision  
+expressly granting the listing broker authority to advertise; to file the listing with the MLS; to provide  
+timely notice of status changes of the listing to the MLS; and to provide sales information including  
+selling price to the MLS upon sale of the property. 
+ 
+Submission of accurate sales information is vital.  If a pattern of submission of inaccurate information 
+is determined, then the MLS shall have the option to expel the offending Participant after following the  
+procedures under Section 9.1. 
+ 
+Failure to report sale prices can result in disciplinary action only if the MLS: 
+1. categorizes sale price information as confidential; and 
+2. limits use of sale price information to participants and subscribers in providing real estate  
+services, including appraisals and other valuations, to customers and clients; and to 
+governmental bodies and third-party entities only as provided below. 
+
+As Amended By TEXAS REALTORS® Executive Board on 02/14/22 Page 9 of 27  
+The MLS may provide sale price information to governmental bodies only to be used for statistical  
+purposes (including use of aggregated data for purposes of valuing property) and to confirm the  
+accuracy of information submitted by property owners or their representatives in connection with  
+property valuation challenges; and to third- party entities only to be used for academic  research, 
+statistical analysis, or for providing services to participants and subscribers. In any instance where a 
+governmental body or third -party entity makes sale price information provided by the MLS available  
+other than as provided in this provision,  a listing participant may request the sale price information for  
+a specific property be withheld from dissemination for these purposes with written authorization from  
+the seller, and withholding of sale price information from those entities shall not be c onstrued as a  
+violation of the requirement to report sale prices. 
+ 
+ 
+Section 2.6.    Reporting Resolutions of Contingencies. 
+ 
+The Participant shall report to the MLS within twenty-four (24) hours that a contingency on file with 
+the MLS has been fulfilled or renewed, or the agreement cancelled. 
+ 
+Section 2.7.    Advertising of Listings Filed with the MLS. 
+ 
+A listing shall not be advertised by any Participant, other than the listing broker, without the prior  
+consent of the listing broker. 
+ 
+Section 2.8.    Reporting Cancellation of Pending Sale. 
+ 
+The listing broker shall recategorize a pending sale as an active listing within two (2) business days  
+after the cancellation of the pending sale. 
+ 
+SECTION 3. RESERVED. 
+ 
+SECTION 4. INFORMATION FOR PARTICIPANTS ONLY. 
+ 
+Any listing filed with the MLS shall not be made available to any broker or firm that is not a Participant or 
+subscriber of the MLS without the prior consent of the listing broker. 
+ 
+Section 4.1.    “For Sale” Signs. 
+ 
+Only the “For Sale” sign of the listing broker may be placed on a property listed in the MLS. 
+ 
+Section 4.2.    “Sold” Signs. 
+ 
+Prior to closing, only the “Sold” sign of the listing broker may be placed on a property, unless the  
+listing broker authorizes the cooperating (selling) broker to post such a sign. 
+ 
+Section 4.3.    Solicitation of Listing Filed with the MLS. 
+ 
+Participants shall not solicit a listing on property filed with the MLS unless such solicitation is 
+consistent with Article 16 of  the National Association REALTORS’® Code of Ethics, its Standards of  
+Practice and its Case Interpretations.  This section does not preclude solicitation of listings under the 
+circumstances otherwise recognized by the Standards of Practice related to Article 16 of the Code of  
+Ethics. 
+ 
+Section 4.4. Use of the Terms MLS and Multiple Listing Service. 
+
+As Amended By TEXAS REALTORS® Executive Board on 02/14/22 Page 10 of 27  
+No MLS Participant, Subscriber, or licensee affiliated with any Participant shall, through the name of  
+their firm, their URLs, their e- mail addresses, their website addresses, or in any other way represent,  
+suggest, or imply that the individual or firm is an MLS, or that they operate an MLS. Participants,  
+Subscribers and licensees affiliated with Participants shall not represent, suggest, or imply that 
+consumers or others have direct access to MLS databases, or that consumers or others are able to  
+search MLS databases available only to Participants and Subscribers. This does not prohibit 
+Participants and Subscribers from representing that any information they are authorized under these 
+Rules and Regulations to provide to clients or customers is available on their websites or otherwise. 
+ 
+Section 4.5. Services Advertised as “Free”. 
+ 
+MLS participants and subscribers must not represent that their brokerage services to a client or  
+customer are free or available at no cost to their clients, unless the participant or subscriber will  
+receive no financial compensation from any source for those services. 
+ 
+SECTION 5.   COOPERATIVE COMPENSATION SPECIFIED ON EACH LISTING. 
+ 
+The Participant shall specify, on each listing filed with the MLS, the compensation offered to other MLS  
+Participants for their services in the sale of such listing.  Such offers are unconditional except that  
+entitlement to compensation is determined by the cooperating broker’s performance as the procuring 
+cause of the sale or lease.  The listing broker’s obligation to compensate any cooperating broker as the  
+procuring cause of the sale or lease may be excused if it is determined through arbitration that, through 
+no fault of the listing broker and in the exercise of good faith and reasonable care, it was impossible or  
+financially unfeasible for the listing broker to collect a commission pursuant to the listing agreement . In 
+such instances, entitlement to cooperative compensation offered through MLS would be a question to be 
+determined by an arbitration hearing panel based on all relevant facts and circumstances including, but  
+not limited to, why it was impossible or fina ncially unfeasible for the listing broker to collect some or all of  
+the commission established in the listing agreement; at what point in the transaction did the listing broker  
+know or should have known that some or all of the commission established in the listing agreement might 
+not be paid; and how promptly had the listing broker communicated to the cooperating broker that the  
+commission established in the listing agreement might not be paid. 
+ 
+In filing a property with the MLS, the Participant is making b lanket unilateral offers of cooperation to the 
+other MLS Participants, and shall therefore specify on each listing filed with the MLS, the compensation  
+being offered to the other MLS Participants.  The cooperating broker has the right to know what the  
+cooperating broker’s compensation shall be prior to the cooperating broker’s endeavor to sell the listed 
+property. 
+ 
+The listing broker retains the right to determine the amount of compensation offered other Participants  
+(acting as subagents, buyer agents, or in other agency or non- agency capacities defined by law), which 
+may be the same or different. 
+ 
+This section shall not preclude the listing broker from offering any MLS Participant compensation other  
+than the compensation indicated on any listing published by  the MLS provided the listing broker informs  
+the other broker in writing in advance of their submitting an offer to purchase and provided that the  
+modification in the specified compensation is not the result of any agreement among all or any other  
+Participants. Any superseding offer of compensation must be expressed as either a percentage of the  
+gross sales price or as a flat dollar amount. 
+ 
+A Participant is not required to disclose the amount of total negotiated commission in the Participant’s  
+listing agreement. 
+ 
+The compensation specified on listings filed with the MLS shall appear in one of two forms.    The 
+
+As Amended By TEXAS REALTORS® Executive Board on 02/14/22 Page 11 of 27  
+information to be published shall clearly inform the Participants as to the compensation they will receive in 
+cooperative transactions unless advised otherwise by the listing broker in writing in advance of their  
+submitting an offer to purchase.  The compensation specified on listings published by the MLS shall be 
+shown in one of the following forms: (1) by showing a percentage of the gross selling price; or (2) by  
+showing a definite dollar amount. 
+ 
+The Participant may, from time to time, adjust the compensation offered to other Participants for their  
+services with respect to any listing by advance published notice to the MLS so that all Participants will be 
+advised. 
+ 
+The MLS shall make no rule on the division of commissions between Participants and non participants.  
+This remains solely the responsibility of the listing broker. 
+ 
+Nothing in these MLS Rules and Regulations precludes a listing Participant and a cooperating Participant,  
+as a matter of mutual agreement, from modifying the cooperative compensation to be paid in the event of  
+a successful transaction. 
+ 
+Section 5.1.    Participant as Principal. 
+ 
+If a Participant or any licensee (or licensed or certified appraiser) affiliated with a Participant has any  
+interest in property, the listing of which is to be disseminated through the MLS, that person shall  
+disclose that interest when the listing is filed with the MLS and such information shall be disseminated  
+to all Participants. 
+ 
+Section 5.2.    Participant as Purchaser. 
+ 
+If a Participant or any licensee (including licensed and certified appraisers) affiliated with a Participant  
+wishes to acquire an interest in property listed with another Participant, such contemplated interest  
+shall be disclosed in writing to the listing broker not later than the time an offer to purchase is  
+submitted to the listing broker. 
+ 
+Section 5.3.    Short Sales. 
+ 
+Pursuant to Section 1.7.   If a listing broker has disclosed the potential of a short sale, the listing  
+broker may, at the listing broker’s discretion, advise other Participants whether and how any reduction 
+in the gross commission established in the listing contract,  required by the lender as a condition of  
+approving the sale, will be apportioned between listing and cooperating Participants. 
+ 
+Section 5.4.    Dual or Variable Rate Commission Agreements. 
+ 
+The existence of a dual or variable rate commission arrangement (i.e., one in which the 
+seller/landlord agrees to pay a specified commission if the property is sold/leased by the listing broker  
+without assistance and a different commission if the sale/lease results through the efforts of a 
+cooperating broker; or one in which the seller/landlord agrees to pay a specified commission if the  
+property is sold/leased by the listing broker either with or without the assistance of a cooperating 
+broker and a different commission if the sale/lease results through the efforts of a seller/landlord) 
+shall be disclosed by the listing broker by a key, code or symbol as required by the MLS.  The listing 
+broker shall, in response to inquiries from potential cooperating brokers, disclose the differential that  
+would result in either a cooperative transaction or, alternatively, in a sale/lease that results through 
+the efforts of the seller/landlord.  If the cooperating broker is a buyer/tenant representative, the 
+buyer/tenant representative must disclose such informatio n to their client before the client makes an 
+offer to purchase or lease. 
+
+As Amended By TEXAS REALTORS® Executive Board on 02/14/22 Page 12 of 27  
+Section 5.5. Display of Listing Broker’s Offer of Compensation. 
+ 
+Participants and subscribers who share the listing broker’s offer of compensation for an active listing 
+must display the following disclaimer or something similar. The listing broker’s offer of compensation 
+is made only to participants of the MLS where the listing is filed. 
+ 
+SECTION 6. SERVICE FEES AND CHARGES. 
+ 
+The Association shall charge the following service charges for operation of the MLS. The service charges 
+are subject to change from time to time. All fees are payable in advance. 
+ 
+(1) Initial Participation Fee. 
+ 
+An applicant for participation in the MLS shall pay a one time, initial participation fee in an amount  
+determined by the Executive Board of the Association plus that same amount times the number  
+of subscribers at the offices at which the Participant will access the MLS.  The initial participation 
+fee is payable at the time the Participant makes application to subscribe to the MLS. 
+ 
+(2) Recurring Participation Fee. 
+ 
+The quarterly recurring participation fee of each Participant shall be an amount determined by the 
+Executive Board of the Association plus that same amount times the number of subscribers at the  
+office at which the Participant will access the MLS.  Payment of such fees shall be made on or  
+before the first day of each quarter as determined by the MLS.  Except for the first recurring 
+participation fee, no fees are prorated or refundable once paid.  The first recurring participation  
+shall be prorated on a monthly basis. 
+ 
+However, Participants  have the option of a no- cost waiver of MLS fees, dues, and charges for 
+any licensee or  licensed or  certified appraiser who can demonstrate subscription to a different  
+CIE or MLS where the principal broker participates. The MLS requires that Participants sign a  
+certification for nonuse of its MLS services by their licensees, which can include penalties and  
+termination of the waiver if violated. 
+ 
+SECTION 7.   COMPLIANCE WITH RULES – Authority to Impose Discipline. 
+ 
+By becoming and remaining a Participant or Subscriber in this MLS, each Participant and Subscriber  
+agrees to be subject to the rules and regulations and any other MLS governance provision. The MLS  
+may, through the administrative and hearing procedures established in these Rules and Regulations,  
+impose discipline for violations of these Rules and Regulations and other MLS governance provisions. 
+ 
+Discipline that may be imposed may only consist of one or more of the following: 
+(a) letter of warning; 
+(b) letter of reprimand; 
+(c) attendance at MLS orientation or other appropriate course or seminar which the Participant or 
+Subscriber can reasonably attend taking into consideration cost, location, and duration: 
+(c) appropriate, reasonable fine not to exceed $15,000*; 
+(d) suspension of MLS rights, privileges and services for not less than thirty (30) days nor 
+more than one (1) year; or 
+(e) termination of MLS rights, privileges, and services with no right to reapply for a specified 
+period not to exceed three (3) years. 
+ 
+*Fines imposed are subject to the guidelines  attached in the MLS Schedule of Fines for Administrative  
+Sanctions. 
+
+As Amended By TEXAS REALTORS® Executive Board on 02/14/22 Page 13 of 27  
+Note 1: A Participant (or user/Subscriber, where appropriate) can be placed on probation.  Probation is 
+not a form of discipline. When a Participant (or user/Subscriber, where appropriate) is placed on 
+probation the discipline is held in abeyance for a stipulated period of time not longer than one (1) year.  
+Any subsequent finding of a violation of the MLS rules  during the probationary period  may, at the  
+discretion of the chief executive officer (CEO) of the Association, result in the imposition of the suspended 
+discipline. Absent any subsequent findings of a violation during the probationary period, both the 
+probationary status and the suspended discipline are considered f ulfilled, and the individual’s record will 
+reflect the fulfillment.  The fact that one or more forms of discipline are held in abeyance during the 
+probationary period does not bar imposition of other forms of discipline which will not be held in 
+abeyance. 
+ 
+Note 2: MLS Participants and Subscribers can receive no more than three (3) administrative sanctions in 
+a calendar year before they are required to attend a hearing before the Texas REALTORS® Professional  
+Standards Committee for their actions and potential  violations of MLS rules, except that the MLS may  
+allow more administrative sanctions for violations of listing information provided by  participants and 
+subscribers before requiring a hearing. The MLS must send a copy of all administrative sanctions against  
+a subscriber to the subscriber’s participant and the participant is required to attend the hearing of a 
+subscriber who has received more than three (3) administrative sanctions within a calendar year. 
+ 
+Section 7.1.   Compliance with Rules. 
+ 
+The following action may be taken for noncompliance with these Rules and Regulations: 
+(1) for failure to pay a service charge or fee within one (1) month of the date due, or to make good a  
+returned check or charge, and provided that at least ten (10) days’ notice has been given, the 
+Participant’s s access and use of the MLS shall be suspended until service charges or fees are 
+paid in full. 
+(2) for failure to comply with any other rule, the provisions of Section 9 and 9.1 shall apply. 
+ 
+Section 7.2.    Applicability of Rules to Users and/or Subscribers. 
+ 
+Non-principal brokers, salespersons, appraisers, and others authorized to have access to information 
+published by the MLS are subject to these Rules and Regulations and may be disciplined for 
+violations of these Rules and Regulations provided that the user or subscriber has signed an 
+agreement acknowledging that access to and use of MLS information is contingent on compliance 
+with the Rules and Regulations.   Further, failure of any user or subscriber to abide by these Rules  
+and Regulations and/or any sanction imposed for violations of these Rules and Regulations can 
+subject the Participant to the same or other discipline. This provision does not eliminate the 
+Participant’s ultimate responsibility and accountability for all users or subscribers affiliated with the 
+Participant. 
+ 
+SECTION 8.  RESERVED. 
+ 
+SECTION 9.   CONSIDERATION OF ALLEGED VIOLATIONS. 
+ 
+The Association, through its chief executive officer (CEO) or the CEO’s designee, shall give consideration 
+to all signed, written complaints from Participants having to do with violations of the Rules and 
+Regulations. By becoming and remaining a participant, each participant agrees to be subject to these  
+rules and regulations, the enforcement of which are at the sole discretion of the CEO or the CEO’s  
+designee. 
+
+As Amended By TEXAS REALTORS® Executive Board on 02/14/22 Page 14 of 27  
+When requested by a complainant, the MLS will process a complaint without revealing the complainant’s  
+identity. If a complaint is subsequently forwarded to a he aring, and the original complainant does not  
+consent to participate in the process, the MLS will appoint a representative to serve as the complainant. 
+ 
+Section 9.1.     Violations of Rules and Regulations. 
+ 
+If the alleged offense is a violation of these Rules and Regulations and does not involve a charge of  
+alleged unethical conduct or request for arbitration it may be administratively considered and 
+determined by the CEO, or the CEO’s designee, and if a violation is determined, the CEO or the 
+CEO’s designee may direct the imposition of sanction(s) described in Section 7, provided the 
+recipient of such sanction may request a hearing before the Texas REALTORS® Professional 
+Standards Committee in accordance with the Bylaws and Rules and Regulations of the Association 
+within twenty (20) days following receipt of the decision. 
+ 
+Section 9.2.    Complaints of Unethical Conduct. 
+ 
+All other complaints of unethical conduct shall be referred to the Texas REALTORS® Professional  
+Standards Committee for appropriate action in accordance with the procedures established by the  
+Texas REALTORS’® Bylaws and Rules and Regulations. 
+ 
+Section 9.3     Complaints of Unauthorized Use of Listing Content. 
+ 
+Any Participant, who believes another Participant has engaged in the unauthorized use or display of 
+listing content, including photographs, images, audio or video recordings, and virtual tours, shall send 
+notice of such alleged unauthorized use to the MLS. Such notice shall be in writing, specifically  
+identifying the allegedly unauthorized content, and be delivered to the MLS not more than sixty (60)  
+days after the alleged misuse was first identified. No participant may pursue action over the alleged 
+unauthorized use and display of listing content in a court of law without first completing the notice and 
+response procedures outlined in this Section 9.3 of the MLS rules. 
+ 
+Upon receiving a notice, the Association will send the notice to the Participant who is accused of 
+unauthorized use. Within (10) days from receipt, the Participant must either: 1) remove the allegedly  
+unauthorized content, or 2) provide proof to the Association that the use is authorized. Any proof 
+submitted will be considered by the CEO or the CEO’s designee, and a decision of whether it 
+establishes authority to use the listing content will be made within thirty (30) days. 
+ 
+If the CEO or the CEO’s designee determines that the use of the content was unauthorized, the CEO 
+or the CEO’s designee may issue a sanction pursuant to Section 7 of the MLS rules, including a 
+request to remove and/or stop the use of the unauthorized content within ten (10) days after  
+transmittal of the decision. If the unauthorized use stems from a violation of the MLS rules, that too  
+will be considered at the time of establishing an appropriate sanction. 
+ 
+If after ten (10) days following transmittal of the determination the alleged violation remains uncured  
+(i.e. the content is not removed or the rules violation remains uncured), then the complaining party  
+may seek action through a court of law. 
+ 
+Section 9.4 MLS Rules Violations. 
+ 
+MLS Participants may not take legal action against another Participant for alleged r ules violation(s) 
+unless the complaining participant has first exhausted the remedies provided in these rules. 
+
+As Amended By TEXAS REALTORS® Executive Board on 02/14/22 Page 15 of 27  
+SECTION 10.     CONFIDENTIALITY OF MLS INFORMATION. 
+ 
+Any information provided by the MLS to the Participants shall be considered official information of the 
+MLS. Such information shall be considered confidential and exclusively for the use of Participants and 
+real estate licensees affiliated with such Participants and those Participants who are licensed or certified  
+by an appropriate state regulatory agency to engage in the appraisal of real property and licensed or 
+certified appraisers affiliated with such Participants. 
+ 
+Section 10.1. MLS Not Responsible for Accuracy of Information. 
+ 
+THE INFORMATION PUBLISHED AND DISSEMINATED BY THE MLS IS COMMUNICATED 
+VERBATIM, WITHOUT CHANGE BY THE MLS, AS FILED WITH THE MLS BY THE PARTICIPANT.  
+THE MLS DOES NOT VERIFY SUCH INFORMATION PROVIDED AND DISCLAIMS ANY 
+RESPONSIBILITY FOR ITS ACCURACY.  EACH PARTICIPANT AGREES TO HOLD THE MLS 
+HARMLESS AGAINST ANY LIABILITY ARISING FROM ANY INACCURACY OR INADEQUACY OF  
+THE INFORMATION SUCH PARTICIPANT PROVIDES. 
+ 
+SECTION 11.      OWNERSHIP OF MLS COMPILATION AND COPYRIGHT. 
+ 
+By the act of submitting any property listing content to the MLS, the Participant represents and warrants  
+that he or she is fully authorized to license the property listing content as contemplated by and in 
+compliance with this section and these rules and regulations, and also thereby does grant to the MLS a 
+license to include the property listing content in its copyrighted MLS compilation and also in any statistical  
+report on comparables. Listing content includes, but is not limited to, photographs, images, graphics, 
+audio and video recordings, virtual tours, drawings, descriptions, remarks, narratives, pricing information,  
+and other details or information related to listed property. 
+ 
+Each Participant who submits listing content to the MLS agrees to defend and hold the MLS and every  
+other Participant harmless from and against any liability or claim arising from any inaccuracy of the 
+submitted listing content or any inadequacy of ownership, license, or title to the submitted listing content. 
+ 
+Note: The Digital Millennium Copyright Act (DMCA) is a federal copyright law that enhances the 
+penalties for copyright infringement occurring on the Internet. The law provides exemptions or “safe  
+harbors” from copyright infringement liability for online service providers (OSP) that satisfy certain criteria.  
+Courts construe the definition of “online service provider” broadly, which would likely include MLSs as well 
+as participants and subscribers hosting an IDX display. 
+ 
+One safe harbor limits the liability of an OSP that hosts a system, network or website on which Internet  
+users may post user-generated content. If an OSP complies with the provisions of this DMCA safe harbor,  
+it cannot be liable for copyright infringement if a user posts infringing material on its website. This protects  
+an OSP from incurring significant sums in copyright infringement damages, as statutory damages are as  
+high as $150,000 per work. For this reason, it is highly recommended that MLSs, participants and  
+subscribers comply with the DMCA safe harbor provisions discussed herein. 
+ 
+To qualify for this safe harbor, the OSP must: 
+1. Designate on its website and register with the Copyright Office an agent to receive takedown requests.  
+The agent could be the MLS, participant, subscriber, or other individual or entity. 
+2. Develop and post a DMCA-compliant website policy that addresses repeat offenders. 
+3. Comply with the DMCA takedown procedure. If a copyright owner submits a takedown notice to the  
+OSP, which alleges infringement of its copyright at a certain location, then the OSP must promptly  
+remove allegedly infringing material. The alleged infringer may submit a counter -notice that the OSP 
+must share with the copyright owner. If the copyright owner fails to initiate a copyright lawsuit within ten 
+(10) days, then the OSP may restore the removed material. 
+
+As Amended By TEXAS REALTORS® Executive Board on 02/14/22 Page 16 of 27  
+4. Have no actual knowledge of any complained-of infringing activity. 
+5. Not be aware of facts or circumstances from which complained-of infringing activity is apparent. 
+6. Not receive a financial benefit attributable to complained-of infringing activity when the OSP is capable 
+of controlling such activity. 
+Full compliance with these DMCA safe harbor criteria will mitigate an OSP’s copyright infringement 
+liability. For more information see 17 U.S.C. §512. 
+ 
+Section 11.1. Ownership of Data. 
+ 
+All right, title, and interest in each copy of every MLS compilation created and copyrighted by the 
+Association and in the copyrights therein, shall at all times remain vested in the Association. 
+ 
+Section 11.2. Uploading of MLS Data by the MLS. 
+ 
+The MLS may upload all information in the MLS to other listing services on the Internet (for example,  
+realtor.com) unless a Participant withholds consent.  All or part of the information may then be 
+accessed by the public. Any listing agreement that Participant uses must contain a provision 
+disclosing that the MLS may upload information about the listing to other listing services on the  
+Internet. 
+ 
+Section 11.3. Participants’ Entitlement to MLS Compilations 
+ 
+Each Participant shall be entitled to lease from the Association a number of copies of each MLS  
+compilation sufficient to provide the Participant and each person affiliated as a real estate licensee 
+(including licensed or certified appraisers) with such Participant with one copy of such compilation.  
+The Participant sh all pay for each copy the rental fee set by the Executive Vice President of the  
+Association. 
+ 
+Participants shall acquire by such lease only the right to use the MLS compilation in accordance with  
+these Rules and Regulations. 
+ 
+This section should not be construed to require the participant to lease a copy of the MLS compilation  
+for any licensee (or licensed or certified appraiser) affiliated with the participant who is engaged 
+exclusively in a specialty of the real estate business other than listing, selling, or appraising the types  
+of properties which are required to be filed with the MLS and who does not, at any time, have access  
+to or use of the MLS information or MLS facility of the association. 
+ 
+Section 11.4.   Right of Participant to MLS Data Feed of Listing Content 
+ 
+The MLS must, upon request, promptly provide a Participant (or the Participant’s designee) a data 
+feed containing, at minimum, all active MLS listing content input into the MLS by or on behalf of the  
+Participant and all of the Partici pant’s off-market listing content available in the MLS system. The  
+delivery charges for the Participant’s listing content shall be reasonably related to the actual costs  
+incurred by the MLS. The data feed must be in compliance with the RESO Standards as pr ovided for 
+in MLS Policy Statement 7.90. 
+ 
+Note: The MLS will not limit the use of the Participant’s listing content by the Participant or the 
+Participant’s designee. 
+ 
+SECTION 12. USE & DISTRIBUTION OF COPYRIGHTED MLS COMPILATIONS. 
+ 
+Participants shall at all times maintain control over and responsibility for each copy of any MLS 
+compilation leased to them by the Association, and shall not distribute any such copies to persons other 
+
+As Amended By TEXAS REALTORS® Executive Board on 02/14/22 Page 17 of 27  
+than subscribers who are affiliated with such Participant as licensees, those individuals who are licensed 
+or certified by an appropriate state regulatory agency to engage in the appraisal of real property and any  
+other subscribers as authorized pursuant to the governing documents of the MLS.  Use of information  
+developed by or published by the MLS is strictly limited to the activities authorized under a Participant’s  
+licensure(s) or certification and unauthorized uses are prohibited.  Further, none of the foregoing is  
+intended to convey “Participation” or “Membership” or any right of access to information developed by or  
+published by the MLS where access to such information is prohibited by law. 
+ 
+Section 12.1. Display. 
+ 
+Participants and subscribers shall be permitted to display the MLS compilation to prospective 
+purchasers only in connection with their ordinary business activities of attempting to locate ready,  
+willing, and able buyers for the properties described in said MLS compilation. 
+ 
+Section 12.2. Reproduction. 
+ 
+Participants and subscribers shall not reproduce any MLS compilation or any portion thereof except 
+as provided by this section. 
+ 
+Participants or their affiliated licensees may transpose from the MLS compilation, and distribute to 
+prospective purchasers, a reasonable number of single copies of property listing data contained in the 
+MLS compilation which relate to any properties in which the prospective purchasers are or may, in the  
+judgment of the Participant or their affiliated licensees, be interested. 
+Reproductions made in accordance with this rule shall be prepared in such a fashion that the property  
+listing data of properties other than that in which the prospective purchaser has expressed interest, or  
+in which the Participant or the affiliated licensees are seeking to promote interest, does not appear on  
+such reproduction. 
+Nothing contained herein shall be construed to preclude any Participant from utilizing, displaying,  
+distributing, or reproducing property listing sheets or other compilations of data pertaining exclusively  
+to properties currently listed for sale with the Participant. 
+ 
+Any MLS information, whether provided in written or printed form, provided electronically, or provided  
+in any other form or format, is provided for the exclusive use of the Participant and subscriber s who 
+are authorized to have access to such information. Such information may not be  transmitted, 
+retransmitted or provided in any matter to any unauthorized individual, office or firm. 
+ 
+None of the foregoing shall be construed to prevent any individual legitimately in possession of 
+current listing information, “sold” information, “comparables”, or statistical information from utilizing  
+such information to support valuations on particular properties for clients and customers.  Any MLS  
+content in data feeds available to Participants for real estate brokerage purposes must also be  
+available to Participants for valuation purposes, including automated valuations. The MLS must either  
+permit use of existing data feeds, or create a separate data feed, t o satisfy this requirement. The MLS 
+may require execution of a third-party license agreement where deemed appropriate by the MLS. The  
+MLS may require Participants who will use such data feeds to pay the reasonably estimated costs  
+incurred by the MLS in adding or enhancing its downloading capacity for this purpose.  Information 
+deemed confidential may not be used as supporting documentation. Any other use of such 
+information is unauthorized and prohibited by these Rules and Regulations. 
+ 
+It is intended that the Participant be permitted to provide prospective purchasers with listing data 
+relating to properties which the prospective purchaser has a bona fide interest in purchasing or in  
+which the Participant is seeking to promote interest.  The term “reasonable”, as used herein, should 
+therefore be construed to permit only limited reproduction of property listing data intended to facilitate  
+the prospective purchasers’ decision-making process in the consideration of a purchase. Factors 
+
+As Amended By TEXAS REALTORS® Executive Board on 02/14/22 Page 18 of 27  
+which shall be considered in deciding whether the reproductions made are consistent with this intent,  
+and thus “reasonable” in number, shall include, but are not limited to, the total number of listings in 
+the MLS compilation, how closely the types of properties  contained in such listings accord with the  
+prospective purchaser’s expressed desires and ability to purchase; whether the reproductions were  
+made on a selective basis, and whether the type of properties contained in the property listing data is  
+consistent with a normal itinerary of properties which would be shown to the prospective purchaser. 
+ 
+SECTION 13.      LIMITATIONS ON USE OF MLS INFORMATION. 
+ 
+Information from MLS compilations of current listing information, from statistical reports, and from any 
+sold or comparable report of the MLS may be used by MLS Participants as the basis for aggregated 
+demonstrations of market share or comparisons of firms in public mass -media advertising or in other  
+public representations.  This authority does not convey the right to include in any such advertising or  
+representation information about the specific properties which are listed with other Participants, or which  
+were sold by other Participants (as either listing or cooperating broker). 
+ 
+However, any print or non -print forms of advertising or other forms of public representations based in 
+whole or in part on information supplied by the MLS must clearly demonstrate the period of time over  
+which such claims are based and must include the following, or substantially similar, notice: 
+ 
+“Based on information from the Multiple Listing Service of the Association for the period (date) 
+through (date). Not all brokers subscribe to the MLS.” 
+ 
+SECTION 14. INTERNET DATA EXCHANGE (IDX). 
+ 
+IDX Defined. IDX affords MLS Participants the ability to authorize limited electronic display and delivery 
+of their listings by other Participants via the following authorized mediums under the Participant’s control:  
+websites, mobile apps, and audio devices. As used throughout these rules, “display” includes “delivery” of 
+such listing. 
+ 
+Section 14.1.  Authorization. Participants’ consent for display of their listings by other Participants  
+pursuant to these rules is presumed unless the Participant provides written notic e to the MLS that the 
+Participant refuses to permit display.  A Participant may refuse permission under this paragraph either  
+on a listing- by-listing basis or on a blanket basis.  If a Participant refuses permission on a blanket  
+basis under this paragraph, t hen the refusing Participant and any associated Subscribers may not  
+download, frame or display the MLS aggregate data of other Participants.  Even where Participants  
+have given blanket authority for other Participants to display their listings on IDX sites,  such consent 
+may be withdrawn on a listing- by-listing basis where the seller has prohibited all Internet display or  
+other electronic forms of display or distribution. 
+ 
+Section 14.1.1. 
+ 
+A Participant may display the MLS aggregate data on a consumer -accessible web site, known as an 
+IDX site, of the Participant or a Subscriber associated with the Participant by: 
+ 
+(a) downloading and placing the data on the IDX site(s); or 
+(b) by framing such information on a TAR web site (if such web site is available) in compliance 
+with any state law or regulation. 
+ 
+Section 14.1.2. 
+ 
+Participants may not download any other data from the MLS except as authorized by this Section and  
+may download only the information contained in the definition of “MLS aggregate data”. 
+
+As Amended By TEXAS REALTORS® Executive Board on 02/14/22 Page 19 of 27  
+Section 14.2. Participation. 
+ 
+Participation in IDX is available to all MLS Participants who are REALTORS® who are engaged in 
+real estate brokerage and who consent to display of their listings by other Participants. 
+ 
+Section 14.2.1. 
+ 
+Participants must notify the MLS of their intention to display IDX information and must give the MLS  
+direct access for purposes of monitoring/ensuring compliance with applicable rules and policies. 
+ 
+Section 14.2.2. 
+ 
+Participants may not use IDX-provided listings for any purpose other than display as provided for in 
+these rules.  This does not require Participants to prevent indexing of IDX listings by recognized  
+search engines. 
+ 
+Section 14.2.2.1. 
+ 
+A Participant or a Subscriber may not: 
+ 
+(a) combine the MLS aggregate data with any other data except as provided in Sections 14.2.10 
+and 14.2.11; 
+(b) edit factual information from the MLS aggregate data; 
+(c) forward all or part of the MLS aggregate data to another person’s web site; 
+(d) authorize other persons to use the Participant’s or Subscriber’s password or access code; or 
+(e) permit other persons to download the MLS aggregate data without TAR’s written permission. 
+ 
+Section 14.2.3. 
+ 
+Listings, including property addresses, can be included in IDX displays except where a seller has  
+directed their listing brokers to withhold their listing or the listing’s property address from all display on 
+the Internet (including, but not limited to, publicly -accessible websites or VOWs) or other electronic  
+forms of display or distribution. 
+ 
+Section 14.2.4. 
+ 
+Participants may select the listings they choose to display on their IDX sites based only on objective 
+criteria including, but not limited to, factors such as geography or location (“uptown,” “downtown,”  
+etc.), list price, type of property (e.g., condominiums, cooperatives, single- family detached, multi - 
+family), type of listing (e.g., exclusive right -to- sell or exclusive agency). Selection of listings displayed 
+through IDX must be independently made by each Participant. 
+ 
+Section 14.2.5. 
+ 
+Participants must refresh all MLS downloads and IDX  displays automatically fed by those 
+downloads at least once every twelve (12) hours. 
+
+As Amended By TEXAS REALTORS® Executive Board on 02/14/22 Page 20 of 27  
+Section 14.2.6. 
+ 
+Except as provided in the IDX policy and these rules, an IDX site or a Participant or user operating an 
+IDX site or displaying IDX information as otherwise permitted may not distribute, provide, or make any  
+portion of the MLS database available to any person or entity. 
+ 
+Section 14.2.7. 
+ 
+Any IDX display controlled by a Participant must clearly identify the name of the brokerage firm under  
+which they operate in a readily visible color and typeface.  For purposes of the IDX policy and these  
+rules, “control” means the ability to add, delete, modify and update information as required by the IDX 
+policy and MLS rules. 
+ 
+Section 14.2.8. 
+ 
+Any IDX display controlled by a Participant or Subscriber that 
+a. allows third-parties to write comments or reviews about particular listings or displays a hyperlink 
+to such comments or reviews in immediate conjunction with particular listings, or 
+b. displays an automated estimate of the market value of the listing (or hyperlink to such estimate) in 
+immediate conjunction with the listing, 
+either or both of those features shall be disabled or  discontinued for the seller’s listings at the request 
+of the seller.  The listing broker or agent shall communicate to the MLS that the seller has elected to 
+have one or both of these features disabled or discontinued on all displays controlled by Particip ants. 
+Except for the foregoing and subject to Section 14.2.9, a Participant’s IDX display may communicate 
+the Participant’s professional judgment concerning any listing.  Nothing shall prevent an IDX display  
+from notifying its customers that a particular feature has been disabled at the request of the seller. 
+ 
+Section 14.2.9. 
+ 
+Participants shall maintain a means (e.g. e- mail address, telephone number) to receive comments  
+about the accuracy of any data or information that is added by or on behalf  of the Participant beyond  
+that supplied by the MLS and that relates to a specific property.  Participants shall correct or remove 
+any false data or information relating to a specific property upon receipt of a communication from the 
+listing broker or listing agent for the property explaining why the data or information is false. 
+However, Participants shall not be obligated to remove or correct any data or information that simply  
+reflects good faith opinion, advice, or professional judgment. 
+ 
+Section 14.2.10. 
+ 
+An MLS Participant (or where permitted locally, an MLS Subscriber) may co- mingle the listings of  
+other brokers received in an IDX feed with listings available from other MLS IDX feeds, provided all  
+such displays are consistent with the IDX rules, and the MLS Participant (or MLS Subscriber) holds  
+participatory rights in those MLSs.  As used in this policy, “co -mingling” means that consumers are  
+able to execute a single property search of multiple IDX data feeds resulting in the display of IDX  
+information from each of the MLSs on a single search results page; and that Participants may display  
+listings from each IDX feed on a single webpage or display. 
+ 
+Section 14.2.11. 
+ 
+Participants shall not modify or manipulate information relating to other Participants' listings. MLS  
+Participants may augment their IDX display of MLS data with applicable property information from 
+other sources to appear on the same webpage or display, clearly separated by the data supplied by  
+the MLS. The source(s) of the information must be clearly identified in the immediate proximity to 
+
+As Amended By TEXAS REALTORS® Executive Board on 02/14/22 Page 21 of 27  
+such data. This requirement does not restrict the format of MLS data display or display of fewer than  
+all of the available listings or fewer authorized fields. 
+ 
+Section 14.3. Display. 
+ 
+Display of listing information pursuant to IDX is subject to the following rules: 
+ 
+Section 14.3.1. 
+ 
+Listings displayed pursuant to IDX shall contain only those fields of data designated by the MLS.  
+Display of all other fields (as determined  by the MLS) is prohibited. Confidential fields  intended only 
+for other MLS Participants and users (e.g.,  showing instructions,  property security information, etc.) 
+may not be displayed. 
+ 
+Section 14.3.2. 
+ 
+All listings displayed pursuant to IDX shall identi fy the listing firm , and the email or phone number  
+provided by the listing participant  in a reasonably prominent location and in a readily visible color and  
+typeface not smaller than  the median used in the display of listing data. Displays of minimal 
+information (e.g., “thumbnails”, text messages, “tweets”, etc., of two hundred [200] characters or less) 
+are exempt from this requirement but only when linked directly to a display that includes all required 
+disclosures. For audio delivery of listing content, all  required disclosures must be subsequently 
+delivered electronically to the registered consumer performing the property search or linked to 
+through the device’s application. 
+ 
+Section 14.3.3. 
+ 
+All listings displayed pursuant to IDX shall identify the listing agent. 
+ 
+Section 14.3.4. 
+ 
+Non-principal brokers and sales licensees affiliated with IDX participants may display information  
+available through IDX on their own websites subject to their Participant’s consent and control and the  
+requirements of state law and/or regulation. 
+ 
+Section 14.3.5. 
+ 
+All listings displayed pursuant to IDX shall show the MLS as the source of the information and must  
+include the following notice: “Based on information from the Multiple Listing Service of the Association 
+for the period (date) through (date).” and “All information provided is deemed reliable but is not  
+guaranteed and should be independently verified. The Association provides the MLS and all content  
+therein “AS IS” and without any warranty, express or implied.”  Displays of minimal information (e.g.  
+“thumbnails”, text messages, “tweets”, etc., of two hundred [200] characters or less are exempt from 
+this requirement but only when linked directly to a display that includes all required disclosures. For  
+audio delivery of listing content, all required disclosures must be subsequently delivered electronically  
+to the registered consumer performing the property search or linked to through the device’s 
+application. 
+ 
+Section 14.3.6. 
+ 
+All listings displayed pursuant to IDX shall notify readers of the MLS aggregate data that the MLS  
+aggregate data is a copyright of Texas REALTORS® and that the reader may not reproduce or  
+distribute the MLS aggregate data. Displays of minimal information (e.g., “thumbnails”, text 
+
+As Amended By TEXAS REALTORS® Executive Board on 02/14/22 Page 22 of 27  
+messages, “tweets”, etc., of two hundred [200] characters or less) are exempt from this requirement  
+but only when linked directly to a display that includes all required disclosures. For audio delivery of  
+listing content, all required disclosures must be subsequently delivered electronically to the registered 
+consumer performing the property search or linked to through the device’s application. 
+ 
+Section 14.3.7. 
+ 
+Participants (and their affiliated licensees, if applicable) shall indicate on their websites that IDX  
+information is provided exclusively for consumers’ personal, noncommercial use, that it may not be 
+used for any purpose other than to identify prospective properties consumers may be interested in  
+purchasing, and that the data is deemed reliable but is not guaranteed accurate by the MLS. The 
+MLS may, at its discretion, require use of other disclaimers as necessary to protect  Participants 
+and/or the MLS from liability.  Displays of minimal information (e.g., “thumbnails”, t ext messages,  
+“tweets”, etc., of two hundred [200] characters or less) are exempt from this requirement but only  
+when linked directly to a display that includes all required disclosures. For audio delivery of listing  
+content, all required disclosures must be subsequently delivered electronically to the registered 
+consumer performing the property search or linked to through the device’s application. 
+ 
+Section 14.3.8. 
+ 
+Listings obtained through IDX feeds from REALTOR® Association MLSs where the MLS Participant  
+holds participatory rights must be displayed separately from listings obtained from other sources.  
+Listings obtained from other sources (e.g., from other MLSs, from non-participating brokers, etc.) 
+must display the source from which each such listing was obtained. Displays of minimal information 
+(e.g., “thumbnails”, text messages, “tweets”, etc., of two hundred [200] characters or less) are exempt 
+from this requirement but only when linked directly to a display that includes all required disclosures.  
+For audio delivery of listing content, all required disclosures must be subsequently delivered 
+electronically to the registered consumer performing the property search or linked to through the 
+device’s application. 
+ 
+Note: An MLS Participant (or wher e permitted locally, an MLS subscriber) may co- mingle the listings 
+of other brokers received in an IDX feed with listings available from other MLS IDX feeds, provided all  
+such displays are consistent with the IDX rules, and the MLS Participant (or MLS subs criber) holds 
+participatory rights in those MLSs. As used in this policy, “co- mingling” means that consumers are  
+able to execute a single property search of multiple IDX data feeds resulting in the display of IDX  
+information from each of the MLSs on a single search results page; and that Participants may display  
+listings from each IDX feed on a single webpage or display. 
+ 
+Section 14.3.9. 
+ 
+Display of expired and withdrawn listings is prohibited. 
+ 
+Section 14.3.10. 
+ 
+Display of seller’s(s’) and/or occupant’s(s’) name(s), phone number(s), and e-mail address(es) is 
+prohibited. 
+ 
+Section 14.3.11. 
+ 
+Deceptive or misleading advertising (including co- branding) on pages displaying IDX-provided listings 
+is prohibited. For purposes of these rules, co- branding will be presumed not to be deceptive or  
+misleading if the Participant’s logo and contact information is larger than that of any third party. 
+
+As Amended By TEXAS REALTORS® Executive Board on 02/14/22 Page 23 of 27  
+SECTION 15. VIRTUAL OFFICE WEBSITES (VOWs) 
+ 
+Section 15.1. 
+ 
+(a) A Virtual Office Website (“VOW”) is a Participant’s Internet website, or a feature of a 
+Participant’s website, through which the Participant is capable of providing real estate 
+brokerage services to consumers with whom the Participant has first established a broker - 
+consumer relationship (as defined by state law) where the consumer has the opportunity to 
+search MLS Listing Information, subject to the Participant’s oversight, supervision, and 
+accountability. A non-principal broker or sales licensee affiliated with a Participant may, with 
+his or her Participant’s consent, operate a VOW. Any VOW of a non -principal broker or sales  
+licensee is subject to the Participant’s oversight, supervision, and accountability. 
+ 
+(b) As used in Section 15 of these Rules, the term “Participant” includes a Participant’s affiliated 
+non-principal brokers and sales licensees –  except when the term is used in the phrases  
+“Participant’s consent” and “Participant’s oversight, supervision, and accountability”. 
+References to “VOW” and “VOWs” include all VOWs, whether operated by a Participant, by a 
+non-principal broker or sales licensee, or by an Affiliated VOW Partner (“AVP”) on behalf of a 
+Participant. 
+ 
+(c) “Affiliated VOW Partner” (“AVP”) refers to an entity or person designated by a Participant to  
+operate a VOW on behalf of the Participant, subject to the Participant’s supervision, 
+accountability and compliance with the VOW Policy. No AVP has independent participation  
+rights in the MLS by virtue of its right to receive information on behalf of a Participant. No 
+AVP has the ri ght to use MLS Listing Information except in connection with operation of a 
+VOW on behalf of one or more Participants.  Access by an AVP to MLS Listing Information is  
+derivative of the rights of the Participant on whose behalf the AVP operates a VOW. 
+ 
+(d)  As used in Section 15 of these Rules, the term “MLS Listing Information” refers to active 
+listing information and sold data provided by Participants to the MLS and aggregated and  
+distributed by the MLS to Participants. 
+ 
+Section 15.2. 
+ 
+(a) The right of a Participant’s VOW to display MLS Listing Information is limited to that supplied  
+by the MLS(s) in which the Participant has participatory rights.  However, a Participant with 
+offices participating in different MLSs may operate a master website with links to the VOWs 
+of the other offices. 
+ 
+(b) Subject to the provisions of the VOW Policy and these Rules, a Participant’s VOW, including  
+any VOW operated on behalf of a Participant by an AVP, may provide other features, 
+information, or functions, e.g. Internet Data Exchange (“IDX”). 
+ 
+(c) Except as otherwise provided in the VOW Policy or in these Rules, a Participant need not  
+obtain separate permission from other MLS Participants whose listings will be displayed on 
+the Participant’s VOW. 
+ 
+Section 15.3 
+ 
+(a) Before permitting any consumer to search for or retrieve any MLS Listing Information on his  
+or her VOW, the Participant must take each of the following steps: 
+
+As Amended By TEXAS REALTORS® Executive Board on 02/14/22 Page 24 of 27  
+(i) The Participant must first establish with that consumer a lawful broker-consumer 
+relationship (as defined by state law), including completion of all actions required by state  
+law in connection with providing real estate brokerage services to clients and customers  
+(hereinafter “Registrants”). Such actions shall include, but are not limited to, satisfying all  
+applicable agency, non- agency, and other disclosure obligations, and execution of any  
+required agreements. 
+ 
+(ii) The Participant must obtain the name of, and a valid email address for, each Registrant.  
+The Participant must send an email to the address provided by the Registrant confirming  
+that the Registrant has agreed to the Terms of Use (described in subsection (d) below).  
+The Participant must verify that the email address provided by the Registrant is valid and  
+that the Registrant has agreed to the Terms of Use. 
+ 
+(iii) The Participant must require each Registrant to have a user name and a password, the 
+combination of which is different from those of all other Registrants on the VOW. The 
+Participant may, at his or her option, supply the user name and password or may allow  
+the Registrant to establish its user name and password.   The Participant must also 
+assure that any email address is associated with only one user name and password. 
+ 
+(b) The Participant must assure that each Registrant’s password expires on a date certain but  
+may provide for renewal of the password. The Participant must at all times maintain a record 
+of the name, email address, user name, and current password of each Registrant.  The 
+Participant must keep such records for not less than 180 days after the expiration of the  
+validity of the Registrant’s password. 
+ 
+(c) If the MLS has reason to believe that a Participant’s VOW has caused or permitted a breach  
+in the security of MLS Listing Information or a violation of MLS rules, the Participant shall,  
+upon request of the MLS, provide the name, email address, user name, and current 
+password, of any Registrant suspected of involvement in the breach or violation. The 
+Participant shall also, if requested by the MLS, provide an audit trail of activity by any such  
+Registrant. 
+ 
+(d) The Participant shall require each Registrant to review, and affirmatively to express  
+agreement (by mouse click or otherwise) to, a “Terms of Use” provision that provides at least 
+the following: 
+ 
+i. That the Registrant acknowledges entering into a lawful consumer-broker relationship 
+with the Participant; 
+ 
+ii. That all information obtained by the Registrant from the VOW is intended only for the 
+Registrant’s personal, non-commercial use; 
+ 
+iii. That the Registrant has a bona fide interest in the purchase, sale, or lease of real estate 
+of the type being offered through the VOW; 
+iv. That the Registrant will not copy, redistribute, or retransmit any of the information  
+provided except in connection with the Registrant’s consideration of the purchase or sale 
+of an individual property; 
+ 
+v. That the Registrant acknowledges the MLS’s ownership of, and the validity of the MLS’s 
+copyright in, the MLS database. 
+ 
+(e) The Terms of Use Agreement may not impose a financial obligation on the Registrant or 
+create any representation agreement between the Registrant and the Participant. Any 
+
+As Amended By TEXAS REALTORS® Executive Board on 02/14/22 Page 25 of 27  
+Seller Opt-Out Form 
+ 
+1. Please check either Option a or Option b 
+ 
+a. [ ] I have advised my broker or sales agent that I do not want the listed property to be displayed 
+on the Internet. 
+ 
+OR 
+ 
+b. [ ] I have advised my broker or sales agent that I do not want the address of the listed property to 
+be displayed on the Internet. 
+agreement entered into at any time between the Participant and Registrant imposing a 
+financial obligation on the Registrant or creating representation of the Registrant by the  
+Participant must be established separately from the Terms of Use, must be prominently  
+labeled as such, and may not be accepted solely by mouse click. 
+ 
+(f) The Terms of Use Agreement shall also expressly authorize the MLS, and other MLS 
+Participants or their duly authorized representatives, to access the VOW for the purposes of  
+verifying compliance with MLS rules and monitoring display of Participants’ listings by the 
+VOW. The Agreement may also include such other provisions as may be agreed to between 
+the Participant and the Registrant. 
+ 
+Section 15.4. 
+ 
+A Participant’s VOW must prominently display an e -mail address, telephone number, or specific  
+identification of another mode of communication (e.g., live chat) by which a consumer can contact the  
+Participant to ask questions, or get more information, about any property displayed on the VOW.  The 
+Participant, or a non- principal broker or sales licensee licensed with the Participant, must be willing  
+and able to respond knowledgeably to inquiries from Registrants about properties within the market  
+area served by that Participant and displayed on the VOW. 
+ 
+Section 15.5. 
+A Participant’s VOW must employ reasonable efforts to monitor for, and prevent, misappropriation,  
+“scraping”, and other unauthorized use of MLS Listing Information.  A Participant’s VOW shall utilize 
+appropriate security protection such as firewalls as long as this requirement does not impose security  
+obligations greater than those employed concurrently by the MLS. 
+ 
+Section 15.6. 
+ 
+(a) A Participant’s VOW shall not display listings or property addresses of any seller who has  
+affirmatively directed the listing broker to withhold the seller’s listing or property address f rom 
+display on the Internet. The listing broker shall communicate to the MLS that the seller has  
+elected not to permit display of the listing or property address on the Internet. 
+Notwithstanding the foregoing, a Participant who operates a VOW may provide t o consumers 
+via other delivery mechanisms, such as email, fax, or otherwise, the listings of sellers who  
+have determined not to have the listing for their property displayed on the Internet. 
+ 
+(b) A Participant who lists a property for a seller who has elected not to have the property listing  
+or the property address displayed on the Internet shall cause the seller to execute a 
+document that includes the following (or a substantially similar) provision: 
+ 
+
+As Amended By TEXAS REALTORS® Executive Board on 02/14/22 Page 26 of 27  
+ 
+ 
+(c) The Participant shall retain such forms for at least one year from the date they are signed, or  
+one (1) year from the date the listing goes off the market, whichever is greater. 
+ 
+Section 15.7. 
+ 
+(a) Subject to subsection (b), a Participant’s VOW may allow third-parties (i) to write comments 
+or reviews about particular listings or display a hyperlink to such comments or reviews in  
+immediate conjunction with particu lar listings, or (ii) display an automated estimate of the  
+market value of the listing (or hyperlink to such estimate) in immediate conjunction with the 
+listing. 
+ 
+(b) Notwithstanding the foregoing, at the request of a seller the Participant shall disable or  
+discontinue either or both of those features described in subsection (a) as to any listing of the 
+seller. The listing broker or agent shall communicate to the MLS that the seller has elected to 
+have one or both of these features disabled or disc ontinued on all Participants’ websites.  
+Subject to the foregoing and to Section 15.8, a Participant’s VOW may communicate the 
+Participant’s professional judgment concerning any listing.   A Participant’s VOW may notify  
+its customers that a particular feature has been disabled "at the request of the seller." 
+ 
+Section 15.8. 
+ 
+A Participant’s VOW shall maintain a means (e.g., e- mail address, telephone number) to receive 
+comments from the listing broker about the accuracy of any information that is added by or on behalf  
+of the Participant beyond that supplied by the MLS and that relates to a specific property displayed on  
+the VOW. The Participant shall correct or remove any false information relating to a specific property  
+within forty-eight (48) hours following receipt of a communication from the listing broker explaining 
+why the data or information is false. The Participant shall not, however, be obligated to correct or  
+remove any data or information that simply reflects good faith opinion, advice, or professional 
+judgment. 
+ 
+Section 15.9. 
+ 
+A Participant shall cause the MLS Listing Information available on its VOW to be refreshed at least  
+once every three (3) days. 
+ 
+Section 15.10. 
+ 
+Except as provided in these rules, the NATIONAL ASSOCIATION OF REALTORS ® VOW Policy, or 
+any other applicable MLS rules or policies, no Participant shall distribute, provide, or make accessible 
+any portion of the MLS Listing Information to any person or entity. 
+ 
+ 
+2. I understand and acknowledge that, if I have selected option a, consumers who conduct searches  
+for listings on the Internet will not see information about the listed property in response to their  
+search. 
+ 
+ 
+Initials of seller 
+
+As Amended By TEXAS REALTORS® Executive Board on 02/14/22 Page 27 of 27  
+Section 15.11. 
+ 
+A Participant’s VOW must display the Participant’s privacy policy informing Registrants of all of the 
+ways in which information that they provide may be used. 
+ 
+Section 15.12. 
+ 
+A Participant’s VOW may exclude listings from display based only on objective criteria, including, but  
+not limited to, factors such as geography, list price, type of property. 
+ 
+Section 15.13. 
+ 
+A Participant who intends to operate a VOW to display MLS Listing Information must notify the MLS 
+of its intention to establish a VOW and must make the VOW readily accessible to the MLS and to all  
+MLS Participants for purposes of verifying compliance with these Rules, the VOW Policy, and any  
+other applicable MLS rules or policies. 
+ 
+Section 15.14. 
+ 
+A Participant may operate more than one VOW himself or herself or through an AVP.  A Participant 
+who operates his or her own VOW may contract with an AVP to have the AVP operate other VOWs 
+on his or her behalf.  However, any VOW operated on behalf of a Participant by an AVP is subject to 
+the supervision and accountability of the Participant. 
+ 
+Section 15.15. 
+ 
+A Participant shall limit the number of listings that a Registrant may view, retrieve, or download to not  
+more than five hundred (500) of the current listings and not more than five hundred (500) of the sold 
+listings in response to any inquiry. 
+ 
+Section 15.16. 
+ 
+A Participant shall require that Registrant’s passwords be reconfirmed or changed every ninety (90) 
+days. 
+ 
+SECTION 16. CHANGES IN RULES AND REGULATIONS. 
+ 
+Amendments to these Rules and Regulations are effective upon approval by the Executive Board of the 
+Board of Directors of the Association. 
+ 
+ 
+SECTION 17. STANDARDS OF CONDUCT FOR MLS PARTICIPANTS. 
+ 
+All Participants and Subscribers who are REALTORS® must comply with the Code of Ethics of the 
+National Association of REALTORS®. 
+
+ 
+ 
+ 
+MLS Schedule of Fines for Administrative Sanctions 
+ 
+ 
+MLS Rules 
+ 
+Fine 
+Listing Procedures 
+Failure to submit a required 
+listing to the MLS 
+Section 1 - Listing Procedures, 
+Section 1.01 - Clear Cooperation, 
+Section 1.3 - Exempted Listings, 
+Section 1.12 - Service Area 
+$100 
+Failure to submit accurate and 
+complete listing information 
+Section 1.2 - Detail on Listings Filed with the Service, 
+Section 1.11 - Expiration, Extension, and Renewal 
+of Listings, 
+Section 1.12 - Termination Dates on Listings 
+$100 
+Failure to report and update 
+listing information 
+Section 1.4 - Change of Status of Listing, 
+Section 1.5 - Withdrawal of Listing Prior to, 
+Section 1.6 - Contingencies Applicable to Listings, 
+Section 1.7 - Potential Short Sale 
+Disclosure, 
+Section 1.8 - Listing Price Specified, 
+Section 2.5 - Reporting Sales to the Service, 
+Section 2.6 - Reporting Resolutions of Contingencies, 
+Section 2.8 - Reporting Cancellation of Pending Sale 
+$250 
+Failure to list 
+properties separately 
+Section 1.9 - Listing Multiple Unit Properties $100 
+Selling Procedures 
+Failure to follow showing 
+instructions 
+Section 2 - Showings $100 
+Failure to present an offer or 
+provide written confirmation of 
+an offer being submitted 
+Section 2.1 - Presentation of Offers, 
+Section 2.2 - Submission of Written Offers 
+Section 2.3 - Right of Cooperating Broker in 
+Presentation of Offer, 
+Section 2.4 - Right of Listing Broker in Presentation 
+of Counter-offer, 
+$100 
+Advertising a listing without 
+authority 
+Section 2.7 - Advertising of Listings Filed with the 
+Service 
+$100 
+Failure to disclose existence of an 
+offer 
+Section 2.9 - Disclosing the Existence of Offers $100 
+To misrepresent access to, and the 
+ability to show, a property 
+Section 2.10 - Availability of Listed Property $100 
+Failure to inform participants of a 
+rejected offer satisfying the 
+terms of the listing contract 
+Section 3 - Refusal to Sell $100 
+Providing MLS information to 
+brokers or firms that do not 
+participate in MLS 
+Section 4 - Information for Participants Only $100 
+1 
+
+
+ 
+Violation of for sale and sold 
+sign rules 
+Section 4.1 - For Sale Signs, 
+Section 4.2 - Sold Signs 
+$100 
+Unauthorized solicitation of seller Section 4.3 - Solicitation of Listing Filed with 
+the Service 
+$100 
+Misuse of terms MLS and 
+multiple listing service 
+Section 4.4 - Use of Terms MLS and Multiple Listing 
+Service 
+$100 
+Failure to include cooperative 
+compensation 
+Section 5 - Compensation Specified on Each Listing $250 
+Failure to disclose Potential 
+short sales 
+Section 5.3 - Short Sales $100 
+Failure to disclose status as a 
+principal or purchaser 
+Section 5.1 - Participant as Principal, 
+Section 5.2 - Participant as Purchaser 
+$100 
+Service Charges 
+Failure to pay MLS Dues, 
+Fees and Changes 
+Section 6 - Service Fees and Charges $100 
+Confidentiality of MLS Information 
+Misuse or unauthorized 
+distribution of MLS content 
+Section10 - Confidentiality of MLS Information, 
+Section 12 - Distribution, 
+Section 12.1 - Display, 
+Section 12.2 - Reproduction, 
+Section 13 - Limitations on Use of MLS Information 
+$500 
+Internet Data Exchange (IDX) 
+Failure to notify and provide 
+access to an IDX display 
+Section 14.2.1 $100 
+Misuse of IDX content Sections 14.2.2 and 14.2.2.1 $100 
+Failure to withhold listing 
+or property address per 
+seller’s instructions 
+Section 14.2.3 $100 
+Failure to refresh download 
+within 12 hours 
+Section 14.2.5 $100 
+Unauthorized distribution of 
+MLS database 
+Section 14.2.6 $100 
+Failure to disclose the name of the 
+brokerage firm 
+Section 14.2.7 $100 
+Failure to disable third-party 
+comments and AVMs 
+Section 14.2.8 $100 
+Failure to include email address 
+or telephone number for 
+displaying broker, or to correct 
+false data 
+Section 14.2.9 $100 
+Modifying or manipulating other 
+participants listings 
+Section 14.2.11 $100 
+Failure to identify the listing firm Section 14.3.2 $100 
+Display of prohibited fields Section 14.3.1 $100 
+Failure to identify the 
+listing agent 
+Section 14.3.3 $100 
+Subscriber s display of 
+IDX content without 
+participant’s consent 
+Section 14.3.4 $100 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+2 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+Failure to include the MLS as the 
+source of the information 
+Section 14.3.5 $100 
+Failure to include required 
+disclaimers 
+Sections 14.3.6 and 14.3.7 $100 
+Failure to separate displays from 
+other sources 
+Section 14.3.8 $100 
+Displaying prohibited statuses and 
+sellers/occupant information 
+Section 14.3.9, 
+Section 14.10 
+$100 
+Failure to comply with the MLS s 
+advertising rule on pages with IDX 
+listings 
+Section 14.3.11 $100 
+Virtual Office Websites (VOWs) 
+Failure to establish a 
+broker-consumer relationship, 
+or to receive participant consent 
+for non-principal display 
+Section 15.1 $100 
+Failure to obtain a name, email 
+address, user name, and password 
+for registrants 
+Section 15.3 a. ii. and iii. $100 
+Failure to expire passwords 
+for registrants or to keep records 
+for not less than 180 days 
+after expiration 
+Section 15.3 b. $100 
+Failure to provide the name, email 
+address, user name and current 
+password for alleged breach 
+of MLS listing information or 
+violation of MLS rules 
+Section 15.3 c. $100 
+Failure to require registrant 
+to agreement to required 
+terms of use 
+Section 15.3 d. $100 
+Failure to display broker's contact 
+information or the respond to 
+registrant inquiries. 
+Section 15.4 $100 
+Failure to monitor or prevent 
+misappropriation, scraping, or 
+other unauthorized uses of MLS 
+information 
+Section 15.5 $100 
+Displaying seller address when 
+unauthorized 
+Section 15.6 a. $100 
+Failure to execute a seller opt- 
+out form when required, or 
+retain the form for 1 year 
+Section 15.6 b. and c. $100 
+Failure to disable third-party 
+comments and AVMs 
+Section 15.7 a. and b. $100 
+Failure to include email address 
+or telephone number for 
+displaying broker, or to correct 
+false data within 48 hours 
+Section 15.8 $100 
+Failure to refresh VOW data feed 
+within 3 days 
+Section 15.9 $100 
+Unauthorized access to VOW 
+content 
+Section 15.10 $100 
+ 
+3 
+
+ 
+ 
+Failure to display participant’s 
+privacy policy 
+Section 15.11 $100 
+Failure to notify and provide 
+access to an IDX display 
+Section 15.13 $100 
+Exceeding the number of listings to 
+consumer inquiries 
+Section 15.15 $100 
+Failure to require registrant’s 
+passwords be changed 
+Section 15.16 $100 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+4 

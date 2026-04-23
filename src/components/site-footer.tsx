@@ -108,6 +108,22 @@ export function SiteFooter() {
                 <li>
                   <Link
                     className="text-white/70 hover:text-white"
+                    href="/resources/legal/mls-rule-schedule-of-fines"
+                  >
+                    MLS Rule Schedule of Fines
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="text-white/70 hover:text-white"
+                    href="/resources/legal/mls-rules-and-regulations"
+                  >
+                    MLS Rules and Regulations
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="text-white/70 hover:text-white"
                     href="/resources/legal/privacy"
                   >
                     Privacy
