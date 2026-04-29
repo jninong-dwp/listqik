@@ -62,7 +62,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
         </h1>
         <p className="mt-2 max-w-2xl text-sm text-white/75">
           Manage your MLS-ready listing details, status, and documents. This workspace is modeled after a broker seller
-          portal (similar in spirit to ListWithFreedom.com).
+          portal.
         </p>
         <div className="mt-8">{children}</div>
       </div>
