@@ -53,6 +53,7 @@ const existingByName = new Map(
 );
 
 const createdOrFound = {};
+const planPriceIds = {};
 
 for (const plan of plans) {
   let product = existingByName.get(plan.name.toLowerCase());
@@ -94,11 +95,14 @@ for (const plan of plans) {
       { preferredTokenType: "location" },
     );
     console.log(`Created price: ${plan.name} (${newPrice._id})`);
+    planPriceIds[plan.slug] = newPrice._id;
   } else {
     console.log(`Found matching price: ${plan.name} (${matchingPrice._id})`);
+    planPriceIds[plan.slug] = matchingPrice._id;
   }
 
   createdOrFound[plan.slug] = product._id;
 }
 
 console.log(`PLAN_PRODUCT_IDS_JSON=${JSON.stringify(createdOrFound)}`);
+console.log(`PLAN_PRICE_IDS_JSON=${JSON.stringify(planPriceIds)}`);

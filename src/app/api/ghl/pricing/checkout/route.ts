@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { createGhlClient } from "@/lib/ghl-client";
 
 type CheckoutPayload = {
   source?: string;
@@ -46,6 +47,52 @@ function parsePlanProductIds(raw: string | undefined): Record<string, string> {
     return out;
   } catch {
     return {};
+  }
+}
+
+function parseStringMap(raw: string | undefined): Record<string, string> {
+  if (!raw?.trim()) return {};
+  try {
+    const parsed = JSON.parse(raw) as unknown;
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return {};
+    const out: Record<string, string> = {};
+    for (const [key, value] of Object.entries(parsed as Record<string, unknown>)) {
+      if (typeof value === "string" && value.trim()) out[key] = value.trim();
+    }
+    return out;
+  } catch {
+    return {};
+  }
+}
+
+async function firstPriceIdForProduct(productId: string): Promise<string | null> {
+  const locationId = process.env.GHL_LOCATION_ID?.trim();
+  const ghl = createGhlClient();
+  if (!locationId || !ghl) return null;
+  try {
+    const prices = await ghl.products.listPricesForProduct(
+      { productId, locationId, limit: 10, offset: 0 },
+      { preferredTokenType: "location" },
+    );
+    const first = prices.prices?.[0];
+    return first?._id ?? null;
+  } catch {
+    return null;
+  }
+}
+
+async function priceIdsForProduct(productId: string): Promise<string[]> {
+  const locationId = process.env.GHL_LOCATION_ID?.trim();
+  const ghl = createGhlClient();
+  if (!locationId || !ghl) return [];
+  try {
+    const prices = await ghl.products.listPricesForProduct(
+      { productId, locationId, limit: 50, offset: 0 },
+      { preferredTokenType: "location" },
+    );
+    return (prices.prices ?? []).map((p) => p._id).filter((v): v is string => Boolean(v));
+  } catch {
+    return [];
   }
 }
 
@@ -111,11 +158,41 @@ export async function POST(req: Request) {
     });
   }
 
-  const upgradeIds = (payload.upgrades ?? [])
-    .map((u) => u.ghlProductId)
-    .filter((v): v is string => typeof v === "string" && v.length > 0);
   const planProductIds = parsePlanProductIds(process.env.GHL_PLAN_PRODUCT_IDS);
   const planProductId = planProductIds[planSlug];
+  const upgradePriceIdsMap = parseStringMap(process.env.GHL_UPGRADE_PRICE_IDS);
+  const planPriceIdsMap = parseStringMap(process.env.GHL_PLAN_PRICE_IDS);
+  const productPriceCache = new Map<string, string[]>();
+
+  let planPriceId: string | undefined = planPriceIdsMap[planSlug];
+  if (!planPriceId && planProductId) {
+    planPriceId = (await firstPriceIdForProduct(planProductId)) || undefined;
+  }
+
+  const upgradePriceIds: string[] = [];
+  for (const upgrade of payload.upgrades ?? []) {
+    const slug = upgrade.slug?.trim();
+    const productId = upgrade.ghlProductId?.trim();
+    let priceId: string | undefined;
+    const mapped = slug ? upgradePriceIdsMap[slug] : undefined;
+    if (productId) {
+      let knownPriceIds = productPriceCache.get(productId);
+      if (!knownPriceIds) {
+        knownPriceIds = await priceIdsForProduct(productId);
+        productPriceCache.set(productId, knownPriceIds);
+      }
+      if (mapped && knownPriceIds.includes(mapped)) {
+        priceId = mapped;
+      } else if (knownPriceIds.length > 0) {
+        priceId = knownPriceIds[0];
+      } else {
+        priceId = (await firstPriceIdForProduct(productId)) ?? undefined;
+      }
+    } else if (mapped) {
+      priceId = mapped;
+    }
+    if (priceId) upgradePriceIds.push(priceId);
+  }
 
   const url = new URL(checkoutBase);
   url.searchParams.set("plan", planSlug);
@@ -124,7 +201,7 @@ export async function POST(req: Request) {
   url.searchParams.set("phone", phone);
   url.searchParams.set("address", address);
   url.searchParams.set("propertyType", propertyType);
-  const products = [...new Set([planProductId, ...upgradeIds].filter(Boolean))];
+  const products = [...new Set([planPriceId, ...upgradePriceIds].filter(Boolean))];
   if (products.length > 0) {
     url.searchParams.set("products", products.join(","));
   }
@@ -133,8 +210,8 @@ export async function POST(req: Request) {
     ok: true,
     checkoutUrl: url.toString(),
     warning:
-      !planProductId && Object.keys(planProductIds).length > 0
-        ? `No mapped GHL plan product for '${planSlug}' in GHL_PLAN_PRODUCT_IDS.`
+      !planPriceId
+        ? `No mapped plan price id for '${planSlug}'. Set GHL_PLAN_PRICE_IDS or ensure GHL plan products have prices.`
         : undefined,
   });
 }
