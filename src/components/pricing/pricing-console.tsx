@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { signIn } from "next-auth/react";
 import { CockpitGauge } from "@/components/cockpit-gauge";
 import { Container } from "@/components/container";
 import {
@@ -167,8 +166,6 @@ type WizardState = {
   propertyType: PropertyType | "";
   selectedUpgrades: string[];
   agreementAccepted: boolean;
-  password: string;
-  passwordConfirm: string;
 };
 
 const initialState: WizardState = {
@@ -186,8 +183,6 @@ const initialState: WizardState = {
   propertyType: "",
   selectedUpgrades: [],
   agreementAccepted: false,
-  password: "",
-  passwordConfirm: "",
 };
 
 export function PricingConsole() {
@@ -282,32 +277,27 @@ export function PricingConsole() {
     );
   }
 
-  function canSubmitIntake() {
-    return (
-      wizard.agreementAccepted &&
-      wizard.password.length >= 8 &&
-      wizard.passwordConfirm.length >= 8 &&
-      wizard.password === wizard.passwordConfirm
-    );
+  function canProceedToCheckout() {
+    return wizard.agreementAccepted;
   }
 
-  async function submitIntakeAndCreateAccount() {
+  async function submitGhlCheckout() {
     if (!wizard.plan || !wizard.propertyType) return;
     setSubmitting(true);
     setError("");
 
     const payload = {
-      agreementAccepted: wizard.agreementAccepted,
-      account: {
-        fullName: wizard.fullName.trim(),
-        email: wizard.email.trim(),
-        phone: wizard.phone.trim(),
-        password: wizard.password,
-      },
+      source: "pricing-wizard",
       plan: {
         id: wizard.plan.id,
         name: wizard.plan.name,
         price: wizard.plan.price,
+        closeFee: wizard.plan.closeFee,
+      },
+      contact: {
+        fullName: wizard.fullName.trim(),
+        email: wizard.email.trim(),
+        phone: wizard.phone.trim(),
       },
       property: {
         address: wizard.propertyAddress.trim(),
@@ -326,7 +316,7 @@ export function PricingConsole() {
       })),
     };
 
-    const res = await fetch("/api/pricing/intake/complete", {
+    const res = await fetch("/api/ghl/pricing/checkout", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(payload),
@@ -334,33 +324,36 @@ export function PricingConsole() {
 
     if (!res) {
       setSubmitting(false);
-      setError("Network error while creating account.");
+      setError("Network error while starting checkout.");
       return;
     }
 
     const data = (await res.json().catch(() => null)) as
-      | { ok: boolean; error?: string }
+      | {
+          ok: boolean;
+          error?: string;
+          checkoutUrl?: string | null;
+          warning?: string;
+          details?: string;
+        }
       | null;
+
     if (!res.ok || !data?.ok) {
       setSubmitting(false);
-      setError(data?.error || "Could not complete intake.");
+      setError(data?.error || data?.details || "Could not start checkout.");
       return;
     }
 
-    const signInResult = await signIn("credentials", {
-      email: wizard.email.trim(),
-      password: wizard.password,
-      redirect: false,
-      callbackUrl: "/dashboard",
-    });
-
-    if (signInResult?.error) {
-      setSubmitting(false);
-      setError("Account created, but auto sign-in failed. Please use Log in.");
+    if (data.checkoutUrl) {
+      window.location.href = data.checkoutUrl;
       return;
     }
 
-    window.location.href = signInResult?.url ?? "/dashboard";
+    setSubmitting(false);
+    setError(
+      data.warning ||
+        "Checkout URL is not configured. Set GHL_STORE_CHECKOUT_BASE_URL on the server.",
+    );
   }
 
   useEffect(() => {
@@ -391,8 +384,8 @@ export function PricingConsole() {
                 Pricing that keeps your equity in your hands.
               </h1>
               <p className="max-w-2xl text-sm text-muted sm:text-base">
-                Select your speed tier, run property intake, choose upgrades, then accept the
-                agreement to create your account and draft listing.
+                Select your speed tier, run property intake, choose upgrades, then continue to secure
+                checkout through GoHighLevel to complete your purchase.
               </p>
             </div>
             <div className="flex flex-wrap items-end justify-start gap-2 sm:gap-4 lg:justify-end">
@@ -591,7 +584,7 @@ export function PricingConsole() {
                   onClick={() => setWizard((s) => ({ ...s, step: 2 }))}
                   className="btn-primary disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  Next: Property Type
+                  Next: Property type
                 </button>
               </div>
             </div>
@@ -719,19 +712,57 @@ export function PricingConsole() {
                   onClick={() => setWizard((s) => ({ ...s, step: 4 }))}
                   disabled={submitting}
                 >
-                  Continue: Agreement
+                  Continue: Purchase
                 </button>
               </div>
             </div>
           ) : null}
           {wizard.step === 4 ? (
             <div className="grid gap-4">
-              <h2 className="text-xl font-semibold text-white">Step 4: Agreement & Account Setup</h2>
-              <div className="rounded-2xl border border-amber-300/35 bg-amber-950/25 p-4 text-sm text-amber-100/95">
-                <p className="font-semibold">Test checkout bypass</p>
-                <p className="mt-2 text-amber-100/85">
-                  By continuing, you confirm this test flow bypasses card entry and directly creates
-                  your seller account, active plan record, and an initial draft listing.
+              <h2 className="text-xl font-semibold text-white">Step 4: Review &amp; checkout</h2>
+              <div className="rounded-2xl border border-white/10 bg-black/25 p-4 text-sm text-white/85">
+                <p className="font-semibold text-white">Order summary</p>
+                <ul className="mt-3 grid gap-2">
+                  <li className="flex justify-between gap-3">
+                    <span className="text-white/65">Plan</span>
+                    <span>
+                      {wizard.plan?.name} — {wizard.plan?.price}
+                    </span>
+                  </li>
+                  <li className="flex justify-between gap-3">
+                    <span className="text-white/65">Property</span>
+                    <span className="text-right">
+                      {wizard.propertyAddress}
+                      {wizard.unit ? `, ${wizard.unit}` : ""}, {wizard.city}, {wizard.state}{" "}
+                      {wizard.zip}
+                    </span>
+                  </li>
+                  {selectedUpgradeRows.length > 0 ? (
+                    <li className="border-t border-white/10 pt-2">
+                      <div className="text-white/65">Add-ons</div>
+                      <ul className="mt-2 grid gap-1">
+                        {selectedUpgradeRows.map((u) => (
+                          <li key={u.slug} className="flex justify-between gap-3">
+                            <span>{u.name}</span>
+                            <span className="font-mono">${u.price}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <div className="mt-2 flex justify-between border-t border-white/10 pt-2 font-semibold text-white">
+                        <span>Upgrade subtotal</span>
+                        <span className="font-mono">${upgradesSubtotal}</span>
+                      </div>
+                    </li>
+                  ) : (
+                    <li className="text-white/60">No add-ons selected.</li>
+                  )}
+                </ul>
+              </div>
+              <div className="rounded-2xl border border-emerald-400/25 bg-emerald-950/20 p-4 text-sm text-emerald-100/90">
+                <p className="font-semibold text-emerald-100">GoHighLevel checkout</p>
+                <p className="mt-2 text-emerald-100/85">
+                  You will be redirected to complete payment on our secure store. If configured, your
+                  selections are also sent to our CRM webhook for follow-up.
                 </p>
               </div>
               <label className="flex items-start gap-3 rounded-2xl border border-white/10 bg-black/25 p-3 text-sm text-white/85">
@@ -741,27 +772,11 @@ export function PricingConsole() {
                   onChange={(e) => setWizard((s) => ({ ...s, agreementAccepted: e.target.checked }))}
                   className="mt-1 h-4 w-4 rounded border-white/20 bg-black/40"
                 />
-                <span>I understand and agree to create my account through this test flow.</span>
+                <span>
+                  I agree to continue to checkout and understand that payment is processed through
+                  the linked payment page.
+                </span>
               </label>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <Input
-                  label="Password (min 8 chars)"
-                  value={wizard.password}
-                  onChange={(v) => setWizard((s) => ({ ...s, password: v }))}
-                  type="password"
-                />
-                <Input
-                  label="Confirm password"
-                  value={wizard.passwordConfirm}
-                  onChange={(v) => setWizard((s) => ({ ...s, passwordConfirm: v }))}
-                  type="password"
-                />
-              </div>
-              {!canSubmitIntake() && wizard.passwordConfirm ? (
-                <div className="rounded-xl border border-red-400/40 bg-red-950/30 p-3 text-sm text-red-300">
-                  Passwords must match, be at least 8 characters, and agreement must be checked.
-                </div>
-              ) : null}
               {error ? (
                 <div className="rounded-xl border border-red-400/40 bg-red-950/30 p-3 text-sm text-red-300">
                   {error}
@@ -779,10 +794,10 @@ export function PricingConsole() {
                 <button
                   type="button"
                   className="btn-primary"
-                  onClick={submitIntakeAndCreateAccount}
-                  disabled={submitting || !canSubmitIntake()}
+                  onClick={submitGhlCheckout}
+                  disabled={submitting || !canProceedToCheckout()}
                 >
-                  {submitting ? "Creating account..." : "I Understand — Create Account"}
+                  {submitting ? "Opening checkout…" : "Continue to secure checkout"}
                 </button>
               </div>
             </div>

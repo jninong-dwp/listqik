@@ -3,46 +3,12 @@ import { getServerSession } from "next-auth/next";
 import { Types } from "mongoose";
 import { authOptions } from "@/lib/auth-options";
 import { connectDb } from "@/lib/mongodb";
+import { validateListingForFinalize } from "@/lib/listing-compliance";
 import { Listing } from "@/models/Listing";
+import { ListingDocument } from "@/models/ListingDocument";
 
-function validateForFinalize(listing: {
-  street?: string | null;
-  city?: string | null;
-  state?: string | null;
-  zip?: string | null;
-  county?: string | null;
-  price?: number | null;
-  buyerAgentCompPct?: number | null;
-  description?: string | null;
-  heroImageUrl?: string | null;
-  mlsName?: string | null;
-  mlsNumber?: string | null;
-  listingId?: string | null;
-}) {
-  const errors: string[] = [];
-
-  if (!listing.street?.trim()) errors.push("Street is required.");
-  if (!listing.city?.trim()) errors.push("City is required.");
-  if (!listing.state?.trim()) errors.push("State is required.");
-  if (!listing.zip?.trim()) errors.push("ZIP is required.");
-  if (!listing.county?.trim()) errors.push("County is required.");
-  if (typeof listing.price !== "number" || !Number.isFinite(listing.price) || listing.price <= 0) {
-    errors.push("Valid list price is required.");
-  }
-  if (listing.buyerAgentCompPct === null || listing.buyerAgentCompPct === undefined) {
-    errors.push("Buyer agent compensation is required.");
-  }
-  if ((listing.description ?? "").trim().length < 40) {
-    errors.push("Description must be at least 40 characters.");
-  }
-  if (!listing.heroImageUrl?.trim()) {
-    errors.push("Hero image is required.");
-  }
-  if (!listing.mlsName?.trim() && !listing.mlsNumber?.trim() && !listing.listingId?.trim()) {
-    errors.push("MLS name, MLS number, or listing ID is required.");
-  }
-
-  return errors;
+function hasMatchingDoc(fileName: string, patterns: RegExp[]) {
+  return patterns.some((p) => p.test(fileName));
 }
 
 export async function POST(_req: Request, ctx: { params: Promise<{ id: string }> }) {
@@ -63,7 +29,27 @@ export async function POST(_req: Request, ctx: { params: Promise<{ id: string }>
     return NextResponse.json({ ok: false, error: "Listing not found." }, { status: 404 });
   }
 
-  const validationErrors = validateForFinalize(listing);
+  const validationErrors = validateListingForFinalize(listing);
+  const docs = await ListingDocument.find({ listingId: listing._id }).lean();
+  const docNames = docs.map((d) => d.fileName.toLowerCase());
+
+  if (
+    (listing.propertyType === "CONDOMINIUM" || listing.associationType === "CONDO") &&
+    !docNames.some((n) => hasMatchingDoc(n, [/condo/, /addendum/]))
+  ) {
+    validationErrors.push("Condo addendum document upload is required.");
+  }
+  if ((listing.yearBuilt ?? 0) > 0 && (listing.yearBuilt ?? 0) < 1978) {
+    if (!docNames.some((n) => hasMatchingDoc(n, [/lead/, /paint/]))){
+      validationErrors.push("Lead-based paint disclosure document upload is required.");
+    }
+  }
+  if (listing.tenantOccupied && !docNames.some((n) => hasMatchingDoc(n, [/tenant/, /authorization/]))){
+    validationErrors.push("Tenant authorization document upload is required.");
+  }
+  if (listing.isInMudWaterDistrict && !docNames.some((n) => hasMatchingDoc(n, [/mud/, /water/, /district/, /notice/]))){
+    validationErrors.push("MUD/water district notice document upload is required.");
+  }
   if (validationErrors.length > 0) {
     return NextResponse.json(
       {

@@ -17,8 +17,9 @@ export function LoginForm() {
     <div className="mx-auto max-w-md glass-surface-strong p-8">
       <h1 className="text-2xl font-semibold text-emerald-50">Sign in</h1>
       <p className="mt-2 text-sm text-muted">
-        Use the email and password for your seller account. New accounts are created through the
-        pricing intake flow after plan selection.
+        Use the email and password for your seller account. After checkout, new sellers finish setup
+        from the link emailed from our order automation (or open the setup URL returned by the payment
+        webhook) before signing in here.
       </p>
       <form
         className="mt-8 space-y-4"

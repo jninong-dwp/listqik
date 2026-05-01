@@ -28,20 +28,18 @@ export function DashboardShell({ children }: { children: ReactNode }) {
                 >
                   Listing Dashboard
                 </Link>
-                <button
-                  type="button"
-                  disabled
-                  className="block w-full cursor-not-allowed rounded-lg px-3 py-2 text-left text-sm text-emerald-100/45"
+                <Link
+                  href="/dashboard/orders"
+                  className="block rounded-lg px-3 py-2 text-sm text-emerald-100/90 transition hover:bg-emerald-900/35 hover:text-emerald-50"
                 >
-                  Orders (coming soon)
-                </button>
-                <button
-                  type="button"
-                  disabled
-                  className="block w-full cursor-not-allowed rounded-lg px-3 py-2 text-left text-sm text-emerald-100/45"
+                  Orders
+                </Link>
+                <Link
+                  href="/dashboard/profile"
+                  className="block rounded-lg px-3 py-2 text-sm text-emerald-100/90 transition hover:bg-emerald-900/35 hover:text-emerald-50"
                 >
-                  Profile/Password (coming soon)
-                </button>
+                  Profile/Password
+                </Link>
                 <div className="mt-1 border-t border-emerald-500/20 pt-2">
                   <SignOutButton />
                 </div>

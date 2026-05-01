@@ -1,12 +1,8 @@
 import { NextResponse } from "next/server";
 import { connectDb } from "@/lib/mongodb";
-import { PlanPurchase } from "@/models/PlanPurchase";
-import { User } from "@/models/User";
-
-type Payload = {
-  contact?: { email?: string };
-  plan?: { id?: string; name?: string };
-};
+import type { OrderWebhookPayload } from "@/lib/seller-order-provision";
+import { provisionSellerFromPaidOrder } from "@/lib/seller-order-provision";
+import { sendSetupAccountEmail } from "@/lib/transactional-email";
 
 function normalizeSecret(req: Request): string | null {
   const header = req.headers.get("x-webhook-secret")?.trim();
@@ -21,9 +17,15 @@ function normalizeSecret(req: Request): string | null {
 }
 
 /**
- * Call this endpoint from your payment / CRM automation (e.g. GHL) when an order is paid.
- * If the buyer already has an account, the plan is attached immediately; otherwise it waits
- * for registration with the same email.
+ * Call from payment / CRM automation (e.g. GHL) when an order is paid.
+ *
+ * Creates or links the buyer user, records an ACTIVE PlanPurchase, and optionally creates a draft
+ * Listing when `property` includes address, city, state, and zip.
+ *
+ * **Idempotency:** send the same `externalOrderId` on retries (payment processor transaction id).
+ *
+ * **New buyers:** response includes `setupAccountUrl` when `NEXTAUTH_URL` is set — use this in your
+ * automation email so they can choose a password (until then the account has a placeholder hash).
  */
 export async function POST(req: Request) {
   const expected = process.env.ORDER_WEBHOOK_SECRET?.trim();
@@ -36,32 +38,49 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "Unauthorized." }, { status: 401 });
   }
 
-  let body: Payload;
+  let body: OrderWebhookPayload;
   try {
-    body = (await req.json()) as Payload;
+    body = (await req.json()) as OrderWebhookPayload;
   } catch {
     return NextResponse.json({ ok: false, error: "Invalid JSON." }, { status: 400 });
   }
 
-  const email = body.contact?.email?.toLowerCase().trim();
-  const planId = body.plan?.id?.trim();
-  const planName = body.plan?.name?.trim() ?? planId;
-
-  if (!email || !planId) {
-    return NextResponse.json({ ok: false, error: "contact.email and plan.id are required." }, { status: 400 });
-  }
-
   await connectDb();
-  const user = await User.findOne({ email }).lean();
 
-  await PlanPurchase.create({
-    purchaserEmail: email,
-    userId: user?._id ?? null,
-    planId,
-    planName: planName || planId,
-    status: user ? "ACTIVE" : "PENDING_CLAIM",
-    claimedAt: user ? new Date() : null,
-  });
-
-  return NextResponse.json({ ok: true, linkedToUser: Boolean(user) });
+  try {
+    const result = await provisionSellerFromPaidOrder(body);
+    if (result.status === "duplicate") {
+      return NextResponse.json({ ok: true, duplicate: true });
+    }
+    let setupEmailSent = false;
+    let setupEmailError: string | null = null;
+    if (result.createdUser && result.setupAccountUrl) {
+      const email = body.contact?.email?.trim();
+      if (!email) {
+        setupEmailError = "Missing buyer email for setup email.";
+      } else {
+        const sent = await sendSetupAccountEmail({
+          to: email,
+          fullName: body.contact?.fullName,
+          setupAccountUrl: result.setupAccountUrl,
+        });
+        setupEmailSent = sent.sent;
+        setupEmailError = sent.sent ? null : sent.error ?? "Setup email send failed.";
+      }
+    }
+    return NextResponse.json({
+      ok: true,
+      duplicate: false,
+      linkedToUser: result.linkedToUser,
+      createdUser: result.createdUser,
+      listingCreated: result.listingCreated,
+      setupAccountUrl: result.setupAccountUrl ?? null,
+      setupEmailSent,
+      setupEmailError,
+    });
+  } catch (e) {
+    const message = e instanceof Error ? e.message : "Provision failed.";
+    const status = message.includes("required") ? 400 : 500;
+    return NextResponse.json({ ok: false, error: message }, { status });
+  }
 }

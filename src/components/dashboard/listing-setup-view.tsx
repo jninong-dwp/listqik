@@ -275,9 +275,9 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
   const prevStep = activeStepIndex > 0 ? steps[activeStepIndex - 1] : null;
   const nextStep = activeStepIndex < steps.length - 1 ? steps[activeStepIndex + 1] : null;
 
-  const missingByStep = useMemo<Record<string, string[]>>(() => {
+  const missingByStep = useMemo((): Record<string, string[]> => {
     if (!listing) return {};
-    return {
+    const out: Record<string, string[]> = {
       "general-information": [
         ...(!listing.street ? ["Street"] : []),
         ...(!listing.city ? ["City"] : []),
@@ -298,6 +298,7 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
         ...(listing.status === "INCOMPLETE" ? ["Set listing status to ACTIVE/PENDING/etc."] : []),
       ],
     };
+    return out;
   }, [listing]);
 
   async function finalizeSetup() {

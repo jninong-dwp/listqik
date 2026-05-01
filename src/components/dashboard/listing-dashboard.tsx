@@ -93,6 +93,8 @@ type ListingDocumentItem = {
   id: string;
   fileName: string;
   fileUrl: string;
+  documentType?: string;
+  signatureStatus?: "NOT_REQUESTED" | "REQUESTED" | "SIGNED";
   createdAt: string | null;
 };
 
@@ -627,6 +629,65 @@ export function ListingDashboard() {
     }
   }
 
+  async function generateLegalPackage(id: string) {
+    if (previewMode) return;
+    setUploadError(null);
+    setUploadingDocumentId(id);
+    try {
+      const res = await fetch(`/api/dashboard/listings/${id}/legal-package`, { method: "POST" });
+      const data = (await res.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
+      if (!res.ok || !data?.ok) {
+        setUploadError(data?.error ?? "Could not generate legal package.");
+        return;
+      }
+      await loadDocuments(id);
+    } catch {
+      setUploadError("Network error while generating legal package.");
+    } finally {
+      setUploadingDocumentId(null);
+    }
+  }
+
+  async function requestSignature(id: string, documentId: string) {
+    if (previewMode) return;
+    setUploadError(null);
+    try {
+      const res = await fetch(`/api/dashboard/listings/${id}/signatures`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ documentId, action: "REQUEST", provider: "MANUAL" }),
+      });
+      const data = (await res.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
+      if (!res.ok || !data?.ok) {
+        setUploadError(data?.error ?? "Could not request signature.");
+        return;
+      }
+      await loadDocuments(id);
+    } catch {
+      setUploadError("Network error while requesting signature.");
+    }
+  }
+
+  async function markSigned(id: string, documentId: string) {
+    if (previewMode) return;
+    setUploadError(null);
+    try {
+      const res = await fetch(`/api/dashboard/listings/${id}/signatures`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ documentId, action: "MARK_SIGNED" }),
+      });
+      const data = (await res.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
+      if (!res.ok || !data?.ok) {
+        setUploadError(data?.error ?? "Could not mark signature as signed.");
+        return;
+      }
+      await loadDocuments(id);
+    } catch {
+      setUploadError("Network error while updating signature.");
+    }
+  }
+
   const loadOffers = useCallback(async (id: string) => {
     if (previewMode) return;
     setLoadingOffersId(id);
@@ -870,10 +931,11 @@ export function ListingDashboard() {
       const data = (await res.json().catch(() => null)) as
         | { ok?: boolean; job?: ListingMlsExportJob; error?: string }
         | null;
-      if (!res.ok || !data?.ok || !data.job) {
+      const job = data?.ok ? data.job : undefined;
+      if (!res.ok || !job) {
         return;
       }
-      setMlsJobByListing((prev) => ({ ...prev, [listingId]: data.job }));
+      setMlsJobByListing((prev) => ({ ...prev, [listingId]: job }));
     } catch {
       // no-op
     }
@@ -1369,7 +1431,19 @@ export function ListingDashboard() {
                       </div>
                     </div>
                     <div className="mt-6 rounded-xl border border-emerald-500/20 bg-black/25 p-4">
-                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-200/80">Documents</p>
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-200/80">Documents</p>
+                        <button
+                          type="button"
+                          disabled={previewMode || uploadingDocumentId === l.id}
+                          onClick={() => {
+                            void generateLegalPackage(l.id);
+                          }}
+                          className="rounded-full border border-indigo-300/55 bg-indigo-500/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-indigo-100 transition hover:bg-indigo-400/25 disabled:opacity-50"
+                        >
+                          Generate legal package
+                        </button>
+                      </div>
                       {loadingDocumentsId === l.id ? (
                         <p className="mt-2 text-sm text-white/65">Loading documents...</p>
                       ) : (documentsByListing[l.id] ?? []).length === 0 ? (
@@ -1380,16 +1454,45 @@ export function ListingDashboard() {
                             <li key={doc.id} className="flex items-center justify-between gap-3 rounded-lg border border-white/10 bg-white/5 px-3 py-2">
                               <div className="min-w-0">
                                 <p className="truncate text-sm font-medium text-emerald-100">{doc.fileName}</p>
-                                <p className="text-xs text-white/60">{formatDate(doc.createdAt)}</p>
+                                <p className="text-xs text-white/60">
+                                  {formatDate(doc.createdAt)}
+                                  {doc.signatureStatus ? ` · Signature: ${doc.signatureStatus}` : ""}
+                                </p>
                               </div>
-                              <a
-                                href={doc.fileUrl}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="shrink-0 rounded-full border border-emerald-400/45 bg-emerald-500/15 px-3 py-1 text-xs font-semibold text-emerald-100 transition hover:bg-emerald-400/25"
-                              >
-                                Open
-                              </a>
+                              <div className="flex shrink-0 flex-wrap gap-2">
+                                <a
+                                  href={doc.fileUrl}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="rounded-full border border-emerald-400/45 bg-emerald-500/15 px-3 py-1 text-xs font-semibold text-emerald-100 transition hover:bg-emerald-400/25"
+                                >
+                                  Open
+                                </a>
+                                {doc.signatureStatus !== "REQUESTED" && doc.signatureStatus !== "SIGNED" ? (
+                                  <button
+                                    type="button"
+                                    disabled={previewMode}
+                                    onClick={() => {
+                                      void requestSignature(l.id, doc.id);
+                                    }}
+                                    className="rounded-full border border-cyan-300/55 bg-cyan-500/15 px-3 py-1 text-xs font-semibold text-cyan-100 transition hover:bg-cyan-400/25 disabled:opacity-50"
+                                  >
+                                    Request signature
+                                  </button>
+                                ) : null}
+                                {doc.signatureStatus === "REQUESTED" ? (
+                                  <button
+                                    type="button"
+                                    disabled={previewMode}
+                                    onClick={() => {
+                                      void markSigned(l.id, doc.id);
+                                    }}
+                                    className="rounded-full border border-amber-300/55 bg-amber-500/15 px-3 py-1 text-xs font-semibold text-amber-100 transition hover:bg-amber-400/25 disabled:opacity-50"
+                                  >
+                                    Mark signed
+                                  </button>
+                                ) : null}
+                              </div>
                             </li>
                           ))}
                         </ul>

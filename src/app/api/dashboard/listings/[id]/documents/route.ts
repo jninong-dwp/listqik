@@ -9,6 +9,11 @@ import { ListingDocument } from "@/models/ListingDocument";
 type CreateBody = {
   fileName?: string;
   fileUrl?: string;
+  documentType?: string;
+  generatedFromListing?: boolean;
+  signatureProvider?: string;
+  signerEmail?: string;
+  signatureStatus?: "NOT_REQUESTED" | "REQUESTED" | "SIGNED";
 };
 
 export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> }) {
@@ -36,6 +41,13 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
       id: d._id.toString(),
       fileName: d.fileName,
       fileUrl: d.fileUrl,
+      documentType: d.documentType ?? "UPLOAD",
+      generatedFromListing: Boolean(d.generatedFromListing),
+      signatureProvider: d.signatureProvider ?? "",
+      signerEmail: d.signerEmail ?? "",
+      signatureStatus: d.signatureStatus ?? "NOT_REQUESTED",
+      signatureRequestedAt: d.signatureRequestedAt instanceof Date ? d.signatureRequestedAt.toISOString() : null,
+      signedAt: d.signedAt instanceof Date ? d.signedAt.toISOString() : null,
       createdAt: d.createdAt instanceof Date ? d.createdAt.toISOString() : null,
     })),
   });
@@ -76,6 +88,13 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
     listingId: id,
     fileName,
     fileUrl,
+    documentType: body.documentType ?? "UPLOAD",
+    generatedFromListing: Boolean(body.generatedFromListing),
+    signatureProvider: body.signatureProvider?.trim() ?? "",
+    signerEmail: body.signerEmail?.trim().toLowerCase() ?? "",
+    signatureStatus: body.signatureStatus ?? "NOT_REQUESTED",
+    signatureRequestedAt: body.signatureStatus === "REQUESTED" ? new Date() : null,
+    signedAt: body.signatureStatus === "SIGNED" ? new Date() : null,
   });
 
   return NextResponse.json({
@@ -84,6 +103,13 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
       id: doc._id.toString(),
       fileName: doc.fileName,
       fileUrl: doc.fileUrl,
+      documentType: doc.documentType ?? "UPLOAD",
+      generatedFromListing: Boolean(doc.generatedFromListing),
+      signatureProvider: doc.signatureProvider ?? "",
+      signerEmail: doc.signerEmail ?? "",
+      signatureStatus: doc.signatureStatus ?? "NOT_REQUESTED",
+      signatureRequestedAt: doc.signatureRequestedAt instanceof Date ? doc.signatureRequestedAt.toISOString() : null,
+      signedAt: doc.signedAt instanceof Date ? doc.signedAt.toISOString() : null,
       createdAt: doc.createdAt instanceof Date ? doc.createdAt.toISOString() : null,
     },
   });

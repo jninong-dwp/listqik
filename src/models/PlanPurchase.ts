@@ -13,6 +13,8 @@ const planPurchaseSchema = new Schema(
     },
     purchasedAt: { type: Date, default: Date.now },
     claimedAt: { type: Date, default: null },
+    /** Payment processor / CRM order id for idempotent webhook handling */
+    externalOrderId: { type: String, trim: true, default: null, sparse: true, unique: true },
   },
   { timestamps: true },
 );
