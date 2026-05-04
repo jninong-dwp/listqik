@@ -101,8 +101,8 @@ const listingSchema = new Schema(
     buyerAgentCompPct: { type: Number, default: null },
     description: { type: String, default: "" },
     heroImageUrl: { type: String, trim: true },
-    /** Matches PlanPurchase.externalOrderId when listing was created from paid checkout */
-    sourceOrderId: { type: String, trim: true, default: null, sparse: true, unique: true },
+    /** Set only for checkout-linked listings; omit (do not null) so sparse unique index allows many intake-created listings */
+    sourceOrderId: { type: String, trim: true, sparse: true, unique: true },
     orderedOn: { type: Date, default: null },
     listedOn: { type: Date, default: null },
     expiresOn: { type: Date, default: null },

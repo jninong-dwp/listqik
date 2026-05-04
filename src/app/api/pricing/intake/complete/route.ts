@@ -97,53 +97,79 @@ export async function POST(req: Request) {
   }
 
   const passwordHash = await bcrypt.hash(password, 12);
-  const user = await User.create({
-    email,
-    passwordHash,
-    name: fullName,
-    phone: phone || undefined,
-  });
+  let user;
+  try {
+    user = await User.create({
+      email,
+      passwordHash,
+      name: fullName,
+      phone: phone || undefined,
+    });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : "Could not create user.";
+    return NextResponse.json({ ok: false, error: msg }, { status: 500 });
+  }
 
-  await PlanPurchase.create({
-    purchaserEmail: email,
-    userId: user._id,
-    planId,
-    planName,
-    status: "ACTIVE",
-    claimedAt: new Date(),
-  });
+  try {
+    await PlanPurchase.create({
+      purchaserEmail: email,
+      userId: user._id,
+      planId,
+      planName,
+      status: "ACTIVE",
+      claimedAt: new Date(),
+    });
 
-  const upgradeSummary = (body.upgrades ?? [])
-    .map((u) => `${u.name ?? "Upgrade"}${typeof u.price === "number" ? ` ($${u.price})` : ""}`)
-    .join(", ");
+    const upgradeSummary = (body.upgrades ?? [])
+      .map((u) => `${u.name ?? "Upgrade"}${typeof u.price === "number" ? ` ($${u.price})` : ""}`)
+      .join(", ");
 
-  const planLabel = planPrice ? `${planName} (${planPrice})` : planName;
-  const introDescription = [
-    "Draft listing created from pricing intake.",
-    propertyType ? `Property type: ${propertyType}.` : "",
-    upgradeSummary ? `Selected upgrades: ${upgradeSummary}.` : "",
-  ]
-    .filter(Boolean)
-    .join(" ");
+    const planLabel = planPrice ? `${planName} (${planPrice})` : planName;
+    const introDescription = [
+      "Draft listing created from pricing intake.",
+      propertyType ? `Property type: ${propertyType}.` : "",
+      upgradeSummary ? `Selected upgrades: ${upgradeSummary}.` : "",
+    ]
+      .filter(Boolean)
+      .join(" ");
 
-  await Listing.create({
-    userId: user._id,
-    street,
-    unit: unit || undefined,
-    city,
-    state,
-    zip,
-    county: county || undefined,
-    propertyType: mapPropertyType(propertyType),
-    sellerNames: fullName,
-    contactPhone: phone || undefined,
-    contactEmail: email,
-    status: "INCOMPLETE",
-    planLabel,
-    price: 0,
-    description: introDescription,
-    orderedOn: new Date(),
-  });
+    await Listing.create({
+      userId: user._id,
+      street,
+      unit: unit || undefined,
+      city,
+      state,
+      zip,
+      county: county || undefined,
+      propertyType: mapPropertyType(propertyType),
+      sellerNames: fullName,
+      contactPhone: phone || undefined,
+      contactEmail: email,
+      status: "INCOMPLETE",
+      planLabel,
+      price: 0,
+      description: introDescription,
+      orderedOn: new Date(),
+    });
+  } catch (err) {
+    await PlanPurchase.deleteMany({ userId: user._id });
+    await User.deleteOne({ _id: user._id });
+    const msg =
+      err instanceof Error ? err.message : "Could not finish account setup.";
+    const isDup =
+      typeof msg === "string" &&
+      (msg.includes("E11000") || msg.includes("duplicate key"));
+    return NextResponse.json(
+      {
+        ok: false,
+        error: isDup
+          ? "Listing setup conflict. Try again or contact support if this persists."
+          : "Could not create account.",
+        detail: process.env.NODE_ENV === "development" ? msg : undefined,
+      },
+      { status: 500 },
+    );
+  }
 
   return NextResponse.json({ ok: true, userId: user._id.toString() });
 }

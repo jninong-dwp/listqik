@@ -153,7 +153,7 @@ const propertyTypes: { id: PropertyType; label: string; description: string }[] 
 ];
 
 type WizardState = {
-  step: 1 | 2 | 3 | 4;
+  step: 1 | 2 | 3;
   plan: Plan | null;
   propertyAddress: string;
   unit: string;
@@ -268,9 +268,10 @@ export function PricingConsole() {
     [],
   );
 
-  function canGoStep2() {
+  function canContinueToUpgrades() {
     return (
       wizard.plan &&
+      Boolean(wizard.propertyType) &&
       wizard.propertyAddress.trim().length > 5 &&
       wizard.city.trim().length > 1 &&
       wizard.state.trim().length > 1 &&
@@ -499,7 +500,7 @@ export function PricingConsole() {
               </div>
 
           <div className="mb-6 flex items-center justify-between gap-2">
-            {[1, 2, 3, 4].map((step) => {
+            {[1, 2, 3].map((step) => {
               const active = wizard.step === step;
               const complete = wizard.step > step;
               return (
@@ -514,7 +515,7 @@ export function PricingConsole() {
                   >
                     {complete ? "✓" : step}
                   </div>
-                  {step < 4 ? <div className="h-[2px] flex-1 bg-white/10" /> : null}
+                  {step < 3 ? <div className="h-[2px] flex-1 bg-white/10" /> : null}
                 </div>
               );
             })}
@@ -533,7 +534,7 @@ export function PricingConsole() {
 
           {wizard.step === 1 ? (
             <div className="grid gap-4">
-              <h2 className="text-xl font-semibold text-white">Step 1: Property Details</h2>
+              <h2 className="text-xl font-semibold text-white">Step 1: Property &amp; contact</h2>
               <div className="grid gap-3 sm:grid-cols-2">
                 <AddressAutocompleteInput
                   label="Property address"
@@ -567,6 +568,28 @@ export function PricingConsole() {
                   onChange={(v) => setWizard((s) => ({ ...s, county: v }))}
                 />
               </div>
+              <label className="grid w-full gap-1.5">
+                <span className="text-xs font-semibold tracking-widest text-white/60">PROPERTY TYPE</span>
+                <select
+                  value={wizard.propertyType}
+                  onChange={(e) =>
+                    setWizard((s) => ({
+                      ...s,
+                      propertyType: (e.target.value || "") as PropertyType | "",
+                    }))
+                  }
+                  className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none focus:border-white/20"
+                >
+                  <option value="" className="bg-slate-900">
+                    Select property type…
+                  </option>
+                  {propertyTypes.map((type) => (
+                    <option key={type.id} value={type.id} className="bg-slate-900">
+                      {type.label} — {type.description}
+                    </option>
+                  ))}
+                </select>
+              </label>
               <div className="grid gap-3 sm:grid-cols-3">
                 <Input
                   label="Full name"
@@ -589,11 +612,11 @@ export function PricingConsole() {
               <div className="flex justify-end">
                 <button
                   type="button"
-                  disabled={!canGoStep2()}
+                  disabled={!canContinueToUpgrades()}
                   onClick={() => setWizard((s) => ({ ...s, step: 2 }))}
                   className="btn-primary disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  Next: Property type
+                  Next: Upgrades
                 </button>
               </div>
             </div>
@@ -601,51 +624,7 @@ export function PricingConsole() {
 
           {wizard.step === 2 ? (
             <div className="grid gap-4">
-              <h2 className="text-xl font-semibold text-white">Step 2: Property Type</h2>
-              <div className="grid gap-3 sm:grid-cols-2">
-                {propertyTypes.map((type) => {
-                  const selected = wizard.propertyType === type.id;
-                  return (
-                    <button
-                      key={type.id}
-                      type="button"
-                      onClick={() => setWizard((s) => ({ ...s, propertyType: type.id }))}
-                      className={[
-                        "rounded-2xl border p-4 text-left transition",
-                        selected
-                          ? "border-emerald-400/60 bg-emerald-500/10"
-                          : "border-white/10 bg-white/5 hover:border-white/30",
-                      ].join(" ")}
-                    >
-                      <div className="font-semibold text-white">{type.label}</div>
-                      <div className="mt-2 text-sm text-white/70">{type.description}</div>
-                    </button>
-                  );
-                })}
-              </div>
-              <div className="flex items-center justify-between">
-                <button
-                  type="button"
-                  className="btn-secondary"
-                  onClick={() => setWizard((s) => ({ ...s, step: 1 }))}
-                >
-                  Back
-                </button>
-                <button
-                  type="button"
-                  disabled={!wizard.propertyType}
-                  onClick={() => setWizard((s) => ({ ...s, step: 3 }))}
-                  className="btn-primary disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  Continue: Upgrades
-                </button>
-              </div>
-            </div>
-          ) : null}
-
-          {wizard.step === 3 ? (
-            <div className="grid gap-4">
-              <h2 className="text-xl font-semibold text-white">Step 3: Package Upgrades</h2>
+              <h2 className="text-xl font-semibold text-white">Step 2: Package Upgrades</h2>
               {upgradesLoading ? (
                 <div className="rounded-xl border border-white/10 bg-black/25 px-4 py-6 text-sm text-white/65">
                   Loading add-ons from your store…
@@ -710,7 +689,7 @@ export function PricingConsole() {
                 <button
                   type="button"
                   className="btn-secondary"
-                  onClick={() => setWizard((s) => ({ ...s, step: 2 }))}
+                  onClick={() => setWizard((s) => ({ ...s, step: 1 }))}
                   disabled={submitting}
                 >
                   Back
@@ -718,7 +697,7 @@ export function PricingConsole() {
                 <button
                   type="button"
                   className="btn-primary"
-                  onClick={() => setWizard((s) => ({ ...s, step: 4 }))}
+                  onClick={() => setWizard((s) => ({ ...s, step: 3 }))}
                   disabled={submitting}
                 >
                   Continue: Purchase
@@ -726,9 +705,9 @@ export function PricingConsole() {
               </div>
             </div>
           ) : null}
-          {wizard.step === 4 ? (
+          {wizard.step === 3 ? (
             <div className="grid gap-4">
-              <h2 className="text-xl font-semibold text-white">Step 4: Agreement &amp; account setup</h2>
+              <h2 className="text-xl font-semibold text-white">Step 3: Agreement &amp; account setup</h2>
               <div className="rounded-2xl border border-white/10 bg-black/25 p-4 text-sm text-white/85">
                 <p className="font-semibold text-white">Order summary</p>
                 <ul className="mt-3 grid gap-2">
@@ -813,7 +792,7 @@ export function PricingConsole() {
                 <button
                   type="button"
                   className="btn-secondary"
-                  onClick={() => setWizard((s) => ({ ...s, step: 3 }))}
+                  onClick={() => setWizard((s) => ({ ...s, step: 2 }))}
                   disabled={submitting}
                 >
                   Back
