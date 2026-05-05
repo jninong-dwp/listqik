@@ -6,6 +6,12 @@ type SetupEmailInput = {
   setupAccountUrl: string;
 };
 
+type ExistingAccountEmailInput = {
+  to: string;
+  fullName?: string;
+  loginUrl: string;
+};
+
 type SendResult = {
   sent: boolean;
   error?: string;
@@ -69,6 +75,61 @@ export async function sendSetupAccountEmail(input: SetupEmailInput): Promise<Sen
     `<p><a href="${input.setupAccountUrl}">${input.setupAccountUrl}</a></p>`,
     "<p>This link expires in 14 days.</p>",
     "<p>If you did not request this, you can ignore this email.</p>",
+    "<p>&mdash; ListQik</p>",
+  ].join("");
+
+  try {
+    const transporter = nodemailer.createTransport({
+      host: config.host,
+      port: config.port,
+      secure: config.secure,
+      auth: config.auth,
+    });
+    await transporter.sendMail({
+      from: config.from,
+      to: input.to,
+      subject,
+      text,
+      html,
+    });
+    return { sent: true };
+  } catch (e) {
+    const error = e instanceof Error ? e.message : "SMTP send failed.";
+    return { sent: false, error };
+  }
+}
+
+export async function sendExistingAccountAccessEmail(
+  input: ExistingAccountEmailInput,
+): Promise<SendResult> {
+  const config = smtpConfig();
+  if (!config) {
+    return { sent: false, error: "SMTP is not fully configured." };
+  }
+
+  const greetingName = input.fullName?.trim() || "there";
+  const subject = "Your ListQik account is ready to access";
+
+  const text = [
+    `Hi ${greetingName},`,
+    "",
+    "Thanks for your order.",
+    "We found that you already have a ListQik account with this email.",
+    "Use this link to log in and continue to your dashboard:",
+    input.loginUrl,
+    "",
+    "If you forgot your password, use the reset option on the login page.",
+    "",
+    "— ListQik",
+  ].join("\n");
+
+  const html = [
+    `<p>Hi ${greetingName},</p>`,
+    "<p>Thanks for your order.</p>",
+    "<p>We found that you already have a ListQik account with this email.</p>",
+    "<p>Use this link to log in and continue to your dashboard:</p>",
+    `<p><a href=\"${input.loginUrl}\">${input.loginUrl}</a></p>`,
+    "<p>If you forgot your password, use the reset option on the login page.</p>",
     "<p>&mdash; ListQik</p>",
   ].join("");
 

@@ -3,13 +3,21 @@ import { connectDb } from "@/lib/mongodb";
 import type { OrderWebhookPayload } from "@/lib/seller-order-provision";
 import { provisionSellerFromPaidOrder } from "@/lib/seller-order-provision";
 import { PricingCheckoutSession } from "@/models/PricingCheckoutSession";
-import { sendSetupAccountEmail } from "@/lib/transactional-email";
+import { sendExistingAccountAccessEmail, sendSetupAccountEmail } from "@/lib/transactional-email";
 
 type CheckoutKind = "plan" | "upgrades";
 type WebhookBody = OrderWebhookPayload & {
   checkoutSessionId?: string;
   checkoutKind?: CheckoutKind;
 };
+
+function appBaseUrl(): string {
+  const auth = process.env.NEXTAUTH_URL?.trim();
+  if (auth) return auth.replace(/\/$/, "");
+  const vercel = process.env.VERCEL_URL?.trim();
+  if (vercel) return `https://${vercel.replace(/\/$/, "")}`;
+  return "";
+}
 
 function parseStringMap(raw: string | undefined): Record<string, string> {
   if (!raw?.trim()) return {};
@@ -170,20 +178,35 @@ export async function POST(req: Request) {
     if (result.status === "duplicate") {
       return NextResponse.json({ ok: true, duplicate: true, checkoutKind });
     }
-    let setupEmailSent = false;
-    let setupEmailError: string | null = null;
-    if (result.createdUser && result.setupAccountUrl) {
-      const email = body.contact?.email?.trim();
-      if (!email) {
-        setupEmailError = "Missing buyer email for setup email.";
+    let accountEmailSent = false;
+    let accountEmailError: string | null = null;
+    let accountEmailType: "setup" | "existing-login" | null = null;
+    const email = body.contact?.email?.trim();
+    if (!email) {
+      accountEmailError = "Missing buyer email for account access email.";
+    } else if (result.createdUser && result.setupAccountUrl) {
+      accountEmailType = "setup";
+      const sent = await sendSetupAccountEmail({
+        to: email,
+        fullName: body.contact?.fullName,
+        setupAccountUrl: result.setupAccountUrl,
+      });
+      accountEmailSent = sent.sent;
+      accountEmailError = sent.sent ? null : sent.error ?? "Setup email send failed.";
+    } else {
+      accountEmailType = "existing-login";
+      const base = appBaseUrl();
+      if (!base) {
+        accountEmailError = "App base URL is not configured for login email.";
       } else {
-        const sent = await sendSetupAccountEmail({
+        const loginUrl = `${base}/login?callbackUrl=/dashboard`;
+        const sent = await sendExistingAccountAccessEmail({
           to: email,
           fullName: body.contact?.fullName,
-          setupAccountUrl: result.setupAccountUrl,
+          loginUrl,
         });
-        setupEmailSent = sent.sent;
-        setupEmailError = sent.sent ? null : sent.error ?? "Setup email send failed.";
+        accountEmailSent = sent.sent;
+        accountEmailError = sent.sent ? null : sent.error ?? "Existing-account email send failed.";
       }
     }
     return NextResponse.json({
@@ -194,8 +217,9 @@ export async function POST(req: Request) {
       createdUser: result.createdUser,
       listingCreated: result.listingCreated,
       setupAccountUrl: result.setupAccountUrl ?? null,
-      setupEmailSent,
-      setupEmailError,
+      accountEmailType,
+      accountEmailSent,
+      accountEmailError,
     });
   } catch (e) {
     const message = e instanceof Error ? e.message : "Provision failed.";

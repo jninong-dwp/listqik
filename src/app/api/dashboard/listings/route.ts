@@ -4,8 +4,8 @@ import type { Types } from "mongoose";
 import { Types as MongooseTypes } from "mongoose";
 import { authOptions } from "@/lib/auth-options";
 import { connectDb } from "@/lib/mongodb";
+import { getEffectivePlanAccessForUser } from "@/lib/plan-access";
 import { Listing } from "@/models/Listing";
-import { PlanPurchase } from "@/models/PlanPurchase";
 
 function iso(d: unknown): string | null {
   if (!d) {
@@ -202,8 +202,13 @@ export async function GET() {
 
   await connectDb();
   const userId = new MongooseTypes.ObjectId(session.user.id);
+  const effectivePlan = await getEffectivePlanAccessForUser(userId);
   const rows = await Listing.find({ userId }).sort({ updatedAt: -1 }).lean();
-  return NextResponse.json({ ok: true, listings: rows.map((r) => serializeListing(r)) });
+  return NextResponse.json({
+    ok: true,
+    effectivePlan,
+    listings: rows.map((r) => serializeListing(r)),
+  });
 }
 
 type CreateBody = {
@@ -252,9 +257,8 @@ export async function POST(req: Request) {
 
   await connectDb();
   const userId = new MongooseTypes.ObjectId(session.user.id);
-
-  const hasPlan = await PlanPurchase.exists({ userId, status: "ACTIVE" });
-  if (!hasPlan) {
+  const effectivePlan = await getEffectivePlanAccessForUser(userId);
+  if (!effectivePlan.entitlements.hasActivePlan) {
     return NextResponse.json(
       {
         ok: false,

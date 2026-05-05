@@ -4,6 +4,7 @@ import { Types } from "mongoose";
 import { pricingUpgradeMeta } from "@/data/pricing-upgrade-meta";
 import { authOptions } from "@/lib/auth-options";
 import { connectDb } from "@/lib/mongodb";
+import { getEffectivePlanAccessForUser } from "@/lib/plan-access";
 import { Listing } from "@/models/Listing";
 import { ListingUpgradeRequest } from "@/models/ListingUpgradeRequest";
 
@@ -58,6 +59,17 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
 
   await connectDb();
   const userId = new Types.ObjectId(session.user.id);
+  const effectivePlan = await getEffectivePlanAccessForUser(userId);
+  if (!effectivePlan.entitlements.hasActivePlan) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error:
+          "No active plan found on this account. Complete checkout first, then request upgrades.",
+      },
+      { status: 403 },
+    );
+  }
   const listing = await Listing.findOne({ _id: id, userId }).lean();
   if (!listing) {
     return NextResponse.json({ ok: false, error: "Listing not found." }, { status: 404 });

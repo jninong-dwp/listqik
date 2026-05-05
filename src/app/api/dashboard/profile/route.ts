@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth/next";
 import { Types } from "mongoose";
 import { authOptions } from "@/lib/auth-options";
 import { connectDb } from "@/lib/mongodb";
+import { getEffectivePlanAccessForUser } from "@/lib/plan-access";
 import { User } from "@/models/User";
 
 type PatchBody = {
@@ -20,13 +21,16 @@ export async function GET() {
   }
 
   await connectDb();
-  const user = await User.findById(new Types.ObjectId(session.user.id)).lean();
+  const userId = new Types.ObjectId(session.user.id);
+  const user = await User.findById(userId).lean();
   if (!user) {
     return NextResponse.json({ ok: false, error: "User not found." }, { status: 404 });
   }
+  const effectivePlan = await getEffectivePlanAccessForUser(userId);
 
   return NextResponse.json({
     ok: true,
+    effectivePlan,
     profile: { name: user.name ?? "", email: user.email ?? "", phone: user.phone ?? "" },
   });
 }

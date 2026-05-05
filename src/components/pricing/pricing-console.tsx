@@ -208,6 +208,14 @@ export function PricingConsole() {
   const [upgradesPaymentRecorded, setUpgradesPaymentRecorded] = useState(false);
   const [requiresUpgradePayment, setRequiresUpgradePayment] = useState(false);
 
+  const advanceToUpgradesIfReady = useCallback(() => {
+    setPlanAutoAdvanced((alreadyAdvanced) => {
+      if (alreadyAdvanced) return alreadyAdvanced;
+      setWizard((current) => (current.step === 2 ? { ...current, step: 3 } : current));
+      return true;
+    });
+  }, []);
+
   useEffect(() => {
     if (!isWizardOpen) return;
     let cancelled = false;
@@ -413,8 +421,12 @@ export function PricingConsole() {
     setPlanPaymentRecorded(Boolean(data.planPaid));
     setUpgradesPaymentRecorded(Boolean(data.upgradesPaid));
     setRequiresUpgradePayment(Boolean(data.requiresUpgradePayment));
+    if (data.planPaid) {
+      setError("");
+      advanceToUpgradesIfReady();
+    }
     return data;
-  }, [checkoutSessionId]);
+  }, [checkoutSessionId, advanceToUpgradesIfReady]);
 
   const checkPlanPaymentStatus = useCallback(async (showPendingError = false) => {
     if (!checkoutSessionId) return false;
@@ -520,15 +532,6 @@ export function PricingConsole() {
     }, 5000);
     return () => window.clearInterval(timer);
   }, [isWizardOpen, wizard.step, wizard.plan, checkoutSessionId, planPaymentRecorded, checkPlanPaymentStatus]);
-
-  useEffect(() => {
-    if (!isWizardOpen || wizard.step !== 2 || !planPaymentRecorded || planAutoAdvanced) return;
-    setPlanAutoAdvanced(true);
-    const timer = window.setTimeout(() => {
-      setWizard((s) => ({ ...s, step: 3 }));
-    }, 600);
-    return () => window.clearTimeout(timer);
-  }, [isWizardOpen, wizard.step, planPaymentRecorded, planAutoAdvanced]);
 
   useEffect(() => {
     if (!isWizardOpen || wizard.step !== 3 || !requiresUpgradePayment || upgradesPaymentRecorded) return;
@@ -839,7 +842,7 @@ export function PricingConsole() {
                   <iframe
                     title="Plan checkout"
                     src={planCheckoutUrl}
-                    className="h-[78vh] min-h-[720px] w-full rounded-xl border border-white/10 bg-black/20"
+                    className="h-[84vh] min-h-[900px] w-full rounded-xl border border-white/10 bg-black/20"
                     loading="lazy"
                     allow="payment *"
                   />
@@ -865,9 +868,13 @@ export function PricingConsole() {
                     onClick={() => {
                         void checkPlanPaymentStatus(true);
                     }}
-                    disabled={checkingPlanPayment || submitting}
+                    disabled={checkingPlanPayment || submitting || planPaymentRecorded}
                   >
-                    {checkingPlanPayment ? "Checking..." : "I paid - Check status"}
+                    {planPaymentRecorded
+                      ? "Payment confirmed"
+                      : checkingPlanPayment
+                        ? "Checking..."
+                        : "I paid - Check status"}
                   </button>
                 </div>
               </div>
