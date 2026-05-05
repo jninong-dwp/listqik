@@ -10,7 +10,8 @@
     "dev": "cross-env NEXT_TRACE_SPAN_THRESHOLD_MS=2147483647 next dev",
     "build": "cross-env NEXT_TRACE_SPAN_THRESHOLD_MS=2147483647 next build",
     "start": "next start",
-    "lint": "cross-env ESLINT_USE_FLAT_CONFIG=false eslint ."
+    "lint": "cross-env ESLINT_USE_FLAT_CONFIG=false eslint .",
+    "ghl:create-contact-fields": "node scripts/create-ghl-contact-property-fields.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1037.0",

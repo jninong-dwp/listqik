@@ -11,6 +11,45 @@ type WebhookBody = OrderWebhookPayload & {
   checkoutKind?: CheckoutKind;
 };
 
+function parseStringMap(raw: string | undefined): Record<string, string> {
+  if (!raw?.trim()) return {};
+  try {
+    const parsed = JSON.parse(raw) as unknown;
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return {};
+    const out: Record<string, string> = {};
+    for (const [key, value] of Object.entries(parsed as Record<string, unknown>)) {
+      if (typeof value === "string" && value.trim()) out[key.trim()] = value.trim();
+    }
+    return out;
+  } catch {
+    return {};
+  }
+}
+
+function normalizePlanId(rawPlanId: string | undefined, rawPlanName: string | undefined): string | undefined {
+  const planId = rawPlanId?.trim();
+  if (!planId) return undefined;
+
+  // Expected app slugs.
+  if (planId === "subsonic" || planId === "supersonic" || planId === "hypersonic") {
+    return planId;
+  }
+
+  // If GHL sends product ID, map it back to app slug.
+  const planProductIds = parseStringMap(process.env.GHL_PLAN_PRODUCT_IDS);
+  for (const [slug, productId] of Object.entries(planProductIds)) {
+    if (productId === planId) return slug;
+  }
+
+  // Fallback by plan name text.
+  const name = (rawPlanName || "").toLowerCase();
+  if (name.includes("subsonic")) return "subsonic";
+  if (name.includes("supersonic")) return "supersonic";
+  if (name.includes("hypersonic")) return "hypersonic";
+
+  return planId;
+}
+
 async function markSessionPaid(
   sessionId: string | undefined,
   kind: CheckoutKind,
@@ -53,6 +92,16 @@ function normalizeSecret(req: Request): string | null {
   return null;
 }
 
+function normalizeBodySecret(body: unknown): string | null {
+  if (!body || typeof body !== "object" || Array.isArray(body)) return null;
+  const secretCandidate =
+    (body as { webhookSecret?: unknown }).webhookSecret ??
+    (body as { secret?: unknown }).secret;
+  if (typeof secretCandidate !== "string") return null;
+  const secret = secretCandidate.trim();
+  return secret || null;
+}
+
 /**
  * Call from payment / CRM automation (e.g. GHL) when an order is paid.
  *
@@ -70,11 +119,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "ORDER_WEBHOOK_SECRET is not configured." }, { status: 501 });
   }
 
-  const provided = normalizeSecret(req);
-  if (!provided || provided !== expected) {
-    return NextResponse.json({ ok: false, error: "Unauthorized." }, { status: 401 });
-  }
-
   let body: WebhookBody;
   try {
     body = (await req.json()) as WebhookBody;
@@ -82,9 +126,21 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "Invalid JSON." }, { status: 400 });
   }
 
+  const provided = normalizeSecret(req) ?? normalizeBodySecret(body);
+  if (!provided || provided !== expected) {
+    return NextResponse.json({ ok: false, error: "Unauthorized." }, { status: 401 });
+  }
+
   await connectDb();
   const checkoutKind: CheckoutKind = body.checkoutKind === "upgrades" ? "upgrades" : "plan";
   const externalOrderId = body.externalOrderId?.trim();
+  const normalizedPlanId = normalizePlanId(body.plan?.id, body.plan?.name);
+  if (normalizedPlanId) {
+    body.plan = {
+      ...body.plan,
+      id: normalizedPlanId,
+    };
+  }
 
   try {
     if (checkoutKind === "upgrades") {
@@ -93,7 +149,7 @@ export async function POST(req: Request) {
         checkoutKind,
         externalOrderId,
         body.contact?.email,
-        body.plan?.id,
+        normalizedPlanId ?? body.plan?.id,
       );
       return NextResponse.json({
         ok: true,
@@ -109,7 +165,7 @@ export async function POST(req: Request) {
       checkoutKind,
       externalOrderId,
       body.contact?.email,
-      body.plan?.id,
+      normalizedPlanId ?? body.plan?.id,
     );
     if (result.status === "duplicate") {
       return NextResponse.json({ ok: true, duplicate: true, checkoutKind });
