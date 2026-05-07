@@ -156,13 +156,13 @@ export async function POST(_req: Request, ctx: { params: Promise<{ id: string }>
     upgrades,
   });
 
-  const fileName = `mls-export-${id}-${Date.now()}.txt`;
+  const fileName = `mls-listing-sheet-${id}-${Date.now()}.pdf`;
   const job = await ListingMlsExportJob.create({
     listingId: id,
     status: "QUEUED",
     progress: 0,
     fileName,
-    format: "txt",
+    format: "pdf",
     fileContent: content,
   });
   return NextResponse.json({ ok: true, job: serialize(job) });

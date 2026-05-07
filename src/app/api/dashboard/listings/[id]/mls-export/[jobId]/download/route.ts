@@ -2,9 +2,14 @@ import { getServerSession } from "next-auth/next";
 import { NextResponse } from "next/server";
 import { Types } from "mongoose";
 import { authOptions } from "@/lib/auth-options";
+import { buildMlsListingSheetPdf } from "@/lib/mls-listing-sheet-pdf";
 import { connectDb } from "@/lib/mongodb";
 import { Listing } from "@/models/Listing";
+import { ListingDocument } from "@/models/ListingDocument";
 import { ListingMlsExportJob } from "@/models/ListingMlsExportJob";
+import { ListingOffer } from "@/models/ListingOffer";
+import { ListingOpenHouse } from "@/models/ListingOpenHouse";
+import { ListingUpgradeRequest } from "@/models/ListingUpgradeRequest";
 
 export async function GET(
   _req: Request,
@@ -31,6 +36,33 @@ export async function GET(
   if (job.status !== "COMPLETED") {
     return NextResponse.json({ ok: false, error: "Export is not completed yet." }, { status: 409 });
   }
+
+  if (job.format === "pdf") {
+    const [documents, offers, upgrades, openHouses] = await Promise.all([
+      ListingDocument.find({ listingId: id }).lean(),
+      ListingOffer.find({ listingId: id }).lean(),
+      ListingUpgradeRequest.find({ listingId: id }).lean(),
+      ListingOpenHouse.find({ listingId: id }).lean(),
+    ]);
+
+    const pdfBytes = await buildMlsListingSheetPdf({
+      listing,
+      documents,
+      offers,
+      upgrades,
+      openHouses,
+    });
+
+    return new NextResponse(Buffer.from(pdfBytes), {
+      status: 200,
+      headers: {
+        "content-type": "application/pdf",
+        "content-disposition": `attachment; filename="${job.fileName || "mls-listing-sheet.pdf"}"`,
+        "cache-control": "no-store",
+      },
+    });
+  }
+
   return new NextResponse(job.fileContent || "", {
     status: 200,
     headers: {

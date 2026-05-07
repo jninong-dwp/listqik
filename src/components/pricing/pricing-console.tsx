@@ -197,7 +197,7 @@ export function PricingConsole() {
   const [planCheckoutUrl, setPlanCheckoutUrl] = useState<string | null>(null);
   const [checkingPlanPayment, setCheckingPlanPayment] = useState(false);
   const [planPaymentRecorded, setPlanPaymentRecorded] = useState(false);
-  const [planAutoAdvanced, setPlanAutoAdvanced] = useState(false);
+  const [, setPlanAutoAdvanced] = useState(false);
 
   const advanceToUpgradesIfReady = useCallback(() => {
     setPlanAutoAdvanced((alreadyAdvanced) => {

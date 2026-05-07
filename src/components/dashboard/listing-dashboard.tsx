@@ -142,6 +142,32 @@ type ListingMlsExportJob = {
 };
 
 const statusOptions = ["INCOMPLETE", "ACTIVE", "PENDING", "EXPIRED", "SOLD"] as const;
+const quickStatusActions: Array<{
+  id: string;
+  label: string;
+  helper: string;
+  status: (typeof statusOptions)[number];
+  tone?: "danger";
+}> = [
+  { id: "pending", label: "Pending (Under Contract)", helper: "Move listing to pending", status: "PENDING" },
+  { id: "sold", label: "Sold (Closing Complete)", helper: "Mark listing as sold", status: "SOLD" },
+  { id: "back-on-market", label: "Back On Market (Pending to Active)", helper: "Set listing back to active", status: "ACTIVE" },
+  { id: "cancel-permanent", label: "Cancel Listing Permanently", helper: "Mark listing as expired", status: "EXPIRED", tone: "danger" },
+  { id: "cancel-temporary", label: "Cancel Listing Temporarily", helper: "Temporarily stop listing (expired)", status: "EXPIRED", tone: "danger" },
+  { id: "extend-reactivate", label: "Extend/Reactivate Cancelled/Expired Listing", helper: "Set listing back to active", status: "ACTIVE" },
+];
+const editListingActions: Array<{
+  id: string;
+  label: string;
+  helper: string;
+  focusFieldIdPrefix: string;
+}> = [
+  { id: "price", label: "Change Listing Price", helper: "Jump to price field", focusFieldIdPrefix: "price" },
+  { id: "comp", label: "Change Compensation", helper: "Jump to compensation field", focusFieldIdPrefix: "bac" },
+  { id: "description", label: "Change MLS Description", helper: "Jump to remarks", focusFieldIdPrefix: "publicRemarks" },
+  { id: "photos", label: "Manage Photos", helper: "Jump to photo upload", focusFieldIdPrefix: "hero-image-upload" },
+  { id: "other", label: "Change Other Listing Info", helper: "Jump to details", focusFieldIdPrefix: "street" },
+];
 const previewListings: DashboardListing[] = [
   {
     id: "preview-listing-1",
@@ -416,6 +442,7 @@ function formatDate(iso: string | null) {
 }
 
 export function ListingDashboard() {
+  void previewListings.length;
   const [listings, setListings] = useState<DashboardListing[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -434,7 +461,6 @@ export function ListingDashboard() {
   const [savingOfferId, setSavingOfferId] = useState<string | null>(null);
   const [savingUpgradeId, setSavingUpgradeId] = useState<string | null>(null);
   const [activeOfferListingId, setActiveOfferListingId] = useState<string | null>(null);
-  const [activeUpgradeListingId, setActiveUpgradeListingId] = useState<string | null>(null);
   const [openHousesByListing, setOpenHousesByListing] = useState<Record<string, ListingOpenHouseItem[]>>({});
   const [loadingOpenHousesId, setLoadingOpenHousesId] = useState<string | null>(null);
   const [savingOpenHouseId, setSavingOpenHouseId] = useState<string | null>(null);
@@ -442,6 +468,8 @@ export function ListingDashboard() {
   const [mlsJobByListing, setMlsJobByListing] = useState<Record<string, ListingMlsExportJob | null>>({});
   const [exportingListingId, setExportingListingId] = useState<string | null>(null);
   const [guidedActionByListing, setGuidedActionByListing] = useState<Record<string, "edit" | "status" | null>>({});
+  const [openEditMenuListingId, setOpenEditMenuListingId] = useState<string | null>(null);
+  const [openStatusMenuListingId, setOpenStatusMenuListingId] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -508,6 +536,29 @@ export function ListingDashboard() {
     } finally {
       setSavingId(null);
     }
+  }
+
+  async function applyQuickStatus(listingId: string, status: (typeof statusOptions)[number]) {
+    setOpenStatusMenuListingId(null);
+    setExpanded(listingId);
+    setGuidedActionByListing((prev) => ({ ...prev, [listingId]: "status" }));
+    await patchListing(listingId, { status });
+  }
+
+  function focusListingField(listingId: string, fieldPrefix: string) {
+    setOpenEditMenuListingId(null);
+    setExpanded(listingId);
+    setGuidedActionByListing((prev) => ({ ...prev, [listingId]: "edit" }));
+
+    window.setTimeout(() => {
+      const fieldId = `${fieldPrefix}-${listingId}`;
+      const target = document.getElementById(fieldId) as HTMLElement | null;
+      if (!target) return;
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
+      if ("focus" in target) {
+        (target as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement).focus();
+      }
+    }, 100);
   }
 
   async function uploadHeroImage(id: string, file: File) {
@@ -1013,11 +1064,10 @@ export function ListingDashboard() {
   }, [activeOfferListingId, expanded, offersByListing, previewMode, loadOffers]);
 
   useEffect(() => {
-    if (!expanded || previewMode || !activeUpgradeListingId) return;
-    if (activeUpgradeListingId !== expanded) return;
+    if (!expanded || previewMode) return;
     if (upgradesByListing[expanded]) return;
     void loadUpgrades(expanded);
-  }, [activeUpgradeListingId, expanded, previewMode, upgradesByListing, loadUpgrades]);
+  }, [expanded, previewMode, upgradesByListing, loadUpgrades]);
 
   useEffect(() => {
     if (!expanded || previewMode || !activeOpenHouseListingId) return;
@@ -1124,26 +1174,73 @@ export function ListingDashboard() {
                       </button>
                     </div>
                     <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setExpanded(l.id);
-                          setGuidedActionByListing((prev) => ({ ...prev, [l.id]: "edit" }));
-                        }}
-                        className="rounded-lg border border-indigo-400/35 bg-indigo-950/35 px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-indigo-100 transition hover:border-indigo-300/70 hover:bg-indigo-900/45"
-                      >
-                        Edit listing
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setExpanded(l.id);
-                          setGuidedActionByListing((prev) => ({ ...prev, [l.id]: "status" }));
-                        }}
-                        className="rounded-lg border border-indigo-400/35 bg-indigo-950/35 px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-indigo-100 transition hover:border-indigo-300/70 hover:bg-indigo-900/45"
-                      >
-                        Change status
-                      </button>
+                      <div className="relative">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setOpenEditMenuListingId((current) => (current === l.id ? null : l.id));
+                          }}
+                          className="w-full rounded-lg border border-indigo-400/35 bg-indigo-950/35 px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-indigo-100 transition hover:border-indigo-300/70 hover:bg-indigo-900/45"
+                        >
+                          Edit listing
+                        </button>
+                        {openEditMenuListingId === l.id ? (
+                          <div className="absolute z-30 mt-1 w-[320px] max-w-[85vw] rounded-lg border border-indigo-300/35 bg-slate-950/95 p-1 shadow-[0_12px_30px_rgba(2,6,23,0.6)]">
+                            {editListingActions.map((action) => (
+                              <button
+                                key={action.id}
+                                type="button"
+                                onClick={() => {
+                                  focusListingField(l.id, action.focusFieldIdPrefix);
+                                }}
+                                className="flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-xs text-white/90 transition hover:bg-white/10"
+                              >
+                                <span>{action.label}</span>
+                                <span className="ml-3 shrink-0 text-[10px] uppercase tracking-wide text-white/55">
+                                  {action.helper}
+                                </span>
+                              </button>
+                            ))}
+                          </div>
+                        ) : null}
+                      </div>
+                      <div className="relative">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setOpenStatusMenuListingId((current) => (current === l.id ? null : l.id));
+                          }}
+                          className="w-full rounded-lg border border-indigo-400/35 bg-indigo-950/35 px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-indigo-100 transition hover:border-indigo-300/70 hover:bg-indigo-900/45"
+                        >
+                          Change status
+                        </button>
+                        {openStatusMenuListingId === l.id ? (
+                          <div className="absolute z-30 mt-1 w-[320px] max-w-[85vw] rounded-lg border border-indigo-300/35 bg-slate-950/95 p-1 shadow-[0_12px_30px_rgba(2,6,23,0.6)]">
+                            {quickStatusActions.map((action) => (
+                              <button
+                                key={action.id}
+                                type="button"
+                                disabled={savingId === l.id}
+                                onClick={() => {
+                                  void applyQuickStatus(l.id, action.status);
+                                }}
+                                className={[
+                                  "flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-xs transition",
+                                  action.tone === "danger"
+                                    ? "text-rose-200 hover:bg-rose-500/15"
+                                    : "text-white/90 hover:bg-white/10",
+                                  "disabled:cursor-not-allowed disabled:opacity-60",
+                                ].join(" ")}
+                              >
+                                <span>{action.label}</span>
+                                <span className="ml-3 shrink-0 text-[10px] uppercase tracking-wide text-white/55">
+                                  {action.helper}
+                                </span>
+                              </button>
+                            ))}
+                          </div>
+                        ) : null}
+                      </div>
                       <Link
                         href="/upgrades"
                         className="rounded-lg border border-indigo-400/35 bg-indigo-950/35 px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-indigo-100 transition hover:border-indigo-300/70 hover:bg-indigo-900/45"
@@ -1191,7 +1288,7 @@ export function ListingDashboard() {
                         disabled={previewMode || exportingListingId === l.id}
                         className="rounded-lg border border-indigo-400/35 bg-indigo-950/35 px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-indigo-100 transition hover:border-indigo-300/70 hover:bg-indigo-900/45 disabled:cursor-not-allowed disabled:opacity-50"
                       >
-                        {exportingListingId === l.id ? "Starting MLS export..." : "Download MLS listing"}
+                        {exportingListingId === l.id ? "Starting MLS export..." : "Download MLS listing (PDF)"}
                       </button>
                       <button
                         type="button"
@@ -1392,6 +1489,7 @@ export function ListingDashboard() {
                         <label className="block text-sm sm:col-span-2 lg:col-span-4">
                           <span className="font-semibold text-emerald-100">Hero image upload</span>
                           <input
+                            id={`hero-image-upload-${l.id}`}
                             type="file"
                             accept="image/*"
                             className="mt-1 w-full rounded-lg border border-emerald-500/30 bg-black/40 px-3 py-2 text-sm text-emerald-50 file:mr-3 file:rounded-md file:border-0 file:bg-emerald-500/20 file:px-3 file:py-1 file:text-xs file:font-semibold file:text-emerald-100"
@@ -1641,7 +1739,7 @@ export function ListingDashboard() {
                                 href={`/api/dashboard/listings/${l.id}/mls-export/${mlsJobByListing[l.id]?.id}/download`}
                                 className="mt-3 inline-flex rounded-full border border-indigo-300/70 bg-indigo-500/20 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-indigo-100"
                               >
-                                Download export file
+                                Download MLS PDF
                               </a>
                             ) : null}
                           </>

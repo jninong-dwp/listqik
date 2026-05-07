@@ -11,7 +11,7 @@ const listingMlsExportJobSchema = new Schema(
     },
     progress: { type: Number, default: 0, min: 0, max: 100 },
     fileName: { type: String, trim: true, default: "" },
-    format: { type: String, enum: ["txt"], default: "txt" },
+    format: { type: String, enum: ["txt", "pdf"], default: "txt" },
     fileContent: { type: String, default: "" },
     error: { type: String, trim: true, default: "" },
     startedAt: { type: Date, default: null },
