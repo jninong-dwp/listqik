@@ -36,7 +36,7 @@ const plans: Plan[] = [
   {
     id: "subsonic",
     name: "Subsonic",
-    badge: "Basic · Close Air Support",
+    badge: "Basic · Essential",
     price: "$99",
     closeFee: "0.50% at closing",
     listTerm: "6 months",
@@ -65,7 +65,7 @@ const plans: Plan[] = [
   {
     id: "supersonic",
     name: "Supersonic",
-    badge: "Premium · Sound Barrier",
+    badge: "Premium · Most Popular",
     price: "$295",
     closeFee: "0.3% at closing",
     listTerm: "6 months",
@@ -93,7 +93,7 @@ const plans: Plan[] = [
   {
     id: "hypersonic",
     name: "Hypersonic",
-    badge: "Luxury · Darkstar Class",
+    badge: "Luxury · Full Service",
     price: "$595",
     closeFee: "0.25% at closing",
     listTerm: "12 months",
@@ -370,7 +370,7 @@ export function PricingConsole() {
           <div className="mt-5 grid gap-6 lg:grid-cols-2 lg:items-end">
             <div className="space-y-3">
               <h1 className="bg-gradient-to-r from-lime-200 via-emerald-100 to-emerald-300 bg-clip-text text-3xl font-semibold tracking-tight text-transparent sm:text-4xl">
-                Pricing that keeps your equity in your hands.
+                Simple pricing to help you keep more from your sale.
               </h1>
               <p className="max-w-2xl text-sm text-muted sm:text-base">
                 Select your speed tier, complete property intake, finish checkout, and continue to

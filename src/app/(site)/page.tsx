@@ -20,33 +20,33 @@ export default function HomePage() {
   const featured = listings.filter((l) => l.featured).slice(0, 3);
   const missionPanels = [
     {
-      title: "Target Acquisition",
-      description: "Start your listing with guided property intake and broker-backed workflow.",
+      title: "Start Your Listing",
+      description: "Enter your property details with clear step-by-step guidance.",
       href: "/pricing",
     },
     {
-      title: "Fuel System",
-      description: "Run equity and fee checks before launch.",
+      title: "Check Your Costs",
+      description: "See your potential savings and fees before you go live.",
       href: "/pricing",
     },
     {
-      title: "Navigation System",
-      description: "Track market context and active inventory.",
+      title: "View Market Listings",
+      description: "Browse active listings and compare homes in your area.",
       href: "/listings",
     },
   ];
   const modules = [
     {
-      title: "Rapid Deployment",
-      description: "Launch listing workflows in hours, not days.",
+      title: "Fast Setup",
+      description: "Get your listing process started quickly.",
     },
     {
-      title: "Compliance Review",
-      description: "Structured process with broker-backed oversight.",
+      title: "Broker Review",
+      description: "A licensed broker reviews your listing details.",
     },
     {
-      title: "Equity Focus",
-      description: "Decision support tools designed to protect seller proceeds.",
+      title: "Keep More Proceeds",
+      description: "Use simple tools to understand what you keep after fees.",
     },
   ];
 
@@ -72,27 +72,27 @@ export default function HomePage() {
               <div className="relative mx-auto max-w-3xl text-center">
                 <div className="inline-flex max-w-full items-center gap-2 rounded border border-emerald-500/40 bg-emerald-950/35 px-2.5 py-1.5 font-mono text-[9px] font-bold tracking-[0.15em] text-emerald-200 sm:px-3 sm:text-[10px] sm:tracking-[0.2em]">
                   <span className="h-2 w-2 shrink-0 animate-pulse rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.8)]" />
-                  COCKPIT MODE
+                  LIVE LISTING MODE
                 </div>
                 <h1 className="mt-4 bg-gradient-to-r from-lime-200 via-emerald-100 to-emerald-300 bg-clip-text font-mono text-2xl font-bold uppercase tracking-tight text-transparent max-sm:normal-case sm:text-4xl lg:text-5xl">
-                  Pilot Your Listing
+                  List Your Home With Clear Steps
                 </h1>
                 <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-300/90 sm:text-base">
-                  Deploy listings faster, retain more equity, and run a guided workflow through a
-                  licensed brokerage.
+                  Create your listing, work with a licensed brokerage, and track your potential
+                  savings in one place.
                 </p>
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
                   <Link
                     href="/pricing"
                     className="inline-flex min-h-[48px] items-center justify-center rounded-full border border-emerald-400/70 bg-emerald-500/20 px-6 text-sm font-semibold tracking-wide text-emerald-100 transition hover:bg-emerald-400/30"
                   >
-                    Start Your Mission
+                    Start Listing
                   </Link>
                   <Link
                     href="/listings"
                     className="inline-flex min-h-[48px] items-center justify-center rounded-full border border-emerald-400/40 bg-black/35 px-6 text-sm font-semibold tracking-wide text-emerald-100 transition hover:border-emerald-300/70 hover:bg-emerald-950/40"
                   >
-                    Explore the System
+                    Browse Listings
                   </Link>
                 </div>
               </div>
@@ -131,13 +131,13 @@ export default function HomePage() {
 
                 <div className="relative flex w-full flex-col items-center gap-5 p-3 pt-5 sm:p-4 md:grid md:grid-cols-3 md:items-end md:justify-items-center md:gap-6 lg:p-6">
                   <div className="origin-top scale-95">
-                    <CockpitGauge label="DEPLOY" sublabel="RPM" value={88} size="sm" accent="emerald" />
+                    <CockpitGauge label="SPEED" sublabel="SCORE" value={88} size="sm" accent="emerald" />
                   </div>
                   <div className="origin-top scale-[0.78] min-[400px]:scale-[0.88] sm:scale-95 lg:scale-100">
-                    <CockpitGauge label="CONTRACTS" sublabel="RPM" value={72} size="lg" accent="emerald" />
+                    <CockpitGauge label="SUPPORT" sublabel="SCORE" value={72} size="lg" accent="emerald" />
                   </div>
                   <div className="origin-top scale-95">
-                    <CockpitGauge label="EQUITY" sublabel="RPM" value={64} size="sm" accent="emerald" />
+                    <CockpitGauge label="SAVINGS" sublabel="SCORE" value={64} size="sm" accent="emerald" />
                   </div>
                 </div>
               </div>
@@ -168,15 +168,15 @@ export default function HomePage() {
       <section className="pt-8 sm:pt-10 lg:pt-14">
         <Container>
           <div className="glass-surface rounded-2xl border border-emerald-500/20 bg-black/45 p-6 text-center sm:p-8">
-            <h2 className="text-2xl font-semibold tracking-tight text-emerald-100 sm:text-3xl">Mission Stats</h2>
+            <h2 className="text-2xl font-semibold tracking-tight text-emerald-100 sm:text-3xl">Platform Stats</h2>
             <div className="mt-6 grid gap-4 text-emerald-200 sm:grid-cols-3 sm:gap-6">
               <div className="rounded-xl border border-emerald-400/30 bg-black/35 px-4 py-5">
                 <p className="text-3xl font-bold">72</p>
-                <p className="mt-1 text-xs tracking-wider text-white/65">RAPID DEPLOYMENTS</p>
+                <p className="mt-1 text-xs tracking-wider text-white/65">LISTINGS STARTED</p>
               </div>
               <div className="rounded-xl border border-emerald-400/30 bg-black/35 px-4 py-5">
                 <p className="text-3xl font-bold">64%</p>
-                <p className="mt-1 text-xs tracking-wider text-white/65">EQUITY RETENTION INDEX</p>
+                <p className="mt-1 text-xs tracking-wider text-white/65">AVERAGE SAVINGS INDICATOR</p>
               </div>
               <div className="rounded-xl border border-emerald-400/30 bg-black/35 px-4 py-5">
                 <p className="text-3xl font-bold">100+</p>
@@ -188,7 +188,7 @@ export default function HomePage() {
                 href="/pricing"
                 className="inline-flex min-h-[48px] items-center justify-center rounded-full border border-emerald-400/70 bg-emerald-500/20 px-8 text-sm font-semibold tracking-wide text-emerald-100 transition hover:bg-emerald-400/30"
               >
-                Launch Platform
+                Start Your Listing
               </Link>
             </div>
           </div>
@@ -209,10 +209,10 @@ export default function HomePage() {
                 FEATURED LISTINGS
               </div>
               <h2 className="mt-2 text-lg font-semibold tracking-tight text-white sm:text-2xl">
-                Real inventory. Clean specs.
+                Real listings. Easy to browse.
               </h2>
               <p className="mt-2 text-sm text-muted">
-                Browse listings, filter locally, and drill into slug-based detail pages.
+                View homes, filter by area, and open full listing details.
               </p>
             </div>
             <Link href="/listings" className="btn-secondary hidden shrink-0 sm:inline-flex">
