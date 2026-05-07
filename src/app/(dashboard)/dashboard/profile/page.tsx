@@ -10,6 +10,10 @@ type ProfileData = {
 
 export default function DashboardProfilePage() {
   const [profile, setProfile] = useState<ProfileData>({ name: "", email: "", phone: "" });
+  const [formName, setFormName] = useState("");
+  const [formPhone, setFormPhone] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -23,7 +27,11 @@ export default function DashboardProfilePage() {
           | { ok?: boolean; profile?: ProfileData; error?: string }
           | null;
         if (!res.ok || !data?.ok || !data.profile) throw new Error(data?.error || "Could not load profile.");
-        if (!canceled) setProfile(data.profile);
+        if (!canceled) {
+          setProfile(data.profile);
+          setFormName(data.profile.name ?? "");
+          setFormPhone(data.profile.phone ?? "");
+        }
       })
       .catch((err: unknown) => {
         if (!canceled) setError(err instanceof Error ? err.message : "Could not load profile.");
@@ -41,12 +49,11 @@ export default function DashboardProfilePage() {
     setSaving(true);
     setMessage(null);
     setError(null);
-    const fd = new FormData(e.currentTarget);
     const body = {
-      name: String(fd.get("name") ?? ""),
-      phone: String(fd.get("phone") ?? ""),
-      currentPassword: String(fd.get("currentPassword") ?? ""),
-      newPassword: String(fd.get("newPassword") ?? ""),
+      name: formName,
+      phone: formPhone,
+      currentPassword,
+      newPassword,
     };
     try {
       const res = await fetch("/api/dashboard/profile", {
@@ -62,8 +69,8 @@ export default function DashboardProfilePage() {
       if (!res.ok || !data?.ok) throw new Error(data?.error || "Could not update profile.");
       setMessage("Profile saved.");
       setProfile((prev) => ({ ...prev, name: body.name, phone: body.phone }));
-      (e.currentTarget.querySelector('input[name="currentPassword"]') as HTMLInputElement).value = "";
-      (e.currentTarget.querySelector('input[name="newPassword"]') as HTMLInputElement).value = "";
+      setCurrentPassword("");
+      setNewPassword("");
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Could not update profile.");
     } finally {
@@ -83,7 +90,8 @@ export default function DashboardProfilePage() {
             <input
               className="mt-1 w-full rounded-lg border border-emerald-500/30 bg-black/40 px-3 py-2 text-sm text-emerald-50"
               name="name"
-              defaultValue={profile.name}
+              value={formName}
+              onChange={(ev) => setFormName(ev.target.value)}
               required
             />
           </label>
@@ -100,7 +108,8 @@ export default function DashboardProfilePage() {
             <input
               className="mt-1 w-full rounded-lg border border-emerald-500/30 bg-black/40 px-3 py-2 text-sm text-emerald-50"
               name="phone"
-              defaultValue={profile.phone}
+              value={formPhone}
+              onChange={(ev) => setFormPhone(ev.target.value)}
             />
           </label>
           <label className="text-sm text-emerald-100">
@@ -108,6 +117,8 @@ export default function DashboardProfilePage() {
             <input
               type="password"
               name="currentPassword"
+              value={currentPassword}
+              onChange={(ev) => setCurrentPassword(ev.target.value)}
               className="mt-1 w-full rounded-lg border border-emerald-500/30 bg-black/40 px-3 py-2 text-sm text-emerald-50"
             />
           </label>
@@ -116,6 +127,8 @@ export default function DashboardProfilePage() {
             <input
               type="password"
               name="newPassword"
+              value={newPassword}
+              onChange={(ev) => setNewPassword(ev.target.value)}
               className="mt-1 w-full rounded-lg border border-emerald-500/30 bg-black/40 px-3 py-2 text-sm text-emerald-50"
             />
           </label>

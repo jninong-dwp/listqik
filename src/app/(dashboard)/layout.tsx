@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
 import { DashboardShell } from "@/components/dashboard/dashboard-shell";
+import { authOptions } from "@/lib/auth-options";
 
 export const metadata: Metadata = {
   title: "Listing Dashboard",
@@ -8,6 +11,11 @@ export const metadata: Metadata = {
 };
 
 export default async function DashboardLayout({ children }: { children: ReactNode }) {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.id) {
+    redirect("/login?callbackUrl=/dashboard");
+  }
+
   return (
     <div className="min-h-screen w-full bg-[radial-gradient(circle_at_top,rgba(16,185,129,0.16),rgba(2,6,3,0.95)_55%)] text-emerald-100 antialiased">
       <DashboardShell>{children}</DashboardShell>

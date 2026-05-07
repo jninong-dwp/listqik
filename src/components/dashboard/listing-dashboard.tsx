@@ -449,9 +449,10 @@ export function ListingDashboard() {
     try {
       const res = await fetch("/api/dashboard/listings", { cache: "no-store" });
       if (res.status === 401) {
-        setPreviewMode(true);
-        setListings(previewListings);
-        setExpanded(previewListings[0]?.id ?? null);
+        setPreviewMode(false);
+        setError("Your session has expired. Please sign in again.");
+        setListings([]);
+        setExpanded(null);
         return;
       }
       const data = (await res.json()) as { ok?: boolean; listings?: DashboardListing[]; error?: string };
@@ -465,10 +466,10 @@ export function ListingDashboard() {
       setListings(list);
       setExpanded((prev) => prev ?? list[0]?.id ?? null);
     } catch {
-      setPreviewMode(true);
-      setError(null);
-      setListings(previewListings);
-      setExpanded(previewListings[0]?.id ?? null);
+      setPreviewMode(false);
+      setError("Could not load your dashboard listings right now. Please refresh and try again.");
+      setListings([]);
+      setExpanded(null);
     } finally {
       setLoading(false);
     }
