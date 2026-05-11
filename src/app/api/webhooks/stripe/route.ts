@@ -4,6 +4,7 @@ import Stripe from "stripe";
 import { Types } from "mongoose";
 import { connectDb } from "@/lib/mongodb";
 import { provisionSellerFromPaidOrder } from "@/lib/seller-order-provision";
+import { sendExistingAccountAccessEmail, sendSetupAccountEmail } from "@/lib/transactional-email";
 import { PricingCheckoutSession } from "@/models/PricingCheckoutSession";
 import { UpgradePurchase } from "@/models/UpgradePurchase";
 import { User } from "@/models/User";
@@ -26,6 +27,14 @@ function parseStringMap(raw: string | undefined): Record<string, string> {
 function toNumCentsToDollars(cents: number | null | undefined): number | null {
   if (typeof cents !== "number" || !Number.isFinite(cents)) return null;
   return Math.round(cents) / 100;
+}
+
+function appBaseUrl(): string {
+  const auth = process.env.NEXTAUTH_URL?.trim();
+  if (auth) return auth.replace(/\/$/, "");
+  const vercel = process.env.VERCEL_URL?.trim();
+  if (vercel) return `https://${vercel.replace(/\/$/, "")}`;
+  return "";
 }
 
 async function markSessionPaid(
@@ -118,6 +127,40 @@ export async function POST(req: Request) {
       upgrades: [],
     });
 
+    let accountEmailSent = false;
+    let accountEmailError: string | null = null;
+    let accountEmailType: "setup" | "existing-login" | null = null;
+    const email = (metadata.buyerEmail || session.customer_details?.email || "").trim();
+
+    if (!email) {
+      accountEmailError = "Missing buyer email for account access email.";
+    } else if (paidOrder.status !== "duplicate" && paidOrder.createdUser && paidOrder.setupAccountUrl) {
+      accountEmailType = "setup";
+      const sent = await sendSetupAccountEmail({
+        to: email,
+        fullName: metadata.buyerName || session.customer_details?.name || undefined,
+        setupAccountUrl: paidOrder.setupAccountUrl,
+        firstLoginPath: "/dashboard",
+      });
+      accountEmailSent = sent.sent;
+      accountEmailError = sent.sent ? null : sent.error ?? "Setup email send failed.";
+    } else {
+      accountEmailType = "existing-login";
+      const base = appBaseUrl();
+      if (!base) {
+        accountEmailError = "App base URL is not configured for login email.";
+      } else {
+        const loginUrl = `${base}/login?callbackUrl=${encodeURIComponent("/dashboard")}`;
+        const sent = await sendExistingAccountAccessEmail({
+          to: email,
+          fullName: metadata.buyerName || session.customer_details?.name || undefined,
+          loginUrl,
+        });
+        accountEmailSent = sent.sent;
+        accountEmailError = sent.sent ? null : sent.error ?? "Existing-account email send failed.";
+      }
+    }
+
     return NextResponse.json({
       ok: true,
       event: event.type,
@@ -125,6 +168,9 @@ export async function POST(req: Request) {
       checkoutSessionId,
       externalOrderId,
       duplicate: paidOrder.status === "duplicate",
+      accountEmailType,
+      accountEmailSent,
+      accountEmailError,
     });
   }
 

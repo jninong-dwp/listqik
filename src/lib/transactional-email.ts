@@ -4,6 +4,7 @@ type SetupEmailInput = {
   to: string;
   fullName?: string;
   setupAccountUrl: string;
+  firstLoginPath?: string;
 };
 
 type ExistingAccountEmailInput = {
@@ -52,14 +53,18 @@ export async function sendSetupAccountEmail(input: SetupEmailInput): Promise<Sen
   }
 
   const greetingName = input.fullName?.trim() || "there";
-  const subject = "Finish setting up your ListQik seller account";
+  const firstLoginPath = input.firstLoginPath?.trim() || "/dashboard";
+  const setupUrlWithNext = `${input.setupAccountUrl}${
+    input.setupAccountUrl.includes("?") ? "&" : "?"
+  }next=${encodeURIComponent(firstLoginPath)}`;
+  const subject = "Set your password and access your ListQik dashboard";
 
   const text = [
     `Hi ${greetingName},`,
     "",
     "Thanks for your order.",
-    "Use this secure link to finish setting up your account:",
-    input.setupAccountUrl,
+    "Use this secure link to set your password and finish your first login:",
+    setupUrlWithNext,
     "",
     "This link expires in 14 days.",
     "",
@@ -71,8 +76,9 @@ export async function sendSetupAccountEmail(input: SetupEmailInput): Promise<Sen
   const html = [
     `<p>Hi ${greetingName},</p>`,
     "<p>Thanks for your order.</p>",
-    "<p>Use this secure link to finish setting up your account:</p>",
-    `<p><a href="${input.setupAccountUrl}">${input.setupAccountUrl}</a></p>`,
+    "<p>Use this secure link to set your password and finish your first login:</p>",
+    `<p><a href="${setupUrlWithNext}">${setupUrlWithNext}</a></p>`,
+    "<p>After setting your password, you'll be signed in and sent directly to your dashboard.</p>",
     "<p>This link expires in 14 days.</p>",
     "<p>If you did not request this, you can ignore this email.</p>",
     "<p>&mdash; ListQik</p>",
@@ -108,7 +114,7 @@ export async function sendExistingAccountAccessEmail(
   }
 
   const greetingName = input.fullName?.trim() || "there";
-  const subject = "Your ListQik account is ready to access";
+  const subject = "Your ListQik account is ready";
 
   const text = [
     `Hi ${greetingName},`,

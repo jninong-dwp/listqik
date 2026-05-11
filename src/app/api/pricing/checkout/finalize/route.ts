@@ -6,6 +6,7 @@ import { User } from "@/models/User";
 
 type FinalizeBody = {
   sessionId?: string;
+  destination?: "dashboard" | "upgrades";
 };
 
 function appBaseUrl(): string {
@@ -25,6 +26,8 @@ export async function POST(req: Request) {
   }
 
   const sessionId = body.sessionId?.trim();
+  const destination = body.destination === "upgrades" ? "upgrades" : "dashboard";
+  const callbackPath = destination === "upgrades" ? "/upgrades" : "/dashboard";
   if (!sessionId) {
     return NextResponse.json(
       { ok: false, error: "sessionId is required." },
@@ -92,7 +95,7 @@ export async function POST(req: Request) {
     return NextResponse.json({
       ok: true,
       sessionId,
-      nextUrl: `${base}/setup-account?token=${encodeURIComponent(secret)}`,
+      nextUrl: `${base}/setup-account?token=${encodeURIComponent(secret)}&next=${encodeURIComponent(callbackPath)}`,
       destination: "setup-account",
     });
   }
@@ -100,7 +103,7 @@ export async function POST(req: Request) {
   return NextResponse.json({
     ok: true,
     sessionId,
-    nextUrl: `${base}/login?callbackUrl=/dashboard`,
+    nextUrl: `${base}/login?callbackUrl=${encodeURIComponent(callbackPath)}`,
     destination: "login",
   });
 }

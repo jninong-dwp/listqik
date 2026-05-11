@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   EmbeddedCheckout,
@@ -202,6 +201,7 @@ export function PricingConsole() {
   const [checkingPlanPayment, setCheckingPlanPayment] = useState(false);
   const [planPaymentRecorded, setPlanPaymentRecorded] = useState(false);
   const [, setPlanAutoAdvanced] = useState(false);
+  const [handoffBusy, setHandoffBusy] = useState<"dashboard" | "upgrades" | null>(null);
 
   const advanceToUpgradesIfReady = useCallback(() => {
     setPlanAutoAdvanced((alreadyAdvanced) => {
@@ -332,6 +332,34 @@ export function PricingConsole() {
     // Keep server-side confirmation in the background for resiliency.
     void checkPlanPaymentStatus(false);
   }, [advanceToUpgradesIfReady, checkPlanPaymentStatus]);
+
+  async function continueAfterPayment(destination: "dashboard" | "upgrades") {
+    if (!checkoutSessionId) {
+      setError("Could not find your checkout session. Please refresh and try again.");
+      return;
+    }
+    setError("");
+    setHandoffBusy(destination);
+    try {
+      const res = await fetch("/api/pricing/checkout/finalize", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ sessionId: checkoutSessionId, destination }),
+      });
+      const data = (await res.json().catch(() => null)) as
+        | { ok?: boolean; nextUrl?: string; error?: string }
+        | null;
+      if (!res.ok || !data?.ok || !data.nextUrl) {
+        setError(data?.error || "Could not continue yet. Please retry in a few seconds.");
+        return;
+      }
+      window.location.href = data.nextUrl;
+    } catch {
+      setError("Network error while preparing your account handoff.");
+    } finally {
+      setHandoffBusy(null);
+    }
+  }
 
   async function openPlanCheckoutStep() {
     if (!canContinueToUpgrades()) return;
@@ -781,18 +809,26 @@ export function PricingConsole() {
                   Back
                 </button>
                 <div className="flex flex-wrap items-center gap-2">
-                  <Link
-                    href="/upgrades"
-                    className="btn-secondary"
+                  <button
+                    type="button"
+                    onClick={() => {
+                      void continueAfterPayment("upgrades");
+                    }}
+                    disabled={handoffBusy !== null}
+                    className="btn-secondary disabled:opacity-50"
                   >
-                    Add upgrades
-                  </Link>
-                  <Link
-                    href="/dashboard"
-                    className="btn-primary"
+                    {handoffBusy === "upgrades" ? "Preparing..." : "Add upgrades"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      void continueAfterPayment("dashboard");
+                    }}
+                    disabled={handoffBusy !== null}
+                    className="btn-primary disabled:opacity-50"
                   >
-                    Proceed to user dashboard
-                  </Link>
+                    {handoffBusy === "dashboard" ? "Preparing..." : "Proceed to user dashboard"}
+                  </button>
                 </div>
               </div>
             </div>

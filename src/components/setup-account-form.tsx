@@ -1,12 +1,23 @@
 "use client";
 
+import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+
+function safeNextPath(raw: string | null): string {
+  if (!raw) return "/dashboard";
+  const value = raw.trim();
+  if (!value.startsWith("/")) return "/dashboard";
+  // Prevent open redirects and protocol-relative values.
+  if (value.startsWith("//")) return "/dashboard";
+  return value;
+}
 
 export function SetupAccountForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const tokenFromUrl = searchParams.get("token") ?? "";
+  const nextPath = safeNextPath(searchParams.get("next"));
 
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
@@ -43,13 +54,36 @@ export function SetupAccountForm() {
       return;
     }
 
-    const data = (await res.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
+    const data = (await res.json().catch(() => null)) as
+      | { ok?: boolean; error?: string; email?: string }
+      | null;
     if (!res.ok || !data?.ok) {
       setError(data?.error || "Could not complete setup.");
       return;
     }
 
-    router.push("/login?callbackUrl=/dashboard");
+    if (!data.email) {
+      setError("Password saved, but automatic sign-in could not start. Please sign in manually.");
+      router.push(`/login?callbackUrl=${encodeURIComponent(nextPath)}`);
+      router.refresh();
+      return;
+    }
+
+    const signInResult = await signIn("credentials", {
+      email: data.email,
+      password,
+      redirect: false,
+      callbackUrl: nextPath,
+    });
+
+    if (signInResult?.error) {
+      setError("Password saved, but auto sign-in failed. Please sign in manually.");
+      router.push(`/login?callbackUrl=${encodeURIComponent(nextPath)}`);
+      router.refresh();
+      return;
+    }
+
+    router.push(signInResult?.url ?? nextPath);
     router.refresh();
   }
 
