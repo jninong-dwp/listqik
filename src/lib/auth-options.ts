@@ -1,6 +1,7 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+import { isAdminEmail } from "@/lib/admin";
 import { connectDb } from "@/lib/mongodb";
 import { User } from "@/models/User";
 
@@ -42,14 +43,28 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     jwt({ token, user }) {
-      if (user?.id) {
+      // Persist identity on the JWT so session.user.email/name exist on every request.
+      // Without this, JWT sessions only had token.sub and admin checks using email always failed.
+      if (user) {
         token.sub = user.id;
+        if (user.email) token.email = user.email;
+        if (user.name) token.name = user.name;
+        token.isAdmin = isAdminEmail(user.email);
       }
       return token;
     },
     session({ session, token }) {
       if (session.user && token.sub) {
         session.user.id = token.sub;
+      }
+      if (session.user && typeof token.email === "string") {
+        session.user.email = token.email;
+      }
+      if (session.user && typeof token.name === "string") {
+        session.user.name = token.name;
+      }
+      if (session.user) {
+        session.user.isAdmin = Boolean(token.isAdmin);
       }
       return session;
     },

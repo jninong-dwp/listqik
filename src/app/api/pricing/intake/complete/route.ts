@@ -3,6 +3,10 @@ import { NextResponse } from "next/server";
 import { connectDb } from "@/lib/mongodb";
 import { Listing } from "@/models/Listing";
 import { PlanPurchase } from "@/models/PlanPurchase";
+import {
+  hasValidCoreListingAddress,
+  normalizeListingAddressPart,
+} from "@/lib/listing-address";
 import { User } from "@/models/User";
 
 type IntakeBody = {
@@ -61,19 +65,27 @@ export async function POST(req: Request) {
   const planId = body.plan?.id?.trim();
   const planName = body.plan?.name?.trim();
   const planPrice = body.plan?.price?.trim();
-  const street = body.property?.address?.trim();
-  const unit = body.property?.unit?.trim();
-  const city = body.property?.city?.trim();
-  const state = body.property?.state?.trim();
-  const zip = body.property?.zip?.trim();
-  const county = body.property?.county?.trim();
+  const street = normalizeListingAddressPart(body.property?.address);
+  const unit = normalizeListingAddressPart(body.property?.unit);
+  const city = normalizeListingAddressPart(body.property?.city);
+  const state = normalizeListingAddressPart(body.property?.state);
+  const zip = normalizeListingAddressPart(body.property?.zip);
+  const county = normalizeListingAddressPart(body.property?.county);
   const propertyType = body.property?.propertyType?.trim();
 
-  if (!fullName || !email || !password || !planId || !planName || !street || !city || !state || !zip) {
+  if (
+    !fullName ||
+    !email ||
+    !password ||
+    !planId ||
+    !planName ||
+    !hasValidCoreListingAddress({ street, city, state, zip })
+  ) {
     return NextResponse.json(
       {
         ok: false,
-        error: "Missing required intake fields. Name, email, password, plan, and property address are required.",
+        error:
+          "Missing required intake fields. Name, email, password, plan, and a real property address are required (placeholders like \"null\" are not accepted).",
       },
       { status: 400 },
     );
@@ -136,11 +148,11 @@ export async function POST(req: Request) {
     await Listing.create({
       userId: user._id,
       street,
-      unit: unit || undefined,
+      unit,
       city,
       state,
       zip,
-      county: county || undefined,
+      county,
       propertyType: mapPropertyType(propertyType),
       sellerNames: fullName,
       contactPhone: phone || undefined,

@@ -1,8 +1,19 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+
+function pathnameFromCallbackUrl(raw: string): string {
+  if (!raw.startsWith("http://") && !raw.startsWith("https://")) {
+    return raw.split("?")[0] || "/dashboard";
+  }
+  try {
+    return new URL(raw).pathname || "/dashboard";
+  } catch {
+    return "/dashboard";
+  }
+}
 
 export function LoginForm() {
   const router = useRouter();
@@ -38,7 +49,13 @@ export function LoginForm() {
             setError("Invalid email or password.");
             return;
           }
-          router.push(res?.url ?? callbackUrl);
+          const session = await getSession();
+          let destination = res?.url ?? callbackUrl;
+          if (session?.user?.isAdmin) {
+            const path = pathnameFromCallbackUrl(callbackUrl);
+            destination = path.startsWith("/dashboard/admin") ? callbackUrl : "/dashboard/admin";
+          }
+          router.push(destination);
           router.refresh();
         }}
       >

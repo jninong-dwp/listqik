@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { Types } from "mongoose";
 import { authOptions } from "@/lib/auth-options";
+import {
+  hasValidCoreListingAddress,
+  normalizeListingAddressPart,
+} from "@/lib/listing-address";
 import { connectDb } from "@/lib/mongodb";
 import { Listing } from "@/models/Listing";
 
@@ -26,6 +30,7 @@ type PatchBody = {
   legalLot?: string;
   legalBlock?: string;
   legalAddition?: string;
+  legalDescription?: string;
   propertyType?: "SINGLE_FAMILY" | "CONDOMINIUM";
   parcelId?: string;
   sellerNames?: string;
@@ -38,10 +43,18 @@ type PatchBody = {
   associationType?: "HOA" | "CONDO" | "NONE";
   newConstruction?: boolean;
   septicSystem?: boolean;
+  hasSolarSystem?: boolean;
   hasPool?: boolean;
   lockboxOrKeypad?: boolean;
   lockboxInstructions?: string;
-  ownershipType?: "INDIVIDUAL" | "MARRIED_COUPLE" | "DECEASED_ESTATE" | "BUSINESS_ENTITY";
+  ownershipType?:
+    | "INDIVIDUAL"
+    | "MARRIED_COUPLE"
+    | "DECEASED_ESTATE"
+    | "BUSINESS_ENTITY"
+    | "POWER_OF_ATTORNEY";
+  allSignersUsCitizens?: boolean;
+  anyOwnerLicensedAgent?: boolean;
   allOwnersOccupyProperty?: boolean;
   businessEntityName?: string;
   businessEntityRegisteredName?: string;
@@ -110,6 +123,7 @@ function serializeListing(doc: {
   legalLot?: string | null;
   legalBlock?: string | null;
   legalAddition?: string | null;
+  legalDescription?: string | null;
   propertyType?: "SINGLE_FAMILY" | "CONDOMINIUM" | null;
   parcelId?: string | null;
   sellerNames?: string | null;
@@ -122,10 +136,19 @@ function serializeListing(doc: {
   associationType?: "HOA" | "CONDO" | "NONE" | null;
   newConstruction?: boolean;
   septicSystem?: boolean;
+  hasSolarSystem?: boolean;
   hasPool?: boolean;
   lockboxOrKeypad?: boolean;
   lockboxInstructions?: string | null;
-  ownershipType?: "INDIVIDUAL" | "MARRIED_COUPLE" | "DECEASED_ESTATE" | "BUSINESS_ENTITY" | null;
+  ownershipType?:
+    | "INDIVIDUAL"
+    | "MARRIED_COUPLE"
+    | "DECEASED_ESTATE"
+    | "BUSINESS_ENTITY"
+    | "POWER_OF_ATTORNEY"
+    | null;
+  allSignersUsCitizens?: boolean;
+  anyOwnerLicensedAgent?: boolean;
   allOwnersOccupyProperty?: boolean;
   businessEntityName?: string | null;
   businessEntityRegisteredName?: string | null;
@@ -197,6 +220,7 @@ function serializeListing(doc: {
     legalLot: doc.legalLot ?? "",
     legalBlock: doc.legalBlock ?? "",
     legalAddition: doc.legalAddition ?? "",
+    legalDescription: doc.legalDescription ?? "",
     propertyType: doc.propertyType ?? "SINGLE_FAMILY",
     parcelId: doc.parcelId ?? "",
     sellerNames: doc.sellerNames ?? "",
@@ -209,10 +233,13 @@ function serializeListing(doc: {
     associationType: doc.associationType ?? "NONE",
     newConstruction: Boolean(doc.newConstruction),
     septicSystem: Boolean(doc.septicSystem),
+    hasSolarSystem: Boolean(doc.hasSolarSystem),
     hasPool: Boolean(doc.hasPool),
     lockboxOrKeypad: Boolean(doc.lockboxOrKeypad),
     lockboxInstructions: doc.lockboxInstructions ?? "",
     ownershipType: doc.ownershipType ?? "INDIVIDUAL",
+    allSignersUsCitizens: Boolean(doc.allSignersUsCitizens ?? true),
+    anyOwnerLicensedAgent: Boolean(doc.anyOwnerLicensedAgent),
     allOwnersOccupyProperty: Boolean(doc.allOwnersOccupyProperty),
     businessEntityName: doc.businessEntityName ?? "",
     businessEntityRegisteredName: doc.businessEntityRegisteredName ?? "",
@@ -336,11 +363,59 @@ export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }>
     }
     listing.price = Math.round(body.price);
   }
-  if (body.street !== undefined) listing.street = body.street.trim();
-  if (body.unit !== undefined) listing.unit = body.unit?.trim() || undefined;
-  if (body.city !== undefined) listing.city = body.city.trim();
-  if (body.state !== undefined) listing.state = body.state.trim();
-  if (body.zip !== undefined) listing.zip = body.zip.trim();
+  if (body.street !== undefined) {
+    const v = normalizeListingAddressPart(body.street);
+    if (!v) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: 'Street is required and cannot be a placeholder (e.g. "null").',
+        },
+        { status: 400 },
+      );
+    }
+    listing.street = v;
+  }
+  if (body.unit !== undefined) listing.unit = normalizeListingAddressPart(body.unit);
+  if (body.city !== undefined) {
+    const v = normalizeListingAddressPart(body.city);
+    if (!v) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: 'City is required and cannot be a placeholder (e.g. "null").',
+        },
+        { status: 400 },
+      );
+    }
+    listing.city = v;
+  }
+  if (body.state !== undefined) {
+    const v = normalizeListingAddressPart(body.state);
+    if (!v) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: 'State is required and cannot be a placeholder (e.g. "null").',
+        },
+        { status: 400 },
+      );
+    }
+    listing.state = v;
+  }
+  if (body.zip !== undefined) {
+    const v = normalizeListingAddressPart(body.zip);
+    if (!v) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: 'ZIP is required and cannot be a placeholder (e.g. "null").',
+        },
+        { status: 400 },
+      );
+    }
+    listing.zip = v;
+  }
   if (body.buyerAgentCompPct !== undefined) {
     listing.buyerAgentCompPct =
       body.buyerAgentCompPct === null ? null : Number(body.buyerAgentCompPct);
@@ -381,6 +456,7 @@ export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }>
   if (body.legalLot !== undefined) listing.legalLot = body.legalLot?.trim() || undefined;
   if (body.legalBlock !== undefined) listing.legalBlock = body.legalBlock?.trim() || undefined;
   if (body.legalAddition !== undefined) listing.legalAddition = body.legalAddition?.trim() || undefined;
+  if (body.legalDescription !== undefined) listing.legalDescription = String(body.legalDescription ?? "");
   if (body.propertyType !== undefined) listing.propertyType = body.propertyType;
   if (body.parcelId !== undefined) listing.parcelId = body.parcelId?.trim() || undefined;
   if (body.sellerNames !== undefined) listing.sellerNames = body.sellerNames?.trim() || undefined;
@@ -393,10 +469,25 @@ export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }>
   if (body.associationType !== undefined) listing.associationType = body.associationType;
   if (body.newConstruction !== undefined) listing.newConstruction = Boolean(body.newConstruction);
   if (body.septicSystem !== undefined) listing.septicSystem = Boolean(body.septicSystem);
+  if (body.hasSolarSystem !== undefined) listing.hasSolarSystem = Boolean(body.hasSolarSystem);
   if (body.hasPool !== undefined) listing.hasPool = Boolean(body.hasPool);
   if (body.lockboxOrKeypad !== undefined) listing.lockboxOrKeypad = Boolean(body.lockboxOrKeypad);
   if (body.lockboxInstructions !== undefined) listing.lockboxInstructions = String(body.lockboxInstructions ?? "");
-  if (body.ownershipType !== undefined) listing.ownershipType = body.ownershipType;
+  if (body.ownershipType !== undefined) {
+    const allowedOwnership = [
+      "INDIVIDUAL",
+      "MARRIED_COUPLE",
+      "DECEASED_ESTATE",
+      "BUSINESS_ENTITY",
+      "POWER_OF_ATTORNEY",
+    ] as const;
+    if (!allowedOwnership.includes(body.ownershipType as (typeof allowedOwnership)[number])) {
+      return NextResponse.json({ ok: false, error: "Invalid ownership type." }, { status: 400 });
+    }
+    listing.ownershipType = body.ownershipType;
+  }
+  if (body.allSignersUsCitizens !== undefined) listing.allSignersUsCitizens = Boolean(body.allSignersUsCitizens);
+  if (body.anyOwnerLicensedAgent !== undefined) listing.anyOwnerLicensedAgent = Boolean(body.anyOwnerLicensedAgent);
   if (body.allOwnersOccupyProperty !== undefined) {
     listing.allOwnersOccupyProperty = Boolean(body.allOwnersOccupyProperty);
   }
@@ -484,6 +575,17 @@ export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }>
   }
   if (body.wantsListingProcessFeedback !== undefined) {
     listing.wantsListingProcessFeedback = Boolean(body.wantsListingProcessFeedback);
+  }
+
+  if (!hasValidCoreListingAddress(listing)) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error:
+          "Street, city, state, and ZIP must all be real values before saving (placeholders like \"null\" are not allowed).",
+      },
+      { status: 400 },
+    );
   }
 
   await listing.save();

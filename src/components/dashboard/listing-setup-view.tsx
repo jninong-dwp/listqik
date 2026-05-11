@@ -4,7 +4,8 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
 
-type ListingSetupData = {
+/** Mirrors `/api/dashboard/listings/[id]` GET payload (+ merged defaults for older rows). */
+export type ListingSetupData = {
   id: string;
   street: string;
   unit: string;
@@ -12,6 +13,41 @@ type ListingSetupData = {
   state: string;
   zip: string;
   county: string;
+  legalLot: string;
+  legalBlock: string;
+  legalAddition: string;
+  legalDescription: string;
+  propertyType: string;
+  parcelId: string;
+  sellerNames: string;
+  contactPhone: string;
+  contactEmail: string;
+  feeSimpleConfirmed: boolean;
+  tenantOccupied: boolean;
+  namedSubdivision: boolean;
+  subdivisionName: string;
+  associationType: string;
+  newConstruction: boolean;
+  septicSystem: boolean;
+  hasSolarSystem: boolean;
+  hasPool: boolean;
+  lockboxOrKeypad: boolean;
+  lockboxInstructions: string;
+  ownershipType: string;
+  allSignersUsCitizens: boolean;
+  anyOwnerLicensedAgent: boolean;
+  allOwnersOccupyProperty: boolean;
+  businessEntityName: string;
+  businessEntityRegisteredName: string;
+  businessEntitySignerName: string;
+  businessEntitySignerTitle: string;
+  businessEntitySignerEmail: string;
+  allOwnersConsentEsign: boolean;
+  appointmentPhone: string;
+  appointmentPhoneCanText: boolean;
+  alternatePhone: string;
+  alternatePhoneCanText: boolean;
+  appointmentEmail: string;
   mlsName: string;
   mlsNumber: string;
   listingId: string;
@@ -20,22 +56,157 @@ type ListingSetupData = {
   price: number;
   buyerAgentCompPct: number | null;
   description: string;
+  listingStartOn: string | null;
+  listingEndOn: string | null;
+  flatFee: number | null;
+  protectionPeriodDays: number | null;
+  intermediaryStatusAuthorized: boolean;
+  buyerAgentCompType: string;
+  buyerAgentCompAmount: number | null;
+  exclusions: string;
+  hoaRequired: boolean;
+  improvementsAndAccessories: string;
+  publicRemarks: string;
+  privateRemarks: string;
+  drivingDirections: string;
+  crossStreet: string;
+  schedulingService: string;
+  keyboxPermission: boolean;
+  keyboxRiskAcknowledged: boolean;
+  firstPhotoExteriorConfirmed: boolean;
+  photoNoSignsConfirmed: boolean;
+  photoNoPeoplePetsConfirmed: boolean;
+  photoCopyrightConfirmed: boolean;
+  yearBuilt: number | null;
+  isInMudWaterDistrict: boolean;
+  fairHousingNoticeConfirmed: boolean;
+  valuablesNoticeConfirmed: boolean;
+  iabsAcknowledged: boolean;
+  sellersDisclosureAcknowledged: boolean;
+  listingAgreementAcknowledged: boolean;
+  brokerBrandingConfirmed: boolean;
+  informationAccurateConfirmed: boolean;
+  referredByExistingCustomer: boolean;
+  wantsListingProcessFeedback: boolean;
   heroImageUrl: string;
   orderedOn: string | null;
   listedOn: string | null;
   expiresOn: string | null;
   setupFinalizedAt: string | null;
+  createdAt: string | null;
+  updatedAt: string | null;
 };
 
+const LISTING_SETUP_DEFAULTS: ListingSetupData = {
+  id: "",
+  street: "",
+  unit: "",
+  city: "",
+  state: "",
+  zip: "",
+  county: "",
+  legalLot: "",
+  legalBlock: "",
+  legalAddition: "",
+  legalDescription: "",
+  propertyType: "SINGLE_FAMILY",
+  parcelId: "",
+  sellerNames: "",
+  contactPhone: "",
+  contactEmail: "",
+  feeSimpleConfirmed: false,
+  tenantOccupied: false,
+  namedSubdivision: false,
+  subdivisionName: "",
+  associationType: "NONE",
+  newConstruction: false,
+  septicSystem: false,
+  hasSolarSystem: false,
+  hasPool: false,
+  lockboxOrKeypad: false,
+  lockboxInstructions: "",
+  ownershipType: "INDIVIDUAL",
+  allSignersUsCitizens: true,
+  anyOwnerLicensedAgent: false,
+  allOwnersOccupyProperty: true,
+  businessEntityName: "",
+  businessEntityRegisteredName: "",
+  businessEntitySignerName: "",
+  businessEntitySignerTitle: "",
+  businessEntitySignerEmail: "",
+  allOwnersConsentEsign: false,
+  appointmentPhone: "",
+  appointmentPhoneCanText: false,
+  alternatePhone: "",
+  alternatePhoneCanText: false,
+  appointmentEmail: "",
+  mlsName: "",
+  mlsNumber: "",
+  listingId: "",
+  status: "INCOMPLETE",
+  planLabel: "",
+  price: 0,
+  buyerAgentCompPct: null,
+  description: "",
+  listingStartOn: null,
+  listingEndOn: null,
+  flatFee: null,
+  protectionPeriodDays: null,
+  intermediaryStatusAuthorized: false,
+  buyerAgentCompType: "PERCENT",
+  buyerAgentCompAmount: null,
+  exclusions: "",
+  hoaRequired: false,
+  improvementsAndAccessories: "",
+  publicRemarks: "",
+  privateRemarks: "",
+  drivingDirections: "",
+  crossStreet: "",
+  schedulingService: "",
+  keyboxPermission: false,
+  keyboxRiskAcknowledged: false,
+  firstPhotoExteriorConfirmed: false,
+  photoNoSignsConfirmed: false,
+  photoNoPeoplePetsConfirmed: false,
+  photoCopyrightConfirmed: false,
+  yearBuilt: null,
+  isInMudWaterDistrict: false,
+  fairHousingNoticeConfirmed: false,
+  valuablesNoticeConfirmed: false,
+  iabsAcknowledged: false,
+  sellersDisclosureAcknowledged: false,
+  listingAgreementAcknowledged: false,
+  brokerBrandingConfirmed: false,
+  informationAccurateConfirmed: false,
+  referredByExistingCustomer: false,
+  wantsListingProcessFeedback: false,
+  heroImageUrl: "",
+  orderedOn: null,
+  listedOn: null,
+  expiresOn: null,
+  setupFinalizedAt: null,
+  createdAt: null,
+  updatedAt: null,
+};
+
+function mergeListing(raw: Partial<ListingSetupData> & { id: string }): ListingSetupData {
+  return { ...LISTING_SETUP_DEFAULTS, ...raw };
+}
+
+const PUBLIC_REMARKS_MAX = 1200;
+const COMPLIANCE_FEE_PCT = 0.5;
+
 const previewSetupListings: ListingSetupData[] = [
-  {
+  mergeListing({
     id: "preview-listing-1",
     street: "1234 Lakeshore Dr",
-    unit: "",
     city: "Austin",
     state: "TX",
     zip: "78704",
     county: "Travis",
+    parcelId: "R123456",
+    legalDescription: "SUBDIVISION EXAMPLE BLOCK 1 LOT 2",
+    yearBuilt: 1998,
     mlsName: "Austin Board of Realtors",
     mlsNumber: "ABR-1234567",
     listingId: "LISTQIK-1001",
@@ -43,18 +214,24 @@ const previewSetupListings: ListingSetupData[] = [
     planLabel: "Gold Plan · 25 photos",
     price: 545000,
     buyerAgentCompPct: 2.5,
+    publicRemarks:
+      "Beautifully updated single-story home with open kitchen, covered patio, and quick access to downtown Austin.",
     description:
       "Beautifully updated single-story home with open kitchen, covered patio, and quick access to downtown Austin.",
-    heroImageUrl: "",
+    drivingDirections: "From downtown, take Lamar south and turn east on Example Rd.",
+    crossStreet: "Example Rd & Barton Blvd",
+    sellerNames: "Preview Seller",
+    contactPhone: "512-555-0100",
+    contactEmail: "seller@example.com",
+    appointmentPhone: "512-555-0100",
+    appointmentEmail: "seller@example.com",
+    feeSimpleConfirmed: true,
+    allOwnersConsentEsign: true,
     orderedOn: "2026-04-12T08:00:00.000Z",
-    listedOn: null,
-    expiresOn: null,
-    setupFinalizedAt: null,
-  },
-  {
+  }),
+  mergeListing({
     id: "preview-listing-2",
     street: "8702 Meadow Park Ln",
-    unit: "",
     city: "Houston",
     state: "TX",
     zip: "77064",
@@ -66,15 +243,39 @@ const previewSetupListings: ListingSetupData[] = [
     planLabel: "Platinum Plan · 40 photos",
     price: 429000,
     buyerAgentCompPct: 3,
-    description:
-      "Move-in ready two-story with upgraded kitchen, large backyard, and convenient freeway access.",
-    heroImageUrl: "",
+    publicRemarks: "Move-in ready two-story with upgraded kitchen and large backyard.",
+    description: "Move-in ready two-story with upgraded kitchen and large backyard.",
+    drivingDirections: "From Beltway 8, exit Example and head north.",
+    crossStreet: "Meadow Park & Oak Hollow",
+    sellerNames: "Preview Seller Two",
+    contactPhone: "713-555-0199",
+    contactEmail: "seller2@example.com",
+    appointmentPhone: "713-555-0199",
+    appointmentEmail: "seller2@example.com",
+    parcelId: "P-998877",
+    yearBuilt: 2005,
     orderedOn: "2026-03-22T08:00:00.000Z",
     listedOn: "2026-03-30T08:00:00.000Z",
     expiresOn: "2026-09-30T08:00:00.000Z",
     setupFinalizedAt: "2026-03-29T08:00:00.000Z",
-  },
-  {
+    feeSimpleConfirmed: true,
+    allOwnersConsentEsign: true,
+    intermediaryStatusAuthorized: true,
+    listingStartOn: "2026-03-30T08:00:00.000Z",
+    listingEndOn: "2026-09-30T08:00:00.000Z",
+    fairHousingNoticeConfirmed: true,
+    valuablesNoticeConfirmed: true,
+    iabsAcknowledged: true,
+    sellersDisclosureAcknowledged: true,
+    listingAgreementAcknowledged: true,
+    brokerBrandingConfirmed: true,
+    informationAccurateConfirmed: true,
+    firstPhotoExteriorConfirmed: true,
+    photoNoSignsConfirmed: true,
+    photoNoPeoplePetsConfirmed: true,
+    photoCopyrightConfirmed: true,
+  }),
+  mergeListing({
     id: "preview-listing-3",
     street: "4517 Mesa Ridge Ct",
     unit: "Unit B",
@@ -89,14 +290,26 @@ const previewSetupListings: ListingSetupData[] = [
     planLabel: "Silver Plan · 15 photos",
     price: 318000,
     buyerAgentCompPct: 2.75,
-    description:
-      "Updated condo with modern finishes, private patio, and quick access to major shopping and dining areas.",
-    heroImageUrl: "",
+    publicRemarks: "Updated condo with modern finishes and private patio.",
+    description: "Updated condo with modern finishes and private patio.",
+    drivingDirections: "Take I-10 to Example Rd, north on Mesa Ridge.",
+    crossStreet: "Mesa Ridge & Bitters",
+    sellerNames: "Preview Seller Three",
+    contactPhone: "210-555-0177",
+    contactEmail: "seller3@example.com",
+    appointmentPhone: "210-555-0177",
+    appointmentEmail: "seller3@example.com",
+    parcelId: "BEX-445566",
+    yearBuilt: 2012,
+    propertyType: "CONDOMINIUM",
+    associationType: "CONDO",
     orderedOn: "2026-02-10T08:00:00.000Z",
     listedOn: "2026-02-20T08:00:00.000Z",
     expiresOn: "2026-08-20T08:00:00.000Z",
     setupFinalizedAt: "2026-02-19T08:00:00.000Z",
-  },
+    feeSimpleConfirmed: true,
+    allOwnersConsentEsign: true,
+  }),
 ];
 
 type SetupStep = {
@@ -107,9 +320,7 @@ type SetupStep = {
 };
 
 function formatDate(value: string | null) {
-  if (!value) {
-    return "Pending";
-  }
+  if (!value) return "Pending";
   try {
     return new Intl.DateTimeFormat("en-US", { dateStyle: "medium" }).format(new Date(value));
   } catch {
@@ -125,6 +336,91 @@ function formatMoney(value: number) {
   }).format(value);
 }
 
+function readYesNo(group: string, fallback: boolean): boolean {
+  const sel = document.querySelector(`input[name="${group}"]:checked`) as HTMLInputElement | null;
+  if (!sel) return fallback;
+  return sel.value === "yes";
+}
+
+function readOptionalDate(inputId: string): string | null {
+  const raw = (document.getElementById(inputId) as HTMLInputElement | null)?.value ?? "";
+  if (!raw) return null;
+  const d = new Date(`${raw}T12:00:00`);
+  return Number.isNaN(d.getTime()) ? null : d.toISOString();
+}
+
+function legalComplete(l: ListingSetupData): boolean {
+  const structured =
+    Boolean(l.legalLot?.trim()) && Boolean(l.legalBlock?.trim()) && Boolean(l.legalAddition?.trim());
+  const desc = Boolean(l.legalDescription?.trim());
+  return structured || desc;
+}
+
+function propertyDescComplete(l: ListingSetupData): boolean {
+  const primary = Math.max(l.publicRemarks.trim().length, l.description.trim().length);
+  return (
+    primary >= 40 &&
+    l.privateRemarks.trim().length >= 20 &&
+    l.drivingDirections.trim().length >= 10 &&
+    Boolean(l.crossStreet?.trim())
+  );
+}
+
+function photosComplete(l: ListingSetupData): boolean {
+  return Boolean(l.heroImageUrl?.trim()) &&
+    l.firstPhotoExteriorConfirmed &&
+    l.photoNoSignsConfirmed &&
+    l.photoNoPeoplePetsConfirmed &&
+    l.photoCopyrightConfirmed;
+}
+
+function generalComplete(l: ListingSetupData): boolean {
+  const addr = Boolean(l.street?.trim() && l.city?.trim() && l.state?.trim() && l.zip?.trim());
+  const parcel = Boolean(l.parcelId?.trim());
+  const yb = typeof l.yearBuilt === "number" && l.yearBuilt >= 1600 && l.yearBuilt <= 2100;
+  const lockOk = !l.lockboxOrKeypad || Boolean(l.lockboxInstructions?.trim());
+  return addr && parcel && yb && legalComplete(l) && lockOk;
+}
+
+function contactComplete(l: ListingSetupData): boolean {
+  const base =
+    Boolean(l.county?.trim()) &&
+    Boolean(l.sellerNames?.trim()) &&
+    Boolean(l.contactPhone?.trim()) &&
+    Boolean(l.contactEmail?.trim()) &&
+    Boolean(l.appointmentPhone?.trim()) &&
+    Boolean(l.appointmentEmail?.trim()) &&
+    l.feeSimpleConfirmed &&
+    l.allOwnersConsentEsign;
+
+  if (l.ownershipType === "BUSINESS_ENTITY") {
+    return (
+      base &&
+      Boolean(l.businessEntityName?.trim()) &&
+      Boolean(l.businessEntityRegisteredName?.trim()) &&
+      Boolean(l.businessEntitySignerName?.trim()) &&
+      Boolean(l.businessEntitySignerTitle?.trim()) &&
+      Boolean(l.businessEntitySignerEmail?.trim())
+    );
+  }
+  return base;
+}
+
+function disclosuresComplete(l: ListingSetupData): boolean {
+  return (
+    l.fairHousingNoticeConfirmed &&
+    l.valuablesNoticeConfirmed &&
+    l.iabsAcknowledged &&
+    l.sellersDisclosureAcknowledged &&
+    l.listingAgreementAcknowledged &&
+    l.brokerBrandingConfirmed &&
+    l.informationAccurateConfirmed &&
+    l.intermediaryStatusAuthorized &&
+    Boolean(l.listingStartOn) &&
+    Boolean(l.listingEndOn)
+  );
+}
+
 export function ListingSetupView({ listingId }: { listingId: string }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -135,6 +431,7 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
   const [showPhotoDisclaimer, setShowPhotoDisclaimer] = useState(false);
   const [pendingAnchor, setPendingAnchor] = useState<string | null>(null);
   const [photoDisclaimerAccepted, setPhotoDisclaimerAccepted] = useState(false);
+  const [savingSection, setSavingSection] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -155,17 +452,13 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
     fetch(`/api/dashboard/listings/${listingId}`, { cache: "no-store" })
       .then(async (res) => {
         const data = (await res.json().catch(() => null)) as
-          | { ok?: boolean; listing?: ListingSetupData; error?: string }
+          | { ok?: boolean; listing?: Partial<ListingSetupData> & { id: string }; error?: string }
           | null;
         if (!res.ok || !data?.ok || !data.listing) {
-          if (res.status === 401) {
-            throw new Error("Please sign in to load this listing setup.");
-          }
+          if (res.status === 401) throw new Error("Please sign in to load this listing setup.");
           throw new Error(data?.error || "Could not load listing setup.");
         }
-        if (!cancelled) {
-          setListing(data.listing);
-        }
+        if (!cancelled) setListing(mergeListing(data.listing as Partial<ListingSetupData> & { id: string }));
       })
       .catch((err: unknown) => {
         if (cancelled) return;
@@ -173,9 +466,7 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
         setError(err instanceof Error ? err.message : "Could not load listing setup.");
       })
       .finally(() => {
-        if (!cancelled) {
-          setLoading(false);
-        }
+        if (!cancelled) setLoading(false);
       });
 
     return () => {
@@ -189,44 +480,44 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
       {
         id: "general-information",
         title: "General information",
-        subtitle: "Address and base record integrity",
-        complete: Boolean(listing.street && listing.city && listing.state && listing.zip),
+        subtitle: "Address & property details (parcel, legal, association)",
+        complete: generalComplete(listing),
       },
       {
         id: "contact-ownership",
-        title: "Contact and ownership",
-        subtitle: "Account, county, and listing ownership context",
-        complete: Boolean(listing.county),
+        title: "Contact / ownership",
+        subtitle: "Owners, signing authority, appointment contacts",
+        complete: contactComplete(listing),
       },
       {
         id: "price-compensation",
-        title: "Price and compensation",
-        subtitle: "List price and buyer-agent compensation",
+        title: "Price & compensation",
+        subtitle: "List price & buyer-agent compensation",
         complete: listing.price > 0 && listing.buyerAgentCompPct !== null,
       },
       {
         id: "property-description",
         title: "Property description",
-        subtitle: "Public remarks and compliance-safe messaging",
-        complete: listing.description.trim().length >= 40,
-      },
-      {
-        id: "photos-media",
-        title: "Photos and media",
-        subtitle: "Hero image and media readiness",
-        complete: Boolean(listing.heroImageUrl),
+        subtitle: "MLS remarks, directions, cross street",
+        complete: propertyDescComplete(listing),
       },
       {
         id: "mls-profile",
         title: "MLS details",
-        subtitle: "MLS source and listing identifiers",
-        complete: Boolean(listing.mlsName || listing.mlsNumber || listing.listingId),
+        subtitle: "MLS board & identifiers",
+        complete: Boolean(listing.mlsName?.trim() || listing.mlsNumber?.trim() || listing.listingId?.trim()),
+      },
+      {
+        id: "photos-media",
+        title: "Photos",
+        subtitle: "Hero image & MLS photo confirmations",
+        complete: photosComplete(listing),
       },
       {
         id: "complete-listing-setup",
-        title: "Complete listing setup",
-        subtitle: "Operational status and publish readiness",
-        complete: listing.status !== "INCOMPLETE",
+        title: "Review & finalize",
+        subtitle: "Disclosures, dates, accuracy — publish readiness",
+        complete: listing.status !== "INCOMPLETE" && disclosuresComplete(listing),
       },
     ];
   }, [listing]);
@@ -238,9 +529,7 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
   }, []);
 
   function handleStepNavClick(stepId: string, event: React.MouseEvent<HTMLAnchorElement>) {
-    if (stepId !== "photos-media" || photoDisclaimerAccepted) {
-      return;
-    }
+    if (stepId !== "photos-media" || photoDisclaimerAccepted) return;
     event.preventDefault();
     setPendingAnchor(stepId);
     setShowPhotoDisclaimer(true);
@@ -253,8 +542,7 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
       window.localStorage.setItem("listing-photo-disclaimer-accepted", "true");
     }
     if (pendingAnchor) {
-      const target = document.getElementById(pendingAnchor);
-      target?.scrollIntoView({ behavior: "smooth", block: "start" });
+      document.getElementById(pendingAnchor)?.scrollIntoView({ behavior: "smooth", block: "start" });
       setPendingAnchor(null);
     }
   }
@@ -269,36 +557,84 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
       steps.find((s) => s.id === "contact-ownership")?.complete &&
       steps.find((s) => s.id === "price-compensation")?.complete &&
       steps.find((s) => s.id === "property-description")?.complete &&
+      steps.find((s) => s.id === "mls-profile")?.complete &&
       steps.find((s) => s.id === "photos-media")?.complete &&
-      steps.find((s) => s.id === "mls-profile")?.complete,
+      disclosuresComplete(listing),
   );
   const prevStep = activeStepIndex > 0 ? steps[activeStepIndex - 1] : null;
   const nextStep = activeStepIndex < steps.length - 1 ? steps[activeStepIndex + 1] : null;
 
   const missingByStep = useMemo((): Record<string, string[]> => {
     if (!listing) return {};
-    const out: Record<string, string[]> = {
-      "general-information": [
-        ...(!listing.street ? ["Street"] : []),
-        ...(!listing.city ? ["City"] : []),
-        ...(!listing.state ? ["State"] : []),
-        ...(!listing.zip ? ["ZIP"] : []),
-      ],
-      "contact-ownership": [...(!listing.county ? ["County"] : [])],
+    const g: string[] = [];
+    if (!listing.street?.trim()) g.push("Street");
+    if (!listing.city?.trim()) g.push("City");
+    if (!listing.state?.trim()) g.push("State");
+    if (!listing.zip?.trim()) g.push("ZIP");
+    if (!listing.parcelId?.trim()) g.push("Parcel ID");
+    if (!(typeof listing.yearBuilt === "number" && listing.yearBuilt >= 1600))
+      g.push("Year built (4-digit)");
+    if (!legalComplete(listing)) g.push("Legal description or lot/block/addition");
+    if (listing.lockboxOrKeypad && !listing.lockboxInstructions?.trim())
+      g.push("Lockbox / keypad instructions");
+
+    const c: string[] = [];
+    if (!listing.county?.trim()) c.push("County");
+    if (!listing.sellerNames?.trim()) c.push("Seller legal name(s)");
+    if (!listing.contactPhone?.trim()) c.push("Primary phone");
+    if (!listing.contactEmail?.trim()) c.push("Primary email");
+    if (!listing.appointmentPhone?.trim()) c.push("Appointment phone");
+    if (!listing.appointmentEmail?.trim()) c.push("Appointment email");
+    if (!listing.feeSimpleConfirmed) c.push("Fee simple confirmation");
+    if (!listing.allOwnersConsentEsign) c.push("E-sign consent");
+    if (listing.ownershipType === "BUSINESS_ENTITY") {
+      if (!listing.businessEntityName?.trim()) c.push("Business entity name");
+      if (!listing.businessEntityRegisteredName?.trim()) c.push("Registered legal name");
+      if (!listing.businessEntitySignerName?.trim()) c.push("Signer name");
+      if (!listing.businessEntitySignerTitle?.trim()) c.push("Signer title");
+      if (!listing.businessEntitySignerEmail?.trim()) c.push("Signer email");
+    }
+
+    const d: string[] = [];
+    if (Math.max(listing.publicRemarks.trim().length, listing.description.trim().length) < 40)
+      d.push("MLS description (40+ chars)");
+    if (listing.privateRemarks.trim().length < 20) d.push("Private remarks (20+ chars for finalize)");
+    if (listing.drivingDirections.trim().length < 10) d.push("Driving directions");
+    if (!listing.crossStreet?.trim()) d.push("Cross street");
+
+    const photos: string[] = [];
+    if (!listing.heroImageUrl?.trim()) photos.push("Hero image URL");
+    if (!listing.firstPhotoExteriorConfirmed) photos.push("Exterior-first photo confirmation");
+    if (!listing.photoNoSignsConfirmed) photos.push("No signs confirmation");
+    if (!listing.photoNoPeoplePetsConfirmed) photos.push("No people/pets confirmation");
+    if (!listing.photoCopyrightConfirmed) photos.push("Photo rights confirmation");
+
+    const fin: string[] = [];
+    if (!listing.intermediaryStatusAuthorized) fin.push("Intermediary authorization");
+    if (!listing.listingStartOn) fin.push("Listing start date");
+    if (!listing.listingEndOn) fin.push("Listing end date");
+    if (!listing.fairHousingNoticeConfirmed) fin.push("Fair housing notice");
+    if (!listing.valuablesNoticeConfirmed) fin.push("Valuables notice");
+    if (!listing.iabsAcknowledged) fin.push("IABS");
+    if (!listing.sellersDisclosureAcknowledged) fin.push("Seller disclosure acknowledgment");
+    if (!listing.listingAgreementAcknowledged) fin.push("Listing agreement acknowledgment");
+    if (!listing.brokerBrandingConfirmed) fin.push("Broker branding acknowledgment");
+    if (!listing.informationAccurateConfirmed) fin.push("Accuracy verification");
+
+    return {
+      "general-information": g,
+      "contact-ownership": c,
       "price-compensation": [
         ...(listing.price <= 0 ? ["Valid list price"] : []),
-        ...(listing.buyerAgentCompPct === null ? ["Buyer agent compensation %"] : []),
+        ...(listing.buyerAgentCompPct === null ? ["Buyer-agent compensation %"] : []),
       ],
-      "property-description": [...(listing.description.trim().length < 40 ? ["Description (40+ characters)"] : [])],
-      "photos-media": [...(!listing.heroImageUrl ? ["Hero image"] : [])],
+      "property-description": d,
+      "photos-media": photos,
       "mls-profile": [
         ...(!(listing.mlsName || listing.mlsNumber || listing.listingId) ? ["MLS name, number, or listing ID"] : []),
       ],
-      "complete-listing-setup": [
-        ...(listing.status === "INCOMPLETE" ? ["Set listing status to ACTIVE/PENDING/etc."] : []),
-      ],
+      "complete-listing-setup": fin,
     };
-    return out;
   }, [listing]);
 
   async function finalizeSetup() {
@@ -310,9 +646,7 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
     setFinalizeError(null);
     setFinalizeDetails([]);
     try {
-      const res = await fetch(`/api/dashboard/listings/${listingId}/finalize`, {
-        method: "POST",
-      });
+      const res = await fetch(`/api/dashboard/listings/${listingId}/finalize`, { method: "POST" });
       const data = (await res.json().catch(() => null)) as
         | { ok?: boolean; error?: string; validationErrors?: string[] }
         | null;
@@ -321,18 +655,68 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
         setFinalizeDetails(data?.validationErrors ?? []);
         return;
       }
-
       const refreshed = await fetch(`/api/dashboard/listings/${listingId}`, { cache: "no-store" });
-      const refreshedData = (await refreshed.json().catch(() => null)) as
-        | { ok?: boolean; listing?: ListingSetupData }
-        | null;
+      const refreshedData = (await refreshed.json().catch(() => null)) as {
+        ok?: boolean;
+        listing?: Partial<ListingSetupData> & { id: string };
+      } | null;
       if (refreshed.ok && refreshedData?.ok && refreshedData.listing) {
-        setListing(refreshedData.listing);
+        setListing(mergeListing(refreshedData.listing));
       }
     } catch {
       setFinalizeError("Network error while finalizing setup.");
     } finally {
       setFinalizing(false);
+    }
+  }
+
+  function draftValue(key: keyof ListingSetupData): string {
+    if (!listing) return "";
+    const value = listing[key];
+    if (value === null || value === undefined) return "";
+    return String(value);
+  }
+
+  function dateInputValue(iso: string | null): string {
+    if (!iso) return "";
+    try {
+      return new Date(iso).toISOString().slice(0, 10);
+    } catch {
+      return "";
+    }
+  }
+
+  async function savePatch(sectionId: string, body: Record<string, unknown>) {
+    if (listingId.startsWith("preview-")) {
+      setFinalizeError("Saving is disabled in preview mode.");
+      return;
+    }
+    setSavingSection(sectionId);
+    setFinalizeError(null);
+    setFinalizeDetails([]);
+    try {
+      const res = await fetch(`/api/dashboard/listings/${listingId}`, {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const data = (await res.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
+      if (!res.ok || !data?.ok) {
+        setFinalizeError(data?.error ?? "Could not save section.");
+        return;
+      }
+      const refreshed = await fetch(`/api/dashboard/listings/${listingId}`, { cache: "no-store" });
+      const refreshedData = (await refreshed.json().catch(() => null)) as {
+        ok?: boolean;
+        listing?: Partial<ListingSetupData> & { id: string };
+      } | null;
+      if (refreshed.ok && refreshedData?.ok && refreshedData.listing) {
+        setListing(mergeListing(refreshedData.listing));
+      }
+    } catch {
+      setFinalizeError("Network error while saving section.");
+    } finally {
+      setSavingSection(null);
     }
   }
 
@@ -352,16 +736,29 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
     );
   }
 
+  const priceForMath = listing.price > 0 ? listing.price : 0;
+  const bacPct = listing.buyerAgentCompPct ?? 0;
+  const complianceFeeAmt = (priceForMath * COMPLIANCE_FEE_PCT) / 100;
+  const buyerFeeAmt = (priceForMath * bacPct) / 100;
+  const totalFeePct = bacPct + COMPLIANCE_FEE_PCT;
+  const totalFeeAmt = buyerFeeAmt + complianceFeeAmt;
+
+  const formKey = listing.updatedAt ?? listing.id;
+
   return (
     <div className="grid gap-5 lg:grid-cols-[280px_minmax(0,1fr)]">
       <aside className="rounded-2xl border border-emerald-500/25 bg-black/55 p-4">
         <div className="rounded-xl border border-emerald-400/35 bg-emerald-950/35 p-3">
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-emerald-200/80">Setup Progress</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-emerald-200/80">Setup progress</p>
           <p className="mt-1 text-lg font-semibold text-emerald-100">{completionPct}% complete</p>
           <div className="mt-3 h-2 overflow-hidden rounded-full bg-black/40">
             <div className="h-full rounded-full bg-emerald-400/80" style={{ width: `${completionPct}%` }} />
           </div>
         </div>
+        <p className="mt-3 text-xs text-white/60">
+          {listing.street}, {listing.city}, {listing.state} {listing.zip}
+          {listing.county ? ` · County: ${listing.county}` : ""}
+        </p>
         <ol className="mt-4 space-y-2">
           {steps.map((step, index) => (
             <li key={step.id} className="rounded-xl border border-white/10 bg-white/5 p-3">
@@ -378,9 +775,7 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
                 </span>
                 <a
                   href={`#${step.id}`}
-                  onClick={(event) => {
-                    handleStepNavClick(step.id, event);
-                  }}
+                  onClick={(event) => handleStepNavClick(step.id, event)}
                   className="text-sm font-semibold text-emerald-100 hover:underline"
                 >
                   {step.title}
@@ -394,13 +789,11 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
 
       <section className="rounded-2xl border border-emerald-500/25 bg-black/45 p-5 sm:p-6">
         <header className="border-b border-emerald-500/25 pb-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300/80">
-            Listing Setup Detail
-          </p>
-          <h1 className="mt-2 text-2xl font-semibold text-emerald-50">General Information (Read-only)</h1>
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300/80">MLS listing setup</p>
+          <h1 className="mt-2 text-2xl font-semibold text-emerald-50">Listing setup wizard</h1>
           <p className="mt-2 text-sm text-white/70">
-            This page reflects your current listing setup state. Edits happen on the dashboard listing editor, and
-            finalization can be completed here once all required sections are ready.
+            Fields mirror the common flat-fee MLS onboarding flow: property facts, ownership & contacts, pricing,
+            MLS copy, identifiers, photos, then disclosures before you finalize.
           </p>
         </header>
         {finalizeError ? (
@@ -416,129 +809,662 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
           </div>
         ) : null}
 
-        <div className="mt-5 grid gap-5">
+        <div key={formKey} className="mt-5 grid gap-5">
           <InfoCard
             id="general-information"
-            title="1. General information"
+            title="Step 1 — General information"
             complete={steps.find((s) => s.id === "general-information")?.complete ?? false}
             missingItems={missingByStep["general-information"] ?? []}
           >
-            <InfoGrid
-              items={[
-                ["Street", listing.street || "Pending"],
-                ["Unit", listing.unit || "N/A"],
-                ["City", listing.city || "Pending"],
-                ["State", listing.state || "Pending"],
-                ["ZIP", listing.zip || "Pending"],
-                ["County", listing.county || "Pending"],
-              ]}
+            <Subheading>Property address</Subheading>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Field label="Street address *" id="street" defaultValue={draftValue("street")} />
+              <Field label="Unit #" id="unit" defaultValue={draftValue("unit")} />
+              <Field label="City *" id="city" defaultValue={draftValue("city")} />
+              <Field label="State *" id="state" defaultValue={draftValue("state")} />
+              <Field label="ZIP *" id="zip" defaultValue={draftValue("zip")} />
+              <Field label="County *" id="county-general" defaultValue={draftValue("county")} />
+            </div>
+
+            <Subheading className="mt-6">Property details</Subheading>
+            <Hint>Parcel ID and legal description are typically on your tax bill or county appraiser site.</Hint>
+            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+              <Field label="Parcel ID *" id="parcelId" defaultValue={draftValue("parcelId")} />
+              <SelectField
+                label="Property type *"
+                id="propertyType"
+                defaultValue={listing.propertyType}
+                options={[
+                  { value: "SINGLE_FAMILY", label: "Single-family" },
+                  { value: "CONDOMINIUM", label: "Condominium" },
+                ]}
+              />
+            </div>
+            <label className="mt-3 block" htmlFor="legalDescription">
+              <span className="text-xs font-semibold uppercase tracking-wide text-white/55">
+                Property legal description *
+              </span>
+              <textarea
+                id="legalDescription"
+                rows={3}
+                defaultValue={draftValue("legalDescription")}
+                placeholder="e.g. SUBDIVISION NAME BLOCK 2 LOT 4"
+                className="mt-1 w-full rounded-lg border border-white/15 bg-black/35 px-3 py-2 text-sm text-emerald-100 outline-none ring-emerald-300/40 focus:ring"
+              />
+            </label>
+            <p className="mt-2 text-xs text-white/55">
+              Or enter lot / block / addition separately (required if legal description is blank):
+            </p>
+            <div className="mt-2 grid gap-3 sm:grid-cols-3">
+              <Field label="Legal lot" id="legalLot" defaultValue={draftValue("legalLot")} />
+              <Field label="Legal block" id="legalBlock" defaultValue={draftValue("legalBlock")} />
+              <Field label="Legal addition" id="legalAddition" defaultValue={draftValue("legalAddition")} />
+            </div>
+
+            <div className="mt-4 space-y-3">
+              <FieldLabel>Named subdivision, condo complex or development? *</FieldLabel>
+              <RadioYesNo name="namedSubdivision" defaultYes={listing.namedSubdivision} />
+              <Hint>Choose Yes if your neighborhood or condo building has an official name.</Hint>
+              <Field label="Subdivision / complex name (if Yes)" id="subdivisionName" defaultValue={draftValue("subdivisionName")} />
+            </div>
+
+            <div className="mt-4 space-y-2">
+              <FieldLabel>Property governed by an association? *</FieldLabel>
+              <AssociationRadios defaultValue={listing.associationType} />
+              <Hint>HOA vs condo association differs by who owns land vs unit airspace.</Hint>
+            </div>
+
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <div>
+                <FieldLabel>New construction (never occupied)? *</FieldLabel>
+                <RadioYesNo name="newConstruction" defaultYes={listing.newConstruction} />
+              </div>
+              <Field label="Year built *" id="yearBuilt" defaultValue={draftValue("yearBuilt")} type="number" />
+            </div>
+
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <div>
+                <FieldLabel>Septic system (vs city sewer)? *</FieldLabel>
+                <RadioYesNo name="septicSystem" defaultYes={listing.septicSystem} />
+              </div>
+              <div>
+                <FieldLabel>Solar panels installed (owned or leased)? *</FieldLabel>
+                <RadioYesNo name="hasSolarSystem" defaultYes={listing.hasSolarSystem} />
+              </div>
+            </div>
+
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <div>
+                <FieldLabel>Pool on property?</FieldLabel>
+                <RadioYesNo name="hasPool" defaultYes={listing.hasPool} />
+              </div>
+              <div>
+                <FieldLabel>Lockbox or keypad for access? *</FieldLabel>
+                <RadioYesNo name="lockboxOrKeypad" defaultYes={listing.lockboxOrKeypad} />
+              </div>
+            </div>
+            <Field
+              label="Lockbox / keypad instructions or combination *"
+              id="lockboxInstructions"
+              defaultValue={draftValue("lockboxInstructions")}
+            />
+            <Hint>Required when lockbox/keypad is Yes — combo, location, vendor instructions.</Hint>
+
+            <SaveBar
+              busy={savingSection === "general-information"}
+              onSave={() => {
+                void savePatch("general-information", {
+                  street: (document.getElementById("street") as HTMLInputElement)?.value ?? "",
+                  unit: (document.getElementById("unit") as HTMLInputElement)?.value ?? "",
+                  city: (document.getElementById("city") as HTMLInputElement)?.value ?? "",
+                  state: (document.getElementById("state") as HTMLInputElement)?.value ?? "",
+                  zip: (document.getElementById("zip") as HTMLInputElement)?.value ?? "",
+                  county: (document.getElementById("county-general") as HTMLInputElement)?.value ?? "",
+                  parcelId: (document.getElementById("parcelId") as HTMLInputElement)?.value ?? "",
+                  legalDescription: (document.getElementById("legalDescription") as HTMLTextAreaElement)?.value ?? "",
+                  legalLot: (document.getElementById("legalLot") as HTMLInputElement)?.value ?? "",
+                  legalBlock: (document.getElementById("legalBlock") as HTMLInputElement)?.value ?? "",
+                  legalAddition: (document.getElementById("legalAddition") as HTMLInputElement)?.value ?? "",
+                  propertyType: (document.getElementById("propertyType") as HTMLSelectElement)?.value,
+                  namedSubdivision: readYesNo("namedSubdivision", listing.namedSubdivision),
+                  subdivisionName: (document.getElementById("subdivisionName") as HTMLInputElement)?.value ?? "",
+                  associationType: (
+                    document.querySelector('input[name="associationType"]:checked') as HTMLInputElement | null
+                  )?.value ?? "NONE",
+                  newConstruction: readYesNo("newConstruction", listing.newConstruction),
+                  septicSystem: readYesNo("septicSystem", listing.septicSystem),
+                  hasSolarSystem: readYesNo("hasSolarSystem", listing.hasSolarSystem),
+                  hasPool: readYesNo("hasPool", listing.hasPool),
+                  lockboxOrKeypad: readYesNo("lockboxOrKeypad", listing.lockboxOrKeypad),
+                  lockboxInstructions: (document.getElementById("lockboxInstructions") as HTMLInputElement)?.value ?? "",
+                  yearBuilt: (() => {
+                    const raw = (document.getElementById("yearBuilt") as HTMLInputElement)?.value ?? "";
+                    const n = Number(raw);
+                    return raw === "" ? null : n;
+                  })(),
+                });
+              }}
             />
           </InfoCard>
 
           <InfoCard
             id="contact-ownership"
-            title="2. Contact / ownership"
+            title="Step 2 — Contact / ownership"
             complete={steps.find((s) => s.id === "contact-ownership")?.complete ?? false}
             missingItems={missingByStep["contact-ownership"] ?? []}
           >
-            <InfoGrid
-              items={[
-                ["Owner account", "Linked to your dashboard account"],
-                ["Plan", listing.planLabel || "Plan attached at purchase"],
-                ["Status", listing.status],
-                ["County", listing.county || "Pending"],
-                ["Ordered on", formatDate(listing.orderedOn)],
+            <SelectField
+              label="Property ownership / signing authority *"
+              id="ownershipType"
+              defaultValue={listing.ownershipType}
+              options={[
+                { value: "INDIVIDUAL", label: "Owned by individual(s)" },
+                { value: "MARRIED_COUPLE", label: "Married couple / joint owners" },
+                { value: "DECEASED_ESTATE", label: "Estate / trustee signing" },
+                { value: "BUSINESS_ENTITY", label: "Corporation or business entity" },
+                { value: "POWER_OF_ATTORNEY", label: "Power of attorney for owner(s)" },
               ]}
+            />
+            <div className="mt-4 space-y-2">
+              <FieldLabel>Are all document signers U.S. citizens?</FieldLabel>
+              <RadioYesNo name="allSignersUsCitizens" defaultYes={listing.allSignersUsCitizens} />
+            </div>
+            <div className="mt-4 space-y-2">
+              <FieldLabel>Are any owners a licensed real estate agent or broker?</FieldLabel>
+              <RadioYesNo name="anyOwnerLicensedAgent" defaultYes={listing.anyOwnerLicensedAgent} />
+            </div>
+
+            <Subheading className="mt-6">Seller / owner contact</Subheading>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Field label="Seller legal name(s) *" id="sellerNames" defaultValue={draftValue("sellerNames")} />
+              <Field label="Primary phone *" id="contactPhone" defaultValue={draftValue("contactPhone")} type="tel" />
+              <Field label="Primary email *" id="contactEmail" defaultValue={draftValue("contactEmail")} type="email" />
+            </div>
+
+            <Subheading className="mt-6">Business entity (if applicable)</Subheading>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Field label="Business entity name" id="businessEntityName" defaultValue={draftValue("businessEntityName")} />
+              <Field
+                label="Registered legal name"
+                id="businessEntityRegisteredName"
+                defaultValue={draftValue("businessEntityRegisteredName")}
+              />
+              <Field
+                label="Signer name (first & last)"
+                id="businessEntitySignerName"
+                defaultValue={draftValue("businessEntitySignerName")}
+              />
+              <Field label="Signer title" id="businessEntitySignerTitle" defaultValue={draftValue("businessEntitySignerTitle")} />
+              <Field
+                label="Signer email"
+                id="businessEntitySignerEmail"
+                defaultValue={draftValue("businessEntitySignerEmail")}
+                type="email"
+              />
+            </div>
+
+            <Subheading className="mt-6">Appointment contact (showings)</Subheading>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Field label="Appointment phone *" id="appointmentPhone" defaultValue={draftValue("appointmentPhone")} type="tel" />
+              <div className="space-y-1">
+                <FieldLabel className="mb-1">Appointment phone can receive texts?</FieldLabel>
+                <RadioYesNo name="appointmentPhoneCanText" defaultYes={listing.appointmentPhoneCanText} />
+              </div>
+              <Field label="Alternate phone" id="alternatePhone" defaultValue={draftValue("alternatePhone")} type="tel" />
+              <div className="space-y-1">
+                <FieldLabel className="mb-1">Alternate phone can receive texts?</FieldLabel>
+                <RadioYesNo name="alternatePhoneCanText" defaultYes={listing.alternatePhoneCanText} />
+              </div>
+              <Field
+                label="Appointment email *"
+                id="appointmentEmail"
+                defaultValue={draftValue("appointmentEmail")}
+                type="email"
+              />
+            </div>
+
+            <div className="mt-4 space-y-3 border-t border-white/10 pt-4">
+              <CheckboxRow
+                id="feeSimpleConfirmed"
+                label="I confirm fee-simple title / authority to list *"
+                defaultChecked={listing.feeSimpleConfirmed}
+              />
+              <CheckboxRow
+                id="tenantOccupied"
+                label="Property is tenant-occupied (additional docs may be required)"
+                defaultChecked={listing.tenantOccupied}
+              />
+              <CheckboxRow
+                id="allOwnersConsentEsign"
+                label="All owners consent to electronic signatures *"
+                defaultChecked={listing.allOwnersConsentEsign}
+              />
+              <CheckboxRow
+                id="allOwnersOccupyProperty"
+                label="All owners occupy the property"
+                defaultChecked={listing.allOwnersOccupyProperty}
+              />
+            </div>
+
+            <SaveBar
+              busy={savingSection === "contact-ownership"}
+              onSave={() => {
+                void savePatch("contact-ownership", {
+                  ownershipType: (document.getElementById("ownershipType") as HTMLSelectElement)?.value,
+                  allSignersUsCitizens: readYesNo("allSignersUsCitizens", listing.allSignersUsCitizens),
+                  anyOwnerLicensedAgent: readYesNo("anyOwnerLicensedAgent", listing.anyOwnerLicensedAgent),
+                  sellerNames: (document.getElementById("sellerNames") as HTMLInputElement)?.value ?? "",
+                  contactPhone: (document.getElementById("contactPhone") as HTMLInputElement)?.value ?? "",
+                  contactEmail: (document.getElementById("contactEmail") as HTMLInputElement)?.value ?? "",
+                  businessEntityName: (document.getElementById("businessEntityName") as HTMLInputElement)?.value ?? "",
+                  businessEntityRegisteredName:
+                    (document.getElementById("businessEntityRegisteredName") as HTMLInputElement)?.value ?? "",
+                  businessEntitySignerName:
+                    (document.getElementById("businessEntitySignerName") as HTMLInputElement)?.value ?? "",
+                  businessEntitySignerTitle:
+                    (document.getElementById("businessEntitySignerTitle") as HTMLInputElement)?.value ?? "",
+                  businessEntitySignerEmail:
+                    (document.getElementById("businessEntitySignerEmail") as HTMLInputElement)?.value ?? "",
+                  appointmentPhone: (document.getElementById("appointmentPhone") as HTMLInputElement)?.value ?? "",
+                  appointmentPhoneCanText: readYesNo("appointmentPhoneCanText", listing.appointmentPhoneCanText),
+                  alternatePhone: (document.getElementById("alternatePhone") as HTMLInputElement)?.value ?? "",
+                  alternatePhoneCanText: readYesNo("alternatePhoneCanText", listing.alternatePhoneCanText),
+                  appointmentEmail: (document.getElementById("appointmentEmail") as HTMLInputElement)?.value ?? "",
+                  feeSimpleConfirmed: (document.getElementById("feeSimpleConfirmed") as HTMLInputElement)?.checked ?? false,
+                  tenantOccupied: (document.getElementById("tenantOccupied") as HTMLInputElement)?.checked ?? false,
+                  allOwnersConsentEsign:
+                    (document.getElementById("allOwnersConsentEsign") as HTMLInputElement)?.checked ?? false,
+                  allOwnersOccupyProperty:
+                    (document.getElementById("allOwnersOccupyProperty") as HTMLInputElement)?.checked ?? false,
+                  county: (document.getElementById("county-general") as HTMLInputElement)?.value ?? listing.county,
+                });
+              }}
             />
           </InfoCard>
 
           <InfoCard
             id="price-compensation"
-            title="3. Price & compensation"
+            title="Step 3 — Price & compensation"
             complete={steps.find((s) => s.id === "price-compensation")?.complete ?? false}
             missingItems={missingByStep["price-compensation"] ?? []}
           >
-            <InfoGrid
-              items={[
-                ["List price", formatMoney(listing.price)],
-                ["Buyer agent compensation", listing.buyerAgentCompPct !== null ? `${listing.buyerAgentCompPct}%` : "Pending"],
-              ]}
+            <Hint>
+              Enter the full list price including zeros (e.g. 350000). Buyer-agent compensation is optional but helps
+              buyer traffic; MLS compliance fees may apply.
+            </Hint>
+            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+              <Field label="Listing price *" id="price" defaultValue={draftValue("price")} type="number" />
+            </div>
+            <div className="mt-4">
+              <label className="text-xs font-semibold uppercase tracking-wide text-white/55" htmlFor="bac-range">
+                Compensation to buyer&apos;s agent ({bacPct}%)
+              </label>
+              <input
+                id="bac-range"
+                type="range"
+                min={0}
+                max={6}
+                step={0.25}
+                defaultValue={String(listing.buyerAgentCompPct ?? 2.5)}
+                className="mt-2 w-full accent-emerald-400"
+                onInput={(e) => {
+                  const v = (e.target as HTMLInputElement).value;
+                  const el = document.getElementById("bac-label");
+                  if (el) el.textContent = `Compensation to buyer's agent (${v}%)`;
+                }}
+              />
+              <p id="bac-label" className="mt-1 text-sm font-semibold text-emerald-200">
+                Compensation to buyer&apos;s agent ({bacPct}%)
+              </p>
+            </div>
+            <div className="mt-4 rounded-xl border border-emerald-400/25 bg-emerald-950/25 p-4 text-sm text-white/85">
+              <p className="font-semibold text-emerald-100">Estimated compensation snapshot</p>
+              <ul className="mt-2 space-y-1 text-xs">
+                <li>
+                  Buyer-agent ({bacPct.toFixed(2)}%): {formatMoney(buyerFeeAmt)}
+                </li>
+                <li>
+                  Plus compliance fee ({COMPLIANCE_FEE_PCT}%): {formatMoney(complianceFeeAmt)}
+                </li>
+                <li className="font-semibold text-emerald-100">
+                  Total {totalFeePct.toFixed(2)}% ≈ {formatMoney(totalFeeAmt)}
+                </li>
+              </ul>
+              <p className="mt-2 text-[11px] text-white/55">
+                Displays using your saved list price; final MLS charges may differ.
+              </p>
+            </div>
+            <SaveBar
+              busy={savingSection === "price-compensation"}
+              onSave={() => {
+                const priceRaw = (document.getElementById("price") as HTMLInputElement)?.value ?? "";
+                const rangeRaw = (document.getElementById("bac-range") as HTMLInputElement)?.value ?? "";
+                void savePatch("price-compensation", {
+                  price: Number(priceRaw),
+                  buyerAgentCompPct: rangeRaw === "" ? null : Number(rangeRaw),
+                  buyerAgentCompType: "PERCENT",
+                });
+              }}
             />
           </InfoCard>
 
           <InfoCard
             id="property-description"
-            title="4. Property description"
+            title="Step 4 — Property description"
             complete={steps.find((s) => s.id === "property-description")?.complete ?? false}
             missingItems={missingByStep["property-description"] ?? []}
           >
-            <p className="text-sm text-white/80">
-              {listing.description || "No public description yet. Add one in dashboard editing to improve readiness."}
-            </p>
+            <div className="rounded-xl border border-cyan-400/25 bg-cyan-950/15 p-4 text-xs text-cyan-50/95">
+              <p className="font-semibold text-cyan-100">MLS description rules</p>
+              <ul className="mt-2 list-disc space-y-1 pl-4">
+                <li>No links, phone numbers, or email addresses.</li>
+                <li>No price or commission language in public remarks.</li>
+                <li>No showing instructions (codes, vacancy, lockbox) in public remarks.</li>
+                <li>Stay compliant with fair housing laws.</li>
+              </ul>
+            </div>
+            <CharCountArea
+              key={`pr-${formKey}`}
+              id="publicRemarks"
+              label={`MLS / public description * (max ${PUBLIC_REMARKS_MAX} characters)`}
+              maxLength={PUBLIC_REMARKS_MAX}
+              defaultValue={listing.publicRemarks || listing.description}
+              hint="Describe amenities, updates, and lifestyle benefits buyers care about."
+            />
+            <label className="mt-4 block" htmlFor="drivingDirections">
+              <span className="text-xs font-semibold uppercase tracking-wide text-white/55">
+                Basic driving directions *
+              </span>
+              <textarea
+                id="drivingDirections"
+                rows={3}
+                defaultValue={draftValue("drivingDirections")}
+                className="mt-1 w-full rounded-lg border border-white/15 bg-black/35 px-3 py-2 text-sm text-emerald-100 outline-none ring-emerald-300/40 focus:ring"
+              />
+            </label>
+            <Hint>Street-by-street directions are still required by many MLS systems.</Hint>
+            <Field
+              label="Cross street (nearest corner) *"
+              id="crossStreet"
+              defaultValue={draftValue("crossStreet")}
+            />
+            <label className="mt-4 block" htmlFor="privateRemarks">
+              <span className="text-xs font-semibold uppercase tracking-wide text-white/55">
+                Private / broker-only remarks * (min 20 characters to finalize)
+              </span>
+              <textarea
+                id="privateRemarks"
+                rows={2}
+                defaultValue={draftValue("privateRemarks")}
+                className="mt-1 w-full rounded-lg border border-white/15 bg-black/35 px-3 py-2 text-sm text-emerald-100 outline-none ring-emerald-300/40 focus:ring"
+              />
+            </label>
+            <SaveBar
+              busy={savingSection === "property-description"}
+              onSave={() => {
+                const pr = (document.getElementById("publicRemarks") as HTMLTextAreaElement)?.value ?? "";
+                void savePatch("property-description", {
+                  publicRemarks: pr,
+                  description: pr,
+                  drivingDirections: (document.getElementById("drivingDirections") as HTMLTextAreaElement)?.value ?? "",
+                  crossStreet: (document.getElementById("crossStreet") as HTMLInputElement)?.value ?? "",
+                  privateRemarks: (document.getElementById("privateRemarks") as HTMLTextAreaElement)?.value ?? "",
+                });
+              }}
+            />
           </InfoCard>
 
           <InfoCard
             id="mls-profile"
-            title="5. MLS details"
+            title="Step 5 — MLS details"
             complete={steps.find((s) => s.id === "mls-profile")?.complete ?? false}
             missingItems={missingByStep["mls-profile"] ?? []}
           >
-            <InfoGrid
-              items={[
-                ["MLS name", listing.mlsName || "Pending"],
-                ["MLS number", listing.mlsNumber || "Pending"],
-                ["Internal listing ID", listing.listingId || "Pending"],
-                ["Listed on", formatDate(listing.listedOn)],
-                ["Expires on", formatDate(listing.expiresOn)],
-              ]}
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Field label="MLS / board name" id="mlsName" defaultValue={draftValue("mlsName")} />
+              <Field label="MLS number" id="mlsNumber" defaultValue={draftValue("mlsNumber")} />
+              <Field label="Internal listing ID" id="listingId" defaultValue={draftValue("listingId")} />
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-white/55">Listed on</p>
+                <p className="mt-1 text-sm text-emerald-100">{formatDate(listing.listedOn)}</p>
+              </div>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-white/55">Expires on</p>
+                <p className="mt-1 text-sm text-emerald-100">{formatDate(listing.expiresOn)}</p>
+              </div>
+            </div>
+            <SaveBar
+              busy={savingSection === "mls-profile"}
+              onSave={() => {
+                void savePatch("mls-profile", {
+                  mlsName: (document.getElementById("mlsName") as HTMLInputElement)?.value ?? "",
+                  mlsNumber: (document.getElementById("mlsNumber") as HTMLInputElement)?.value ?? "",
+                  listingId: (document.getElementById("listingId") as HTMLInputElement)?.value ?? "",
+                });
+              }}
             />
           </InfoCard>
 
           <InfoCard
             id="photos-media"
-            title="6. Photos"
+            title="Step 6 — Photos"
             complete={steps.find((s) => s.id === "photos-media")?.complete ?? false}
             missingItems={missingByStep["photos-media"] ?? []}
           >
-            <div className="mt-3 rounded-xl border border-white/10 bg-black/25 p-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-white/65">Hero image</p>
-              <p className="mt-1 text-sm text-white/75">{listing.heroImageUrl || "No image attached yet."}</p>
+            <Hint>
+              Upload additional gallery photos from your dashboard cards when ready; hero image URL satisfies the
+              minimum preview requirement here.
+            </Hint>
+            <Field label="Hero image URL *" id="heroImageUrl" defaultValue={draftValue("heroImageUrl")} />
+            <div className="mt-4 space-y-2 border-t border-white/10 pt-4">
+              <CheckboxRow
+                id="firstPhotoExteriorConfirmed"
+                label="First MLS photo will be an exterior shot"
+                defaultChecked={listing.firstPhotoExteriorConfirmed}
+              />
+              <CheckboxRow
+                id="photoNoSignsConfirmed"
+                label="Photos will not include signs or branding"
+                defaultChecked={listing.photoNoSignsConfirmed}
+              />
+              <CheckboxRow
+                id="photoNoPeoplePetsConfirmed"
+                label="Photos will not include identifiable people or pets"
+                defaultChecked={listing.photoNoPeoplePetsConfirmed}
+              />
+              <CheckboxRow
+                id="photoCopyrightConfirmed"
+                label="I own or have rights to use these photos"
+                defaultChecked={listing.photoCopyrightConfirmed}
+              />
+              <CheckboxRow
+                id="isInMudWaterDistrict"
+                label="Property is in a MUD / water district (notice upload may be required)"
+                defaultChecked={listing.isInMudWaterDistrict}
+              />
             </div>
+            {listing.lockboxOrKeypad ? (
+              <div className="mt-4 space-y-2 rounded-xl border border-amber-400/25 bg-amber-950/15 p-3">
+                <CheckboxRow
+                  id="keyboxPermission"
+                  label="I authorize electronic lockbox / keypad access"
+                  defaultChecked={listing.keyboxPermission}
+                />
+                <CheckboxRow
+                  id="keyboxRiskAcknowledged"
+                  label="I understand lockbox risks"
+                  defaultChecked={listing.keyboxRiskAcknowledged}
+                />
+              </div>
+            ) : null}
+            <SaveBar
+              busy={savingSection === "photos-media"}
+              onSave={() => {
+                void savePatch("photos-media", {
+                  heroImageUrl: (document.getElementById("heroImageUrl") as HTMLInputElement)?.value ?? "",
+                  firstPhotoExteriorConfirmed:
+                    (document.getElementById("firstPhotoExteriorConfirmed") as HTMLInputElement)?.checked ?? false,
+                  photoNoSignsConfirmed:
+                    (document.getElementById("photoNoSignsConfirmed") as HTMLInputElement)?.checked ?? false,
+                  photoNoPeoplePetsConfirmed:
+                    (document.getElementById("photoNoPeoplePetsConfirmed") as HTMLInputElement)?.checked ?? false,
+                  photoCopyrightConfirmed:
+                    (document.getElementById("photoCopyrightConfirmed") as HTMLInputElement)?.checked ?? false,
+                  isInMudWaterDistrict:
+                    (document.getElementById("isInMudWaterDistrict") as HTMLInputElement)?.checked ?? false,
+                  keyboxPermission: (document.getElementById("keyboxPermission") as HTMLInputElement | null)?.checked ?? false,
+                  keyboxRiskAcknowledged:
+                    (document.getElementById("keyboxRiskAcknowledged") as HTMLInputElement | null)?.checked ?? false,
+                });
+              }}
+            />
           </InfoCard>
 
           <InfoCard
             id="complete-listing-setup"
-            title="7. Complete listing setup"
+            title="Step 7 — Review & finalize"
             complete={steps.find((s) => s.id === "complete-listing-setup")?.complete ?? false}
             missingItems={missingByStep["complete-listing-setup"] ?? []}
           >
             <InfoGrid
               items={[
-                ["Current status", listing.status],
-                ["Setup completion", `${completionPct}%`],
-                ["Finalized on", formatDate(listing.setupFinalizedAt)],
-                ["Ready to publish", completionPct >= 85 && listing.status !== "INCOMPLETE" ? "Yes" : "Not yet"],
+                ["Plan", listing.planLabel || "Attached at purchase"],
+                ["Ordered", formatDate(listing.orderedOn)],
+                ["Setup finalized", formatDate(listing.setupFinalizedAt)],
               ]}
             />
-            <p className="mt-3 text-xs text-white/60">
-              Finalize validates required setup fields server-side and sets your listing status to ACTIVE.
-            </p>
-            <div className="mt-4">
-              <button
-                type="button"
-                disabled={!canFinalize || finalizing || listing.status !== "INCOMPLETE"}
-                onClick={() => {
-                  void finalizeSetup();
-                }}
-                className="rounded-full border border-emerald-400/60 bg-emerald-500/20 px-4 py-2 text-sm font-semibold text-emerald-100 transition hover:bg-emerald-400/30 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {finalizing
-                  ? "Finalizing..."
-                  : listing.status !== "INCOMPLETE"
-                    ? "Already finalized"
-                    : "Finalize and mark ACTIVE"}
-              </button>
+
+            <Subheading className="mt-6">Listing term & brokerage acknowledgments</Subheading>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Field
+                label="Listing period start *"
+                id="listingStartOn"
+                type="date"
+                defaultValue={dateInputValue(listing.listingStartOn)}
+              />
+              <Field
+                label="Listing period end *"
+                id="listingEndOn"
+                type="date"
+                defaultValue={dateInputValue(listing.listingEndOn)}
+              />
             </div>
+            <CheckboxRow
+              id="intermediaryStatusAuthorized"
+              label="I authorize brokerage intermediary status disclosures *"
+              defaultChecked={listing.intermediaryStatusAuthorized}
+            />
+
+            <Subheading className="mt-6">MLS compliance confirmations</Subheading>
+            <div className="space-y-2">
+              <CheckboxRow
+                id="fairHousingNoticeConfirmed"
+                label="Fair housing notice reviewed *"
+                defaultChecked={listing.fairHousingNoticeConfirmed}
+              />
+              <CheckboxRow
+                id="valuablesNoticeConfirmed"
+                label="Valuables / security notice reviewed *"
+                defaultChecked={listing.valuablesNoticeConfirmed}
+              />
+              <CheckboxRow
+                id="iabsAcknowledged"
+                label="Information About Brokerage Services (IABS) acknowledged *"
+                defaultChecked={listing.iabsAcknowledged}
+              />
+              <CheckboxRow
+                id="sellersDisclosureAcknowledged"
+                label="Seller disclosure duties acknowledged *"
+                defaultChecked={listing.sellersDisclosureAcknowledged}
+              />
+              <CheckboxRow
+                id="listingAgreementAcknowledged"
+                label="Listing agreement terms acknowledged *"
+                defaultChecked={listing.listingAgreementAcknowledged}
+              />
+              <CheckboxRow
+                id="brokerBrandingConfirmed"
+                label="Broker branding / advertising rules confirmed *"
+                defaultChecked={listing.brokerBrandingConfirmed}
+              />
+            </div>
+
+            <Subheading className="mt-6">Summary attestations</Subheading>
+            <CheckboxRow
+              id="informationAccurateConfirmed"
+              label="I verified that the information provided is accurate *"
+              defaultChecked={listing.informationAccurateConfirmed}
+            />
+            <div className="mt-3 space-y-2">
+              <FieldLabel>Were you referred by an existing customer? *</FieldLabel>
+              <RadioYesNo name="referredByExistingCustomer" defaultYes={listing.referredByExistingCustomer} />
+            </div>
+            <div className="mt-3 space-y-2">
+              <FieldLabel>Would you like to provide feedback on this listing process? *</FieldLabel>
+              <RadioYesNo name="wantsListingProcessFeedback" defaultYes={listing.wantsListingProcessFeedback} />
+            </div>
+
+            <div className="mt-6 grid gap-3 sm:grid-cols-2">
+              <SelectField
+                label="Listing status (manual override)"
+                id="status-complete"
+                defaultValue={listing.status}
+                options={[
+                  { value: "INCOMPLETE", label: "Incomplete" },
+                  { value: "ACTIVE", label: "Active" },
+                  { value: "PENDING", label: "Pending" },
+                  { value: "EXPIRED", label: "Expired" },
+                  { value: "SOLD", label: "Sold" },
+                ]}
+              />
+            </div>
+
+            <SaveBar
+              busy={savingSection === "complete"}
+              onSave={() => {
+                void savePatch("complete", {
+                  listingStartOn: readOptionalDate("listingStartOn"),
+                  listingEndOn: readOptionalDate("listingEndOn"),
+                  intermediaryStatusAuthorized:
+                    (document.getElementById("intermediaryStatusAuthorized") as HTMLInputElement)?.checked ?? false,
+                  fairHousingNoticeConfirmed:
+                    (document.getElementById("fairHousingNoticeConfirmed") as HTMLInputElement)?.checked ?? false,
+                  valuablesNoticeConfirmed:
+                    (document.getElementById("valuablesNoticeConfirmed") as HTMLInputElement)?.checked ?? false,
+                  iabsAcknowledged: (document.getElementById("iabsAcknowledged") as HTMLInputElement)?.checked ?? false,
+                  sellersDisclosureAcknowledged:
+                    (document.getElementById("sellersDisclosureAcknowledged") as HTMLInputElement)?.checked ?? false,
+                  listingAgreementAcknowledged:
+                    (document.getElementById("listingAgreementAcknowledged") as HTMLInputElement)?.checked ?? false,
+                  brokerBrandingConfirmed:
+                    (document.getElementById("brokerBrandingConfirmed") as HTMLInputElement)?.checked ?? false,
+                  informationAccurateConfirmed:
+                    (document.getElementById("informationAccurateConfirmed") as HTMLInputElement)?.checked ?? false,
+                  referredByExistingCustomer: readYesNo(
+                    "referredByExistingCustomer",
+                    listing.referredByExistingCustomer,
+                  ),
+                  wantsListingProcessFeedback: readYesNo(
+                    "wantsListingProcessFeedback",
+                    listing.wantsListingProcessFeedback,
+                  ),
+                  status: (document.getElementById("status-complete") as HTMLSelectElement)?.value,
+                });
+              }}
+            />
+
+            <p className="mt-4 text-xs text-white/60">
+              Finalize runs automated validation (documents, HOA/condo rules, etc.) and switches the listing to ACTIVE
+              when everything passes.
+            </p>
+            <button
+              type="button"
+              disabled={!canFinalize || finalizing || listing.status !== "INCOMPLETE"}
+              onClick={() => void finalizeSetup()}
+              className="mt-3 rounded-full border border-emerald-400/60 bg-emerald-500/20 px-4 py-2 text-sm font-semibold text-emerald-100 transition hover:bg-emerald-400/30 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {finalizing ? "Finalizing..." : listing.status !== "INCOMPLETE" ? "Already finalized" : "Finalize listing"}
+            </button>
           </InfoCard>
         </div>
 
@@ -569,10 +1495,11 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
             href="/upgrades"
             className="rounded-full border border-white/20 bg-white/5 px-4 py-2 text-sm font-semibold text-white/85 transition hover:border-white/35 hover:bg-white/10"
           >
-            Upgrade listing options
+            Listing upgrades
           </Link>
         </div>
       </section>
+
       {showPhotoDisclaimer ? (
         <div className="fixed inset-0 z-50 grid place-items-center bg-black/75 p-4 backdrop-blur-sm">
           <div className="w-full max-w-xl rounded-3xl border border-emerald-500/35 bg-black/90 p-6 shadow-[0_20px_60px_rgba(2,6,3,0.65)]">
@@ -589,24 +1516,19 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
                 Close
               </button>
             </div>
-            <p className="mt-3 text-sm text-white/80">
-              Before continuing to photos, please confirm your images meet MLS upload rules:
-            </p>
+            <p className="mt-3 text-sm text-white/80">Confirm MLS-ready imagery before you edit Step 6:</p>
             <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm text-white/85">
-              <li>Use only photos you own, created, or licensed to use.</li>
-              <li>Start with an exterior front photo as your first image.</li>
-              <li>Avoid visible text/signage in photos (for example, &quot;For Sale&quot; signs).</li>
+              <li>Use photos you created, licensed, or own.</li>
+              <li>Lead with an exterior shot.</li>
+              <li>Avoid visible signage or marketing overlays.</li>
             </ol>
-            <p className="mt-3 text-xs text-white/60">
-              These checks help keep your listing compliant and avoid delays.
-            </p>
             <div className="mt-5 flex justify-end">
               <button
                 type="button"
                 onClick={acceptPhotoDisclaimer}
                 className="rounded-full border border-emerald-400/60 bg-emerald-500/25 px-5 py-2 text-sm font-semibold text-emerald-100 transition hover:bg-emerald-400/30"
               >
-                I understand
+                Continue
               </button>
             </div>
           </div>
@@ -616,19 +1538,7 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
   );
 }
 
-function InfoCard({
-  id,
-  title,
-  complete,
-  missingItems,
-  children,
-}: {
-  id: string;
-  title: string;
-  complete: boolean;
-  missingItems: string[];
-  children: ReactNode;
-}) {
+function InfoCard({ id, title, complete, missingItems, children }: InfoCardProps) {
   return (
     <section id={id} className="scroll-mt-24 rounded-2xl border border-white/10 bg-emerald-950/15 p-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
@@ -652,6 +1562,67 @@ function InfoCard({
   );
 }
 
+type InfoCardProps = {
+  id: string;
+  title: string;
+  complete: boolean;
+  missingItems: string[];
+  children: ReactNode;
+};
+
+function Field({
+  id,
+  label,
+  defaultValue,
+  type = "text",
+}: {
+  id: string;
+  label: string;
+  defaultValue: string;
+  type?: "text" | "number" | "email" | "tel" | "date";
+}) {
+  return (
+    <label className="block" htmlFor={id}>
+      <span className="text-xs font-semibold uppercase tracking-wide text-white/55">{label}</span>
+      <input
+        id={id}
+        type={type}
+        defaultValue={defaultValue}
+        className="mt-1 w-full rounded-lg border border-white/15 bg-black/35 px-3 py-2 text-sm text-emerald-100 outline-none ring-emerald-300/40 transition focus:ring"
+      />
+    </label>
+  );
+}
+
+function SelectField({
+  id,
+  label,
+  defaultValue,
+  options,
+}: {
+  id: string;
+  label: string;
+  defaultValue: string;
+  options: Array<{ value: string; label: string }>;
+}) {
+  return (
+    <label className="block" htmlFor={id}>
+      <span className="text-xs font-semibold uppercase tracking-wide text-white/55">{label}</span>
+      <select
+        id={id}
+        defaultValue={defaultValue}
+        className="mt-1 w-full rounded-lg border border-white/15 bg-black/35 px-3 py-2 text-sm text-emerald-100 outline-none ring-emerald-300/40 transition focus:ring"
+      >
+        {options.map((option) => (
+          <option key={option.value} value={option.value} className="bg-slate-900 text-emerald-100">
+            {option.label}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
 function InfoGrid({ items }: { items: [string, string][] }) {
   return (
     <dl className="grid gap-3 sm:grid-cols-2">
@@ -662,5 +1633,115 @@ function InfoGrid({ items }: { items: [string, string][] }) {
         </div>
       ))}
     </dl>
+  );
+}
+
+function Subheading({ children, className = "" }: { children: ReactNode; className?: string }) {
+  return <p className={["text-sm font-semibold text-emerald-100/95", className].filter(Boolean).join(" ")}>{children}</p>;
+}
+
+function Hint({ children }: { children: ReactNode }) {
+  return <p className="text-xs text-white/60">{children}</p>;
+}
+
+function FieldLabel({ children, className = "" }: { children: ReactNode; className?: string }) {
+  return <span className={["text-xs font-semibold uppercase tracking-wide text-white/55", className].join(" ")}>{children}</span>;
+}
+
+function RadioYesNo({ name, defaultYes }: { name: string; defaultYes: boolean }) {
+  return (
+    <div className="flex flex-wrap gap-4 text-sm text-emerald-100">
+      <label className="flex cursor-pointer items-center gap-2">
+        <input type="radio" name={name} value="yes" defaultChecked={defaultYes} className="accent-emerald-400" />
+        Yes
+      </label>
+      <label className="flex cursor-pointer items-center gap-2">
+        <input type="radio" name={name} value="no" defaultChecked={!defaultYes} className="accent-emerald-400" />
+        No
+      </label>
+    </div>
+  );
+}
+
+function AssociationRadios({ defaultValue }: { defaultValue: string }) {
+  const opts = [
+    { value: "HOA", label: "HOA" },
+    { value: "CONDO", label: "Condo association" },
+    { value: "NONE", label: "No association" },
+  ];
+  return (
+    <div className="flex flex-wrap gap-4 text-sm text-emerald-100">
+      {opts.map((o) => (
+        <label key={o.value} className="flex cursor-pointer items-center gap-2">
+          <input
+            type="radio"
+            name="associationType"
+            value={o.value}
+            defaultChecked={defaultValue === o.value}
+            className="accent-emerald-400"
+          />
+          {o.label}
+        </label>
+      ))}
+    </div>
+  );
+}
+
+function CheckboxRow({ id, label, defaultChecked }: { id: string; label: string; defaultChecked: boolean }) {
+  return (
+    <label htmlFor={id} className="flex cursor-pointer gap-2 text-sm text-emerald-50">
+      <input id={id} type="checkbox" defaultChecked={defaultChecked} className="mt-0.5 accent-emerald-400" />
+      {label}
+    </label>
+  );
+}
+
+function SaveBar({ busy, onSave }: { busy: boolean; onSave: () => void }) {
+  return (
+    <div className="mt-4">
+      <button
+        type="button"
+        disabled={busy}
+        onClick={onSave}
+        className="rounded-full border border-emerald-400/60 bg-emerald-500/20 px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-emerald-100 transition hover:bg-emerald-400/30 disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        {busy ? "Saving..." : "Save section"}
+      </button>
+    </div>
+  );
+}
+
+function CharCountArea({
+  id,
+  label,
+  maxLength,
+  defaultValue,
+  hint,
+}: {
+  id: string;
+  label: string;
+  maxLength: number;
+  defaultValue: string;
+  hint?: string;
+}) {
+  const [count, setCount] = useState(Math.min(defaultValue.length, maxLength));
+  return (
+    <div className="mt-4">
+      <label htmlFor={id}>
+        <span className="text-xs font-semibold uppercase tracking-wide text-white/55">{label}</span>
+        <textarea
+          id={id}
+          rows={6}
+          maxLength={maxLength}
+          defaultValue={(defaultValue ?? "").slice(0, maxLength)}
+          onChange={(e) => setCount(e.target.value.length)}
+          className="mt-1 w-full rounded-lg border border-white/15 bg-black/35 px-3 py-2 text-sm text-emerald-100 outline-none ring-emerald-300/40 focus:ring"
+        />
+      </label>
+      <p className="mt-1 text-xs text-white/55">
+        {count} / {maxLength} characters
+      </p>
+      {hint ? <p className="mt-1 text-xs text-white/45">{hint}</p> : null}
+    </div>
   );
 }

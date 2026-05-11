@@ -5,6 +5,10 @@ import { Types as MongooseTypes } from "mongoose";
 import { authOptions } from "@/lib/auth-options";
 import { connectDb } from "@/lib/mongodb";
 import { getEffectivePlanAccessForUser } from "@/lib/plan-access";
+import {
+  hasValidCoreListingAddress,
+  normalizeListingAddressPart,
+} from "@/lib/listing-address";
 import { Listing } from "@/models/Listing";
 
 function iso(d: unknown): string | null {
@@ -29,6 +33,7 @@ function serializeListing(doc: {
   legalLot?: string | null;
   legalBlock?: string | null;
   legalAddition?: string | null;
+  legalDescription?: string | null;
   propertyType?: "SINGLE_FAMILY" | "CONDOMINIUM" | null;
   parcelId?: string | null;
   sellerNames?: string | null;
@@ -41,10 +46,19 @@ function serializeListing(doc: {
   associationType?: "HOA" | "CONDO" | "NONE" | null;
   newConstruction?: boolean;
   septicSystem?: boolean;
+  hasSolarSystem?: boolean;
   hasPool?: boolean;
   lockboxOrKeypad?: boolean;
   lockboxInstructions?: string | null;
-  ownershipType?: "INDIVIDUAL" | "MARRIED_COUPLE" | "DECEASED_ESTATE" | "BUSINESS_ENTITY" | null;
+  ownershipType?:
+    | "INDIVIDUAL"
+    | "MARRIED_COUPLE"
+    | "DECEASED_ESTATE"
+    | "BUSINESS_ENTITY"
+    | "POWER_OF_ATTORNEY"
+    | null;
+  allSignersUsCitizens?: boolean;
+  anyOwnerLicensedAgent?: boolean;
   allOwnersOccupyProperty?: boolean;
   businessEntityName?: string | null;
   businessEntityRegisteredName?: string | null;
@@ -116,6 +130,7 @@ function serializeListing(doc: {
     legalLot: doc.legalLot ?? "",
     legalBlock: doc.legalBlock ?? "",
     legalAddition: doc.legalAddition ?? "",
+    legalDescription: doc.legalDescription ?? "",
     propertyType: doc.propertyType ?? "SINGLE_FAMILY",
     parcelId: doc.parcelId ?? "",
     sellerNames: doc.sellerNames ?? "",
@@ -128,10 +143,13 @@ function serializeListing(doc: {
     associationType: doc.associationType ?? "NONE",
     newConstruction: Boolean(doc.newConstruction),
     septicSystem: Boolean(doc.septicSystem),
+    hasSolarSystem: Boolean(doc.hasSolarSystem),
     hasPool: Boolean(doc.hasPool),
     lockboxOrKeypad: Boolean(doc.lockboxOrKeypad),
     lockboxInstructions: doc.lockboxInstructions ?? "",
     ownershipType: doc.ownershipType ?? "INDIVIDUAL",
+    allSignersUsCitizens: Boolean(doc.allSignersUsCitizens ?? true),
+    anyOwnerLicensedAgent: Boolean(doc.anyOwnerLicensedAgent),
     allOwnersOccupyProperty: Boolean(doc.allOwnersOccupyProperty),
     businessEntityName: doc.businessEntityName ?? "",
     businessEntityRegisteredName: doc.businessEntityRegisteredName ?? "",
@@ -204,10 +222,20 @@ export async function GET() {
   const userId = new MongooseTypes.ObjectId(session.user.id);
   const effectivePlan = await getEffectivePlanAccessForUser(userId);
   const rows = await Listing.find({ userId }).sort({ updatedAt: -1 }).lean();
+  const listings = rows
+    .filter((r) =>
+      hasValidCoreListingAddress({
+        street: r.street,
+        city: r.city,
+        state: r.state,
+        zip: r.zip,
+      }),
+    )
+    .map((r) => serializeListing(r));
   return NextResponse.json({
     ok: true,
     effectivePlan,
-    listings: rows.map((r) => serializeListing(r)),
+    listings,
   });
 }
 
@@ -242,15 +270,25 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "Invalid JSON." }, { status: 400 });
   }
 
-  const street = body.street?.trim();
-  const city = body.city?.trim();
-  const state = body.state?.trim();
-  const zip = body.zip?.trim();
+  const street = normalizeListingAddressPart(body.street);
+  const city = normalizeListingAddressPart(body.city);
+  const state = normalizeListingAddressPart(body.state);
+  const zip = normalizeListingAddressPart(body.zip);
+  const unit = normalizeListingAddressPart(body.unit);
   const price = body.price;
 
-  if (!street || !city || !state || !zip || typeof price !== "number" || !Number.isFinite(price) || price < 0) {
+  if (
+    !hasValidCoreListingAddress({ street, city, state, zip }) ||
+    typeof price !== "number" ||
+    !Number.isFinite(price) ||
+    price < 0
+  ) {
     return NextResponse.json(
-      { ok: false, error: "street, city, state, zip, and a valid price are required." },
+      {
+        ok: false,
+        error:
+          "A real street, city, state, and ZIP are required (placeholders like \"null\" are not allowed).",
+      },
       { status: 400 },
     );
   }
@@ -272,7 +310,7 @@ export async function POST(req: Request) {
   const doc = await Listing.create({
     userId,
     street,
-    unit: body.unit?.trim(),
+    unit,
     city,
     state,
     zip,

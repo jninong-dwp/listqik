@@ -3,6 +3,10 @@ import { randomBytes } from "crypto";
 import { Listing } from "@/models/Listing";
 import { PlanPurchase } from "@/models/PlanPurchase";
 import { User } from "@/models/User";
+import {
+  hasValidCoreListingAddress,
+  normalizeListingAddressPart,
+} from "@/lib/listing-address";
 import { newPasswordSetupSecret, sha256Hex } from "@/lib/password-setup-token";
 
 export type OrderWebhookPayload = {
@@ -134,17 +138,17 @@ export async function provisionSellerFromPaidOrder(
     externalOrderId: externalOrderId || undefined,
   });
 
-  const street = body.property?.address?.trim();
-  const city = body.property?.city?.trim();
-  const state = body.property?.state?.trim();
-  const zip = body.property?.zip?.trim();
-  const unit = body.property?.unit?.trim();
-  const county = body.property?.county?.trim();
+  const street = normalizeListingAddressPart(body.property?.address);
+  const city = normalizeListingAddressPart(body.property?.city);
+  const state = normalizeListingAddressPart(body.property?.state);
+  const zip = normalizeListingAddressPart(body.property?.zip);
+  const unit = normalizeListingAddressPart(body.property?.unit);
+  const county = normalizeListingAddressPart(body.property?.county);
   const rawPropertyType = body.property?.propertyType?.trim();
 
   let listingCreated = false;
 
-  if (street && city && state && zip) {
+  if (hasValidCoreListingAddress({ street, city, state, zip })) {
     const introDescription = buildIntroDescription(rawPropertyType, body.upgrades);
     const planLabel = planPrice ? `${planName} (${planPrice})` : planName!;
 
@@ -154,11 +158,11 @@ export async function provisionSellerFromPaidOrder(
         await Listing.create({
           userId: user._id,
           street,
-          unit: unit || undefined,
+          unit,
           city,
           state,
           zip,
-          county: county || undefined,
+          county,
           propertyType: listingPropertyType(rawPropertyType),
           status: "INCOMPLETE",
           planLabel,
@@ -173,11 +177,11 @@ export async function provisionSellerFromPaidOrder(
       await Listing.create({
         userId: user._id,
         street,
-        unit: unit || undefined,
+        unit,
         city,
         state,
         zip,
-        county: county || undefined,
+        county,
         propertyType: listingPropertyType(rawPropertyType),
         status: "INCOMPLETE",
         planLabel,

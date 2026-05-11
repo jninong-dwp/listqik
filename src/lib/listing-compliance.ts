@@ -1,3 +1,5 @@
+import { hasMeaningfulListingAddressText } from "@/lib/listing-address";
+
 type ListingForCompliance = {
   street?: string | null;
   city?: string | null;
@@ -19,6 +21,7 @@ type ListingForCompliance = {
   legalLot?: string | null;
   legalBlock?: string | null;
   legalAddition?: string | null;
+  legalDescription?: string | null;
   parcelId?: string | null;
   propertyType?: "SINGLE_FAMILY" | "CONDOMINIUM" | null;
   namedSubdivision?: boolean;
@@ -29,7 +32,13 @@ type ListingForCompliance = {
   contactEmail?: string | null;
   feeSimpleConfirmed?: boolean;
   tenantOccupied?: boolean;
-  ownershipType?: "INDIVIDUAL" | "MARRIED_COUPLE" | "DECEASED_ESTATE" | "BUSINESS_ENTITY" | null;
+  ownershipType?:
+    | "INDIVIDUAL"
+    | "MARRIED_COUPLE"
+    | "DECEASED_ESTATE"
+    | "BUSINESS_ENTITY"
+    | "POWER_OF_ATTORNEY"
+    | null;
   businessEntityName?: string | null;
   businessEntityRegisteredName?: string | null;
   businessEntitySignerName?: string | null;
@@ -73,14 +82,17 @@ function hasDate(value?: Date | string | null) {
 export function validateListingForFinalize(listing: ListingForCompliance) {
   const errors: string[] = [];
 
-  if (!hasText(listing.street)) errors.push("Street is required.");
-  if (!hasText(listing.city)) errors.push("City is required.");
-  if (!hasText(listing.state)) errors.push("State is required.");
-  if (!hasText(listing.zip)) errors.push("ZIP is required.");
+  if (!hasMeaningfulListingAddressText(listing.street)) errors.push("Street is required.");
+  if (!hasMeaningfulListingAddressText(listing.city)) errors.push("City is required.");
+  if (!hasMeaningfulListingAddressText(listing.state)) errors.push("State is required.");
+  if (!hasMeaningfulListingAddressText(listing.zip)) errors.push("ZIP is required.");
   if (!hasText(listing.county)) errors.push("County is required.");
-  if (!hasText(listing.legalLot)) errors.push("Legal lot is required.");
-  if (!hasText(listing.legalBlock)) errors.push("Legal block is required.");
-  if (!hasText(listing.legalAddition)) errors.push("Legal addition is required.");
+  const legalStructured =
+    hasText(listing.legalLot) && hasText(listing.legalBlock) && hasText(listing.legalAddition);
+  const legalFromDescription = hasText(listing.legalDescription);
+  if (!legalStructured && !legalFromDescription) {
+    errors.push("Legal description (full text) or legal lot, block, and addition is required.");
+  }
   if (!hasText(listing.parcelId)) errors.push("Parcel ID is required.");
 
   if (typeof listing.price !== "number" || !Number.isFinite(listing.price) || listing.price <= 0) {

@@ -12,6 +12,8 @@ const listingSchema = new Schema(
     legalLot: { type: String, trim: true },
     legalBlock: { type: String, trim: true },
     legalAddition: { type: String, trim: true },
+    /** Full legal description from tax/appraiser records (single field like competitor flows). */
+    legalDescription: { type: String, trim: true, default: "" },
     propertyType: {
       type: String,
       enum: ["SINGLE_FAMILY", "CONDOMINIUM"],
@@ -32,14 +34,17 @@ const listingSchema = new Schema(
     },
     newConstruction: { type: Boolean, default: false },
     septicSystem: { type: Boolean, default: false },
+    hasSolarSystem: { type: Boolean, default: false },
     hasPool: { type: Boolean, default: false },
     lockboxOrKeypad: { type: Boolean, default: false },
     lockboxInstructions: { type: String, trim: true, default: "" },
     ownershipType: {
       type: String,
-      enum: ["INDIVIDUAL", "MARRIED_COUPLE", "DECEASED_ESTATE", "BUSINESS_ENTITY"],
+      enum: ["INDIVIDUAL", "MARRIED_COUPLE", "DECEASED_ESTATE", "BUSINESS_ENTITY", "POWER_OF_ATTORNEY"],
       default: "INDIVIDUAL",
     },
+    allSignersUsCitizens: { type: Boolean, default: true },
+    anyOwnerLicensedAgent: { type: Boolean, default: false },
     allOwnersOccupyProperty: { type: Boolean, default: true },
     businessEntityName: { type: String, trim: true },
     businessEntityRegisteredName: { type: String, trim: true },

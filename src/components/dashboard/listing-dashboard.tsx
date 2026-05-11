@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { formatListingAddressLine } from "@/lib/listing-address";
 import { staticWizardUpgrades } from "@/data/pricing-static-upgrades";
 
 export type DashboardListing = {
@@ -506,12 +507,6 @@ export function ListingDashboard() {
   useEffect(() => {
     void load();
   }, [load]);
-
-  const addressLine = useMemo(
-    () => (l: DashboardListing) =>
-      [l.street, l.unit, [l.city, l.state].filter(Boolean).join(", "), l.zip].filter(Boolean).join(" · "),
-    [],
-  );
 
   async function patchListing(id: string, body: Record<string, unknown>) {
     if (previewMode) {
@@ -1148,7 +1143,7 @@ export function ListingDashboard() {
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-start justify-between gap-2">
                       <div>
-                        <p className="font-semibold text-emerald-100">{addressLine(l)}</p>
+                        <p className="font-semibold text-emerald-100">{formatListingAddressLine(l)}</p>
                         <p className="mt-1 text-sm text-white/70">
                           {l.planLabel || "Plan attached at purchase"}
                         </p>
