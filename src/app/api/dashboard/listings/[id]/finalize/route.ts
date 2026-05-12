@@ -61,7 +61,15 @@ export async function POST(_req: Request, ctx: { params: Promise<{ id: string }>
     );
   }
 
-  listing.status = "ACTIVE";
+  const start = listing.listingStartOn ? new Date(listing.listingStartOn) : null;
+  const startValid = start && Number.isFinite(start.getTime());
+  const today = new Date();
+  const startDay = startValid
+    ? new Date(start!.getFullYear(), start!.getMonth(), start!.getDate()).getTime()
+    : 0;
+  const todayDay = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
+  /** Future start dates stay pending until the start day; same-day or past go active now. */
+  listing.status = startValid && startDay > todayDay ? "PENDING" : "ACTIVE";
   listing.setupFinalizedAt = new Date();
   if (!listing.listedOn) {
     listing.listedOn = new Date();

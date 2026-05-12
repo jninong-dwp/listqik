@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   EmbeddedCheckout,
@@ -168,6 +169,7 @@ type WizardState = {
   email: string;
   phone: string;
   propertyType: PropertyType | "";
+  acceptedUserAgreement: boolean;
 };
 
 const initialState: WizardState = {
@@ -183,6 +185,7 @@ const initialState: WizardState = {
   email: "",
   phone: "",
   propertyType: "",
+  acceptedUserAgreement: false,
 };
 
 export function PricingConsole() {
@@ -220,6 +223,7 @@ export function PricingConsole() {
       ...prev,
       plan,
       step: 1,
+      acceptedUserAgreement: false,
     }));
     setCheckoutSessionId(nextSessionId);
     setPlanCheckoutUrl(null);
@@ -233,6 +237,7 @@ export function PricingConsole() {
   function closeWizard() {
     if (submitting) return;
     setIsWizardOpen(false);
+    setWizard((s) => ({ ...s, acceptedUserAgreement: false }));
   }
 
   async function syncCheckoutSession() {
@@ -277,7 +282,8 @@ export function PricingConsole() {
       wizard.county.trim().length > 1 &&
       wizard.fullName.trim().length > 1 &&
       wizard.email.includes("@") &&
-      wizard.phone.trim().length >= 7
+      wizard.phone.trim().length >= 7 &&
+      wizard.acceptedUserAgreement
     );
   }
 
@@ -681,6 +687,23 @@ export function PricingConsole() {
                   type="tel"
                 />
               </div>
+              <label className="flex cursor-pointer gap-3 rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/85">
+                <input
+                  type="checkbox"
+                  checked={wizard.acceptedUserAgreement}
+                  onChange={(e) =>
+                    setWizard((s) => ({ ...s, acceptedUserAgreement: e.target.checked }))
+                  }
+                  className="mt-1 accent-emerald-400"
+                />
+                <span>
+                  I have read and agree to the{" "}
+                  <Link href="/resources/legal/terms" className="font-semibold text-emerald-300 underline-offset-2 hover:underline">
+                    Terms of Service
+                  </Link>{" "}
+                  and understand brokerage intake is governed by those terms and applicable listing agreements.
+                </span>
+              </label>
               <div className="flex justify-end">
                 <button
                   type="button"

@@ -7,6 +7,7 @@ import {
   normalizeListingAddressPart,
 } from "@/lib/listing-address";
 import { connectDb } from "@/lib/mongodb";
+import { normalizeListingPlatforms } from "@/lib/listing-platforms";
 import { Listing } from "@/models/Listing";
 
 type PatchBody = {
@@ -99,6 +100,8 @@ type PatchBody = {
   informationAccurateConfirmed?: boolean;
   referredByExistingCustomer?: boolean;
   wantsListingProcessFeedback?: boolean;
+  listingPlatforms?: string[];
+  additionalPhotoUrls?: string[];
 };
 
 function iso(d: unknown): string | null {
@@ -201,6 +204,8 @@ function serializeListing(doc: {
   informationAccurateConfirmed?: boolean;
   referredByExistingCustomer?: boolean;
   wantsListingProcessFeedback?: boolean;
+  listingPlatforms?: string[];
+  additionalPhotoUrls?: string[];
   heroImageUrl?: string | null;
   orderedOn?: Date | null;
   listedOn?: Date | null;
@@ -255,6 +260,15 @@ function serializeListing(doc: {
     mlsName: doc.mlsName ?? "",
     mlsNumber: doc.mlsNumber ?? "",
     listingId: doc.listingId ?? "",
+    listingPlatforms: normalizeListingPlatforms((doc as { listingPlatforms?: unknown }).listingPlatforms),
+    additionalPhotoUrls: (() => {
+      const raw = (doc as { additionalPhotoUrls?: unknown }).additionalPhotoUrls;
+      if (!Array.isArray(raw)) return [];
+      return raw
+        .filter((u): u is string => typeof u === "string" && u.trim().length > 0)
+        .map((u) => u.trim())
+        .slice(0, 40);
+    })(),
     status: doc.status,
     planLabel: doc.planLabel ?? "",
     price: doc.price,
@@ -575,6 +589,17 @@ export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }>
   }
   if (body.wantsListingProcessFeedback !== undefined) {
     listing.wantsListingProcessFeedback = Boolean(body.wantsListingProcessFeedback);
+  }
+  if (body.listingPlatforms !== undefined) {
+    listing.listingPlatforms = normalizeListingPlatforms(body.listingPlatforms);
+  }
+  if (body.additionalPhotoUrls !== undefined) {
+    const raw = body.additionalPhotoUrls;
+    const arr = Array.isArray(raw) ? raw : [];
+    listing.additionalPhotoUrls = arr
+      .filter((u): u is string => typeof u === "string" && u.trim().length > 0)
+      .map((u) => u.trim())
+      .slice(0, 40);
   }
 
   if (!hasValidCoreListingAddress(listing)) {

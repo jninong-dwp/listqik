@@ -1,4 +1,5 @@
 import { hasMeaningfulListingAddressText } from "@/lib/listing-address";
+import { normalizeListingPlatforms } from "@/lib/listing-platforms";
 
 type ListingForCompliance = {
   street?: string | null;
@@ -18,6 +19,7 @@ type ListingForCompliance = {
   mlsName?: string | null;
   mlsNumber?: string | null;
   listingId?: string | null;
+  listingPlatforms?: unknown;
   legalLot?: string | null;
   legalBlock?: string | null;
   legalAddition?: string | null;
@@ -48,7 +50,6 @@ type ListingForCompliance = {
   appointmentPhone?: string | null;
   appointmentEmail?: string | null;
   listingStartOn?: Date | string | null;
-  listingEndOn?: Date | string | null;
   intermediaryStatusAuthorized?: boolean;
   keyboxPermission?: boolean;
   keyboxRiskAcknowledged?: boolean;
@@ -62,7 +63,6 @@ type ListingForCompliance = {
   valuablesNoticeConfirmed?: boolean;
   iabsAcknowledged?: boolean;
   sellersDisclosureAcknowledged?: boolean;
-  listingAgreementAcknowledged?: boolean;
   brokerBrandingConfirmed?: boolean;
   informationAccurateConfirmed?: boolean;
   allOwnersOccupyProperty?: boolean;
@@ -93,13 +93,11 @@ export function validateListingForFinalize(listing: ListingForCompliance) {
   if (!legalStructured && !legalFromDescription) {
     errors.push("Legal description (full text) or legal lot, block, and addition is required.");
   }
-  if (!hasText(listing.parcelId)) errors.push("Parcel ID is required.");
 
   if (typeof listing.price !== "number" || !Number.isFinite(listing.price) || listing.price <= 0) {
     errors.push("Valid list price is required.");
   }
   if (!hasDate(listing.listingStartOn)) errors.push("Listing start date is required.");
-  if (!hasDate(listing.listingEndOn)) errors.push("Listing end date is required.");
   if (!listing.intermediaryStatusAuthorized) errors.push("Intermediary status authorization is required.");
 
   if (listing.buyerAgentCompType === "AMOUNT") {
@@ -120,12 +118,6 @@ export function validateListingForFinalize(listing: ListingForCompliance) {
   if ((listing.publicRemarks ?? "").trim().length < 20) {
     errors.push("Public remarks must be at least 20 characters.");
   }
-  if ((listing.privateRemarks ?? "").trim().length < 20) {
-    errors.push("Private remarks must be at least 20 characters.");
-  }
-  if ((listing.drivingDirections ?? "").trim().length < 10) {
-    errors.push("Driving directions must be provided.");
-  }
 
   if (!hasText(listing.heroImageUrl)) errors.push("Hero image is required.");
   if (!listing.firstPhotoExteriorConfirmed) errors.push("Photo compliance: first photo must be exterior.");
@@ -133,8 +125,9 @@ export function validateListingForFinalize(listing: ListingForCompliance) {
   if (!listing.photoNoPeoplePetsConfirmed) errors.push("Photo compliance: no people/pets must be confirmed.");
   if (!listing.photoCopyrightConfirmed) errors.push("Photo compliance: rights confirmation is required.");
 
-  if (!hasText(listing.mlsName) && !hasText(listing.mlsNumber) && !hasText(listing.listingId)) {
-    errors.push("MLS name, MLS number, or listing ID is required.");
+  const platforms = normalizeListingPlatforms(listing.listingPlatforms);
+  if (platforms.length === 0) {
+    errors.push("Select at least one place you would like to list your property.");
   }
 
   if (!hasText(listing.sellerNames)) errors.push("Seller legal names are required.");
@@ -178,7 +171,6 @@ export function validateListingForFinalize(listing: ListingForCompliance) {
   if (!listing.valuablesNoticeConfirmed) errors.push("Valuables/security notice confirmation is required.");
   if (!listing.iabsAcknowledged) errors.push("IABS acknowledgment is required.");
   if (!listing.sellersDisclosureAcknowledged) errors.push("Seller disclosure acknowledgment is required.");
-  if (!listing.listingAgreementAcknowledged) errors.push("Listing agreement acknowledgment is required.");
   if (!listing.brokerBrandingConfirmed) errors.push("Broker branding compliance confirmation is required.");
   if (!listing.informationAccurateConfirmed) errors.push("Accuracy attestation is required.");
 

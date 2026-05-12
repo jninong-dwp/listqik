@@ -96,6 +96,10 @@ const listingSchema = new Schema(
     mlsName: { type: String, trim: true },
     mlsNumber: { type: String, trim: true },
     listingId: { type: String, trim: true },
+    /** Where the seller wants the property marketed (replaces requiring MLS numbers at intake). */
+    listingPlatforms: { type: [String], default: [] },
+    /** Optional gallery URLs (upload or paste); not required to finalize. */
+    additionalPhotoUrls: { type: [String], default: [] },
     status: {
       type: String,
       enum: ["INCOMPLETE", "ACTIVE", "PENDING", "EXPIRED", "SOLD"],

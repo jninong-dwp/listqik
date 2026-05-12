@@ -3,6 +3,11 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
+import {
+  LISTING_PLATFORM_OPTIONS,
+  type ListingPlatformId,
+  normalizeListingPlatforms,
+} from "@/lib/listing-platforms";
 
 /** Mirrors `/api/dashboard/listings/[id]` GET payload (+ merged defaults for older rows). */
 export type ListingSetupData = {
@@ -51,6 +56,8 @@ export type ListingSetupData = {
   mlsName: string;
   mlsNumber: string;
   listingId: string;
+  listingPlatforms: ListingPlatformId[];
+  additionalPhotoUrls: string[];
   status: string;
   planLabel: string;
   price: number;
@@ -143,6 +150,8 @@ const LISTING_SETUP_DEFAULTS: ListingSetupData = {
   mlsName: "",
   mlsNumber: "",
   listingId: "",
+  listingPlatforms: [],
+  additionalPhotoUrls: [],
   status: "INCOMPLETE",
   planLabel: "",
   price: 0,
@@ -190,7 +199,15 @@ const LISTING_SETUP_DEFAULTS: ListingSetupData = {
 };
 
 function mergeListing(raw: Partial<ListingSetupData> & { id: string }): ListingSetupData {
-  return { ...LISTING_SETUP_DEFAULTS, ...raw };
+  const additionalPhotoUrls = Array.isArray(raw.additionalPhotoUrls)
+    ? raw.additionalPhotoUrls.filter((u) => typeof u === "string" && u.trim().length > 0)
+    : [];
+  return {
+    ...LISTING_SETUP_DEFAULTS,
+    ...raw,
+    listingPlatforms: normalizeListingPlatforms(raw.listingPlatforms),
+    additionalPhotoUrls,
+  };
 }
 
 const PUBLIC_REMARKS_MAX = 1200;
@@ -227,6 +244,7 @@ const previewSetupListings: ListingSetupData[] = [
     appointmentEmail: "seller@example.com",
     feeSimpleConfirmed: true,
     allOwnersConsentEsign: true,
+    listingPlatforms: ["MLS", "ZILLOW"],
     orderedOn: "2026-04-12T08:00:00.000Z",
   }),
   mergeListing({
@@ -274,6 +292,7 @@ const previewSetupListings: ListingSetupData[] = [
     photoNoSignsConfirmed: true,
     photoNoPeoplePetsConfirmed: true,
     photoCopyrightConfirmed: true,
+    listingPlatforms: ["MLS", "REALTOR_COM"],
   }),
   mergeListing({
     id: "preview-listing-3",
@@ -309,6 +328,7 @@ const previewSetupListings: ListingSetupData[] = [
     setupFinalizedAt: "2026-02-19T08:00:00.000Z",
     feeSimpleConfirmed: true,
     allOwnersConsentEsign: true,
+    listingPlatforms: ["OTHER_PLATFORMS"],
   }),
 ];
 
@@ -358,12 +378,7 @@ function legalComplete(l: ListingSetupData): boolean {
 
 function propertyDescComplete(l: ListingSetupData): boolean {
   const primary = Math.max(l.publicRemarks.trim().length, l.description.trim().length);
-  return (
-    primary >= 40 &&
-    l.privateRemarks.trim().length >= 20 &&
-    l.drivingDirections.trim().length >= 10 &&
-    Boolean(l.crossStreet?.trim())
-  );
+  return primary >= 40;
 }
 
 function photosComplete(l: ListingSetupData): boolean {
@@ -376,10 +391,8 @@ function photosComplete(l: ListingSetupData): boolean {
 
 function generalComplete(l: ListingSetupData): boolean {
   const addr = Boolean(l.street?.trim() && l.city?.trim() && l.state?.trim() && l.zip?.trim());
-  const parcel = Boolean(l.parcelId?.trim());
   const yb = typeof l.yearBuilt === "number" && l.yearBuilt >= 1600 && l.yearBuilt <= 2100;
-  const lockOk = !l.lockboxOrKeypad || Boolean(l.lockboxInstructions?.trim());
-  return addr && parcel && yb && legalComplete(l) && lockOk;
+  return addr && yb && legalComplete(l);
 }
 
 function contactComplete(l: ListingSetupData): boolean {
@@ -412,12 +425,10 @@ function disclosuresComplete(l: ListingSetupData): boolean {
     l.valuablesNoticeConfirmed &&
     l.iabsAcknowledged &&
     l.sellersDisclosureAcknowledged &&
-    l.listingAgreementAcknowledged &&
     l.brokerBrandingConfirmed &&
     l.informationAccurateConfirmed &&
     l.intermediaryStatusAuthorized &&
-    Boolean(l.listingStartOn) &&
-    Boolean(l.listingEndOn)
+    Boolean(l.listingStartOn)
   );
 }
 
@@ -432,6 +443,9 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
   const [pendingAnchor, setPendingAnchor] = useState<string | null>(null);
   const [photoDisclaimerAccepted, setPhotoDisclaimerAccepted] = useState(false);
   const [savingSection, setSavingSection] = useState<string | null>(null);
+  const [finalizeSuccess, setFinalizeSuccess] = useState(false);
+  const [heroUploadBusy, setHeroUploadBusy] = useState(false);
+  const [galleryUploadBusy, setGalleryUploadBusy] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -498,14 +512,14 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
       {
         id: "property-description",
         title: "Property description",
-        subtitle: "MLS remarks, directions, cross street",
+        subtitle: "MLS public remarks",
         complete: propertyDescComplete(listing),
       },
       {
         id: "mls-profile",
-        title: "MLS details",
-        subtitle: "MLS board & identifiers",
-        complete: Boolean(listing.mlsName?.trim() || listing.mlsNumber?.trim() || listing.listingId?.trim()),
+        title: "Listing destinations",
+        subtitle: "Where you want the property marketed",
+        complete: normalizeListingPlatforms(listing.listingPlatforms).length > 0,
       },
       {
         id: "photos-media",
@@ -571,12 +585,9 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
     if (!listing.city?.trim()) g.push("City");
     if (!listing.state?.trim()) g.push("State");
     if (!listing.zip?.trim()) g.push("ZIP");
-    if (!listing.parcelId?.trim()) g.push("Parcel ID");
     if (!(typeof listing.yearBuilt === "number" && listing.yearBuilt >= 1600))
       g.push("Year built (4-digit)");
     if (!legalComplete(listing)) g.push("Legal description or lot/block/addition");
-    if (listing.lockboxOrKeypad && !listing.lockboxInstructions?.trim())
-      g.push("Lockbox / keypad instructions");
 
     const c: string[] = [];
     if (!listing.county?.trim()) c.push("County");
@@ -598,9 +609,6 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
     const d: string[] = [];
     if (Math.max(listing.publicRemarks.trim().length, listing.description.trim().length) < 40)
       d.push("MLS description (40+ chars)");
-    if (listing.privateRemarks.trim().length < 20) d.push("Private remarks (20+ chars for finalize)");
-    if (listing.drivingDirections.trim().length < 10) d.push("Driving directions");
-    if (!listing.crossStreet?.trim()) d.push("Cross street");
 
     const photos: string[] = [];
     if (!listing.heroImageUrl?.trim()) photos.push("Hero image URL");
@@ -612,12 +620,10 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
     const fin: string[] = [];
     if (!listing.intermediaryStatusAuthorized) fin.push("Intermediary authorization");
     if (!listing.listingStartOn) fin.push("Listing start date");
-    if (!listing.listingEndOn) fin.push("Listing end date");
     if (!listing.fairHousingNoticeConfirmed) fin.push("Fair housing notice");
     if (!listing.valuablesNoticeConfirmed) fin.push("Valuables notice");
     if (!listing.iabsAcknowledged) fin.push("IABS");
     if (!listing.sellersDisclosureAcknowledged) fin.push("Seller disclosure acknowledgment");
-    if (!listing.listingAgreementAcknowledged) fin.push("Listing agreement acknowledgment");
     if (!listing.brokerBrandingConfirmed) fin.push("Broker branding acknowledgment");
     if (!listing.informationAccurateConfirmed) fin.push("Accuracy verification");
 
@@ -630,9 +636,10 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
       ],
       "property-description": d,
       "photos-media": photos,
-      "mls-profile": [
-        ...(!(listing.mlsName || listing.mlsNumber || listing.listingId) ? ["MLS name, number, or listing ID"] : []),
-      ],
+      "mls-profile":
+        normalizeListingPlatforms(listing.listingPlatforms).length === 0
+          ? ["At least one listing destination"]
+          : [],
       "complete-listing-setup": fin,
     };
   }, [listing]);
@@ -645,6 +652,7 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
     setFinalizing(true);
     setFinalizeError(null);
     setFinalizeDetails([]);
+    setFinalizeSuccess(false);
     try {
       const res = await fetch(`/api/dashboard/listings/${listingId}/finalize`, { method: "POST" });
       const data = (await res.json().catch(() => null)) as
@@ -655,6 +663,7 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
         setFinalizeDetails(data?.validationErrors ?? []);
         return;
       }
+      setFinalizeSuccess(true);
       const refreshed = await fetch(`/api/dashboard/listings/${listingId}`, { cache: "no-store" });
       const refreshedData = (await refreshed.json().catch(() => null)) as {
         ok?: boolean;
@@ -736,8 +745,96 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
     );
   }
 
-  const priceForMath = listing.price > 0 ? listing.price : 0;
-  const bacPct = listing.buyerAgentCompPct ?? 0;
+  const activeListing = listing;
+
+  async function uploadHeroFile(file: File) {
+    if (listingId.startsWith("preview-")) {
+      setFinalizeError("Upload is disabled in preview mode.");
+      return;
+    }
+    setHeroUploadBusy(true);
+    setFinalizeError(null);
+    try {
+      const signedRes = await fetch(`/api/dashboard/listings/${listingId}/hero-image/upload-url`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ fileName: file.name, contentType: file.type || "image/jpeg" }),
+      });
+      const signedData = (await signedRes.json().catch(() => null)) as
+        | { ok?: boolean; uploadUrl?: string; publicUrl?: string; error?: string }
+        | null;
+      if (!signedRes.ok || !signedData?.ok || !signedData.uploadUrl || !signedData.publicUrl) {
+        setFinalizeError(signedData?.error ?? "Could not prepare image upload.");
+        return;
+      }
+      const uploadRes = await fetch(signedData.uploadUrl, {
+        method: "PUT",
+        body: file,
+        headers: { "content-type": file.type || "image/jpeg" },
+      });
+      if (!uploadRes.ok) {
+        setFinalizeError("Image upload failed.");
+        return;
+      }
+      await savePatch("photos-media", { heroImageUrl: signedData.publicUrl });
+    } catch {
+      setFinalizeError("Network error while uploading image.");
+    } finally {
+      setHeroUploadBusy(false);
+    }
+  }
+
+  async function uploadGalleryFile(file: File) {
+    if (listingId.startsWith("preview-")) {
+      setFinalizeError("Upload is disabled in preview mode.");
+      return;
+    }
+    setGalleryUploadBusy(true);
+    setFinalizeError(null);
+    try {
+      const signedRes = await fetch(`/api/dashboard/listings/${listingId}/gallery/upload-url`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ fileName: file.name, contentType: file.type || "image/jpeg" }),
+      });
+      const signedData = (await signedRes.json().catch(() => null)) as
+        | { ok?: boolean; uploadUrl?: string; publicUrl?: string; error?: string }
+        | null;
+      if (!signedRes.ok || !signedData?.ok || !signedData.uploadUrl || !signedData.publicUrl) {
+        setFinalizeError(signedData?.error ?? "Could not prepare image upload.");
+        return;
+      }
+      const uploadRes = await fetch(signedData.uploadUrl, {
+        method: "PUT",
+        body: file,
+        headers: { "content-type": file.type || "image/jpeg" },
+      });
+      if (!uploadRes.ok) {
+        setFinalizeError("Image upload failed.");
+        return;
+      }
+      const current = activeListing.additionalPhotoUrls ?? [];
+      await savePatch("photos-media", {
+        additionalPhotoUrls: [...current, signedData.publicUrl].slice(0, 40),
+      });
+    } catch {
+      setFinalizeError("Network error while uploading image.");
+    } finally {
+      setGalleryUploadBusy(false);
+    }
+  }
+
+  function removeGalleryUrl(url: string) {
+    const current = activeListing.additionalPhotoUrls ?? [];
+    void savePatch("photos-media", { additionalPhotoUrls: current.filter((u) => u !== url) });
+  }
+
+  const priceForMath = activeListing.price > 0 ? activeListing.price : 0;
+  const bacPctResolved =
+    activeListing.buyerAgentCompPct !== null && activeListing.buyerAgentCompPct !== undefined
+      ? activeListing.buyerAgentCompPct
+      : null;
+  const bacPct = bacPctResolved ?? 0;
   const complianceFeeAmt = (priceForMath * COMPLIANCE_FEE_PCT) / 100;
   const buyerFeeAmt = (priceForMath * bacPct) / 100;
   const totalFeePct = bacPct + COMPLIANCE_FEE_PCT;
@@ -792,10 +889,15 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300/80">MLS listing setup</p>
           <h1 className="mt-2 text-2xl font-semibold text-emerald-50">Listing setup wizard</h1>
           <p className="mt-2 text-sm text-white/70">
-            Fields mirror the common flat-fee MLS onboarding flow: property facts, ownership & contacts, pricing,
-            MLS copy, identifiers, photos, then disclosures before you finalize.
+            Property facts, contacts, pricing, public remarks, where you want to market the home, photos, then
+            disclosures before you finalize.
           </p>
         </header>
+        {finalizeSuccess ? (
+          <div className="mt-4 rounded-xl border border-emerald-400/45 bg-emerald-950/40 p-4 text-sm text-emerald-100">
+            Your listing has been successfully submitted. We will review and activate your property within 24 hours.
+          </div>
+        ) : null}
         {finalizeError ? (
           <div className="mt-4 rounded-xl border border-rose-400/40 bg-rose-950/35 p-4 text-sm text-rose-100">
             <p>{finalizeError}</p>
@@ -829,7 +931,7 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
             <Subheading className="mt-6">Property details</Subheading>
             <Hint>Parcel ID and legal description are typically on your tax bill or county appraiser site.</Hint>
             <div className="mt-3 grid gap-3 sm:grid-cols-2">
-              <Field label="Parcel ID *" id="parcelId" defaultValue={draftValue("parcelId")} />
+              <Field label="Parcel ID (optional)" id="parcelId" defaultValue={draftValue("parcelId")} />
               <SelectField
                 label="Property type *"
                 id="propertyType"
@@ -899,16 +1001,16 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
                 <RadioYesNo name="hasPool" defaultYes={listing.hasPool} />
               </div>
               <div>
-                <FieldLabel>Lockbox or keypad for access? *</FieldLabel>
+                <FieldLabel>Lockbox or keypad for access?</FieldLabel>
                 <RadioYesNo name="lockboxOrKeypad" defaultYes={listing.lockboxOrKeypad} />
               </div>
             </div>
             <Field
-              label="Lockbox / keypad instructions or combination *"
+              label="Lockbox / keypad instructions or combination (optional)"
               id="lockboxInstructions"
               defaultValue={draftValue("lockboxInstructions")}
             />
-            <Hint>Required when lockbox/keypad is Yes — combo, location, vendor instructions.</Hint>
+            <Hint>If you use a lockbox or keypad, add combo or vendor instructions when you have them.</Hint>
 
             <SaveBar
               busy={savingSection === "general-information"}
@@ -1089,47 +1191,59 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
             missingItems={missingByStep["price-compensation"] ?? []}
           >
             <Hint>
-              Enter the full list price including zeros (e.g. 350000). Buyer-agent compensation is optional but helps
-              buyer traffic; MLS compliance fees may apply.
+              Enter the full list price including zeros (e.g. 350000). Buyer-agent compensation is required and must be
+              saved before you finalize; MLS compliance fees may apply.
             </Hint>
             <div className="mt-3 grid gap-3 sm:grid-cols-2">
               <Field label="Listing price *" id="price" defaultValue={draftValue("price")} type="number" />
             </div>
             <div className="mt-4">
-              <label className="text-xs font-semibold uppercase tracking-wide text-white/55" htmlFor="bac-range">
-                Compensation to buyer&apos;s agent ({bacPct}%)
+              <label className="block" htmlFor="bac-pct">
+                <span className="text-xs font-semibold uppercase tracking-wide text-white/55">
+                  Compensation to buyer&apos;s agent (%) *
+                </span>
+                <input
+                  id="bac-pct"
+                  type="number"
+                  min={0}
+                  max={6}
+                  step={0.25}
+                  defaultValue={
+                    listing.buyerAgentCompPct === null || listing.buyerAgentCompPct === undefined
+                      ? ""
+                      : String(listing.buyerAgentCompPct)
+                  }
+                  placeholder="e.g. 2.5"
+                  className="mt-1 w-full rounded-lg border border-white/15 bg-black/35 px-3 py-2 text-sm text-emerald-100 outline-none ring-emerald-300/40 transition focus:ring"
+                />
               </label>
-              <input
-                id="bac-range"
-                type="range"
-                min={0}
-                max={6}
-                step={0.25}
-                defaultValue={String(listing.buyerAgentCompPct ?? 2.5)}
-                className="mt-2 w-full accent-emerald-400"
-                onInput={(e) => {
-                  const v = (e.target as HTMLInputElement).value;
-                  const el = document.getElementById("bac-label");
-                  if (el) el.textContent = `Compensation to buyer's agent (${v}%)`;
-                }}
-              />
-              <p id="bac-label" className="mt-1 text-sm font-semibold text-emerald-200">
-                Compensation to buyer&apos;s agent ({bacPct}%)
-              </p>
+              {bacPctResolved !== null ? (
+                <p className="mt-2 text-sm font-semibold text-emerald-200">
+                  Saved buyer-agent offer: {bacPctResolved}%
+                </p>
+              ) : (
+                <p className="mt-2 text-sm text-white/55">Enter and save a percentage — nothing is assumed.</p>
+              )}
             </div>
             <div className="mt-4 rounded-xl border border-emerald-400/25 bg-emerald-950/25 p-4 text-sm text-white/85">
               <p className="font-semibold text-emerald-100">Estimated compensation snapshot</p>
-              <ul className="mt-2 space-y-1 text-xs">
-                <li>
-                  Buyer-agent ({bacPct.toFixed(2)}%): {formatMoney(buyerFeeAmt)}
-                </li>
-                <li>
-                  Plus compliance fee ({COMPLIANCE_FEE_PCT}%): {formatMoney(complianceFeeAmt)}
-                </li>
-                <li className="font-semibold text-emerald-100">
-                  Total {totalFeePct.toFixed(2)}% ≈ {formatMoney(totalFeeAmt)}
-                </li>
-              </ul>
+              {bacPctResolved !== null ? (
+                <ul className="mt-2 space-y-1 text-xs">
+                  <li>
+                    Buyer-agent ({bacPct.toFixed(2)}%): {formatMoney(buyerFeeAmt)}
+                  </li>
+                  <li>
+                    Plus compliance fee ({COMPLIANCE_FEE_PCT}%): {formatMoney(complianceFeeAmt)}
+                  </li>
+                  <li className="font-semibold text-emerald-100">
+                    Total {totalFeePct.toFixed(2)}% ≈ {formatMoney(totalFeeAmt)}
+                  </li>
+                </ul>
+              ) : (
+                <p className="mt-2 text-xs text-white/55">
+                  Save a buyer-agent compensation percentage to see dollar estimates.
+                </p>
+              )}
               <p className="mt-2 text-[11px] text-white/55">
                 Displays using your saved list price; final MLS charges may differ.
               </p>
@@ -1138,10 +1252,10 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
               busy={savingSection === "price-compensation"}
               onSave={() => {
                 const priceRaw = (document.getElementById("price") as HTMLInputElement)?.value ?? "";
-                const rangeRaw = (document.getElementById("bac-range") as HTMLInputElement)?.value ?? "";
+                const pctRaw = (document.getElementById("bac-pct") as HTMLInputElement)?.value ?? "";
                 void savePatch("price-compensation", {
                   price: Number(priceRaw),
-                  buyerAgentCompPct: rangeRaw === "" ? null : Number(rangeRaw),
+                  buyerAgentCompPct: pctRaw === "" ? null : Number(pctRaw),
                   buyerAgentCompType: "PERCENT",
                 });
               }}
@@ -1171,9 +1285,16 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
               defaultValue={listing.publicRemarks || listing.description}
               hint="Describe amenities, updates, and lifestyle benefits buyers care about."
             />
+            <div className="mt-4 rounded-xl border border-cyan-400/20 bg-black/25 p-3 text-xs text-white/75">
+              <p className="font-semibold text-cyan-100/95">Directions tip</p>
+              <p className="mt-1">
+                Use GPS-friendly guidance when you can (major roads, exits, landmarks). Street-by-street detail is
+                helpful but optional at this stage.
+              </p>
+            </div>
             <label className="mt-4 block" htmlFor="drivingDirections">
               <span className="text-xs font-semibold uppercase tracking-wide text-white/55">
-                Basic driving directions *
+                Basic driving directions (optional)
               </span>
               <textarea
                 id="drivingDirections"
@@ -1182,15 +1303,14 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
                 className="mt-1 w-full rounded-lg border border-white/15 bg-black/35 px-3 py-2 text-sm text-emerald-100 outline-none ring-emerald-300/40 focus:ring"
               />
             </label>
-            <Hint>Street-by-street directions are still required by many MLS systems.</Hint>
             <Field
-              label="Cross street (nearest corner) *"
+              label="Cross street / nearest corner (optional)"
               id="crossStreet"
               defaultValue={draftValue("crossStreet")}
             />
             <label className="mt-4 block" htmlFor="privateRemarks">
               <span className="text-xs font-semibold uppercase tracking-wide text-white/55">
-                Private / broker-only remarks * (min 20 characters to finalize)
+                Private broker-only remarks (optional)
               </span>
               <textarea
                 id="privateRemarks"
@@ -1216,31 +1336,51 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
 
           <InfoCard
             id="mls-profile"
-            title="Step 5 — MLS details"
+            title="Step 5 — Where to list"
             complete={steps.find((s) => s.id === "mls-profile")?.complete ?? false}
             missingItems={missingByStep["mls-profile"] ?? []}
           >
-            <div className="grid gap-3 sm:grid-cols-2">
-              <Field label="MLS / board name" id="mlsName" defaultValue={draftValue("mlsName")} />
-              <Field label="MLS number" id="mlsNumber" defaultValue={draftValue("mlsNumber")} />
-              <Field label="Internal listing ID" id="listingId" defaultValue={draftValue("listingId")} />
+            <Hint>
+              MLS numbers and internal IDs are often assigned after setup. Choose every channel where you want this home
+              marketed; your coordinator will confirm details.
+            </Hint>
+            <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-white/55">
+              Where would you like to list your property? *
+            </p>
+            <div className="mt-2 grid gap-2">
+              {LISTING_PLATFORM_OPTIONS.map((opt) => (
+                <label
+                  key={opt.id}
+                  htmlFor={`platform-${opt.id}`}
+                  className="flex cursor-pointer items-center gap-2 rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm text-emerald-100"
+                >
+                  <input
+                    id={`platform-${opt.id}`}
+                    type="checkbox"
+                    defaultChecked={normalizeListingPlatforms(listing.listingPlatforms).includes(opt.id)}
+                    className="accent-emerald-400"
+                  />
+                  {opt.label}
+                </label>
+              ))}
+            </div>
+            <div className="mt-4 grid gap-3 border-t border-white/10 pt-4 sm:grid-cols-2">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-white/55">Listed on</p>
+                <p className="text-xs font-semibold uppercase tracking-wide text-white/55">Listed on (system)</p>
                 <p className="mt-1 text-sm text-emerald-100">{formatDate(listing.listedOn)}</p>
               </div>
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-white/55">Expires on</p>
+                <p className="text-xs font-semibold uppercase tracking-wide text-white/55">Expires on (system)</p>
                 <p className="mt-1 text-sm text-emerald-100">{formatDate(listing.expiresOn)}</p>
               </div>
             </div>
             <SaveBar
               busy={savingSection === "mls-profile"}
               onSave={() => {
-                void savePatch("mls-profile", {
-                  mlsName: (document.getElementById("mlsName") as HTMLInputElement)?.value ?? "",
-                  mlsNumber: (document.getElementById("mlsNumber") as HTMLInputElement)?.value ?? "",
-                  listingId: (document.getElementById("listingId") as HTMLInputElement)?.value ?? "",
-                });
+                const selected = LISTING_PLATFORM_OPTIONS.filter(
+                  (opt) => (document.getElementById(`platform-${opt.id}`) as HTMLInputElement)?.checked,
+                ).map((opt) => opt.id);
+                void savePatch("mls-profile", { listingPlatforms: selected });
               }}
             />
           </InfoCard>
@@ -1251,11 +1391,86 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
             complete={steps.find((s) => s.id === "photos-media")?.complete ?? false}
             missingItems={missingByStep["photos-media"] ?? []}
           >
-            <Hint>
-              Upload additional gallery photos from your dashboard cards when ready; hero image URL satisfies the
-              minimum preview requirement here.
-            </Hint>
-            <Field label="Hero image URL *" id="heroImageUrl" defaultValue={draftValue("heroImageUrl")} />
+            <div className="rounded-xl border border-emerald-400/25 bg-emerald-950/20 p-4 text-xs text-white/85">
+              <p className="font-semibold text-emerald-100">Hero image</p>
+              <p className="mt-1">
+                The hero image is the primary photo buyers see first on your listing preview (lead photo). Paste a
+                public URL, or upload a file — either satisfies this step.
+              </p>
+            </div>
+            <div className="mt-3">
+              <Hint>Additional gallery photos are optional and can be uploaded below.</Hint>
+            </div>
+            <Field
+              label="Hero image URL (or upload below)"
+              id="heroImageUrl"
+              defaultValue={draftValue("heroImageUrl")}
+            />
+            <div className="mt-3 flex flex-wrap items-center gap-3">
+              <input
+                id="hero-image-file"
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/gif"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  e.target.value = "";
+                  if (file) void uploadHeroFile(file);
+                }}
+              />
+              <button
+                type="button"
+                disabled={heroUploadBusy || savingSection === "photos-media"}
+                onClick={() => document.getElementById("hero-image-file")?.click()}
+                className="rounded-full border border-emerald-400/60 bg-emerald-500/15 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-emerald-100 transition hover:bg-emerald-400/25 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {heroUploadBusy ? "Uploading hero…" : "Upload hero image"}
+              </button>
+            </div>
+            <div className="mt-6 border-t border-white/10 pt-4">
+              <p className="text-xs font-semibold uppercase tracking-wide text-white/55">Additional photos (optional)</p>
+              <p className="mt-1 text-xs text-white/55">
+                Upload extra images for your gallery. These are not required to submit setup.
+              </p>
+              <input
+                id="gallery-image-file"
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/gif"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  e.target.value = "";
+                  if (file) void uploadGalleryFile(file);
+                }}
+              />
+              <button
+                type="button"
+                disabled={galleryUploadBusy || savingSection === "photos-media"}
+                onClick={() => document.getElementById("gallery-image-file")?.click()}
+                className="mt-3 rounded-full border border-white/20 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white/85 transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {galleryUploadBusy ? "Uploading…" : "Upload additional photo"}
+              </button>
+              {listing.additionalPhotoUrls.length > 0 ? (
+                <ul className="mt-3 grid gap-2 text-xs">
+                  {listing.additionalPhotoUrls.map((url) => (
+                    <li
+                      key={url}
+                      className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-white/10 bg-black/25 px-2 py-1.5 text-emerald-100/90"
+                    >
+                      <span className="min-w-0 truncate font-mono text-[11px]">{url}</span>
+                      <button
+                        type="button"
+                        onClick={() => removeGalleryUrl(url)}
+                        className="shrink-0 rounded border border-white/15 px-2 py-0.5 text-[11px] text-white/70 hover:bg-white/10"
+                      >
+                        Remove
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </div>
             <div className="mt-4 space-y-2 border-t border-white/10 pt-4">
               <CheckboxRow
                 id="firstPhotoExteriorConfirmed"
@@ -1334,19 +1549,17 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
               ]}
             />
 
-            <Subheading className="mt-6">Listing term & brokerage acknowledgments</Subheading>
-            <div className="grid gap-3 sm:grid-cols-2">
+            <Subheading className="mt-6">Listing start & brokerage acknowledgments</Subheading>
+            <Hint>
+              Your listing is scheduled to go active on the start date you choose. If that date is today or already past
+              when we finalize, it becomes Active immediately; future dates stay Pending until the start day.
+            </Hint>
+            <div className="mt-3 grid gap-3 sm:grid-cols-2">
               <Field
                 label="Listing period start *"
                 id="listingStartOn"
                 type="date"
                 defaultValue={dateInputValue(listing.listingStartOn)}
-              />
-              <Field
-                label="Listing period end *"
-                id="listingEndOn"
-                type="date"
-                defaultValue={dateInputValue(listing.listingEndOn)}
               />
             </div>
             <CheckboxRow
@@ -1376,11 +1589,6 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
                 id="sellersDisclosureAcknowledged"
                 label="Seller disclosure duties acknowledged *"
                 defaultChecked={listing.sellersDisclosureAcknowledged}
-              />
-              <CheckboxRow
-                id="listingAgreementAcknowledged"
-                label="Listing agreement terms acknowledged *"
-                defaultChecked={listing.listingAgreementAcknowledged}
               />
               <CheckboxRow
                 id="brokerBrandingConfirmed"
@@ -1424,7 +1632,6 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
               onSave={() => {
                 void savePatch("complete", {
                   listingStartOn: readOptionalDate("listingStartOn"),
-                  listingEndOn: readOptionalDate("listingEndOn"),
                   intermediaryStatusAuthorized:
                     (document.getElementById("intermediaryStatusAuthorized") as HTMLInputElement)?.checked ?? false,
                   fairHousingNoticeConfirmed:
@@ -1434,8 +1641,6 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
                   iabsAcknowledged: (document.getElementById("iabsAcknowledged") as HTMLInputElement)?.checked ?? false,
                   sellersDisclosureAcknowledged:
                     (document.getElementById("sellersDisclosureAcknowledged") as HTMLInputElement)?.checked ?? false,
-                  listingAgreementAcknowledged:
-                    (document.getElementById("listingAgreementAcknowledged") as HTMLInputElement)?.checked ?? false,
                   brokerBrandingConfirmed:
                     (document.getElementById("brokerBrandingConfirmed") as HTMLInputElement)?.checked ?? false,
                   informationAccurateConfirmed:
@@ -1454,8 +1659,8 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
             />
 
             <p className="mt-4 text-xs text-white/60">
-              Finalize runs automated validation (documents, HOA/condo rules, etc.) and switches the listing to ACTIVE
-              when everything passes.
+              Finalize runs automated validation (documents, HOA/condo rules, etc.). Submissions move to Active when your
+              listing start date is today or earlier; future start dates remain Pending until that calendar day.
             </p>
             <button
               type="button"
