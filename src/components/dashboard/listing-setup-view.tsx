@@ -211,6 +211,7 @@ function mergeListing(raw: Partial<ListingSetupData> & { id: string }): ListingS
 
 const PUBLIC_REMARKS_MAX = 1200;
 const COMPLIANCE_FEE_PCT = 0.5;
+const MAX_ADDITIONAL_PHOTOS = 25;
 
 const previewSetupListings: ListingSetupData[] = [
   mergeListing({
@@ -445,6 +446,11 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
   const [finalizeSuccess, setFinalizeSuccess] = useState(false);
   const [heroUploadBusy, setHeroUploadBusy] = useState(false);
   const [galleryUploadBusy, setGalleryUploadBusy] = useState(false);
+  const [galleryUploadProgress, setGalleryUploadProgress] = useState<{
+    done: number;
+    total: number;
+    failed: number;
+  } | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -764,36 +770,80 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
     }
   }
 
-  async function uploadGalleryFile(file: File) {
+  async function uploadGalleryFiles(files: File[]) {
     if (listingId.startsWith("preview-")) {
       setFinalizeError("Upload is disabled in preview mode.");
       return;
     }
+    if (files.length === 0) return;
+
+    const current = activeListing.additionalPhotoUrls ?? [];
+    const remainingSlots = Math.max(0, MAX_ADDITIONAL_PHOTOS - current.length);
+    if (remainingSlots === 0) {
+      setFinalizeError(`You've reached the ${MAX_ADDITIONAL_PHOTOS} additional photo limit.`);
+      return;
+    }
+
+    const accepted = files.slice(0, remainingSlots);
+    const skipped = files.length - accepted.length;
+
     setGalleryUploadBusy(true);
     setFinalizeError(null);
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-      const uploadRes = await fetch(`/api/dashboard/listings/${listingId}/gallery/upload`, {
-        method: "POST",
-        body: formData,
-      });
-      const uploadData = (await uploadRes.json().catch(() => null)) as
-        | { ok?: boolean; publicUrl?: string; error?: string }
-        | null;
-      if (!uploadRes.ok || !uploadData?.ok || !uploadData.publicUrl) {
-        setFinalizeError(uploadData?.error ?? "Image upload failed.");
-        return;
+    setGalleryUploadProgress({ done: 0, total: accepted.length, failed: 0 });
+
+    const uploadedUrls: string[] = [];
+    let failed = 0;
+    let firstError: string | null = null;
+
+    for (let i = 0; i < accepted.length; i++) {
+      const file = accepted[i];
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        const uploadRes = await fetch(`/api/dashboard/listings/${listingId}/gallery/upload`, {
+          method: "POST",
+          body: formData,
+        });
+        const uploadData = (await uploadRes.json().catch(() => null)) as
+          | { ok?: boolean; publicUrl?: string; error?: string }
+          | null;
+        if (!uploadRes.ok || !uploadData?.ok || !uploadData.publicUrl) {
+          failed += 1;
+          if (!firstError) firstError = uploadData?.error ?? `Upload failed for "${file.name}".`;
+        } else {
+          uploadedUrls.push(uploadData.publicUrl);
+        }
+      } catch {
+        failed += 1;
+        if (!firstError) firstError = `Network error while uploading "${file.name}".`;
       }
-      const current = activeListing.additionalPhotoUrls ?? [];
-      await savePatch("photos-media", {
-        additionalPhotoUrls: [...current, uploadData.publicUrl].slice(0, 40),
-      });
-    } catch {
-      setFinalizeError("Network error while uploading image.");
-    } finally {
-      setGalleryUploadBusy(false);
+      setGalleryUploadProgress({ done: i + 1, total: accepted.length, failed });
     }
+
+    if (uploadedUrls.length > 0) {
+      try {
+        await savePatch("photos-media", {
+          additionalPhotoUrls: [...current, ...uploadedUrls].slice(0, MAX_ADDITIONAL_PHOTOS),
+        });
+      } catch {
+        if (!firstError) firstError = "Saved upload but could not persist photo list.";
+      }
+    }
+
+    if (firstError) {
+      setFinalizeError(
+        skipped > 0
+          ? `${firstError} (${skipped} file${skipped === 1 ? "" : "s"} skipped — over the ${MAX_ADDITIONAL_PHOTOS} photo cap.)`
+          : firstError,
+      );
+    } else if (skipped > 0) {
+      setFinalizeError(
+        `${skipped} file${skipped === 1 ? "" : "s"} skipped — only ${remainingSlots} slot${remainingSlots === 1 ? "" : "s"} remaining (max ${MAX_ADDITIONAL_PHOTOS}).`,
+      );
+    }
+
+    setGalleryUploadBusy(false);
+    setGalleryUploadProgress(null);
   }
 
   function removeGalleryUrl(url: string) {
@@ -1359,44 +1409,80 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
               </div>
             ) : null}
             <div className="mt-6 border-t border-white/10 pt-4">
-              <p className="text-xs font-semibold uppercase tracking-wide text-white/55">Additional photos (optional)</p>
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <p className="text-xs font-semibold uppercase tracking-wide text-white/55">
+                  Additional photos (optional)
+                </p>
+                <p className="text-[11px] text-white/55">
+                  {listing.additionalPhotoUrls.length} / {MAX_ADDITIONAL_PHOTOS} used
+                </p>
+              </div>
               <p className="mt-1 text-xs text-white/55">
-                Upload extra images for your gallery. These are not required to submit setup.
+                Upload up to {MAX_ADDITIONAL_PHOTOS} extra images for your gallery. You can pick
+                multiple files at once. These are not required to submit setup.
               </p>
               <input
                 id="gallery-image-file"
                 type="file"
+                multiple
                 accept="image/jpeg,image/png,image/webp,image/gif"
                 className="hidden"
                 onChange={(e) => {
-                  const file = e.target.files?.[0];
+                  const fileList = e.target.files;
+                  const files = fileList ? Array.from(fileList) : [];
                   e.target.value = "";
-                  if (file) void uploadGalleryFile(file);
+                  if (files.length > 0) void uploadGalleryFiles(files);
                 }}
               />
-              <button
-                type="button"
-                disabled={galleryUploadBusy || savingSection === "photos-media"}
-                onClick={() => document.getElementById("gallery-image-file")?.click()}
-                className="mt-3 rounded-full border border-white/20 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white/85 transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {galleryUploadBusy ? "Uploading…" : "Upload additional photo"}
-              </button>
+              <div className="mt-3 flex flex-wrap items-center gap-3">
+                <button
+                  type="button"
+                  disabled={
+                    galleryUploadBusy ||
+                    savingSection === "photos-media" ||
+                    listing.additionalPhotoUrls.length >= MAX_ADDITIONAL_PHOTOS
+                  }
+                  onClick={() => document.getElementById("gallery-image-file")?.click()}
+                  className="rounded-full border border-white/20 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white/85 transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {galleryUploadBusy
+                    ? galleryUploadProgress
+                      ? `Uploading ${galleryUploadProgress.done} / ${galleryUploadProgress.total}…`
+                      : "Uploading…"
+                    : listing.additionalPhotoUrls.length >= MAX_ADDITIONAL_PHOTOS
+                      ? "Photo limit reached"
+                      : "Upload additional photos"}
+                </button>
+                {galleryUploadProgress && galleryUploadProgress.failed > 0 ? (
+                  <span className="text-[11px] text-amber-300">
+                    {galleryUploadProgress.failed} failed
+                  </span>
+                ) : null}
+              </div>
               {listing.additionalPhotoUrls.length > 0 ? (
-                <ul className="mt-3 grid gap-2 text-xs">
-                  {listing.additionalPhotoUrls.map((url) => (
+                <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+                  {listing.additionalPhotoUrls.map((url, idx) => (
                     <li
                       key={url}
-                      className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-white/10 bg-black/25 px-2 py-1.5 text-emerald-100/90"
+                      className="group relative overflow-hidden rounded-xl border border-white/10 bg-black/40"
                     >
-                      <span className="min-w-0 truncate font-mono text-[11px]">{url}</span>
+                      {/* eslint-disable-next-line @next/next/no-img-element -- proxy/external URL, no Image optimizer */}
+                      <img
+                        src={url}
+                        alt={`Additional photo ${idx + 1}`}
+                        className="block aspect-square w-full object-cover"
+                      />
                       <button
                         type="button"
                         onClick={() => removeGalleryUrl(url)}
-                        className="shrink-0 rounded border border-white/15 px-2 py-0.5 text-[11px] text-white/70 hover:bg-white/10"
+                        aria-label={`Remove photo ${idx + 1}`}
+                        className="absolute right-2 top-2 rounded-full border border-white/20 bg-black/70 px-2 py-0.5 text-[11px] font-semibold text-white/90 opacity-0 transition group-hover:opacity-100 hover:bg-rose-500/80"
                       >
                         Remove
                       </button>
+                      <span className="absolute left-2 top-2 rounded-full bg-black/60 px-2 py-0.5 text-[10px] font-semibold text-white/80">
+                        {idx + 1}
+                      </span>
                     </li>
                   ))}
                 </ul>
