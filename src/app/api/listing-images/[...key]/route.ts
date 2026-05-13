@@ -1,20 +1,25 @@
-import { GetObjectCommand, NoSuchKey } from "@aws-sdk/client-s3";
+import { GetObjectCommand } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { NextResponse } from "next/server";
 import { createR2Client, getR2Config } from "@/lib/r2";
 
 export const runtime = "nodejs";
 
+const SIGNED_URL_TTL_SECONDS = 60 * 60; // 1 hour
+const BROWSER_CACHE_SECONDS = 30 * 60; // 30 minutes — half of the signed URL TTL
+
 /**
  * GET /api/listing-images/<key segments...>
  *
- * Streams a stored listing image from R2 through our origin. We use this so
- * `<img src>` works even when the bucket has no public r2.dev / custom domain
- * configured (i.e. when R2_PUBLIC_BASE_URL is unset).
+ * Resolves to a short-lived signed GET URL on R2 via a 302 redirect. The
+ * browser caches the redirect for `BROWSER_CACHE_SECONDS`, and `<img>` tags
+ * transparently follow it. This sidesteps any direct R2 CORS/public-bucket
+ * setup — only the AWS SDK needs to be able to sign URLs server-side.
  *
- * Keys are constrained to the `listings/` prefix — anything else is rejected
- * so the route can't be abused as a general R2 reader.
+ * Keys are constrained to the `listings/` prefix so the route can't be abused
+ * as a general R2 reader.
  */
-export async function GET(_req: Request, ctx: { params: Promise<{ key: string[] }> }) {
+export async function GET(req: Request, ctx: { params: Promise<{ key: string[] }> }) {
   const { key: keySegments } = await ctx.params;
   if (!Array.isArray(keySegments) || keySegments.length === 0) {
     return NextResponse.json({ ok: false, error: "Missing object key." }, { status: 400 });
@@ -46,29 +51,22 @@ export async function GET(_req: Request, ctx: { params: Promise<{ key: string[] 
 
   try {
     const client = createR2Client();
-    const obj = await client.send(
+    const signedUrl = await getSignedUrl(
+      client,
       new GetObjectCommand({ Bucket: cfg.bucketName, Key: key }),
+      { expiresIn: SIGNED_URL_TTL_SECONDS },
     );
 
-    const bytes = await obj.Body?.transformToByteArray();
-    if (!bytes) {
-      return NextResponse.json({ ok: false, error: "Empty object." }, { status: 404 });
-    }
-
-    const headers = new Headers();
-    headers.set("content-type", obj.ContentType ?? "application/octet-stream");
-    headers.set("content-length", String(bytes.byteLength));
-    // Short cache: same-listing dashboards revisit images frequently; clients
-    // should still see updates within a minute when sellers replace photos.
-    headers.set("cache-control", "private, max-age=60");
-    if (obj.ETag) headers.set("etag", obj.ETag);
-
-    return new Response(bytes, { status: 200, headers });
+    return NextResponse.redirect(new URL(signedUrl), {
+      status: 302,
+      headers: {
+        "cache-control": `private, max-age=${BROWSER_CACHE_SECONDS}`,
+      },
+    });
   } catch (err) {
-    if (err instanceof NoSuchKey) {
-      return NextResponse.json({ ok: false, error: "Not found." }, { status: 404 });
-    }
     const message = err instanceof Error ? err.message : "Could not load image.";
+    // Helps when debugging without exposing the bucket key in user-facing UI.
+    console.error("[listing-images] sign failed for", key, message);
     return NextResponse.json({ ok: false, error: message }, { status: 502 });
   }
 }

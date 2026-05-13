@@ -1348,6 +1348,16 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
                 {heroUploadBusy ? "Uploading hero…" : "Upload hero image"}
               </button>
             </div>
+            {listing.heroImageUrl ? (
+              <div className="mt-3 overflow-hidden rounded-xl border border-emerald-500/30 bg-black/40">
+                {/* eslint-disable-next-line @next/next/no-img-element -- proxy/external URL, no Image optimizer */}
+                <img
+                  src={listing.heroImageUrl}
+                  alt="Hero preview"
+                  className="block max-h-80 w-full object-cover"
+                />
+              </div>
+            ) : null}
             <div className="mt-6 border-t border-white/10 pt-4">
               <p className="text-xs font-semibold uppercase tracking-wide text-white/55">Additional photos (optional)</p>
               <p className="mt-1 text-xs text-white/55">

@@ -201,7 +201,7 @@ export function PricingConsole() {
   const [planCheckoutLoading, setPlanCheckoutLoading] = useState(false);
   const [planCheckoutUrl, setPlanCheckoutUrl] = useState<string | null>(null);
   const [planCheckoutClientSecret, setPlanCheckoutClientSecret] = useState<string | null>(null);
-  const [checkingPlanPayment, setCheckingPlanPayment] = useState(false);
+  const [, setCheckingPlanPayment] = useState(false);
   const [planPaymentRecorded, setPlanPaymentRecorded] = useState(false);
   const [, setPlanAutoAdvanced] = useState(false);
   const [handoffBusy, setHandoffBusy] = useState<"listing-setup" | "upgrades" | null>(null);
