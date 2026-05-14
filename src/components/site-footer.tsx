@@ -124,6 +124,14 @@ export function SiteFooter() {
                 <li>
                   <Link
                     className="text-white/70 hover:text-white"
+                    href="/resources/legal/fair-housing"
+                  >
+                    Fair Housing
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="text-white/70 hover:text-white"
                     href="/resources/legal/privacy"
                   >
                     Privacy

@@ -86,6 +86,7 @@ const listingSchema = new Schema(
     isInMudWaterDistrict: { type: Boolean, default: false },
     fairHousingNoticeConfirmed: { type: Boolean, default: false },
     valuablesNoticeConfirmed: { type: Boolean, default: false },
+    securitySurveillanceAcknowledged: { type: Boolean, default: false },
     iabsAcknowledged: { type: Boolean, default: false },
     sellersDisclosureAcknowledged: { type: Boolean, default: false },
     listingAgreementAcknowledged: { type: Boolean, default: false },

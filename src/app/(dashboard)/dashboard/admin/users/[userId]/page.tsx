@@ -3,6 +3,7 @@ import { Types } from "mongoose";
 import { connectDb } from "@/lib/mongodb";
 import { Listing } from "@/models/Listing";
 import { ListingDocument } from "@/models/ListingDocument";
+import { ListingOffer } from "@/models/ListingOffer";
 import { ListingUpgradeRequest } from "@/models/ListingUpgradeRequest";
 import { PlanPurchase } from "@/models/PlanPurchase";
 import { UpgradePurchase } from "@/models/UpgradePurchase";
@@ -37,9 +38,12 @@ export default async function AdminUserProfilePage({
   ]);
 
   const listingIds = listings.map((row) => row._id);
-  const [documents, upgradeRequests] = await Promise.all([
+  const [documents, upgradeRequests, offers] = await Promise.all([
     listingIds.length > 0 ? ListingDocument.find({ listingId: { $in: listingIds } }).lean() : [],
     listingIds.length > 0 ? ListingUpgradeRequest.find({ listingId: { $in: listingIds } }).lean() : [],
+    listingIds.length > 0
+      ? ListingOffer.find({ listingId: { $in: listingIds } }).sort({ createdAt: -1 }).lean()
+      : [],
   ]);
 
   const docsByListing = new Map<string, (typeof documents)[number][]>();
@@ -56,6 +60,14 @@ export default async function AdminUserProfilePage({
     const bucket = requestsByListing.get(key) ?? [];
     bucket.push(req);
     requestsByListing.set(key, bucket);
+  }
+
+  const offersByListing = new Map<string, (typeof offers)[number][]>();
+  for (const offer of offers) {
+    const key = String(offer.listingId);
+    const bucket = offersByListing.get(key) ?? [];
+    bucket.push(offer);
+    offersByListing.set(key, bucket);
   }
 
   const purchasedUpgradeSet = new Set<string>([
@@ -115,12 +127,14 @@ export default async function AdminUserProfilePage({
             const listingKey = String(listing._id);
             const docs = docsByListing.get(listingKey) ?? [];
             const reqs = requestsByListing.get(listingKey) ?? [];
+            const listingOffers = offersByListing.get(listingKey) ?? [];
             return (
               <AdminListingDetailsCard
                 key={listingKey}
                 listing={listing as Parameters<typeof AdminListingDetailsCard>[0]["listing"]}
                 documents={docs as Parameters<typeof AdminListingDetailsCard>[0]["documents"]}
                 upgradeRequests={reqs as Parameters<typeof AdminListingDetailsCard>[0]["upgradeRequests"]}
+                offers={listingOffers as Parameters<typeof AdminListingDetailsCard>[0]["offers"]}
               />
             );
           })

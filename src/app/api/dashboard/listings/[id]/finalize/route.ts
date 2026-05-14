@@ -6,9 +6,19 @@ import { connectDb } from "@/lib/mongodb";
 import { validateListingForFinalize } from "@/lib/listing-compliance";
 import { Listing } from "@/models/Listing";
 import { ListingDocument } from "@/models/ListingDocument";
+import { User } from "@/models/User";
+import { sendInternalListingFinalizedEmail } from "@/lib/transactional-email";
 
 function hasMatchingDoc(fileName: string, patterns: RegExp[]) {
   return patterns.some((p) => p.test(fileName));
+}
+
+function appBaseUrl(): string {
+  const auth = process.env.NEXTAUTH_URL?.trim();
+  if (auth) return auth.replace(/\/$/, "");
+  const vercel = process.env.VERCEL_URL?.trim();
+  if (vercel) return `https://${vercel.replace(/\/$/, "")}`;
+  return "";
 }
 
 export async function POST(_req: Request, ctx: { params: Promise<{ id: string }> }) {
@@ -69,12 +79,109 @@ export async function POST(_req: Request, ctx: { params: Promise<{ id: string }>
     : 0;
   const todayDay = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
   /** Future start dates stay pending until the start day; same-day or past go active now. */
+  const wasIncomplete = listing.status === "INCOMPLETE";
   listing.status = startValid && startDay > todayDay ? "PENDING" : "ACTIVE";
   listing.setupFinalizedAt = new Date();
   if (!listing.listedOn) {
     listing.listedOn = new Date();
   }
   await listing.save();
+
+  /**
+   * Fire an internal notification once per listing finalize. We rely on the
+   * `wasIncomplete` flag to avoid re-sending when this endpoint is re-hit on an
+   * already-finalized listing. Email send is non-blocking so SMTP latency or
+   * failure cannot disrupt the seller's success response.
+   */
+  if (wasIncomplete) {
+    void (async () => {
+      try {
+        const owner = await User.findById(userId, { name: 1, email: 1 }).lean();
+        const sellerEmail =
+          owner?.email ??
+          listing.contactEmail ??
+          listing.appointmentEmail ??
+          "";
+        const sellerName =
+          owner?.name ||
+          (typeof listing.sellerNames === "string" && listing.sellerNames.trim().length > 0
+            ? listing.sellerNames.trim()
+            : sellerEmail || "Seller");
+
+        const addressParts = [
+          listing.street,
+          listing.unit ? `#${listing.unit}` : "",
+          listing.city,
+          [listing.state, listing.zip].filter(Boolean).join(" "),
+        ].filter((part) => typeof part === "string" && part.trim().length > 0);
+
+        const buyerAgentCompSummary =
+          listing.buyerAgentCompType === "AMOUNT"
+            ? listing.buyerAgentCompAmount !== null && listing.buyerAgentCompAmount !== undefined
+              ? new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                  maximumFractionDigits: 2,
+                }).format(listing.buyerAgentCompAmount)
+              : null
+            : listing.buyerAgentCompPct !== null && listing.buyerAgentCompPct !== undefined
+              ? `${listing.buyerAgentCompPct}%`
+              : null;
+
+        const baseUrl = appBaseUrl();
+        const adminProfileUrl = baseUrl
+          ? `${baseUrl}/dashboard/admin/users/${String(userId)}`
+          : null;
+
+        const additionalPhotos = Array.isArray(listing.additionalPhotoUrls)
+          ? listing.additionalPhotoUrls.filter(
+              (u: unknown) => typeof u === "string" && u.trim().length > 0,
+            )
+          : [];
+
+        const platforms = Array.isArray(listing.listingPlatforms)
+          ? listing.listingPlatforms.filter((p: unknown): p is string => typeof p === "string")
+          : [];
+
+        const result = await sendInternalListingFinalizedEmail({
+          sellerName,
+          sellerEmail,
+          contactPhone:
+            (typeof listing.contactPhone === "string" && listing.contactPhone.trim()) ||
+            (typeof listing.appointmentPhone === "string" && listing.appointmentPhone.trim()) ||
+            null,
+          listingId: String(listing._id),
+          userId: String(userId),
+          address: addressParts.join(", "),
+          county: (typeof listing.county === "string" && listing.county.trim()) || null,
+          status: listing.status,
+          planLabel: listing.planLabel ?? null,
+          price: typeof listing.price === "number" ? listing.price : null,
+          buyerAgentCompSummary,
+          listingStartOn: listing.listingStartOn ? new Date(listing.listingStartOn) : null,
+          listingEndOn: listing.listingEndOn ? new Date(listing.listingEndOn) : null,
+          setupFinalizedAt: listing.setupFinalizedAt,
+          heroImageUploaded:
+            typeof listing.heroImageUrl === "string" && listing.heroImageUrl.trim().length > 0,
+          additionalPhotoCount: additionalPhotos.length,
+          documentCount: docs.length,
+          mlsName: (typeof listing.mlsName === "string" && listing.mlsName.trim()) || null,
+          mlsNumber: (typeof listing.mlsNumber === "string" && listing.mlsNumber.trim()) || null,
+          listingPlatforms: platforms,
+          adminProfileUrl,
+        });
+
+        if (!result.sent) {
+          console.error("[listing-finalize] internal email not sent:", result.error);
+        }
+      } catch (err) {
+        console.error(
+          "[listing-finalize] internal email dispatch failed:",
+          err instanceof Error ? err.message : err,
+        );
+      }
+    })();
+  }
 
   return NextResponse.json({
     ok: true,

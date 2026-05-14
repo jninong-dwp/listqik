@@ -77,6 +77,7 @@ export type DashboardListing = {
   isInMudWaterDistrict: boolean;
   fairHousingNoticeConfirmed: boolean;
   valuablesNoticeConfirmed: boolean;
+  securitySurveillanceAcknowledged: boolean;
   iabsAcknowledged: boolean;
   sellersDisclosureAcknowledged: boolean;
   listingAgreementAcknowledged: boolean;
@@ -88,6 +89,7 @@ export type DashboardListing = {
   orderedOn: string | null;
   listedOn: string | null;
   expiresOn: string | null;
+  offerCount?: number;
 };
 
 type ListingDocumentItem = {
@@ -243,6 +245,7 @@ const previewListings: DashboardListing[] = [
     isInMudWaterDistrict: false,
     fairHousingNoticeConfirmed: false,
     valuablesNoticeConfirmed: false,
+    securitySurveillanceAcknowledged: false,
     iabsAcknowledged: false,
     sellersDisclosureAcknowledged: false,
     listingAgreementAcknowledged: false,
@@ -328,6 +331,7 @@ const previewListings: DashboardListing[] = [
     isInMudWaterDistrict: false,
     fairHousingNoticeConfirmed: false,
     valuablesNoticeConfirmed: false,
+    securitySurveillanceAcknowledged: false,
     iabsAcknowledged: false,
     sellersDisclosureAcknowledged: false,
     listingAgreementAcknowledged: false,
@@ -413,6 +417,7 @@ const previewListings: DashboardListing[] = [
     isInMudWaterDistrict: false,
     fairHousingNoticeConfirmed: false,
     valuablesNoticeConfirmed: false,
+    securitySurveillanceAcknowledged: false,
     iabsAcknowledged: false,
     sellersDisclosureAcknowledged: false,
     listingAgreementAcknowledged: false,
@@ -459,7 +464,7 @@ export function ListingDashboard() {
   const [upgradesByListing, setUpgradesByListing] = useState<Record<string, ListingUpgradeRequestItem[]>>({});
   const [loadingOffersId, setLoadingOffersId] = useState<string | null>(null);
   const [loadingUpgradesId, setLoadingUpgradesId] = useState<string | null>(null);
-  const [savingOfferId, setSavingOfferId] = useState<string | null>(null);
+  const [, setSavingOfferId] = useState<string | null>(null);
   const [savingUpgradeId, setSavingUpgradeId] = useState<string | null>(null);
   const [activeOfferListingId, setActiveOfferListingId] = useState<string | null>(null);
   const [openHousesByListing, setOpenHousesByListing] = useState<Record<string, ListingOpenHouseItem[]>>({});
@@ -739,41 +744,6 @@ export function ListingDashboard() {
       setLoadingOffersId(null);
     }
   }, [previewMode]);
-
-  async function submitOffer(id: string) {
-    if (previewMode) return;
-    const buyerName = (document.getElementById(`offer-buyerName-${id}`) as HTMLInputElement | null)?.value ?? "";
-    const buyerEmail = (document.getElementById(`offer-buyerEmail-${id}`) as HTMLInputElement | null)?.value ?? "";
-    const buyerPhone = (document.getElementById(`offer-buyerPhone-${id}`) as HTMLInputElement | null)?.value ?? "";
-    const amount = Number((document.getElementById(`offer-amount-${id}`) as HTMLInputElement | null)?.value ?? "");
-    const message = (document.getElementById(`offer-message-${id}`) as HTMLTextAreaElement | null)?.value ?? "";
-    if (!buyerName.trim() || !Number.isFinite(amount) || amount <= 0) {
-      setUploadError("Offer needs buyer name and a valid amount.");
-      return;
-    }
-    setSavingOfferId(id);
-    setUploadError(null);
-    try {
-      const res = await fetch(`/api/dashboard/listings/${id}/offers`, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ buyerName, buyerEmail, buyerPhone, amount, message }),
-      });
-      const data = (await res.json().catch(() => null)) as { ok?: boolean; error?: string; notification?: string } | null;
-      if (!res.ok || !data?.ok) {
-        setUploadError(data?.error ?? "Could not save offer.");
-        return;
-      }
-      await loadOffers(id);
-      if (data.notification) {
-        setError(data.notification);
-      }
-    } catch {
-      setUploadError("Network error while saving offer.");
-    } finally {
-      setSavingOfferId(null);
-    }
-  }
 
   async function updateOfferStatus(listingId: string, offerId: string, status: string) {
     if (previewMode) return;
@@ -1277,17 +1247,45 @@ export function ListingDashboard() {
                       >
                         Voice mail
                       </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setExpanded(l.id);
-                          setActiveOfferListingId(l.id);
-                          void loadOffers(l.id);
-                        }}
-                        className="rounded-lg border border-indigo-400/35 bg-indigo-950/35 px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-indigo-100 transition hover:border-indigo-300/70 hover:bg-indigo-900/45"
-                      >
-                        Offer from a buyer
-                      </button>
+                      {(() => {
+                        const offerCount = l.offerCount ?? 0;
+                        const hasOffers = offerCount > 0;
+                        return (
+                          <button
+                            type="button"
+                            disabled={!hasOffers}
+                            aria-disabled={!hasOffers}
+                            title={
+                              hasOffers
+                                ? `View ${offerCount} buyer offer${offerCount === 1 ? "" : "s"}`
+                                : "No buyer offers yet. Your concierge will post offers here when received."
+                            }
+                            onClick={() => {
+                              if (!hasOffers) return;
+                              setExpanded(l.id);
+                              setActiveOfferListingId(l.id);
+                              void loadOffers(l.id);
+                            }}
+                            className={
+                              hasOffers
+                                ? "flex items-center justify-between gap-2 rounded-lg border border-indigo-400/35 bg-indigo-950/35 px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-indigo-100 transition hover:border-indigo-300/70 hover:bg-indigo-900/45"
+                                : "flex cursor-not-allowed items-center justify-between gap-2 rounded-lg border border-indigo-400/20 bg-indigo-950/20 px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-indigo-100/45"
+                            }
+                          >
+                            <span>Offer from a buyer</span>
+                            <span
+                              className={
+                                hasOffers
+                                  ? "inline-flex min-w-[1.5rem] items-center justify-center rounded-full bg-emerald-500/25 px-2 py-0.5 text-[10px] font-bold tracking-normal text-emerald-100"
+                                  : "inline-flex min-w-[1.5rem] items-center justify-center rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-bold tracking-normal text-white/55"
+                              }
+                              aria-label={`${offerCount} offers`}
+                            >
+                              {offerCount}
+                            </span>
+                          </button>
+                        );
+                      })()}
                     </div>
                     <input
                       id={`photo-upload-${l.id}`}
@@ -1445,6 +1443,7 @@ export function ListingDashboard() {
                         <label className="flex items-center gap-2 text-xs text-emerald-100"><input id={`mudDistrict-${l.id}`} type="checkbox" defaultChecked={l.isInMudWaterDistrict} /> In statutory tax district</label>
                         <label className="flex items-center gap-2 text-xs text-emerald-100"><input id={`fairHousing-${l.id}`} type="checkbox" defaultChecked={l.fairHousingNoticeConfirmed} /> Fair housing reminder shown</label>
                         <label className="flex items-center gap-2 text-xs text-emerald-100"><input id={`valuables-${l.id}`} type="checkbox" defaultChecked={l.valuablesNoticeConfirmed} /> Security of valuables reminder shown</label>
+                        <label className="flex items-center gap-2 text-xs text-emerald-100"><input id={`securitySurveillance-${l.id}`} type="checkbox" defaultChecked={l.securitySurveillanceAcknowledged} /> Security &amp; surveillance notice acknowledged</label>
                         <label className="flex items-center gap-2 text-xs text-emerald-100"><input id={`iabsAck-${l.id}`} type="checkbox" defaultChecked={l.iabsAcknowledged} /> IABS acknowledged</label>
                         <label className="flex items-center gap-2 text-xs text-emerald-100"><input id={`sellerDisclosureAck-${l.id}`} type="checkbox" defaultChecked={l.sellersDisclosureAcknowledged} /> Seller disclosure acknowledged</label>
                         <label className="flex items-center gap-2 text-xs text-emerald-100"><input id={`listingAgreementAck-${l.id}`} type="checkbox" defaultChecked={l.listingAgreementAcknowledged} /> Listing agreement acknowledged</label>
@@ -1555,24 +1554,15 @@ export function ListingDashboard() {
                     <div className="mt-6 grid gap-4 xl:grid-cols-2">
                       <div className="rounded-xl border border-indigo-400/20 bg-indigo-950/20 p-4">
                         <p className="text-xs font-semibold uppercase tracking-[0.14em] text-indigo-100/90">Offers from buyers</p>
-                        <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                          <input id={`offer-buyerName-${l.id}`} placeholder="Buyer name" className="rounded-lg border border-indigo-400/30 bg-black/30 px-3 py-2 text-sm text-indigo-50" />
-                          <input id={`offer-amount-${l.id}`} type="number" placeholder="Offer amount" className="rounded-lg border border-indigo-400/30 bg-black/30 px-3 py-2 text-sm text-indigo-50" />
-                          <input id={`offer-buyerEmail-${l.id}`} placeholder="Buyer email (optional)" className="rounded-lg border border-indigo-400/30 bg-black/30 px-3 py-2 text-sm text-indigo-50" />
-                          <input id={`offer-buyerPhone-${l.id}`} placeholder="Buyer phone (optional)" className="rounded-lg border border-indigo-400/30 bg-black/30 px-3 py-2 text-sm text-indigo-50" />
-                        </div>
-                        <textarea id={`offer-message-${l.id}`} rows={2} placeholder="Offer notes (optional)" className="mt-2 w-full rounded-lg border border-indigo-400/30 bg-black/30 px-3 py-2 text-sm text-indigo-50" />
-                        <button
-                          type="button"
-                          disabled={savingOfferId === l.id}
-                          onClick={() => {
-                            void submitOffer(l.id);
-                          }}
-                          className="mt-3 rounded-full border border-indigo-300/70 bg-indigo-500/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-indigo-100 disabled:opacity-50"
-                        >
-                          {savingOfferId === l.id ? "Saving..." : "Add offer"}
-                        </button>
+                        <p className="mt-1 text-[11px] text-indigo-100/60">
+                          Your ListQik concierge posts new buyer offers here. You&rsquo;ll see a
+                          badge on the &ldquo;Offer from a buyer&rdquo; quick action above when a
+                          new one arrives.
+                        </p>
                         {loadingOffersId === l.id ? <p className="mt-2 text-xs text-white/65">Loading offers...</p> : null}
+                        {(offersByListing[l.id] ?? []).length === 0 && loadingOffersId !== l.id ? (
+                          <p className="mt-3 text-xs text-white/55">No offers yet.</p>
+                        ) : null}
                         <ul className="mt-3 space-y-2">
                           {(offersByListing[l.id] ?? []).map((offer) => (
                             <li key={offer.id} className="rounded-lg border border-white/10 bg-black/25 p-2 text-xs text-white/80">
@@ -1832,6 +1822,8 @@ export function ListingDashboard() {
                             (document.getElementById(`fairHousing-${l.id}`) as HTMLInputElement).checked;
                           const valuablesNoticeConfirmed =
                             (document.getElementById(`valuables-${l.id}`) as HTMLInputElement).checked;
+                          const securitySurveillanceAcknowledged =
+                            (document.getElementById(`securitySurveillance-${l.id}`) as HTMLInputElement).checked;
                           const iabsAcknowledged =
                             (document.getElementById(`iabsAck-${l.id}`) as HTMLInputElement).checked;
                           const sellersDisclosureAcknowledged =
@@ -1916,6 +1908,7 @@ export function ListingDashboard() {
                             isInMudWaterDistrict,
                             fairHousingNoticeConfirmed,
                             valuablesNoticeConfirmed,
+                            securitySurveillanceAcknowledged,
                             iabsAcknowledged,
                             sellersDisclosureAcknowledged,
                             listingAgreementAcknowledged,

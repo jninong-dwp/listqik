@@ -61,6 +61,7 @@ type ListingForCompliance = {
   isInMudWaterDistrict?: boolean;
   fairHousingNoticeConfirmed?: boolean;
   valuablesNoticeConfirmed?: boolean;
+  securitySurveillanceAcknowledged?: boolean;
   iabsAcknowledged?: boolean;
   sellersDisclosureAcknowledged?: boolean;
   brokerBrandingConfirmed?: boolean;
@@ -169,6 +170,9 @@ export function validateListingForFinalize(listing: ListingForCompliance) {
 
   if (!listing.fairHousingNoticeConfirmed) errors.push("Fair housing notice confirmation is required.");
   if (!listing.valuablesNoticeConfirmed) errors.push("Valuables/security notice confirmation is required.");
+  if (!listing.securitySurveillanceAcknowledged) {
+    errors.push("Security & surveillance notice acknowledgment is required.");
+  }
   if (!listing.iabsAcknowledged) errors.push("IABS acknowledgment is required.");
   if (!listing.sellersDisclosureAcknowledged) errors.push("Seller disclosure acknowledgment is required.");
   if (!listing.brokerBrandingConfirmed) errors.push("Broker branding compliance confirmation is required.");

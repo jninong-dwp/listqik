@@ -87,6 +87,7 @@ export type ListingSetupData = {
   isInMudWaterDistrict: boolean;
   fairHousingNoticeConfirmed: boolean;
   valuablesNoticeConfirmed: boolean;
+  securitySurveillanceAcknowledged: boolean;
   iabsAcknowledged: boolean;
   sellersDisclosureAcknowledged: boolean;
   listingAgreementAcknowledged: boolean;
@@ -181,6 +182,7 @@ const LISTING_SETUP_DEFAULTS: ListingSetupData = {
   isInMudWaterDistrict: false,
   fairHousingNoticeConfirmed: false,
   valuablesNoticeConfirmed: false,
+  securitySurveillanceAcknowledged: false,
   iabsAcknowledged: false,
   sellersDisclosureAcknowledged: false,
   listingAgreementAcknowledged: false,
@@ -283,6 +285,7 @@ const previewSetupListings: ListingSetupData[] = [
     listingEndOn: "2026-09-30T08:00:00.000Z",
     fairHousingNoticeConfirmed: true,
     valuablesNoticeConfirmed: true,
+    securitySurveillanceAcknowledged: true,
     iabsAcknowledged: true,
     sellersDisclosureAcknowledged: true,
     listingAgreementAcknowledged: true,
@@ -423,6 +426,7 @@ function disclosuresComplete(l: ListingSetupData): boolean {
   return (
     l.fairHousingNoticeConfirmed &&
     l.valuablesNoticeConfirmed &&
+    l.securitySurveillanceAcknowledged &&
     l.iabsAcknowledged &&
     l.sellersDisclosureAcknowledged &&
     l.brokerBrandingConfirmed &&
@@ -620,6 +624,7 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
     if (!listing.listingStartOn) fin.push("Listing start date");
     if (!listing.fairHousingNoticeConfirmed) fin.push("Fair housing notice");
     if (!listing.valuablesNoticeConfirmed) fin.push("Valuables notice");
+    if (!listing.securitySurveillanceAcknowledged) fin.push("Security & surveillance notice");
     if (!listing.iabsAcknowledged) fin.push("IABS");
     if (!listing.sellersDisclosureAcknowledged) fin.push("Seller disclosure acknowledgment");
     if (!listing.brokerBrandingConfirmed) fin.push("Broker branding acknowledgment");
@@ -1090,11 +1095,11 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
               ]}
             />
             <div className="mt-4 space-y-2">
-              <FieldLabel>Are all document signers U.S. citizens?</FieldLabel>
+              <FieldLabel>Are all document signers U.S. citizens? *</FieldLabel>
               <RadioYesNo name="allSignersUsCitizens" defaultYes={listing.allSignersUsCitizens} />
             </div>
             <div className="mt-4 space-y-2">
-              <FieldLabel>Are any owners a licensed real estate agent or broker?</FieldLabel>
+              <FieldLabel>Are any owners a licensed real estate agent or broker? *</FieldLabel>
               <RadioYesNo name="anyOwnerLicensedAgent" defaultYes={listing.anyOwnerLicensedAgent} />
             </div>
 
@@ -1586,30 +1591,86 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
             />
 
             <Subheading className="mt-6">MLS compliance confirmations</Subheading>
-            <div className="space-y-2">
+            <p className="text-xs text-white/55">
+              Click each linked notice to read the full text in a new tab before checking the box.
+            </p>
+            <div className="mt-2 space-y-2">
               <CheckboxRow
                 id="fairHousingNoticeConfirmed"
-                label="Fair housing notice reviewed *"
+                label={
+                  <>
+                    I have read and agree to the{" "}
+                    <DisclosureLink href="/resources/legal/fair-housing">
+                      Fair Housing Rules &amp; Guidelines
+                    </DisclosureLink>{" "}
+                    *
+                  </>
+                }
                 defaultChecked={listing.fairHousingNoticeConfirmed}
               />
               <CheckboxRow
                 id="valuablesNoticeConfirmed"
-                label="Valuables / security notice reviewed *"
+                label={
+                  <>
+                    I have read and agree to the{" "}
+                    <DisclosureLink href="/resources/legal/valuables-medications">
+                      Valuables &amp; Medications Notice
+                    </DisclosureLink>{" "}
+                    *
+                  </>
+                }
                 defaultChecked={listing.valuablesNoticeConfirmed}
               />
               <CheckboxRow
+                id="securitySurveillanceAcknowledged"
+                label={
+                  <>
+                    I have read and agree to the{" "}
+                    <DisclosureLink href="/resources/legal/security-surveillance">
+                      Security &amp; Surveillance Notice
+                    </DisclosureLink>{" "}
+                    and agree to secure my valuables and comply with Texas audio recording laws *
+                  </>
+                }
+                defaultChecked={listing.securitySurveillanceAcknowledged}
+              />
+              <CheckboxRow
                 id="iabsAcknowledged"
-                label="Information About Brokerage Services (IABS) acknowledged *"
+                label={
+                  <>
+                    I acknowledge the{" "}
+                    <DisclosureLink href="/resources/legal/iabs">
+                      Information About Brokerage Services (IABS)
+                    </DisclosureLink>{" "}
+                    *
+                  </>
+                }
                 defaultChecked={listing.iabsAcknowledged}
               />
               <CheckboxRow
                 id="sellersDisclosureAcknowledged"
-                label="Seller disclosure duties acknowledged *"
+                label={
+                  <>
+                    I acknowledge my duties under the{" "}
+                    <DisclosureLink href="/resources/legal/sellers-disclosure">
+                      Seller&apos;s Disclosure Notice
+                    </DisclosureLink>{" "}
+                    (including the ongoing duty to update through closing) *
+                  </>
+                }
                 defaultChecked={listing.sellersDisclosureAcknowledged}
               />
               <CheckboxRow
                 id="brokerBrandingConfirmed"
-                label="Broker branding / advertising rules confirmed *"
+                label={
+                  <>
+                    I have read and agree to the{" "}
+                    <DisclosureLink href="/resources/legal/broker-branding">
+                      Broker Branding &amp; Advertising Rules
+                    </DisclosureLink>{" "}
+                    *
+                  </>
+                }
                 defaultChecked={listing.brokerBrandingConfirmed}
               />
             </div>
@@ -1655,6 +1716,8 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
                     (document.getElementById("fairHousingNoticeConfirmed") as HTMLInputElement)?.checked ?? false,
                   valuablesNoticeConfirmed:
                     (document.getElementById("valuablesNoticeConfirmed") as HTMLInputElement)?.checked ?? false,
+                  securitySurveillanceAcknowledged:
+                    (document.getElementById("securitySurveillanceAcknowledged") as HTMLInputElement)?.checked ?? false,
                   iabsAcknowledged: (document.getElementById("iabsAcknowledged") as HTMLInputElement)?.checked ?? false,
                   sellersDisclosureAcknowledged:
                     (document.getElementById("sellersDisclosureAcknowledged") as HTMLInputElement)?.checked ?? false,
@@ -1909,11 +1972,32 @@ function AssociationRadios({ defaultValue }: { defaultValue: string }) {
   );
 }
 
-function CheckboxRow({ id, label, defaultChecked }: { id: string; label: string; defaultChecked: boolean }) {
+function DisclosureLink({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <Link
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="font-semibold text-emerald-200 underline decoration-emerald-300/60 underline-offset-2 hover:text-emerald-100"
+    >
+      {children}
+    </Link>
+  );
+}
+
+function CheckboxRow({
+  id,
+  label,
+  defaultChecked,
+}: {
+  id: string;
+  label: ReactNode;
+  defaultChecked: boolean;
+}) {
   return (
     <label htmlFor={id} className="flex cursor-pointer gap-2 text-sm text-emerald-50">
       <input id={id} type="checkbox" defaultChecked={defaultChecked} className="mt-0.5 accent-emerald-400" />
-      {label}
+      <span>{label}</span>
     </label>
   );
 }

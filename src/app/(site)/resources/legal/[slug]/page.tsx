@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/container";
+import { BrokerBrandingContent } from "@/components/legal/broker-branding-content";
 import { ConsumerProtectionNoticeContent } from "@/components/legal/consumer-protection-notice-content";
+import { FairHousingContent } from "@/components/legal/fair-housing-content";
 import { IabsContent } from "@/components/legal/iabs-content";
 import { MlsRulesAndRegulationsContent } from "@/components/legal/mls-rules-and-regulations-content";
 import { MlsRuleScheduleOfFinesContent } from "@/components/legal/mls-rule-schedule-of-fines-content";
+import { SecuritySurveillanceContent } from "@/components/legal/security-surveillance-content";
+import { SellersDisclosureContent } from "@/components/legal/sellers-disclosure-content";
+import { ValuablesMedicationsContent } from "@/components/legal/valuables-medications-content";
 import { legalPages } from "@/data/resources";
 
 export function generateStaticParams() {
@@ -38,6 +43,16 @@ export async function generateMetadata({
           ? "Full Texas REALTORS MLS Rules and Regulations document."
         : slug === "mls-rule-schedule-of-fines"
           ? "Texas REALTORS MLS Rule Schedule of Fines for administrative sanctions."
+        : slug === "fair-housing"
+          ? "Fair Housing rules and guidelines for listings, advertising, and conduct on ListQik.com."
+        : slug === "valuables-medications"
+          ? "Seller responsibilities for securing valuables, prescription medications, weapons, and identity documents during showings."
+        : slug === "security-surveillance"
+          ? "Texas audio recording law and surveillance disclosure obligations for property showings and open houses."
+        : slug === "sellers-disclosure"
+          ? "Texas Seller's Disclosure Notice duties, the ongoing duty to update, and previous repairs disclosure obligations."
+        : slug === "broker-branding"
+          ? "Central Metro Realty branding rules, MLS Public Remarks restrictions, and ListQik compliance review authority."
           : undefined,
   };
 }
@@ -76,6 +91,16 @@ export default async function LegalPage({
               <MlsRulesAndRegulationsContent />
             ) : slug === "mls-rule-schedule-of-fines" ? (
               <MlsRuleScheduleOfFinesContent />
+            ) : slug === "fair-housing" ? (
+              <FairHousingContent />
+            ) : slug === "valuables-medications" ? (
+              <ValuablesMedicationsContent />
+            ) : slug === "security-surveillance" ? (
+              <SecuritySurveillanceContent />
+            ) : slug === "sellers-disclosure" ? (
+              <SellersDisclosureContent />
+            ) : slug === "broker-branding" ? (
+              <BrokerBrandingContent />
             ) : (
               <div className="space-y-4 text-sm text-white/80">
                 <p>

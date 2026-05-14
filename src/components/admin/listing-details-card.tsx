@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { LISTING_PLATFORM_OPTIONS } from "@/lib/listing-platforms";
+import { AdminAddOfferForm } from "@/components/admin/admin-add-offer-form";
 
 type ListingDoc = Record<string, unknown> & {
   _id: unknown;
@@ -70,6 +71,7 @@ type ListingDoc = Record<string, unknown> & {
   isInMudWaterDistrict?: boolean;
   fairHousingNoticeConfirmed?: boolean;
   valuablesNoticeConfirmed?: boolean;
+  securitySurveillanceAcknowledged?: boolean;
   iabsAcknowledged?: boolean;
   sellersDisclosureAcknowledged?: boolean;
   listingAgreementAcknowledged?: boolean;
@@ -110,10 +112,23 @@ type UpgradeRequest = Record<string, unknown> & {
   status?: string;
 };
 
+type ListingOfferDoc = Record<string, unknown> & {
+  _id: unknown;
+  buyerName?: string;
+  buyerEmail?: string;
+  buyerPhone?: string;
+  amount?: number;
+  message?: string;
+  status?: string;
+  statusNote?: string;
+  createdAt?: Date | string | null;
+};
+
 type Props = {
   listing: ListingDoc;
   documents: ListingDocument[];
   upgradeRequests: UpgradeRequest[];
+  offers: ListingOfferDoc[];
 };
 
 const DASH = "—";
@@ -244,7 +259,7 @@ function CheckRow({ label, value }: { label: string; value: boolean | undefined 
   );
 }
 
-export function AdminListingDetailsCard({ listing, documents, upgradeRequests }: Props) {
+export function AdminListingDetailsCard({ listing, documents, upgradeRequests, offers }: Props) {
   const platformLabelById = new Map<string, string>(
     LISTING_PLATFORM_OPTIONS.map((p) => [p.id, p.label] as [string, string]),
   );
@@ -487,6 +502,7 @@ export function AdminListingDetailsCard({ listing, documents, upgradeRequests }:
       <Section title="Disclosures & acknowledgments">
         <CheckRow label="Fair housing notice" value={listing.fairHousingNoticeConfirmed} />
         <CheckRow label="Valuables notice" value={listing.valuablesNoticeConfirmed} />
+        <CheckRow label="Security & surveillance" value={listing.securitySurveillanceAcknowledged} />
         <CheckRow label="IABS acknowledged" value={listing.iabsAcknowledged} />
         <CheckRow label="Seller's disclosure" value={listing.sellersDisclosureAcknowledged} />
         <CheckRow label="Listing agreement" value={listing.listingAgreementAcknowledged} />
@@ -494,6 +510,52 @@ export function AdminListingDetailsCard({ listing, documents, upgradeRequests }:
         <CheckRow label="Information accurate" value={listing.informationAccurateConfirmed} />
         <CheckRow label="Referred by existing customer" value={listing.referredByExistingCustomer} />
         <CheckRow label="Wants listing process feedback" value={listing.wantsListingProcessFeedback} />
+      </Section>
+
+      <Section title={`Buyer offers (${offers.length})`}>
+        <FullRow
+          label="Recorded offers"
+          value={
+            offers.length === 0 ? (
+              <span className="text-white/55">No buyer offers logged yet.</span>
+            ) : (
+              <ul className="space-y-2">
+                {offers.map((offer) => (
+                  <li
+                    key={String(offer._id)}
+                    className="rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2"
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <span className="font-semibold text-emerald-100">
+                        {fmtText(offer.buyerName)}
+                      </span>
+                      <span className="text-sm text-white/85">
+                        {fmtMoney(offer.amount ?? null)}
+                      </span>
+                    </div>
+                    <div className="mt-1 flex flex-wrap items-center gap-2 text-[11px] text-white/60">
+                      <span className="rounded-full border border-white/15 bg-white/5 px-2 py-0.5 uppercase tracking-wide">
+                        {fmtText(offer.status)}
+                      </span>
+                      <span>{fmtDate(offer.createdAt)}</span>
+                      {offer.buyerEmail ? <span>· {offer.buyerEmail}</span> : null}
+                      {offer.buyerPhone ? <span>· {offer.buyerPhone}</span> : null}
+                    </div>
+                    {offer.message ? (
+                      <p className="mt-1 whitespace-pre-wrap text-xs text-white/75">
+                        {offer.message}
+                      </p>
+                    ) : null}
+                  </li>
+                ))}
+              </ul>
+            )
+          }
+        />
+        <FullRow
+          label="Add a new buyer offer"
+          value={<AdminAddOfferForm listingId={String(listing._id)} />}
+        />
       </Section>
 
       <Section title={`Uploaded documents (${documents.length})`}>

@@ -38,5 +38,30 @@ export const legalPages: LegalPage[] = [
     title: "MLS Rules and Regulations",
     updatedAt: "2026-04-23",
   },
+  {
+    slug: "fair-housing",
+    title: "Fair Housing Rules & Guidelines",
+    updatedAt: "2026-05-14",
+  },
+  {
+    slug: "valuables-medications",
+    title: "Protection of Valuables & Medications Notice",
+    updatedAt: "2026-05-14",
+  },
+  {
+    slug: "security-surveillance",
+    title: "Security & Surveillance Notice",
+    updatedAt: "2026-05-14",
+  },
+  {
+    slug: "sellers-disclosure",
+    title: "Seller's Disclosure Notice Acknowledgement",
+    updatedAt: "2026-05-14",
+  },
+  {
+    slug: "broker-branding",
+    title: "Broker Branding & Advertising Rules",
+    updatedAt: "2026-05-14",
+  },
 ];
 

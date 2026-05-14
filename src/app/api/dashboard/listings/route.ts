@@ -11,6 +11,7 @@ import {
 } from "@/lib/listing-address";
 import { normalizeListingPlatforms } from "@/lib/listing-platforms";
 import { Listing } from "@/models/Listing";
+import { ListingOffer } from "@/models/ListingOffer";
 
 function iso(d: unknown): string | null {
   if (!d) {
@@ -23,7 +24,8 @@ function iso(d: unknown): string | null {
   return Number.isNaN(t.getTime()) ? null : t.toISOString();
 }
 
-function serializeListing(doc: {
+function serializeListing(
+  doc: {
   _id: Types.ObjectId;
   street: string;
   unit?: string | null;
@@ -105,6 +107,7 @@ function serializeListing(doc: {
   isInMudWaterDistrict?: boolean;
   fairHousingNoticeConfirmed?: boolean;
   valuablesNoticeConfirmed?: boolean;
+  securitySurveillanceAcknowledged?: boolean;
   iabsAcknowledged?: boolean;
   sellersDisclosureAcknowledged?: boolean;
   listingAgreementAcknowledged?: boolean;
@@ -121,9 +124,12 @@ function serializeListing(doc: {
   setupFinalizedAt?: Date | null;
   createdAt?: Date | null;
   updatedAt?: Date | null;
-}) {
+  },
+  extras: { offerCount?: number } = {},
+) {
   return {
     id: doc._id.toString(),
+    offerCount: extras.offerCount ?? 0,
     street: doc.street,
     unit: doc.unit ?? "",
     city: doc.city,
@@ -207,6 +213,7 @@ function serializeListing(doc: {
     isInMudWaterDistrict: Boolean(doc.isInMudWaterDistrict),
     fairHousingNoticeConfirmed: Boolean(doc.fairHousingNoticeConfirmed),
     valuablesNoticeConfirmed: Boolean(doc.valuablesNoticeConfirmed),
+    securitySurveillanceAcknowledged: Boolean(doc.securitySurveillanceAcknowledged),
     iabsAcknowledged: Boolean(doc.iabsAcknowledged),
     sellersDisclosureAcknowledged: Boolean(doc.sellersDisclosureAcknowledged),
     listingAgreementAcknowledged: Boolean(doc.listingAgreementAcknowledged),
@@ -234,6 +241,17 @@ export async function GET() {
   const userId = new MongooseTypes.ObjectId(session.user.id);
   const effectivePlan = await getEffectivePlanAccessForUser(userId);
   const rows = await Listing.find({ userId }).sort({ updatedAt: -1 }).lean();
+  const offerCountsMap = new Map<string, number>();
+  if (rows.length > 0) {
+    const ids = rows.map((r) => r._id);
+    const counts = (await ListingOffer.aggregate([
+      { $match: { listingId: { $in: ids } } },
+      { $group: { _id: "$listingId", count: { $sum: 1 } } },
+    ])) as Array<{ _id: Types.ObjectId; count: number }>;
+    for (const row of counts) {
+      offerCountsMap.set(String(row._id), row.count);
+    }
+  }
   const listings = rows
     .filter((r) =>
       hasValidCoreListingAddress({
@@ -243,7 +261,7 @@ export async function GET() {
         zip: r.zip,
       }),
     )
-    .map((r) => serializeListing(r));
+    .map((r) => serializeListing(r, { offerCount: offerCountsMap.get(String(r._id)) ?? 0 }));
   return NextResponse.json({
     ok: true,
     effectivePlan,

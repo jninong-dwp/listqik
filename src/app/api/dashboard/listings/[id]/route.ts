@@ -9,6 +9,7 @@ import {
 import { connectDb } from "@/lib/mongodb";
 import { normalizeListingPlatforms } from "@/lib/listing-platforms";
 import { Listing } from "@/models/Listing";
+import { ListingOffer } from "@/models/ListingOffer";
 
 type PatchBody = {
   street?: string;
@@ -93,6 +94,7 @@ type PatchBody = {
   isInMudWaterDistrict?: boolean;
   fairHousingNoticeConfirmed?: boolean;
   valuablesNoticeConfirmed?: boolean;
+  securitySurveillanceAcknowledged?: boolean;
   iabsAcknowledged?: boolean;
   sellersDisclosureAcknowledged?: boolean;
   listingAgreementAcknowledged?: boolean;
@@ -115,7 +117,8 @@ function iso(d: unknown): string | null {
   return Number.isNaN(t.getTime()) ? null : t.toISOString();
 }
 
-function serializeListing(doc: {
+function serializeListing(
+  doc: {
   _id: Types.ObjectId;
   street: string;
   unit?: string | null;
@@ -197,6 +200,7 @@ function serializeListing(doc: {
   isInMudWaterDistrict?: boolean;
   fairHousingNoticeConfirmed?: boolean;
   valuablesNoticeConfirmed?: boolean;
+  securitySurveillanceAcknowledged?: boolean;
   iabsAcknowledged?: boolean;
   sellersDisclosureAcknowledged?: boolean;
   listingAgreementAcknowledged?: boolean;
@@ -213,9 +217,12 @@ function serializeListing(doc: {
   setupFinalizedAt?: Date | null;
   createdAt?: Date | null;
   updatedAt?: Date | null;
-}) {
+  },
+  extras: { offerCount?: number } = {},
+) {
   return {
     id: doc._id.toString(),
+    offerCount: extras.offerCount ?? 0,
     street: doc.street,
     unit: doc.unit ?? "",
     city: doc.city,
@@ -299,6 +306,7 @@ function serializeListing(doc: {
     isInMudWaterDistrict: Boolean(doc.isInMudWaterDistrict),
     fairHousingNoticeConfirmed: Boolean(doc.fairHousingNoticeConfirmed),
     valuablesNoticeConfirmed: Boolean(doc.valuablesNoticeConfirmed),
+    securitySurveillanceAcknowledged: Boolean(doc.securitySurveillanceAcknowledged),
     iabsAcknowledged: Boolean(doc.iabsAcknowledged),
     sellersDisclosureAcknowledged: Boolean(doc.sellersDisclosureAcknowledged),
     listingAgreementAcknowledged: Boolean(doc.listingAgreementAcknowledged),
@@ -334,7 +342,8 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
     return NextResponse.json({ ok: false, error: "Listing not found." }, { status: 404 });
   }
 
-  return NextResponse.json({ ok: true, listing: serializeListing(listing) });
+  const offerCount = await ListingOffer.countDocuments({ listingId: listing._id });
+  return NextResponse.json({ ok: true, listing: serializeListing(listing, { offerCount }) });
 }
 
 export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }> }) {
@@ -570,6 +579,9 @@ export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }>
   }
   if (body.valuablesNoticeConfirmed !== undefined) {
     listing.valuablesNoticeConfirmed = Boolean(body.valuablesNoticeConfirmed);
+  }
+  if (body.securitySurveillanceAcknowledged !== undefined) {
+    listing.securitySurveillanceAcknowledged = Boolean(body.securitySurveillanceAcknowledged);
   }
   if (body.iabsAcknowledged !== undefined) listing.iabsAcknowledged = Boolean(body.iabsAcknowledged);
   if (body.sellersDisclosureAcknowledged !== undefined) {

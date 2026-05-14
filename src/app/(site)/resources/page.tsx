@@ -74,6 +74,51 @@ export default function ResourcesPage() {
                 Full document text for Texas REALTORS MLS rules.
               </div>
             </Link>
+            <Link
+              href="/resources/legal/fair-housing"
+              className="glass-surface p-6 hover:border-white/20 transition"
+            >
+              <div className="text-lg font-semibold text-white">Fair Housing Rules &amp; Guidelines</div>
+              <div className="mt-2 text-sm text-muted">
+                Protected classes, advertising rules, and prohibited conduct.
+              </div>
+            </Link>
+            <Link
+              href="/resources/legal/valuables-medications"
+              className="glass-surface p-6 hover:border-white/20 transition"
+            >
+              <div className="text-lg font-semibold text-white">Valuables &amp; Medications Notice</div>
+              <div className="mt-2 text-sm text-muted">
+                Securing valuables, prescriptions, weapons, and identity documents for showings.
+              </div>
+            </Link>
+            <Link
+              href="/resources/legal/security-surveillance"
+              className="glass-surface p-6 hover:border-white/20 transition"
+            >
+              <div className="text-lg font-semibold text-white">Security &amp; Surveillance Notice</div>
+              <div className="mt-2 text-sm text-muted">
+                Texas audio recording law and disclosure obligations for cameras and mics.
+              </div>
+            </Link>
+            <Link
+              href="/resources/legal/sellers-disclosure"
+              className="glass-surface p-6 hover:border-white/20 transition"
+            >
+              <div className="text-lg font-semibold text-white">Seller&apos;s Disclosure Notice</div>
+              <div className="mt-2 text-sm text-muted">
+                Disclosure duties, the ongoing duty to update, and previous repairs.
+              </div>
+            </Link>
+            <Link
+              href="/resources/legal/broker-branding"
+              className="glass-surface p-6 hover:border-white/20 transition"
+            >
+              <div className="text-lg font-semibold text-white">Broker Branding &amp; Advertising Rules</div>
+              <div className="mt-2 text-sm text-muted">
+                Central Metro Realty attribution, MLS Public Remarks restrictions, and compliance review.
+              </div>
+            </Link>
           </div>
         </div>
       </Container>
