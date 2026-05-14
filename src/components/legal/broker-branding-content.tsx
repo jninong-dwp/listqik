@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 /** Seller-facing acknowledgement of Central Metro Realty branding and MLS advertising rules. */
 export function BrokerBrandingContent() {
   return (
@@ -63,19 +65,19 @@ export function BrokerBrandingContent() {
 
       <p className="border-t border-white/10 pt-4 text-xs text-white/50">
         See also the{" "}
-        <a
+        <Link
           href="/resources/legal/mls-rules-and-regulations"
           className="underline underline-offset-2 hover:text-white/80"
         >
           MLS Rules and Regulations
-        </a>{" "}
+        </Link>{" "}
         and the{" "}
-        <a
+        <Link
           href="/resources/legal/mls-rule-schedule-of-fines"
           className="underline underline-offset-2 hover:text-white/80"
         >
           MLS Rule Schedule of Fines
-        </a>{" "}
+        </Link>{" "}
         for the full text of governing rules and administrative sanctions.
       </p>
     </div>

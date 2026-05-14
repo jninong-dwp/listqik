@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 /** Seller-facing notice covering protection of valuables, medications, weapons, and identity documents. */
 export function ValuablesMedicationsContent() {
   return (
@@ -47,12 +49,12 @@ export function ValuablesMedicationsContent() {
           <li>
             Legal claims arising from Seller&apos;s use of unauthorized audio or video recording
             (see the{" "}
-            <a
+            <Link
               href="/resources/legal/security-surveillance"
               className="text-emerald-300/90 underline underline-offset-2 hover:text-white"
             >
               Security &amp; Surveillance Notice
-            </a>
+            </Link>
             ).
           </li>
           <li>Items the seller chose to leave in the home during marketing.</li>
