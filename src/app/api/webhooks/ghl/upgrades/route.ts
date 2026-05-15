@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { Types } from "mongoose";
 import { connectDb } from "@/lib/mongodb";
 import { PricingCheckoutSession } from "@/models/PricingCheckoutSession";
+import { dispatchUpgradePurchaseEmails } from "@/lib/dispatch-upgrade-purchase-emails";
 import { UpgradePurchase } from "@/models/UpgradePurchase";
 import { User } from "@/models/User";
 
@@ -243,6 +244,30 @@ export async function POST(req: Request) {
       },
       { new: true },
     );
+  }
+
+  if (contactEmail && resolvedUpgradeSlugs.length > 0) {
+    void (async () => {
+      try {
+        let purchaserName: string | null = null;
+        if (resolvedUserId) {
+          const user = await User.findById(resolvedUserId).select("name").lean();
+          purchaserName = user?.name ?? null;
+        }
+        await dispatchUpgradePurchaseEmails({
+          purchaserEmail: contactEmail,
+          purchaserName,
+          upgradeSlugs: resolvedUpgradeSlugs,
+          amountTotal,
+          orderRef: externalOrderId,
+        });
+      } catch (err) {
+        console.error(
+          "[ghl-upgrades-webhook] upgrade purchase email failed:",
+          err instanceof Error ? err.message : err,
+        );
+      }
+    })();
   }
 
   return NextResponse.json({

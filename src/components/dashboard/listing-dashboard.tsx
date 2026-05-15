@@ -48,6 +48,8 @@ export type DashboardListing = {
   mlsNumber: string;
   listingId: string;
   status: string;
+  displayStatus?: string;
+  scheduledActivationPending?: boolean;
   planLabel: string;
   price: number;
   buyerAgentCompPct: number | null;
@@ -615,30 +617,19 @@ export function ListingDashboard() {
     if (previewMode) return;
     setUploadError(null);
     setUploadingDocumentId(id);
+    setExpanded(id);
     try {
-      const signedRes = await fetch(`/api/dashboard/listings/${id}/documents/upload-url`, {
+      const formData = new FormData();
+      formData.append("file", file);
+      const uploadRes = await fetch(`/api/dashboard/listings/${id}/documents/upload`, {
         method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          fileName: file.name,
-          contentType: file.type,
-        }),
+        body: formData,
       });
-      const signedData = (await signedRes.json().catch(() => null)) as
-        | { ok?: boolean; uploadUrl?: string; publicUrl?: string; error?: string }
+      const uploadData = (await uploadRes.json().catch(() => null)) as
+        | { ok?: boolean; publicUrl?: string; fileName?: string; error?: string }
         | null;
-      if (!signedRes.ok || !signedData?.ok || !signedData.uploadUrl || !signedData.publicUrl) {
-        setUploadError(signedData?.error ?? "Could not prepare document upload.");
-        return;
-      }
-
-      const uploadRes = await fetch(signedData.uploadUrl, {
-        method: "PUT",
-        headers: { "content-type": file.type || "application/octet-stream" },
-        body: file,
-      });
-      if (!uploadRes.ok) {
-        setUploadError("Document upload failed while sending file to storage.");
+      if (!uploadRes.ok || !uploadData?.ok || !uploadData.publicUrl) {
+        setUploadError(uploadData?.error ?? "Document upload failed.");
         return;
       }
 
@@ -646,8 +637,8 @@ export function ListingDashboard() {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
-          fileName: file.name,
-          fileUrl: signedData.publicUrl,
+          fileName: uploadData.fileName ?? file.name,
+          fileUrl: uploadData.publicUrl,
         }),
       });
       const saveData = (await saveRes.json().catch(() => null)) as
@@ -903,8 +894,25 @@ export function ListingDashboard() {
     }
   }, [previewMode]);
 
+  async function downloadMlsPdf(listingId: string, jobId: string) {
+    const url = `/api/dashboard/listings/${listingId}/mls-export/${jobId}/download`;
+    const res = await fetch(url);
+    if (!res.ok) {
+      setUploadError("MLS PDF is not ready yet. Try again in a moment.");
+      return;
+    }
+    const blob = await res.blob();
+    const objectUrl = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = objectUrl;
+    anchor.download = `mls-listing-${listingId}.pdf`;
+    anchor.click();
+    URL.revokeObjectURL(objectUrl);
+  }
+
   async function startMlsExport(listingId: string) {
     if (previewMode) return;
+    setExpanded(listingId);
     setExportingListingId(listingId);
     setUploadError(null);
     try {
@@ -918,7 +926,32 @@ export function ListingDashboard() {
         setUploadError(data?.error ?? "Could not start MLS export.");
         return;
       }
-      setMlsJobByListing((prev) => ({ ...prev, [listingId]: data.job ?? null }));
+      const job = data.job;
+      setMlsJobByListing((prev) => ({ ...prev, [listingId]: job }));
+
+      const jobId = job.id;
+      for (let attempt = 0; attempt < 40; attempt += 1) {
+        await new Promise((resolve) => window.setTimeout(resolve, 1500));
+        const statusRes = await fetch(
+          `/api/dashboard/listings/${listingId}/mls-export/${jobId}`,
+          { cache: "no-store" },
+        );
+        const statusData = (await statusRes.json().catch(() => null)) as
+          | { ok?: boolean; job?: ListingMlsExportJob }
+          | null;
+        const latest = statusData?.ok ? statusData.job : undefined;
+        if (!latest) continue;
+        setMlsJobByListing((prev) => ({ ...prev, [listingId]: latest }));
+        if (latest.status === "COMPLETED") {
+          await downloadMlsPdf(listingId, jobId);
+          return;
+        }
+        if (latest.status === "FAILED") {
+          setUploadError("MLS export failed. Open details to retry.");
+          return;
+        }
+      }
+      setUploadError("MLS export is still processing. Use the download link in listing details.");
     } catch {
       setUploadError("Network error while starting MLS export.");
     } finally {
@@ -1092,7 +1125,7 @@ export function ListingDashboard() {
                       </div>
                     )}
                     <span className="absolute left-2 top-2 rounded border border-amber-300/40 bg-amber-500/25 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-amber-100">
-                      {l.status}
+                      {l.displayStatus ?? l.status}
                     </span>
                   </div>
                   <div className="min-w-0 flex-1">
@@ -1225,6 +1258,11 @@ export function ListingDashboard() {
                           setExpanded(l.id);
                           setActiveOpenHouseListingId(l.id);
                           void loadOpenHouses(l.id);
+                          window.setTimeout(() => {
+                            document
+                              .getElementById(`openhouse-section-${l.id}`)
+                              ?.scrollIntoView({ behavior: "smooth", block: "start" });
+                          }, 150);
                         }}
                         className="rounded-lg border border-indigo-400/35 bg-indigo-950/35 px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-indigo-100 transition hover:border-indigo-300/70 hover:bg-indigo-900/45"
                       >
@@ -1634,7 +1672,7 @@ export function ListingDashboard() {
                         </ul>
                       </div>
                     </div>
-                    <div className="mt-6 rounded-xl border border-indigo-400/20 bg-indigo-950/20 p-4">
+                    <div id={`openhouse-section-${l.id}`} className="mt-6 rounded-xl border border-indigo-400/20 bg-indigo-950/20 p-4">
                       <p className="text-xs font-semibold uppercase tracking-[0.14em] text-indigo-100/90">Open houses</p>
                       <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
                         <input id={`openhouse-title-${l.id}`} placeholder="Open house title" className="rounded-lg border border-indigo-400/30 bg-black/30 px-3 py-2 text-sm text-indigo-50 lg:col-span-2" />

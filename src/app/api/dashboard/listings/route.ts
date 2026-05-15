@@ -9,6 +9,11 @@ import {
   hasValidCoreListingAddress,
   normalizeListingAddressPart,
 } from "@/lib/listing-address";
+import {
+  applyListingStatusSyncToDocument,
+  getDisplayListingStatus,
+} from "@/lib/listing-status";
+import { maxAdditionalPhotosForPlan } from "@/lib/plan-access";
 import { normalizeListingPlatforms } from "@/lib/listing-platforms";
 import { Listing } from "@/models/Listing";
 import { ListingOffer } from "@/models/ListingOffer";
@@ -184,6 +189,14 @@ function serializeListing(
         .slice(0, 40);
     })(),
     status: doc.status,
+    displayStatus: getDisplayListingStatus(
+      doc.status,
+      doc.listingStartOn,
+      Boolean((doc as { scheduledActivationPending?: boolean }).scheduledActivationPending),
+    ),
+    scheduledActivationPending: Boolean(
+      (doc as { scheduledActivationPending?: boolean }).scheduledActivationPending,
+    ),
     planLabel: doc.planLabel ?? "",
     price: doc.price,
     buyerAgentCompPct: doc.buyerAgentCompPct ?? null,
@@ -240,10 +253,17 @@ export async function GET() {
   await connectDb();
   const userId = new MongooseTypes.ObjectId(session.user.id);
   const effectivePlan = await getEffectivePlanAccessForUser(userId);
-  const rows = await Listing.find({ userId }).sort({ updatedAt: -1 }).lean();
+  const rows = await Listing.find({ userId }).sort({ updatedAt: -1 });
+  for (const listing of rows) {
+    if (applyListingStatusSyncToDocument(listing)) {
+      await listing.save();
+    }
+  }
+  const leanRows = rows.map((r) => r.toObject());
+  const photoCap = maxAdditionalPhotosForPlan(effectivePlan.planId) ?? 200;
   const offerCountsMap = new Map<string, number>();
-  if (rows.length > 0) {
-    const ids = rows.map((r) => r._id);
+  if (leanRows.length > 0) {
+    const ids = leanRows.map((r) => r._id);
     const counts = (await ListingOffer.aggregate([
       { $match: { listingId: { $in: ids } } },
       { $group: { _id: "$listingId", count: { $sum: 1 } } },
@@ -252,7 +272,7 @@ export async function GET() {
       offerCountsMap.set(String(row._id), row.count);
     }
   }
-  const listings = rows
+  const listings = leanRows
     .filter((r) =>
       hasValidCoreListingAddress({
         street: r.street,
@@ -261,7 +281,13 @@ export async function GET() {
         zip: r.zip,
       }),
     )
-    .map((r) => serializeListing(r, { offerCount: offerCountsMap.get(String(r._id)) ?? 0 }));
+    .map((r) => {
+      const serialized = serializeListing(r, { offerCount: offerCountsMap.get(String(r._id)) ?? 0 });
+      if (Array.isArray(serialized.additionalPhotoUrls) && photoCap < 200) {
+        serialized.additionalPhotoUrls = serialized.additionalPhotoUrls.slice(0, photoCap);
+      }
+      return serialized;
+    });
   return NextResponse.json({
     ok: true,
     effectivePlan,

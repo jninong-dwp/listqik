@@ -9,6 +9,8 @@ import { MlsRulesAndRegulationsContent } from "@/components/legal/mls-rules-and-
 import { MlsRuleScheduleOfFinesContent } from "@/components/legal/mls-rule-schedule-of-fines-content";
 import { SecuritySurveillanceContent } from "@/components/legal/security-surveillance-content";
 import { SellersDisclosureContent } from "@/components/legal/sellers-disclosure-content";
+import { PrivacyContent } from "@/components/legal/privacy-content";
+import { TermsContent } from "@/components/legal/terms-content";
 import { ValuablesMedicationsContent } from "@/components/legal/valuables-medications-content";
 import { legalPages } from "@/data/resources";
 
@@ -24,18 +26,21 @@ export async function generateMetadata({
   const { slug } = await params;
   const page = legalPages.find((p) => p.slug === slug);
   if (!page) return {};
-  const isPlaceholder = slug === "privacy" || slug === "terms";
   return {
     title: page.title,
     alternates: {
       canonical: `/resources/legal/${page.slug}`,
     },
     robots: {
-      index: !isPlaceholder,
+      index: true,
       follow: true,
     },
     description:
-      slug === "iabs"
+      slug === "terms"
+        ? "Website Terms and Conditions of Use for ListQik.com, Resolution Realty Group, and Central Metro Realty."
+        : slug === "privacy"
+          ? "How ListQik.com collects, uses, and protects your personal information."
+          : slug === "iabs"
         ? "Texas Information About Brokerage Services (IABS) for Resolution Realty Group and Central Metro Realty."
         : slug === "consumer-protection-notice"
           ? "Texas Real Estate Commission Consumer Protection Notice — key rights and resources."
@@ -101,15 +106,13 @@ export default async function LegalPage({
               <SellersDisclosureContent />
             ) : slug === "broker-branding" ? (
               <BrokerBrandingContent />
+            ) : slug === "terms" ? (
+              <TermsContent />
+            ) : slug === "privacy" ? (
+              <PrivacyContent />
             ) : (
               <div className="space-y-4 text-sm text-white/80">
-                <p>
-                  Placeholder legal text. Replace this content with your attorney-approved copy before
-                  production.
-                </p>
-                <p className="text-muted">
-                  Implementation note: keep legal routes stable for SEO and backlink durability.
-                </p>
+                <p>Legal content for this page is not available.</p>
               </div>
             )}
           </article>

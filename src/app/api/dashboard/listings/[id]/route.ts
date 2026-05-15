@@ -7,6 +7,8 @@ import {
   normalizeListingAddressPart,
 } from "@/lib/listing-address";
 import { connectDb } from "@/lib/mongodb";
+import { applyListingStatusSyncToDocument } from "@/lib/listing-status";
+import { getEffectivePlanAccessForUser, maxAdditionalPhotosForPlan } from "@/lib/plan-access";
 import { normalizeListingPlatforms } from "@/lib/listing-platforms";
 import { Listing } from "@/models/Listing";
 import { ListingOffer } from "@/models/ListingOffer";
@@ -469,6 +471,12 @@ export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }>
       return NextResponse.json({ ok: false, error: "Invalid status." }, { status: 400 });
     }
     listing.status = body.status as Status;
+    if (body.status === "PENDING") {
+      listing.scheduledActivationPending = false;
+    }
+    if (body.status === "ACTIVE") {
+      listing.scheduledActivationPending = false;
+    }
   }
   if (body.listedOn !== undefined) {
     listing.listedOn = body.listedOn ? new Date(body.listedOn) : null;
@@ -606,13 +614,17 @@ export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }>
     listing.listingPlatforms = normalizeListingPlatforms(body.listingPlatforms);
   }
   if (body.additionalPhotoUrls !== undefined) {
+    const plan = await getEffectivePlanAccessForUser(userId);
+    const photoCap = maxAdditionalPhotosForPlan(plan.planId) ?? 200;
     const raw = body.additionalPhotoUrls;
     const arr = Array.isArray(raw) ? raw : [];
     listing.additionalPhotoUrls = arr
       .filter((u): u is string => typeof u === "string" && u.trim().length > 0)
       .map((u) => u.trim())
-      .slice(0, 40);
+      .slice(0, photoCap);
   }
+
+  applyListingStatusSyncToDocument(listing);
 
   if (!hasValidCoreListingAddress(listing)) {
     return NextResponse.json(

@@ -5,6 +5,7 @@ import { Types } from "mongoose";
 import { connectDb } from "@/lib/mongodb";
 import { provisionSellerFromPaidOrder } from "@/lib/seller-order-provision";
 import { extractStripeCheckoutCouponCode } from "@/lib/stripe-purchase-details";
+import { dispatchUpgradePurchaseEmails } from "@/lib/dispatch-upgrade-purchase-emails";
 import { sendExistingAccountAccessEmail, sendSetupAccountEmail } from "@/lib/transactional-email";
 import { PricingCheckoutSession } from "@/models/PricingCheckoutSession";
 import { UpgradePurchase } from "@/models/UpgradePurchase";
@@ -232,6 +233,42 @@ export async function POST(req: Request) {
       })),
       rawPayload: session,
     });
+
+    void (async () => {
+      try {
+        const purchaserEmail = (
+          metadata.buyerEmail ||
+          session.customer_details?.email ||
+          ""
+        )
+          .trim()
+          .toLowerCase();
+        if (!purchaserEmail || upgradeSlugs.length === 0) return;
+
+        let purchaserName = metadata.buyerName || session.customer_details?.name || null;
+        const externalUserId = (metadata.externalUserId || "").trim();
+        if (externalUserId && Types.ObjectId.isValid(externalUserId)) {
+          const user = await User.findById(externalUserId).select("name").lean();
+          if (user?.name) purchaserName = user.name;
+        } else if (purchaserEmail) {
+          const user = await User.findOne({ email: purchaserEmail }).select("name").lean();
+          if (user?.name) purchaserName = user.name;
+        }
+
+        await dispatchUpgradePurchaseEmails({
+          purchaserEmail,
+          purchaserName,
+          upgradeSlugs,
+          amountTotal: toNumCentsToDollars(session.amount_total),
+          orderRef: externalOrderId,
+        });
+      } catch (err) {
+        console.error(
+          "[stripe-webhook] upgrade purchase email failed:",
+          err instanceof Error ? err.message : err,
+        );
+      }
+    })();
   }
 
   return NextResponse.json({

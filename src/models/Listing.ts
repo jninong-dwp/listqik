@@ -117,6 +117,8 @@ const listingSchema = new Schema(
     listedOn: { type: Date, default: null },
     expiresOn: { type: Date, default: null },
     setupFinalizedAt: { type: Date, default: null },
+    /** True when status is PENDING solely because listingStartOn is in the future. */
+    scheduledActivationPending: { type: Boolean, default: false },
   },
   { timestamps: true },
 );

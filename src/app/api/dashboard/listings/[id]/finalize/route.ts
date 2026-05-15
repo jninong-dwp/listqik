@@ -7,7 +7,11 @@ import { validateListingForFinalize } from "@/lib/listing-compliance";
 import { Listing } from "@/models/Listing";
 import { ListingDocument } from "@/models/ListingDocument";
 import { User } from "@/models/User";
-import { sendInternalListingFinalizedEmail } from "@/lib/transactional-email";
+import { isListingStartInFuture, statusForListingStartDate } from "@/lib/listing-status";
+import {
+  sendInternalListingFinalizedEmail,
+  sendSellerListingFinalizedEmail,
+} from "@/lib/transactional-email";
 
 function hasMatchingDoc(fileName: string, patterns: RegExp[]) {
   return patterns.some((p) => p.test(fileName));
@@ -71,18 +75,12 @@ export async function POST(_req: Request, ctx: { params: Promise<{ id: string }>
     );
   }
 
-  const start = listing.listingStartOn ? new Date(listing.listingStartOn) : null;
-  const startValid = start && Number.isFinite(start.getTime());
-  const today = new Date();
-  const startDay = startValid
-    ? new Date(start!.getFullYear(), start!.getMonth(), start!.getDate()).getTime()
-    : 0;
-  const todayDay = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
-  /** Future start dates stay pending until the start day; same-day or past go active now. */
   const wasIncomplete = listing.status === "INCOMPLETE";
-  listing.status = startValid && startDay > todayDay ? "PENDING" : "ACTIVE";
+  const scheduled = isListingStartInFuture(listing.listingStartOn);
+  listing.status = statusForListingStartDate(listing.listingStartOn);
+  listing.scheduledActivationPending = scheduled;
   listing.setupFinalizedAt = new Date();
-  if (!listing.listedOn) {
+  if (listing.status === "ACTIVE" && !listing.listedOn) {
     listing.listedOn = new Date();
   }
   await listing.save();
@@ -173,6 +171,22 @@ export async function POST(_req: Request, ctx: { params: Promise<{ id: string }>
 
         if (!result.sent) {
           console.error("[listing-finalize] internal email not sent:", result.error);
+        }
+
+        if (sellerEmail) {
+          const dashboardUrl = baseUrl ? `${baseUrl}/dashboard` : "/dashboard";
+          const sellerResult = await sendSellerListingFinalizedEmail({
+            to: sellerEmail,
+            sellerName,
+            address: addressParts.join(", "),
+            status: listing.status,
+            listingStartOn: listing.listingStartOn ? new Date(listing.listingStartOn) : null,
+            listingEndOn: listing.listingEndOn ? new Date(listing.listingEndOn) : null,
+            dashboardUrl,
+          });
+          if (!sellerResult.sent) {
+            console.error("[listing-finalize] seller email not sent:", sellerResult.error);
+          }
         }
       } catch (err) {
         console.error(

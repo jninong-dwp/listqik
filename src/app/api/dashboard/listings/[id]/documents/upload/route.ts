@@ -9,57 +9,23 @@ import { Listing } from "@/models/Listing";
 
 export const runtime = "nodejs";
 
-const ALLOWED_TYPES = new Set([
-  "image/jpeg",
-  "image/png",
-  "image/webp",
-  "image/gif",
-  "image/heic",
-  "image/heif",
-]);
-const MAX_BYTES = 15 * 1024 * 1024; // 15 MB; matches typical MLS photo guidance.
+const MAX_BYTES = 25 * 1024 * 1024;
 
 function sanitizeFileName(name: string) {
-  return name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(0, 120) || "image";
+  return name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(0, 120) || "document";
 }
 
-function inferExt(contentType: string, fileName: string) {
+function inferExt(fileName: string, contentType: string) {
+  const fromName = fileName.split(".").pop()?.toLowerCase();
+  if (fromName && /^[a-z0-9]{2,8}$/.test(fromName)) return fromName;
+  if (contentType === "application/pdf") return "pdf";
   if (contentType === "image/jpeg") return "jpg";
   if (contentType === "image/png") return "png";
-  if (contentType === "image/webp") return "webp";
-  if (contentType === "image/gif") return "gif";
-  if (contentType === "image/heic" || contentType === "image/heif") return "heic";
-  const lower = fileName.toLowerCase();
-  if (lower.endsWith(".jpg") || lower.endsWith(".jpeg")) return "jpg";
-  if (lower.endsWith(".png")) return "png";
-  if (lower.endsWith(".webp")) return "webp";
-  if (lower.endsWith(".gif")) return "gif";
-  if (lower.endsWith(".heic") || lower.endsWith(".heif")) return "heic";
   return "bin";
 }
 
-function resolveContentType(file: File): string {
-  const fromType = (file.type || "").toLowerCase();
-  if (fromType) return fromType;
-  const lower = file.name.toLowerCase();
-  if (lower.endsWith(".jpg") || lower.endsWith(".jpeg")) return "image/jpeg";
-  if (lower.endsWith(".png")) return "image/png";
-  if (lower.endsWith(".webp")) return "image/webp";
-  if (lower.endsWith(".gif")) return "image/gif";
-  if (lower.endsWith(".heic")) return "image/heic";
-  if (lower.endsWith(".heif")) return "image/heif";
-  return "";
-}
-
 /**
- * POST /api/dashboard/listings/[id]/hero-image/upload
- *
- * Receives the image file as `multipart/form-data` (field name: `file`) and
- * uploads it to R2 server-side. This avoids CORS / signed-URL pitfalls that
- * affect direct browser-to-R2 uploads.
- *
- * Returns `{ ok, key, publicUrl }`. The publicUrl is safe to drop into an
- * `<img>` tag — it uses our proxy when no R2 public domain is configured.
+ * Server-side document upload (avoids browser CORS issues with presigned R2 URLs).
  */
 export async function POST(req: Request, ctx: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
@@ -84,18 +50,7 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
 
   const file = formData.get("file");
   if (!(file instanceof File)) {
-    return NextResponse.json(
-      { ok: false, error: "Missing `file` field in upload." },
-      { status: 400 },
-    );
-  }
-
-  const contentType = resolveContentType(file);
-  if (!ALLOWED_TYPES.has(contentType)) {
-    return NextResponse.json(
-      { ok: false, error: "Unsupported image type. Use JPEG, PNG, WEBP, GIF, or HEIC." },
-      { status: 415 },
-    );
+    return NextResponse.json({ ok: false, error: "Missing `file` field in upload." }, { status: 400 });
   }
 
   if (file.size <= 0) {
@@ -103,7 +58,7 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
   }
   if (file.size > MAX_BYTES) {
     return NextResponse.json(
-      { ok: false, error: `Image exceeds the ${Math.round(MAX_BYTES / (1024 * 1024))}MB limit.` },
+      { ok: false, error: `Document exceeds the ${Math.round(MAX_BYTES / (1024 * 1024))}MB limit.` },
       { status: 413 },
     );
   }
@@ -125,10 +80,10 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
     );
   }
 
-  const ext = inferExt(contentType, file.name);
+  const contentType = (file.type || "application/octet-stream").toLowerCase();
+  const ext = inferExt(file.name, contentType);
   const safeName = sanitizeFileName(file.name.replace(/\.[^.]+$/, ""));
-  const key = `listings/${id}/hero/${Date.now()}-${safeName}.${ext}`;
-
+  const key = `listings/${id}/documents/${Date.now()}-${safeName}.${ext}`;
   const bytes = new Uint8Array(await file.arrayBuffer());
 
   try {
@@ -151,5 +106,6 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
     ok: true,
     key,
     publicUrl: buildPublicImageUrl(key),
+    fileName: file.name,
   });
 }

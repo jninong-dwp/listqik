@@ -9,7 +9,7 @@ const PLAN_PRIORITY: Record<PlanSlug, number> = {
   hypersonic: 3,
 };
 
-function normalizePlanSlug(raw: string | null | undefined): PlanSlug | null {
+export function normalizePlanSlug(raw: string | null | undefined): PlanSlug | null {
   const value = (raw ?? "").trim().toLowerCase();
   if (value === "subsonic" || value === "supersonic" || value === "hypersonic") return value;
   return null;
@@ -18,6 +18,9 @@ function normalizePlanSlug(raw: string | null | undefined): PlanSlug | null {
 export type PlanEntitlements = {
   hasActivePlan: boolean;
   maxPhotosIncluded: boolean;
+  /** null = unlimited additional gallery photos */
+  maxAdditionalPhotos: number | null;
+  complianceFeePct: number;
   prioritySupport: boolean;
   premiumOnboarding: boolean;
 };
@@ -29,10 +32,23 @@ export type EffectivePlanAccess = {
   entitlements: PlanEntitlements;
 };
 
+export function complianceFeePctForPlan(planId: PlanSlug | null): number {
+  if (planId === "supersonic") return 0.3;
+  if (planId === "hypersonic") return 0.25;
+  return 0.5;
+}
+
+export function maxAdditionalPhotosForPlan(planId: PlanSlug | null): number | null {
+  if (planId === "supersonic" || planId === "hypersonic") return null;
+  return 25;
+}
+
 function entitlementsFor(planId: PlanSlug | null): PlanEntitlements {
   return {
     hasActivePlan: Boolean(planId),
     maxPhotosIncluded: planId === "supersonic" || planId === "hypersonic",
+    maxAdditionalPhotos: maxAdditionalPhotosForPlan(planId),
+    complianceFeePct: complianceFeePctForPlan(planId),
     prioritySupport: planId === "supersonic" || planId === "hypersonic",
     premiumOnboarding: planId === "hypersonic",
   };

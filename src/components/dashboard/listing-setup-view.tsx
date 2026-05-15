@@ -212,8 +212,8 @@ function mergeListing(raw: Partial<ListingSetupData> & { id: string }): ListingS
 }
 
 const PUBLIC_REMARKS_MAX = 1200;
-const COMPLIANCE_FEE_PCT = 0.5;
-const MAX_ADDITIONAL_PHOTOS = 25;
+const DEFAULT_COMPLIANCE_FEE_PCT = 0.5;
+const DEFAULT_MAX_ADDITIONAL_PHOTOS = 25;
 
 const previewSetupListings: ListingSetupData[] = [
   mergeListing({
@@ -455,6 +455,39 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
     total: number;
     failed: number;
   } | null>(null);
+  const [complianceFeePct, setComplianceFeePct] = useState(DEFAULT_COMPLIANCE_FEE_PCT);
+  const [maxAdditionalPhotos, setMaxAdditionalPhotos] = useState<number | null>(DEFAULT_MAX_ADDITIONAL_PHOTOS);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/dashboard/profile", { cache: "no-store" })
+      .then(async (res) => {
+        const data = (await res.json().catch(() => null)) as
+          | {
+              ok?: boolean;
+              effectivePlan?: {
+                entitlements?: { complianceFeePct?: number; maxAdditionalPhotos?: number | null };
+              };
+            }
+          | null;
+        if (cancelled || !data?.ok || !data.effectivePlan?.entitlements) return;
+        const ent = data.effectivePlan.entitlements;
+        if (typeof ent.complianceFeePct === "number") {
+          setComplianceFeePct(ent.complianceFeePct);
+        }
+        setMaxAdditionalPhotos(
+          ent.maxAdditionalPhotos === null || ent.maxAdditionalPhotos === undefined
+            ? null
+            : ent.maxAdditionalPhotos,
+        );
+      })
+      .catch(() => {
+        // keep defaults
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -783,9 +816,14 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
     if (files.length === 0) return;
 
     const current = activeListing.additionalPhotoUrls ?? [];
-    const remainingSlots = Math.max(0, MAX_ADDITIONAL_PHOTOS - current.length);
+    const galleryCap = maxAdditionalPhotos ?? 200;
+    const remainingSlots = Math.max(0, galleryCap - current.length);
     if (remainingSlots === 0) {
-      setFinalizeError(`You've reached the ${MAX_ADDITIONAL_PHOTOS} additional photo limit.`);
+      setFinalizeError(
+        maxAdditionalPhotos === null
+          ? "You've reached the photo upload limit."
+          : `You've reached the ${maxAdditionalPhotos} additional photo limit.`,
+      );
       return;
     }
 
@@ -828,7 +866,7 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
     if (uploadedUrls.length > 0) {
       try {
         await savePatch("photos-media", {
-          additionalPhotoUrls: [...current, ...uploadedUrls].slice(0, MAX_ADDITIONAL_PHOTOS),
+          additionalPhotoUrls: [...current, ...uploadedUrls].slice(0, galleryCap),
         });
       } catch {
         if (!firstError) firstError = "Saved upload but could not persist photo list.";
@@ -838,12 +876,12 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
     if (firstError) {
       setFinalizeError(
         skipped > 0
-          ? `${firstError} (${skipped} file${skipped === 1 ? "" : "s"} skipped — over the ${MAX_ADDITIONAL_PHOTOS} photo cap.)`
+          ? `${firstError} (${skipped} file${skipped === 1 ? "" : "s"} skipped — over the photo cap.)`
           : firstError,
       );
     } else if (skipped > 0) {
       setFinalizeError(
-        `${skipped} file${skipped === 1 ? "" : "s"} skipped — only ${remainingSlots} slot${remainingSlots === 1 ? "" : "s"} remaining (max ${MAX_ADDITIONAL_PHOTOS}).`,
+        `${skipped} file${skipped === 1 ? "" : "s"} skipped — only ${remainingSlots} slot${remainingSlots === 1 ? "" : "s"} remaining (max ${maxAdditionalPhotos ?? "unlimited"}).`,
       );
     }
 
@@ -862,9 +900,9 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
       ? activeListing.buyerAgentCompPct
       : null;
   const bacPct = bacPctResolved ?? 0;
-  const complianceFeeAmt = (priceForMath * COMPLIANCE_FEE_PCT) / 100;
+  const complianceFeeAmt = (priceForMath * complianceFeePct) / 100;
   const buyerFeeAmt = (priceForMath * bacPct) / 100;
-  const totalFeePct = bacPct + COMPLIANCE_FEE_PCT;
+  const totalFeePct = bacPct + complianceFeePct;
   const totalFeeAmt = buyerFeeAmt + complianceFeeAmt;
 
   const formKey = listing.updatedAt ?? listing.id;
@@ -1260,7 +1298,7 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
                     Buyer-agent ({bacPct.toFixed(2)}%): {formatMoney(buyerFeeAmt)}
                   </li>
                   <li>
-                    Plus compliance fee ({COMPLIANCE_FEE_PCT}%): {formatMoney(complianceFeeAmt)}
+                    Plus compliance fee ({complianceFeePct}%): {formatMoney(complianceFeeAmt)}
                   </li>
                   <li className="font-semibold text-emerald-100">
                     Total {totalFeePct.toFixed(2)}% ≈ {formatMoney(totalFeeAmt)}
@@ -1419,11 +1457,11 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
                   Additional photos (optional)
                 </p>
                 <p className="text-[11px] text-white/55">
-                  {listing.additionalPhotoUrls.length} / {MAX_ADDITIONAL_PHOTOS} used
+                  {listing.additionalPhotoUrls.length} / {maxAdditionalPhotos === null ? "∞" : maxAdditionalPhotos} used
                 </p>
               </div>
               <p className="mt-1 text-xs text-white/55">
-                Upload up to {MAX_ADDITIONAL_PHOTOS} extra images for your gallery. You can pick
+                Upload up to {maxAdditionalPhotos === null ? "unlimited" : maxAdditionalPhotos} extra images for your gallery. You can pick
                 multiple files at once. These are not required to submit setup.
               </p>
               <input
@@ -1445,7 +1483,8 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
                   disabled={
                     galleryUploadBusy ||
                     savingSection === "photos-media" ||
-                    listing.additionalPhotoUrls.length >= MAX_ADDITIONAL_PHOTOS
+                    maxAdditionalPhotos !== null &&
+                      listing.additionalPhotoUrls.length >= maxAdditionalPhotos
                   }
                   onClick={() => document.getElementById("gallery-image-file")?.click()}
                   className="rounded-full border border-white/20 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white/85 transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
@@ -1454,7 +1493,8 @@ export function ListingSetupView({ listingId }: { listingId: string }) {
                     ? galleryUploadProgress
                       ? `Uploading ${galleryUploadProgress.done} / ${galleryUploadProgress.total}…`
                       : "Uploading…"
-                    : listing.additionalPhotoUrls.length >= MAX_ADDITIONAL_PHOTOS
+                    : maxAdditionalPhotos !== null &&
+                        listing.additionalPhotoUrls.length >= maxAdditionalPhotos
                       ? "Photo limit reached"
                       : "Upload additional photos"}
                 </button>
