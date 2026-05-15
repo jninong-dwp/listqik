@@ -15,6 +15,10 @@ const planPurchaseSchema = new Schema(
     claimedAt: { type: Date, default: null },
     /** Payment processor / CRM order id for idempotent webhook handling */
     externalOrderId: { type: String, trim: true, default: null, sparse: true, unique: true },
+    paymentStatus: { type: String, trim: true, default: null },
+    currency: { type: String, trim: true, default: null },
+    amountTotal: { type: Number, default: null },
+    couponCode: { type: String, trim: true, default: null },
   },
   { timestamps: true },
 );

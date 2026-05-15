@@ -7,8 +7,13 @@ import { isAdminEmail } from "@/lib/admin";
 
 const NAV_ITEMS = [
   { href: "/dashboard/admin", label: "Overview", exact: true as const },
-  { href: "/dashboard/admin/listings", label: "Listings" },
+  { href: "/dashboard/admin/purchases", label: "Purchases" },
   { href: "/dashboard/admin/users", label: "Users" },
+  { href: "/dashboard/admin/listings", label: "Listings" },
+  { href: "/dashboard/admin/documents", label: "Documents" },
+  { href: "/dashboard/admin/offers", label: "Offers" },
+  { href: "/dashboard/admin/upgrade-requests", label: "Upgrade requests" },
+  { href: "/dashboard/admin/checkouts", label: "Checkouts" },
   { href: "/dashboard/admin/settings", label: "Settings" },
 ];
 

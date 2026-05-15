@@ -32,6 +32,12 @@ export type OrderWebhookPayload = {
     propertyType?: string;
   };
   upgrades?: Array<{ name?: string; price?: number }>;
+  payment?: {
+    currency?: string | null;
+    amountTotal?: number | null;
+    paymentStatus?: string | null;
+    couponCode?: string | null;
+  };
 };
 
 function listingPropertyType(raw?: string): "SINGLE_FAMILY" | "CONDOMINIUM" {
@@ -136,6 +142,13 @@ export async function provisionSellerFromPaidOrder(
     status: "ACTIVE",
     claimedAt: new Date(),
     externalOrderId: externalOrderId || undefined,
+    paymentStatus: body.payment?.paymentStatus?.trim() || undefined,
+    currency: body.payment?.currency?.trim() || undefined,
+    amountTotal:
+      typeof body.payment?.amountTotal === "number" && Number.isFinite(body.payment.amountTotal)
+        ? body.payment.amountTotal
+        : undefined,
+    couponCode: body.payment?.couponCode?.trim() || undefined,
   });
 
   const street = normalizeListingAddressPart(body.property?.address);

@@ -9,6 +9,8 @@ import { PlanPurchase } from "@/models/PlanPurchase";
 import { UpgradePurchase } from "@/models/UpgradePurchase";
 import { User } from "@/models/User";
 import { AdminListingDetailsCard } from "@/components/admin/listing-details-card";
+import { UserActivityTimeline } from "@/components/admin/user-activity-timeline";
+import { buildUserActivityTimeline, userAccountStatus } from "@/lib/admin-insights";
 
 export default async function AdminUserProfilePage({
   params,
@@ -80,6 +82,20 @@ export default async function AdminUserProfilePage({
   const activePlan = plans[0];
   const userAgreementAcknowledgedAt = (user as { userAgreementAcknowledgedAt?: Date | null })
     .userAgreementAcknowledgedAt;
+  const account = userAccountStatus(user);
+  const activity = buildUserActivityTimeline({
+    user,
+    listings,
+    plans,
+    upgradePurchases,
+    offers,
+    documents: documents.map((d) => ({ fileName: d.fileName, createdAt: d.createdAt })),
+    upgradeRequests: upgradeRequests.map((r) => ({
+      upgradeName: r.upgradeName,
+      status: r.status,
+      createdAt: r.createdAt,
+    })),
+  });
 
   return (
     <div className="space-y-4">
@@ -108,10 +124,21 @@ export default async function AdminUserProfilePage({
               : "Not yet acknowledged"}
           </p>
           <p>
+            <span className="text-white/60">Account status:</span>{" "}
+            <span className={account.tone === "warn" ? "text-amber-200" : "text-emerald-200/90"}>
+              {account.label}
+            </span>
+          </p>
+          <p>
             <span className="text-white/60">Total listings:</span>{" "}
             <span className="font-semibold">{listings.length}</span>
           </p>
         </div>
+      </section>
+
+      <section className="space-y-3">
+        <h4 className="text-sm font-semibold uppercase tracking-wide text-emerald-100/80">Activity timeline</h4>
+        <UserActivityTimeline events={activity} />
       </section>
 
       <section className="space-y-3">

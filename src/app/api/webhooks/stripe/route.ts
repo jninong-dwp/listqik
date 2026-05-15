@@ -4,6 +4,7 @@ import Stripe from "stripe";
 import { Types } from "mongoose";
 import { connectDb } from "@/lib/mongodb";
 import { provisionSellerFromPaidOrder } from "@/lib/seller-order-provision";
+import { extractStripeCheckoutCouponCode } from "@/lib/stripe-purchase-details";
 import { sendExistingAccountAccessEmail, sendSetupAccountEmail } from "@/lib/transactional-email";
 import { PricingCheckoutSession } from "@/models/PricingCheckoutSession";
 import { UpgradePurchase } from "@/models/UpgradePurchase";
@@ -125,6 +126,12 @@ export async function POST(req: Request) {
         propertyType: metadata.propertyType || undefined,
       },
       upgrades: [],
+      payment: {
+        currency: session.currency || null,
+        amountTotal: toNumCentsToDollars(session.amount_total),
+        paymentStatus: session.payment_status || null,
+        couponCode: extractStripeCheckoutCouponCode(session),
+      },
     });
 
     let accountEmailSent = false;
