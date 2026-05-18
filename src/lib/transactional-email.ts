@@ -19,6 +19,15 @@ type ExistingAccountEmailInput = {
   loginUrl: string;
 };
 
+export type ExistingAccountNewPlanEmailInput = {
+  to: string;
+  fullName?: string;
+  planName: string;
+  propertyAddress: string;
+  dashboardUrl: string;
+  listingSetupCta: string;
+};
+
 type SendResult = {
   sent: boolean;
   error?: string;
@@ -227,6 +236,24 @@ export async function sendExistingAccountAccessEmail(
   const rendered = await renderStoredEmail("existing_account", {
     greetingName,
     loginUrl: input.loginUrl,
+  });
+  return sendSmtpMessage({ to: input.to, ...rendered });
+}
+
+export async function sendExistingAccountNewPlanEmail(
+  input: ExistingAccountNewPlanEmailInput,
+): Promise<SendResult> {
+  if (!smtpConfig()) {
+    return { sent: false, error: "SMTP is not fully configured." };
+  }
+
+  const greetingName = input.fullName?.trim() || "there";
+  const rendered = await renderStoredEmail("existing_account_new_plan", {
+    greetingName,
+    planName: input.planName.trim() || "ListQik plan",
+    propertyAddress: input.propertyAddress.trim(),
+    dashboardUrl: input.dashboardUrl.trim(),
+    listingSetupCta: input.listingSetupCta.trim(),
   });
   return sendSmtpMessage({ to: input.to, ...rendered });
 }

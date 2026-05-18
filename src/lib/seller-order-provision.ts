@@ -4,6 +4,7 @@ import { Listing } from "@/models/Listing";
 import { PlanPurchase } from "@/models/PlanPurchase";
 import { User } from "@/models/User";
 import {
+  formatListingAddressLine,
   hasValidCoreListingAddress,
   normalizeListingAddressPart,
 } from "@/lib/listing-address";
@@ -58,6 +59,19 @@ function appBaseUrl(): string {
   return "";
 }
 
+const PLAN_DISPLAY_NAMES: Record<string, string> = {
+  subsonic: "Subsonic",
+  supersonic: "Supersonic",
+  hypersonic: "Hypersonic",
+};
+
+export function formatPlanDisplayName(planId: string, planName?: string): string {
+  const slug = planId.trim().toLowerCase();
+  const name = planName?.trim();
+  if (name && name.toLowerCase() !== slug) return name;
+  return PLAN_DISPLAY_NAMES[slug] ?? name ?? planId;
+}
+
 function buildIntroDescription(
   rawPropertyType: string | undefined,
   upgrades: OrderWebhookPayload["upgrades"],
@@ -83,6 +97,12 @@ export type ProvisionSellerResult =
       createdUser: boolean;
       setupAccountUrl?: string;
       listingCreated: boolean;
+      /** Set when a draft listing row was created for this order */
+      listingId?: string;
+      planId: string;
+      planName: string;
+      planLabel: string;
+      propertyAddress: string;
     };
 
 /**
@@ -159,16 +179,22 @@ export async function provisionSellerFromPaidOrder(
   const county = normalizeListingAddressPart(body.property?.county);
   const rawPropertyType = body.property?.propertyType?.trim();
 
+  const displayPlanName = formatPlanDisplayName(planId, planName);
+  const planLabel = planPrice ? `${displayPlanName} (${planPrice})` : displayPlanName;
+  const propertyAddress = hasValidCoreListingAddress({ street, city, state, zip })
+    ? formatListingAddressLine({ street, unit, city, state, zip })
+    : "You'll add your property address when you set up this listing in your dashboard.";
+
   let listingCreated = false;
+  let listingId: string | undefined;
 
   if (hasValidCoreListingAddress({ street, city, state, zip })) {
     const introDescription = buildIntroDescription(rawPropertyType, body.upgrades);
-    const planLabel = planPrice ? `${planName} (${planPrice})` : planName!;
 
     if (externalOrderId) {
       const dup = await Listing.exists({ sourceOrderId: externalOrderId });
       if (!dup) {
-        await Listing.create({
+        const listing = await Listing.create({
           userId: user._id,
           street,
           unit,
@@ -185,9 +211,10 @@ export async function provisionSellerFromPaidOrder(
           sourceOrderId: externalOrderId,
         });
         listingCreated = true;
+        listingId = listing._id.toString();
       }
     } else {
-      await Listing.create({
+      const listing = await Listing.create({
         userId: user._id,
         street,
         unit,
@@ -203,6 +230,7 @@ export async function provisionSellerFromPaidOrder(
         orderedOn: new Date(),
       });
       listingCreated = true;
+      listingId = listing._id.toString();
     }
   }
 
@@ -218,5 +246,10 @@ export async function provisionSellerFromPaidOrder(
     createdUser,
     setupAccountUrl,
     listingCreated,
+    listingId,
+    planId,
+    planName: displayPlanName,
+    planLabel,
+    propertyAddress,
   };
 }

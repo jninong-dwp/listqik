@@ -1,6 +1,7 @@
 export const EMAIL_TEMPLATE_KEYS = [
   "setup_account",
   "existing_account",
+  "existing_account_new_plan",
   "seller_listing_finalized_active",
   "seller_listing_finalized_scheduled",
   "internal_listing_finalized",
@@ -49,8 +50,9 @@ If you did not request this, you can ignore this email.
   },
   existing_account: {
     key: "existing_account",
-    label: "Existing account — log in",
-    description: "Sent after checkout when the buyer already has a ListQik account.",
+    label: "Existing account — log in (fallback)",
+    description:
+      "Fallback when an existing buyer checks out but new-plan details are unavailable. Prefer existing_account_new_plan for repeat plan purchases.",
     variables: ["greetingName", "loginUrl"],
     subject: "Your ListQik account is ready",
     textBody: `Hi {{greetingName}},
@@ -69,6 +71,36 @@ If you forgot your password, use the reset option on the login page.
 <p>Use this link to log in and continue to your dashboard:</p>
 <p><a href="{{loginUrl}}">{{loginUrl}}</a></p>
 <p>If you forgot your password, use the reset option on the login page.</p>
+<p>&mdash; ListQik</p>`,
+  },
+  existing_account_new_plan: {
+    key: "existing_account_new_plan",
+    label: "Existing account — new plan / listing",
+    description:
+      "Sent when a returning customer buys another plan (typically for a different property). Points them to the dashboard and their new listing.",
+    variables: ["greetingName", "planName", "propertyAddress", "dashboardUrl", "listingSetupCta"],
+    subject: "Your new {{planName}} listing is ready to set up",
+    textBody: `Hi {{greetingName}},
+
+Thanks for your order. You purchased the {{planName}} plan for a new listing on ListQik.
+
+Property:
+{{propertyAddress}}
+
+Sign in to your dashboard:
+{{dashboardUrl}}
+
+{{listingSetupCta}}
+
+If you did not make this purchase, contact us right away.
+
+— ListQik`,
+    htmlBody: `<p>Hi {{greetingName}},</p>
+<p>Thanks for your order. You purchased the <strong>{{planName}}</strong> plan for a <strong>new listing</strong> on ListQik.</p>
+<p><strong>Property:</strong><br>{{propertyAddress}}</p>
+<p><a href="{{dashboardUrl}}">Sign in to your dashboard</a></p>
+<p style="white-space:pre-line">{{listingSetupCta}}</p>
+<p>If you did not make this purchase, contact us right away.</p>
 <p>&mdash; ListQik</p>`,
   },
   seller_listing_finalized_active: {
