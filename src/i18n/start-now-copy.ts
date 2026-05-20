@@ -1,4 +1,5 @@
 import type { HomeLocale } from "@/i18n/home-locale";
+import { startNowSubsonicPricingHref } from "@/lib/stripe-subsonic-landing-promo";
 
 export type StartNowPlanId =
   | "subsonic"
@@ -18,6 +19,8 @@ export type StartNowPlanCopy = {
   cta: string;
   primary: boolean;
   mailto?: boolean;
+  /** When set, plan CTA uses this href instead of /pricing */
+  checkoutHref?: string;
   features: string[];
 };
 
@@ -109,11 +112,12 @@ const COPY: Record<HomeLocale, StartNowCopy> = {
         badgeDark: false,
         name: "Subsonic",
         copy: "Everything you need to list on MLS and sell on your terms.",
-        price: "$99",
-        priceWas: null,
+        price: "$79",
+        priceWas: "$99",
         sub: "0.50% at closing",
-        cta: "Get Subsonic",
+        cta: "Get Subsonic — $79",
         primary: true,
+        checkoutHref: startNowSubsonicPricingHref(),
         features: [
           "Listed on MLS and major portals",
           "Support with all required documentation",
@@ -180,15 +184,15 @@ const COPY: Record<HomeLocale, StartNowCopy> = {
     sellerCta: {
       title: "Ready to list with confidence?",
       body: "Choose your package and launch a listing strategy that attracts high-intent buyers.",
-      cta: "List now from $99",
+      cta: "List now — $79",
     },
     offer: {
       closeLabel: "Close offer popup",
       kicker: "Limited-time offer",
-      title: "Claim your free gift with checkout",
-      body: "Start your listing today and receive a free gift at checkout.",
-      coupon: "Your free gift is added automatically when you complete your order.",
-      cta: "Claim now",
+      title: "Subsonic for $79 — save $20 today",
+      body: "Lock in the Subsonic plan at $79 (regularly $99). Your $20 discount is applied automatically at checkout.",
+      coupon: "No code needed — discount applies when you continue from this page.",
+      cta: "Get Subsonic for $79",
       floating: "Claim offer",
     },
     videoSrc: AVATAR_VIDEO_EN,
@@ -229,11 +233,12 @@ const COPY: Record<HomeLocale, StartNowCopy> = {
         badgeDark: false,
         name: "Subsonic",
         copy: "Todo lo que necesitas para publicar en MLS y vender en tus términos.",
-        price: "$99",
-        priceWas: null,
+        price: "$79",
+        priceWas: "$99",
         sub: "0.50% al cierre",
-        cta: "Obtener Subsonic",
+        cta: "Obtener Subsonic — $79",
         primary: true,
+        checkoutHref: startNowSubsonicPricingHref(),
         features: [
           "Publicado en MLS y en portales principales",
           "Soporte con toda la documentación requerida",
@@ -300,15 +305,15 @@ const COPY: Record<HomeLocale, StartNowCopy> = {
     sellerCta: {
       title: "¿Listo para publicar con confianza?",
       body: "Elige tu paquete y lanza una estrategia de publicación que atraiga compradores con alta intención.",
-      cta: "Publica ahora desde $99",
+      cta: "Publica ahora — $79",
     },
     offer: {
       closeLabel: "Cerrar ventana de oferta",
       kicker: "Oferta por tiempo limitado",
-      title: "Reclama tu regalo gratis al pagar",
-      body: "Comienza tu publicación hoy y recibe un regalo gratis al finalizar tu compra.",
-      coupon: "Tu regalo gratis se agrega automáticamente al completar tu pedido.",
-      cta: "Reclamar ahora",
+      title: "Subsonic por $79 — ahorra $20 hoy",
+      body: "Asegura el plan Subsonic por $79 (precio regular $99). Tu descuento de $20 se aplica automáticamente al pagar.",
+      coupon: "Sin código — el descuento se aplica al continuar desde esta página.",
+      cta: "Obtener Subsonic por $79",
       floating: "Reclamar oferta",
     },
     videoSrc: AVATAR_VIDEO_ES,

@@ -17,6 +17,7 @@ type AddressAutocompleteInputProps = {
   onChange: (value: string) => void;
   onPlaceSelected?: (place: ParsedPlace) => void;
   disabled?: boolean;
+  id?: string;
 };
 
 let mapsLoadPromise: Promise<void> | null = null;
@@ -99,6 +100,7 @@ export function AddressAutocompleteInput({
   onChange,
   onPlaceSelected,
   disabled,
+  id,
 }: AddressAutocompleteInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const acRef = useRef<google.maps.places.Autocomplete | null>(null);
@@ -169,6 +171,7 @@ export function AddressAutocompleteInput({
       <span className="text-xs font-semibold tracking-widest text-white/60">{label.toUpperCase()}</span>
       <input
         ref={inputRef}
+        id={id}
         type="text"
         autoComplete="street-address"
         value={value}

@@ -2,10 +2,16 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { connectDb } from "@/lib/mongodb";
 import { PricingCheckoutSession } from "@/models/PricingCheckoutSession";
+import {
+  isStartNowSubsonicPromo,
+  resolveSubsonicLandingCheckoutDiscounts,
+  type SubsonicLandingCheckoutDiscount,
+} from "@/lib/stripe-subsonic-landing-promo";
 
 type CheckoutPayload = {
   source?: string;
   embedded?: boolean;
+  promoSource?: string;
   checkoutSessionId?: string;
   checkoutKind?: "plan" | "upgrades";
   plan?: {
@@ -142,6 +148,27 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "NEXTAUTH_URL or VERCEL_URL is required." }, { status: 500 });
   }
 
+  const promoSource = compact(body.promoSource);
+  const applyStartNowSubsonicDiscount =
+    checkoutKind === "plan" &&
+    planSlug === "subsonic" &&
+    isStartNowSubsonicPromo(promoSource);
+
+  let landingDiscounts: SubsonicLandingCheckoutDiscount[] | undefined;
+  if (applyStartNowSubsonicDiscount) {
+    landingDiscounts = await resolveSubsonicLandingCheckoutDiscounts(stripe);
+    if (!landingDiscounts?.length) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error:
+            "Landing Subsonic discount is not configured. Run npm run stripe:startnow-subsonic-promo and set STRIPE_SUBSONIC_LANDING_PROMOTION_CODE_ID (or promo/coupon env vars).",
+        },
+        { status: 503 },
+      );
+    }
+  }
+
   const metadata: Record<string, string> = {
     checkoutKind,
     checkoutSessionId,
@@ -160,7 +187,16 @@ export async function POST(req: Request) {
     propertyCounty: compact(body.property?.county),
     propertyType: compact(body.property?.propertyType),
     upgradeSlugsCsv: selectedUpgradeSlugs.join(","),
+    ...(applyStartNowSubsonicDiscount ? { promoSource: "start-now" } : {}),
   };
+
+  const discountParams = landingDiscounts
+    ? { discounts: landingDiscounts, allow_promotion_codes: false as const }
+    : { allow_promotion_codes: true as const };
+
+  /** Plan checkout charges in USD so manual promotion codes validate reliably. */
+  const planAdaptivePricingParams =
+    checkoutKind === "plan" ? { adaptive_pricing: { enabled: false as const } } : {};
 
   let session: Stripe.Checkout.Session;
   if (embedded) {
@@ -172,7 +208,8 @@ export async function POST(req: Request) {
         payment_method_types: ["card"],
         line_items: lineItems,
         return_url: `${base}/pricing?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
-        allow_promotion_codes: true,
+        ...discountParams,
+        ...planAdaptivePricingParams,
         customer_email: email,
         client_reference_id: checkoutSessionId,
         metadata,
@@ -192,7 +229,8 @@ export async function POST(req: Request) {
         line_items: lineItems,
         success_url: `${base}/pricing?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${base}/pricing?checkout=cancelled`,
-        allow_promotion_codes: true,
+        ...discountParams,
+        ...planAdaptivePricingParams,
         customer_email: email,
         client_reference_id: checkoutSessionId,
         metadata,

@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { StartNowLanguageToggle } from "@/components/marketing/start-now-language-toggle";
 import { useSiteLocale } from "@/components/site-locale-provider";
 import { fullServiceMailto, getStartNowCopy } from "@/i18n/start-now-copy";
+import { startNowSubsonicPricingHref } from "@/lib/stripe-subsonic-landing-promo";
 
 export function MarketingLandingPage() {
   const { locale, ready } = useSiteLocale();
@@ -14,6 +15,7 @@ export function MarketingLandingPage() {
   const [showGiftPopup, setShowGiftPopup] = useState(false);
   const [offerDismissed, setOfferDismissed] = useState(false);
   const agentMailto = fullServiceMailto(locale);
+  const subsonicOfferHref = startNowSubsonicPricingHref(locale);
 
   const toggleAvatarSound = () => {
     const video = avatarVideoRef.current;
@@ -54,7 +56,7 @@ export function MarketingLandingPage() {
               <h1>{copy.hero.title}</h1>
               <p className="heroCopy">{copy.hero.body}</p>
               <div className="heroActions">
-                <Link href="/pricing" className="btn btnPrimary">
+                <Link href={subsonicOfferHref} scroll={false} className="btn btnPrimary">
                   {copy.hero.ctaPrimary}
                 </Link>
                 <a href="#compare" className="btn btnSecondary">
@@ -133,7 +135,11 @@ export function MarketingLandingPage() {
                   </a>
                 ) : (
                   <Link
-                    href="/pricing"
+                    href={
+                      plan.id === "subsonic"
+                        ? subsonicOfferHref
+                        : plan.checkoutHref ?? "/pricing"
+                    }
                     className={`btn ${plan.primary ? "btnPrimary" : "btnSecondary"} wide`}
                   >
                     {plan.cta}
@@ -153,7 +159,7 @@ export function MarketingLandingPage() {
           <h2>{copy.sellerCta.title}</h2>
           <p>{copy.sellerCta.body}</p>
           <div className="heroActions">
-            <Link href="/pricing" className="btn btnPrimary">
+            <Link href={subsonicOfferHref} className="btn btnPrimary">
               {copy.sellerCta.cta}
             </Link>
           </div>
@@ -184,7 +190,8 @@ export function MarketingLandingPage() {
             <p>{copy.offer.body}</p>
             <p className="giftCoupon">{copy.offer.coupon}</p>
             <Link
-              href="/pricing"
+              href={subsonicOfferHref}
+              scroll={false}
               className="btn btnPrimary wide"
               onClick={() => {
                 setShowGiftPopup(false);

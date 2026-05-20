@@ -1,7 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import {
+  shouldOpenSubsonicIntakeFromSearchParams,
+  START_NOW_SUBSONIC_PROMO,
+} from "@/lib/stripe-subsonic-landing-promo";
 import {
   EmbeddedCheckout,
   EmbeddedCheckoutProvider,
@@ -13,154 +18,17 @@ import {
   AddressAutocompleteInput,
   type ParsedPlace,
 } from "@/components/pricing/address-autocomplete-input";
-import type { PlanId } from "@/types/pricing-wizard";
-
-type PropertyType =
-  | "single-family"
-  | "condo"
-  | "vacant-land"
-  | "townhouse-villa"
-  | "multi-family"
-  | "mobile-manufactured";
-
-type Plan = {
-  id: PlanId;
-  name: string;
-  badge: string;
-  price: string;
-  closeFee: string;
-  listTerm: string;
-  photos: string;
-  support: string;
-  highlight?: boolean;
-  included: string[];
-  optional: string[];
-};
-
-const plans: Plan[] = [
-  {
-    id: "subsonic",
-    name: "Subsonic",
-    badge: "Basic · Essential",
-    price: "$99",
-    closeFee: "0.50% at closing",
-    listTerm: "6 months",
-    photos: "Up to 25 photos",
-    support: "7-day support (chat/email/phone)",
-    included: [
-      "Broker-assisted listing submission target within 24 hours of complete docs",
-      "Distribution to major home-search portals",
-      "Required listing forms and disclosure workflow",
-      "Unlimited listing edits while active",
-      "Your contact details shown where listing rules allow",
-      "Buyer inquiries routed to you",
-      "You control buyer-agent concessions in negotiations",
-      "Welcome onboarding call",
-    ],
-    optional: [
-      "Showing scheduler module",
-      "Yard sign kit",
-      "Open house directional sign pack",
-      "Virtual tour publishing add-on",
-      "Transaction coordinator support",
-      "Offer/counter prep and review",
-      "Comparative market analysis (CMA)",
-      "Professional photography add-on",
-    ],
-  },
-  {
-    id: "supersonic",
-    name: "Supersonic",
-    badge: "Premium · Most Popular",
-    price: "$295",
-    closeFee: "0.3% at closing",
-    listTerm: "6 months",
-    photos: "Max Photos",
-    support: "7-day support (priority queue)",
-    highlight: true,
-    included: [
-      "Everything in Subsonic (Basic)",
-      "Lower compliance close-out fee",
-      "Max-photo listing format for broader visual coverage",
-      "Welcome onboarding call",
-      "Showing scheduler included",
-      "2 free open house announcements",
-      "1 free Comparative Market Analysis (CMA)",
-    ],
-    optional: [
-      "Yard sign kit",
-      "Open house directional sign pack",
-      "Virtual tour publishing add-on",
-      "Transaction coordinator support",
-      "Offer/counter prep and review",
-      "Additional Comparative Market Analysis (CMA)",
-      "Professional photography add-on",
-    ],
-  },
-  {
-    id: "hypersonic",
-    name: "Hypersonic",
-    badge: "Luxury · Full Service",
-    price: "$595",
-    closeFee: "0.25% at closing",
-    listTerm: "12 months",
-    photos: "Max Photos",
-    support: "7-day support + enhanced setup",
-    included: [
-      "Everything in Supersonic (Premium)",
-      "12-month listing window",
-      "Showing scheduler included",
-      "Yard sign kit included",
-      "Directional sign pack included",
-      "Open house publishing bundle included",
-      "Virtual tour publishing included",
-      "Transaction coordinator support included",
-      "Professional photography included",
-    ],
-    optional: [
-      "Offer/counter prep and review",
-      "Comparative market analysis (CMA)",
-      "Additional broker-facilitated listing territory",
-    ],
-  },
-];
-
-const propertyTypes: { id: PropertyType; label: string; description: string }[] = [
-  {
-    id: "single-family",
-    label: "Single Family",
-    description: "Detached home intended for one household.",
-  },
-  {
-    id: "condo",
-    label: "Condo",
-    description: "Individually owned unit in a shared building/community.",
-  },
-  {
-    id: "vacant-land",
-    label: "Vacant Lot / Land",
-    description: "Land parcel without residential structure.",
-  },
-  {
-    id: "townhouse-villa",
-    label: "Townhouse / Villa",
-    description: "Attached or semi-attached home with shared walls.",
-  },
-  {
-    id: "multi-family",
-    label: "Multi-Family",
-    description: "Property with multiple dwelling units.",
-  },
-  {
-    id: "mobile-manufactured",
-    label: "Mobile / Manufactured",
-    description: "Factory-built residential structure.",
-  },
-];
+import { PricingLanguageToggle } from "@/components/pricing/pricing-language-toggle";
+import { useSiteLocale } from "@/components/site-locale-provider";
+import {
+  getPricingCopy,
+  type PricingPlan,
+  type PricingPropertyTypeId,
+} from "@/i18n/pricing-copy";
 
 type WizardState = {
   step: 1 | 2 | 3;
-  plan: Plan | null;
+  plan: PricingPlan | null;
   propertyAddress: string;
   unit: string;
   city: string;
@@ -170,7 +38,7 @@ type WizardState = {
   fullName: string;
   email: string;
   phone: string;
-  propertyType: PropertyType | "";
+  propertyType: PricingPropertyTypeId | "";
   acceptedUserAgreement: boolean;
 };
 
@@ -191,11 +59,19 @@ const initialState: WizardState = {
 };
 
 export function PricingConsole() {
+  const searchParams = useSearchParams();
+  const { locale, ready } = useSiteLocale();
+  const copy = useMemo(() => getPricingCopy(locale), [locale]);
+  const plans = copy.plans;
+  const propertyTypes = copy.propertyTypes;
+  const autoOpenSubsonicIntake = shouldOpenSubsonicIntakeFromSearchParams(searchParams);
+  const landingPromoHandled = useRef(false);
   const stripePromise = useMemo(
     () => loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? ""),
     [],
   );
   const [wizard, setWizard] = useState<WizardState>(initialState);
+  const [landingPromoSource, setLandingPromoSource] = useState<string | null>(null);
   const [isWizardOpen, setIsWizardOpen] = useState(false);
   const [checkoutSessionId, setCheckoutSessionId] = useState<string | null>(null);
   const submitting = false;
@@ -216,7 +92,7 @@ export function PricingConsole() {
     });
   }, []);
 
-  function selectPlan(plan: Plan) {
+  const selectPlan = useCallback((plan: PricingPlan) => {
     const nextSessionId =
       typeof window !== "undefined" && window.crypto?.randomUUID
         ? window.crypto.randomUUID()
@@ -234,7 +110,36 @@ export function PricingConsole() {
     setPlanAutoAdvanced(false);
     setError("");
     setIsWizardOpen(true);
-  }
+  }, []);
+
+  useLayoutEffect(() => {
+    if (!autoOpenSubsonicIntake || landingPromoHandled.current) return;
+    const subsonic = copy.plans.find((p) => p.id === "subsonic");
+    if (!subsonic) return;
+    landingPromoHandled.current = true;
+    setLandingPromoSource(START_NOW_SUBSONIC_PROMO);
+    selectPlan({ ...subsonic, price: copy.subsonicPromoPrice });
+    requestAnimationFrame(() => {
+      window.scrollTo(0, 0);
+      const addressInput = document.getElementById("wizard-property-address");
+      if (addressInput instanceof HTMLInputElement) {
+        addressInput.focus();
+      }
+    });
+  }, [autoOpenSubsonicIntake, selectPlan, copy]);
+
+  useEffect(() => {
+    setWizard((s) => {
+      if (!s.plan) return s;
+      const updated = copy.plans.find((p) => p.id === s.plan!.id);
+      if (!updated) return s;
+      const price =
+        updated.id === "subsonic" && landingPromoSource
+          ? copy.subsonicPromoPrice
+          : updated.price;
+      return { ...s, plan: { ...updated, price } };
+    });
+  }, [locale, copy, landingPromoSource]);
 
   function closeWizard() {
     if (submitting) return;
@@ -295,7 +200,7 @@ export function PricingConsole() {
       cache: "no-store",
     }).catch(() => null);
     if (!res) {
-      setError("Could not verify payment status. Check your connection and try again.");
+      setError(copy.errors.paymentStatusConnection);
       return null;
     }
     const data = (await res.json().catch(() => null)) as
@@ -306,7 +211,7 @@ export function PricingConsole() {
         }
       | null;
     if (!res.ok || !data?.ok) {
-      setError(data?.error || "Could not verify payment status.");
+      setError(data?.error || copy.errors.paymentStatus);
       return null;
     }
     setPlanPaymentRecorded(Boolean(data.planPaid));
@@ -315,7 +220,7 @@ export function PricingConsole() {
       advanceToUpgradesIfReady();
     }
     return data;
-  }, [checkoutSessionId, advanceToUpgradesIfReady]);
+  }, [checkoutSessionId, advanceToUpgradesIfReady, copy.errors]);
 
   const checkPlanPaymentStatus = useCallback(async (showPendingError = false) => {
     if (!checkoutSessionId) return false;
@@ -325,13 +230,13 @@ export function PricingConsole() {
     if (!data) return false;
     if (!data.planPaid) {
       if (showPendingError) {
-        setError("Payment is not recorded yet. Please complete checkout and try again.");
+        setError(copy.errors.paymentPending);
       }
       return false;
     }
     setError("");
     return true;
-  }, [checkoutSessionId, checkCheckoutStatus]);
+  }, [checkoutSessionId, checkCheckoutStatus, copy.errors.paymentPending]);
 
   const handleEmbeddedCheckoutComplete = useCallback(() => {
     // Stripe reports completion in the embedded frame; advance UX immediately.
@@ -343,7 +248,7 @@ export function PricingConsole() {
 
   async function continueAfterPayment(destination: "listing-setup" | "upgrades") {
     if (!checkoutSessionId) {
-      setError("Could not find your checkout session. Please refresh and try again.");
+      setError(copy.errors.sessionNotFound);
       return;
     }
     setError("");
@@ -358,12 +263,12 @@ export function PricingConsole() {
         | { ok?: boolean; nextUrl?: string; error?: string }
         | null;
       if (!res.ok || !data?.ok || !data.nextUrl) {
-        setError(data?.error || "Could not continue yet. Please retry in a few seconds.");
+        setError(data?.error || copy.errors.continueFailed);
         return;
       }
       window.location.href = data.nextUrl;
     } catch {
-      setError("Network error while preparing your account handoff.");
+      setError(copy.errors.networkHandoff);
     } finally {
       setHandoffBusy(null);
     }
@@ -377,7 +282,7 @@ export function PricingConsole() {
     const synced = await syncCheckoutSession();
     if (!synced) {
       setPlanCheckoutLoading(false);
-      setError("Could not initialize checkout session. Please retry.");
+      setError(copy.errors.checkoutInit);
       return;
     }
     const res = await fetch("/api/stripe/pricing/checkout", {
@@ -387,6 +292,7 @@ export function PricingConsole() {
         checkoutSessionId,
         checkoutKind: "plan",
         source: "pricing-console",
+        promoSource: landingPromoSource ?? undefined,
         embedded: true,
         plan: {
           id: wizard.plan.id,
@@ -413,14 +319,14 @@ export function PricingConsole() {
     }).catch(() => null);
     setPlanCheckoutLoading(false);
     if (!res) {
-      setError("Could not create Stripe checkout. Please try again.");
+      setError(copy.errors.stripeCreate);
       return;
     }
     const data = (await res.json().catch(() => null)) as
       | { ok?: boolean; checkoutUrl?: string | null; checkoutClientSecret?: string | null; error?: string }
       | null;
     if (!res.ok || !data?.ok || (!data.checkoutClientSecret && !data.checkoutUrl)) {
-      setError(data?.error || "Stripe checkout URL was not generated.");
+      setError(data?.error || copy.errors.stripeUrlMissing);
       return;
     }
     setPlanCheckoutUrl(data.checkoutUrl ?? null);
@@ -445,33 +351,61 @@ export function PricingConsole() {
     };
   }, [isWizardOpen]);
 
+  const landingIntakeActive = isWizardOpen && landingPromoSource === START_NOW_SUBSONIC_PROMO;
+
   return (
-    <div className="py-10 sm:py-14">
+    <div
+      className={[
+        "py-10 transition-opacity duration-200 sm:py-14",
+        ready ? "opacity-100" : "opacity-0",
+      ].join(" ")}
+    >
       <Container className="space-y-8 sm:space-y-10">
+        <div className={landingIntakeActive ? "sr-only" : undefined} aria-hidden={landingIntakeActive}>
         <header className="cockpit-hud-frame p-4 sm:p-6">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-emerald-500/20 pb-4">
             <div className="font-mono text-xs tracking-[0.22em] text-emerald-300/80">
-              LISTQIK PRICING CONSOLE
+              {copy.hud.console}
             </div>
-            <div className="rounded border border-amber-300/70 bg-amber-500/20 px-2.5 py-1 font-mono text-[10px] tracking-[0.18em] text-amber-100 shadow-[0_0_16px_rgba(251,191,36,0.35)]">
-              TEXAS · LIVE
+            <div className="flex flex-wrap items-center gap-2">
+              <PricingLanguageToggle />
+              <div className="rounded border border-amber-300/70 bg-amber-500/20 px-2.5 py-1 font-mono text-[10px] tracking-[0.18em] text-amber-100 shadow-[0_0_16px_rgba(251,191,36,0.35)]">
+                {copy.hud.live}
+              </div>
             </div>
           </div>
 
           <div className="mt-5 grid gap-6 lg:grid-cols-2 lg:items-end">
             <div className="space-y-3">
               <h1 className="bg-gradient-to-r from-lime-200 via-emerald-100 to-emerald-300 bg-clip-text text-3xl font-semibold tracking-tight text-transparent sm:text-4xl">
-                Simple pricing to help you keep more from your sale.
+                {copy.header.title}
               </h1>
               <p className="max-w-2xl text-sm text-muted sm:text-base">
-                Select your speed tier, complete property intake, finish checkout, and continue to
-                your success screen.
+                {copy.header.body}
               </p>
             </div>
             <div className="flex flex-wrap items-end justify-start gap-2 sm:gap-4 lg:justify-end">
-              <CockpitGauge label="VALUE" sublabel="RPM" value={83} size="sm" accent="emerald" />
-              <CockpitGauge label="SPEED" sublabel="RPM" value={91} size="sm" accent="emerald" />
-              <CockpitGauge label="COMPLIANCE" sublabel="RPM" value={88} size="sm" accent="emerald" />
+              <CockpitGauge
+                label={copy.gauges.value}
+                sublabel={copy.gauges.rpm}
+                value={83}
+                size="sm"
+                accent="emerald"
+              />
+              <CockpitGauge
+                label={copy.gauges.speed}
+                sublabel={copy.gauges.rpm}
+                value={91}
+                size="sm"
+                accent="emerald"
+              />
+              <CockpitGauge
+                label={copy.gauges.compliance}
+                sublabel={copy.gauges.rpm}
+                value={88}
+                size="sm"
+                accent="emerald"
+              />
             </div>
           </div>
         </header>
@@ -486,7 +420,12 @@ export function PricingConsole() {
             className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/90 via-black/70 to-black/25"
           />
           <section className="relative z-[1] grid gap-5 lg:grid-cols-3">
-            {plans.map((plan) => (
+            {plans.map((plan) => {
+              const displayPrice =
+                plan.id === "subsonic" && autoOpenSubsonicIntake
+                  ? copy.subsonicPromoPrice
+                  : plan.price;
+              return (
               <article
                 key={plan.id}
                 className={[
@@ -503,25 +442,25 @@ export function PricingConsole() {
                   </div>
                   {plan.highlight ? (
                     <span className="rounded-full border border-emerald-300/50 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-200">
-                      Recommended
+                      {copy.planCard.recommended}
                     </span>
                   ) : null}
                 </div>
 
                 <div className="mt-4 min-h-[206px] rounded-2xl border border-white/10 bg-black/25 p-4">
-                  <div className="font-mono text-3xl font-bold text-white">{plan.price}</div>
+                  <div className="font-mono text-3xl font-bold text-white">{displayPrice}</div>
                   <div className="mt-1 text-sm text-white/75">{plan.closeFee}</div>
                   <dl className="mt-4 grid gap-2 text-sm text-white/80">
                     <div className="flex justify-between gap-3">
-                      <dt className="text-white/60">Listing term</dt>
+                      <dt className="text-white/60">{copy.planCard.listingTerm}</dt>
                       <dd>{plan.listTerm}</dd>
                     </div>
                     <div className="flex justify-between gap-3">
-                      <dt className="text-white/60">Photos</dt>
+                      <dt className="text-white/60">{copy.planCard.photos}</dt>
                       <dd>{plan.photos}</dd>
                     </div>
                     <div className="flex justify-between gap-3">
-                      <dt className="text-white/60">Support</dt>
+                      <dt className="text-white/60">{copy.planCard.support}</dt>
                       <dd className="text-right">{plan.support}</dd>
                     </div>
                   </dl>
@@ -530,16 +469,24 @@ export function PricingConsole() {
                 <div className="mt-4">
                   <button
                     type="button"
-                    onClick={() => selectPlan(plan)}
+                    onClick={() =>
+                      selectPlan(
+                        plan.id === "subsonic" && autoOpenSubsonicIntake
+                          ? { ...plan, price: copy.subsonicPromoPrice }
+                          : plan,
+                      )
+                    }
                     className="btn-primary w-full justify-center"
                   >
-                    Select {plan.name}
+                    {copy.planCard.selectPlan} {plan.name}
                   </button>
                 </div>
 
                 <div className="mt-5 grid gap-4 text-sm">
                   <div>
-                    <h3 className="text-xs font-semibold tracking-widest text-white/60">Included</h3>
+                    <h3 className="text-xs font-semibold tracking-widest text-white/60">
+                      {copy.planCard.included}
+                    </h3>
                     <ul className="mt-2 grid gap-2 text-white/85">
                       {plan.included.map((item) => (
                         <li key={item} className="rounded-xl border border-white/10 bg-white/5 px-3 py-2">
@@ -550,32 +497,34 @@ export function PricingConsole() {
                   </div>
                 </div>
               </article>
-            ))}
+              );
+            })}
           </section>
         </div>
 
         <section className="rounded-2xl border border-emerald-500/25 bg-emerald-950/20 p-4 text-sm text-emerald-100/90">
-          Brokerage-regulated services, including listing submission and compliance approval, are
-          provided through a licensed brokerage. ListQik.com provides marketing, technology, and
-          administrative support.
+          {copy.disclaimer}
         </section>
+        </div>
 
         {isWizardOpen ? (
           <div
             className="fixed inset-0 z-50 grid place-items-end bg-slate-950/75 p-0 backdrop-blur-sm sm:place-items-center sm:p-4"
             role="dialog"
             aria-modal="true"
-            aria-label="Pricing intake wizard"
+            aria-label={copy.wizard.dialogLabel}
           >
             <section className="glass-surface h-[92vh] w-full overflow-y-auto rounded-t-2xl p-4 sm:h-auto sm:max-h-[90vh] sm:max-w-5xl sm:rounded-2xl sm:p-6">
               <div className="mb-4 flex items-center justify-between gap-3">
-                <div className="text-sm font-semibold tracking-widest text-white/70">PRICING INTAKE</div>
+                <div className="text-sm font-semibold tracking-widest text-white/70">
+                  {copy.wizard.intakeLabel}
+                </div>
                 <button
                   type="button"
                   onClick={closeWizard}
                   className="rounded-full border border-white/20 px-3 py-1.5 text-xs font-semibold text-white/80 hover:bg-white/10"
                 >
-                  Close
+                  {copy.wizard.close}
                 </button>
               </div>
 
@@ -603,65 +552,68 @@ export function PricingConsole() {
 
           {wizard.plan ? (
             <div className="mb-4 rounded-xl border border-white/10 bg-black/25 p-3 text-sm text-white/80">
-              Selected package: <span className="font-semibold text-white">{wizard.plan.name}</span>{" "}
-              ({wizard.plan.price})
+              {copy.wizard.selectedPackage}{" "}
+              <span className="font-semibold text-white">{wizard.plan.name}</span> ({wizard.plan.price})
             </div>
           ) : (
             <div className="mb-4 rounded-xl border border-white/10 bg-black/25 p-3 text-sm text-white/70">
-              Select a plan above to begin property intake.
+              {copy.wizard.selectPlanHint}
             </div>
           )}
 
           {wizard.step === 1 ? (
             <div className="grid gap-4">
-              <h2 className="text-xl font-semibold text-white">Step 1: Property &amp; contact</h2>
+              <h2 className="text-xl font-semibold text-white">{copy.wizard.step1Title}</h2>
               <div className="grid gap-3 sm:grid-cols-2">
                 <AddressAutocompleteInput
-                  label="Property address"
+                  id="wizard-property-address"
+                  label={copy.wizard.propertyAddress}
                   value={wizard.propertyAddress}
                   onChange={(v) => setWizard((s) => ({ ...s, propertyAddress: v }))}
                   onPlaceSelected={onAddressPlaceSelected}
                 />
                 <Input
-                  label="Apt / Suite / Unit"
+                  label={copy.wizard.unit}
                   value={wizard.unit}
                   onChange={(v) => setWizard((s) => ({ ...s, unit: v }))}
                 />
                 <Input
-                  label="City"
+                  label={copy.wizard.city}
                   value={wizard.city}
                   onChange={(v) => setWizard((s) => ({ ...s, city: v }))}
                 />
                 <Input
-                  label="State"
+                  label={copy.wizard.state}
                   value={wizard.state}
                   onChange={(v) => setWizard((s) => ({ ...s, state: v }))}
                 />
                 <Input
-                  label="ZIP / Postal"
+                  label={copy.wizard.zip}
                   value={wizard.zip}
                   onChange={(v) => setWizard((s) => ({ ...s, zip: v }))}
                 />
                 <Input
-                  label="County"
+                  label={copy.wizard.county}
                   value={wizard.county}
                   onChange={(v) => setWizard((s) => ({ ...s, county: v }))}
                 />
               </div>
               <label className="grid w-full gap-1.5">
-                <span className="text-xs font-semibold tracking-widest text-white/60">PROPERTY TYPE</span>
+                <span className="text-xs font-semibold tracking-widest text-white/60">
+                  {copy.wizard.propertyType}
+                </span>
                 <select
                   value={wizard.propertyType}
                   onChange={(e) =>
                     setWizard((s) => ({
                       ...s,
-                      propertyType: (e.target.value || "") as PropertyType | "",
+                      propertyType: (e.target.value || "") as PricingPropertyTypeId | "",
                     }))
                   }
                   className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none focus:border-white/20"
                 >
                   <option value="" className="bg-slate-900">
-                    Select property type…
+                    {copy.wizard.propertyTypePlaceholder}
                   </option>
                   {propertyTypes.map((type) => (
                     <option key={type.id} value={type.id} className="bg-slate-900">
@@ -672,18 +624,18 @@ export function PricingConsole() {
               </label>
               <div className="grid gap-3 sm:grid-cols-3">
                 <Input
-                  label="Full name"
+                  label={copy.wizard.fullName}
                   value={wizard.fullName}
                   onChange={(v) => setWizard((s) => ({ ...s, fullName: v }))}
                 />
                 <Input
-                  label="Email"
+                  label={copy.wizard.email}
                   value={wizard.email}
                   onChange={(v) => setWizard((s) => ({ ...s, email: v }))}
                   type="email"
                 />
                 <Input
-                  label="Phone"
+                  label={copy.wizard.phone}
                   value={wizard.phone}
                   onChange={(v) => setWizard((s) => ({ ...s, phone: v }))}
                   type="tel"
@@ -699,11 +651,11 @@ export function PricingConsole() {
                   className="mt-1 accent-emerald-400"
                 />
                 <span>
-                  I have read and agree to the{" "}
+                  {copy.wizard.termsPrefix}{" "}
                   <Link href="/resources/legal/terms" className="font-semibold text-emerald-300 underline-offset-2 hover:underline">
-                    Terms of Service
+                    {copy.wizard.termsLink}
                   </Link>{" "}
-                  and understand brokerage intake is governed by those terms and applicable listing agreements.
+                  {copy.wizard.termsSuffix}
                 </span>
               </label>
               <div className="flex justify-end">
@@ -715,7 +667,7 @@ export function PricingConsole() {
                   }}
                   className="btn-primary disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  {planCheckoutLoading ? "Preparing checkout..." : "Next: Plan Checkout"}
+                  {planCheckoutLoading ? copy.wizard.preparingCheckout : copy.wizard.nextCheckout}
                 </button>
               </div>
             </div>
@@ -723,18 +675,18 @@ export function PricingConsole() {
 
           {wizard.step === 2 ? (
             <div className="grid gap-4">
-              <h2 className="text-xl font-semibold text-white">Step 2: Plan checkout (Stripe)</h2>
+              <h2 className="text-xl font-semibold text-white">{copy.wizard.step2Title}</h2>
               <div className="rounded-2xl border border-white/10 bg-black/25 p-4 text-sm text-white/85">
-                <p className="font-semibold text-white">Order summary</p>
+                <p className="font-semibold text-white">{copy.wizard.orderSummary}</p>
                 <ul className="mt-3 grid gap-2">
                   <li className="flex justify-between gap-3">
-                    <span className="text-white/65">Plan</span>
+                    <span className="text-white/65">{copy.wizard.planLabel}</span>
                     <span>
                       {wizard.plan?.name} — {wizard.plan?.price}
                     </span>
                   </li>
                   <li className="flex justify-between gap-3">
-                    <span className="text-white/65">Property</span>
+                    <span className="text-white/65">{copy.wizard.propertyLabel}</span>
                     <span className="text-right">
                       {wizard.propertyAddress}
                       {wizard.unit ? `, ${wizard.unit}` : ""}, {wizard.city}, {wizard.state}{" "}
@@ -759,8 +711,7 @@ export function PricingConsole() {
                 ) : planCheckoutUrl ? (
                   <div className="space-y-3">
                     <p>
-                      Stripe Checkout opens in a secure hosted page. Complete payment there, then
-                      return to continue.
+                      {copy.wizard.stripeHostedHint}
                     </p>
                     <a
                       href={planCheckoutUrl}
@@ -768,14 +719,14 @@ export function PricingConsole() {
                       rel="noreferrer"
                       className="btn-primary inline-flex"
                     >
-                      Open Stripe checkout
+                      {copy.wizard.openStripeCheckout}
                     </a>
                   </div>
                 ) : (
                   <div className="rounded-xl border border-white/10 bg-black/20 p-6 text-sm text-white/70">
                     {planCheckoutLoading
-                      ? "Preparing plan checkout..."
-                      : "Plan checkout is not ready yet. Please go back and retry."}
+                      ? copy.wizard.checkoutPreparing
+                      : copy.wizard.checkoutNotReady}
                   </div>
                 )}
               </div>
@@ -795,27 +746,25 @@ export function PricingConsole() {
                   }}
                   disabled={submitting}
                 >
-                  Back
+                  {copy.wizard.back}
                 </button>
               </div>
             </div>
           ) : null}
           {wizard.step === 3 ? (
             <div className="grid gap-4">
-              <h2 className="text-xl font-semibold text-white">Step 3: Success</h2>
+              <h2 className="text-xl font-semibold text-white">{copy.wizard.step3Title}</h2>
               <div className="rounded-2xl border border-emerald-400/35 bg-emerald-950/20 p-4 text-sm text-emerald-100/90">
-                <p className="font-semibold text-emerald-100">Your plan checkout is complete.</p>
-                <p className="mt-2">
-                  Next you&rsquo;ll acknowledge the ListQik User Agreement, then go straight into
-                  your listing setup wizard. You can also add optional marketing upgrades first.
-                </p>
+                <p className="font-semibold text-emerald-100">{copy.wizard.successTitle}</p>
+                <p className="mt-2">{copy.wizard.successBody}</p>
               </div>
               <div className="rounded-2xl border border-white/10 bg-black/25 p-4 text-sm text-white/85">
                 <p>
-                  Selected plan: <span className="font-semibold text-white">{wizard.plan?.name}</span>
+                  {copy.wizard.selectedPlan}{" "}
+                  <span className="font-semibold text-white">{wizard.plan?.name}</span>
                 </p>
                 <p className="mt-1">
-                  Property: {wizard.propertyAddress}
+                  {copy.wizard.propertyLine} {wizard.propertyAddress}
                   {wizard.unit ? `, ${wizard.unit}` : ""}, {wizard.city}, {wizard.state} {wizard.zip}
                 </p>
               </div>
@@ -831,7 +780,7 @@ export function PricingConsole() {
                   onClick={() => setWizard((s) => ({ ...s, step: 2 }))}
                   disabled={submitting}
                 >
-                  Back
+                  {copy.wizard.back}
                 </button>
                 <div className="flex flex-wrap items-center gap-2">
                   <button
@@ -842,7 +791,7 @@ export function PricingConsole() {
                     disabled={handoffBusy !== null}
                     className="btn-secondary disabled:opacity-50"
                   >
-                    {handoffBusy === "upgrades" ? "Preparing..." : "Add upgrades"}
+                    {handoffBusy === "upgrades" ? copy.wizard.preparing : copy.wizard.addUpgrades}
                   </button>
                   <button
                     type="button"
@@ -853,8 +802,8 @@ export function PricingConsole() {
                     className="btn-primary disabled:opacity-50"
                   >
                     {handoffBusy === "listing-setup"
-                      ? "Preparing..."
-                      : "Continue to listing setup"}
+                      ? copy.wizard.preparing
+                      : copy.wizard.continueListingSetup}
                   </button>
                 </div>
               </div>
