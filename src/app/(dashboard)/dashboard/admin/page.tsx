@@ -23,6 +23,7 @@ const sections = [
   { href: "/dashboard/admin/offers", title: "Offers", description: "Buyer offers across listings." },
   { href: "/dashboard/admin/upgrade-requests", title: "Upgrade requests", description: "Pending service requests." },
   { href: "/dashboard/admin/checkouts", title: "Checkouts", description: "Pricing funnel and abandoned carts." },
+  { href: "/dashboard/admin/blogs", title: "Blogs", description: "Create and publish resource articles." },
   { href: "/dashboard/admin/settings", title: "Settings", description: "Admin access configuration." },
 ] as const;
 

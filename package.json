@@ -15,7 +15,8 @@
     "stripe:create-catalog": "node scripts/create-stripe-catalog.mjs",
     "stripe:create-promo": "node scripts/create-stripe-promo-code.mjs",
     "stripe:startnow-subsonic-promo": "node scripts/create-stripe-startnow-subsonic-promo.mjs",
-    "db:purge-test-users": "node scripts/purge-test-users.mjs --confirm"
+    "db:purge-test-users": "node scripts/purge-test-users.mjs --confirm",
+    "db:seed-blogs": "node scripts/seed-blogs-from-static.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1037.0",

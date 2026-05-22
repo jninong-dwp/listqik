@@ -14,6 +14,7 @@ const NAV_ITEMS = [
   { href: "/dashboard/admin/offers", label: "Offers" },
   { href: "/dashboard/admin/upgrade-requests", label: "Upgrade requests" },
   { href: "/dashboard/admin/checkouts", label: "Checkouts" },
+  { href: "/dashboard/admin/blogs", label: "Blogs" },
   { href: "/dashboard/admin/settings", label: "Settings" },
 ];
 

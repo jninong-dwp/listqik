@@ -1,32 +1,51 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { BlogBody } from "@/components/blog/blog-body";
+import { BlogStaticFallbackBody } from "@/components/blog/blog-static-fallback-body";
 import { Container } from "@/components/container";
-import { blogs } from "@/data/blogs";
+import {
+  blogHtmlLang,
+  blogOpenGraphLocale,
+  blogPublicPath,
+  buildBlogHreflangLanguages,
+  getRequestBlogLocale,
+} from "@/lib/blog-locale";
+import { getBlogHreflangEntries, getPublishedBlogBySlug } from "@/lib/blog-service";
 
-export function generateStaticParams() {
-  return blogs.map((b) => ({ slug: b.slug }));
-}
+export const revalidate = 60;
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://listqik.com";
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ lang?: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = blogs.find((b) => b.slug === slug);
+  const { lang } = await searchParams;
+  const locale = await getRequestBlogLocale(lang);
+  const post = await getPublishedBlogBySlug(slug, locale);
   if (!post) return {};
+
+  const canonical = blogPublicPath(post.slug, post.locale);
+  const hreflangEntries = await getBlogHreflangEntries(post);
+  const languages = buildBlogHreflangLanguages(siteUrl, hreflangEntries);
 
   return {
     title: post.title,
     description: post.summary,
     alternates: {
-      canonical: `/resources/blogs/${post.slug}`,
+      canonical,
+      languages: Object.keys(languages).length > 1 ? languages : undefined,
     },
     openGraph: {
       type: "article",
+      locale: blogOpenGraphLocale(post.locale),
       title: post.title,
       description: post.summary,
-      url: `/resources/blogs/${post.slug}`,
+      url: canonical,
       publishedTime: post.publishedAt,
     },
     twitter: {
@@ -39,20 +58,28 @@ export async function generateMetadata({
 
 export default async function BlogPostPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ lang?: string }>;
 }) {
   const { slug } = await params;
-  const post = blogs.find((b) => b.slug === slug);
+  const { lang } = await searchParams;
+  const locale = await getRequestBlogLocale(lang);
+  const post = await getPublishedBlogBySlug(slug, locale);
   if (!post) return notFound();
 
+  const hasBody = post.body.trim().length > 0;
+  const htmlLang = blogHtmlLang(post.locale);
+
   return (
-    <div className="py-10 sm:py-14">
+    <div className="py-10 sm:py-14" lang={htmlLang}>
       <Container>
         <div className="mx-auto max-w-3xl space-y-8">
           <header className="space-y-3">
             <div className="flex flex-wrap items-center gap-2">
               <span className="chip">{post.category.toUpperCase()}</span>
+              <span className="chip">{post.locale === "es" ? "ES" : "EN"}</span>
               <span className="text-xs font-mono text-white/50">
                 {post.publishedAt} · {post.readingMinutes} min
               </span>
@@ -63,28 +90,17 @@ export default async function BlogPostPage({
             <p className="text-base text-muted">{post.summary}</p>
           </header>
 
-          <article className="glass-surface p-6 sm:p-8 space-y-4 text-sm text-white/80">
-            <p>
-              This article summarizes a practical workflow for Texas sellers preparing to list through a
-              licensed brokerage.
-            </p>
-            <p>
-              Use these steps to organize disclosures, streamline review, and improve listing launch quality.
-            </p>
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-              <div className="text-xs font-semibold tracking-widest text-white/60">
-                CONTROLLER CHECKLIST
-              </div>
-              <ul className="mt-3 grid gap-2">
-                <li>Confirm asset integrity (photos, specs, disclosures).</li>
-                <li>Run compliance audit (TREC + broker validation).</li>
-                <li>Launch listing + verify links, tracking, and calls-to-action.</li>
-              </ul>
-            </div>
+          <article className="glass-surface space-y-4 p-6 sm:p-8">
+            {hasBody ? (
+              <BlogBody body={post.body} />
+            ) : post.source === "static" ? (
+              <BlogStaticFallbackBody />
+            ) : (
+              <BlogBody body="" />
+            )}
           </article>
         </div>
       </Container>
     </div>
   );
 }
-

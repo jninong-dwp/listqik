@@ -4,6 +4,11 @@ export type HomeLocale = "en" | "es";
 
 export const HOME_LOCALE_STORAGE_KEY = "listqik-home-locale";
 
+/** Cookie mirror of storage so server components (blogs, SEO) can read locale. */
+export const HOME_LOCALE_COOKIE_KEY = "listqik-home-locale";
+
+const LOCALE_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 365;
+
 export function isHomeLocale(value: string | null | undefined): value is HomeLocale {
   return value === "en" || value === "es";
 }
@@ -26,5 +31,6 @@ export function storeHomeLocale(locale: HomeLocale): void {
     /* ignore quota / private mode */
   }
   document.documentElement.lang = locale;
+  document.cookie = `${HOME_LOCALE_COOKIE_KEY}=${locale};path=/;max-age=${LOCALE_COOKIE_MAX_AGE_SECONDS};samesite=lax`;
   dispatchLocaleChange(locale);
 }

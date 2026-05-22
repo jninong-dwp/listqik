@@ -1,13 +1,15 @@
 import type { MetadataRoute } from "next";
-import { blogs } from "@/data/blogs";
+import { blogPublicPath } from "@/lib/blog-locale";
+import { listAllBlogSlugsForSitemap } from "@/lib/blog-service";
 import { listings } from "@/data/listings";
 import { portfolioItems } from "@/data/portfolio";
 import { legalPages } from "@/data/resources";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://listqik.com";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
+  const blogEntries = await listAllBlogSlugsForSitemap();
 
   const staticRoutes = [
     "",
@@ -17,12 +19,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/listings",
     "/resources",
     "/resources/blogs",
+    "/resources/blogs?lang=es",
     "/resources/videos",
     "/listqik-university",
   ];
 
   const listingRoutes = listings.map((l) => `/listings/${l.slug}`);
-  const blogRoutes = blogs.map((b) => `/resources/blogs/${b.slug}`);
+  const blogRoutes = blogEntries.map((entry) => blogPublicPath(entry.slug, entry.locale));
   const legalRoutes = legalPages.map((p) => `/resources/legal/${p.slug}`);
   const portfolioRoutes = Array.from(new Set(portfolioItems.map((p) => p.category))).map(
     (category) => `/portfolio/${category}`,
@@ -41,4 +44,3 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: path === "" ? 1 : path === "/listings" ? 0.9 : 0.7,
   }));
 }
-
