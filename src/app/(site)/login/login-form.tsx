@@ -1,22 +1,36 @@
 "use client";
 
 import { getSession, signIn } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
+/** Next.js router.push needs a pathname; signIn may return a full URL. */
 function pathnameFromCallbackUrl(raw: string): string {
-  if (!raw.startsWith("http://") && !raw.startsWith("https://")) {
-    return raw.split("?")[0] || "/dashboard";
+  const fallback = "/dashboard";
+  if (!raw) return fallback;
+  if (raw.startsWith("http://") || raw.startsWith("https://")) {
+    try {
+      return new URL(raw).pathname || fallback;
+    } catch {
+      return fallback;
+    }
   }
-  try {
-    return new URL(raw).pathname || "/dashboard";
-  } catch {
-    return "/dashboard";
+  const path = raw.split("?")[0] || fallback;
+  return path.startsWith("/") ? path : fallback;
+}
+
+function resolvePostLoginPath(
+  callbackUrl: string,
+  session: { user?: { isAdmin?: boolean } } | null,
+): string {
+  const path = pathnameFromCallbackUrl(callbackUrl);
+  if (session?.user?.isAdmin) {
+    return path.startsWith("/dashboard/admin") ? path : "/dashboard/admin";
   }
+  return path;
 }
 
 export function LoginForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") ?? "/dashboard";
   const [email, setEmail] = useState("");
@@ -39,24 +53,21 @@ export function LoginForm() {
           setBusy(true);
           setError(null);
           const res = await signIn("credentials", {
-            email,
+            email: email.trim().toLowerCase(),
             password,
             redirect: false,
             callbackUrl,
           });
           setBusy(false);
-          if (res?.error) {
-            setError("Invalid email or password.");
+          if (!res?.ok) {
+            setError(res?.error === "CredentialsSignin" ? "Invalid email or password." : "Sign-in failed. Try again.");
             return;
           }
           const session = await getSession();
-          let destination = res?.url ?? callbackUrl;
-          if (session?.user?.isAdmin) {
-            const path = pathnameFromCallbackUrl(callbackUrl);
-            destination = path.startsWith("/dashboard/admin") ? callbackUrl : "/dashboard/admin";
-          }
-          router.push(destination);
-          router.refresh();
+          const destination = resolvePostLoginPath(callbackUrl, session);
+          // Full page load so the session cookie is visible to middleware (router.push with
+          // res.url's absolute URL often does nothing in the App Router).
+          window.location.assign(destination);
         }}
       >
         {error ? <p className="text-sm text-red-300">{error}</p> : null}

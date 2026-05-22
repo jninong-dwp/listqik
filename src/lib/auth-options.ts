@@ -6,6 +6,7 @@ import { connectDb } from "@/lib/mongodb";
 import { User } from "@/models/User";
 
 export const authOptions: NextAuthOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
   session: { strategy: "jwt", maxAge: 30 * 24 * 60 * 60 },
   pages: { signIn: "/login" },
   providers: [
@@ -50,6 +51,8 @@ export const authOptions: NextAuthOptions = {
         if (user.email) token.email = user.email;
         if (user.name) token.name = user.name;
         token.isAdmin = isAdminEmail(user.email);
+      } else if (typeof token.email === "string") {
+        token.isAdmin = isAdminEmail(token.email);
       }
       return token;
     },
