@@ -5,6 +5,7 @@ export type SiteChromeCopy = {
     navLabel: string;
     pricing: string;
     about: string;
+    serviceArea: string;
     listings: string;
     portfolio: string;
     resources: string;
@@ -47,6 +48,7 @@ const COPY: Record<HomeLocale, SiteChromeCopy> = {
       navLabel: "Primary",
       pricing: "Pricing",
       about: "About",
+      serviceArea: "Service Area",
       listings: "Listings",
       portfolio: "Portfolio",
       resources: "Resources",
@@ -88,6 +90,7 @@ const COPY: Record<HomeLocale, SiteChromeCopy> = {
       navLabel: "Principal",
       pricing: "Precios",
       about: "Nosotros",
+      serviceArea: "Zona de servicio",
       listings: "Propiedades",
       portfolio: "Portafolio",
       resources: "Recursos",

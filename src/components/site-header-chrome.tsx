@@ -43,7 +43,9 @@ export function SiteHeaderChrome({ isAuthenticated }: SiteHeaderChromeProps) {
         >
           <NavLink href="/pricing">{ready ? t.pricing : "Pricing"}</NavLink>
           <NavLink href="/about">{ready ? t.about : "About"}</NavLink>
-          <NavLink href="/listings">{ready ? t.listings : "Listings"}</NavLink>
+          <NavLink href="/service-area">
+            {ready ? t.serviceArea : "Service Area"}
+          </NavLink>
           <NavLink href="/listqik-university">
             {ready ? t.university : "University"}
           </NavLink>
