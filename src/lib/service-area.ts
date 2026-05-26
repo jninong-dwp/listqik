@@ -11,6 +11,13 @@ export type ServiceAreaMapCounty = {
   path: string;
 };
 
+export type TexasCountyMapData = {
+  width: number;
+  height: number;
+  statePath: string;
+  counties: ServiceAreaMapCounty[];
+};
+
 export const PRIMARY_SERVICE_COUNTIES = [
   "Collin",
   "Denton",
@@ -96,14 +103,6 @@ export const PRIMARY_SERVICE_COUNT = PRIMARY_SERVICE_COUNTIES.length;
 export const EXTENDED_SERVICE_COUNT = EXTENDED_SERVICE_COUNTIES.length;
 export const TOTAL_SERVICE_COUNT = ALL_SERVICE_COUNTIES.length;
 
-const SERVICE_COUNTY_SET = new Set<string>(ALL_SERVICE_COUNTIES);
-
-function countyTier(name: string): ServiceCountyTier {
-  if ((PRIMARY_SERVICE_COUNTIES as readonly string[]).includes(name)) return "primary";
-  if (SERVICE_COUNTY_SET.has(name)) return "extended";
-  return "other";
-}
-
 function countyLabel(name: string): string {
   return `${name} County`;
 }
@@ -120,7 +119,19 @@ const MAP_HEIGHT = 700;
 const MAP_PADDING = 28;
 const TEXAS_STATE_FIPS = "48";
 
-function buildTexasCountyMap() {
+export function buildTexasCountyMap(args: {
+  primaryCounties: readonly string[];
+  extendedCounties: readonly string[];
+}): TexasCountyMapData {
+  const primaryCountySet = new Set(args.primaryCounties);
+  const extendedCountySet = new Set(args.extendedCounties);
+
+  function countyTier(name: string): ServiceCountyTier {
+    if (primaryCountySet.has(name)) return "primary";
+    if (extendedCountySet.has(name)) return "extended";
+    return "other";
+  }
+
   const topology = usAtlas as AtlasTopology;
   const countiesCollection = feature(
     topology as never,
@@ -184,4 +195,7 @@ function buildTexasCountyMap() {
   };
 }
 
-export const TEXAS_SERVICE_AREA_MAP = buildTexasCountyMap();
+export const TEXAS_SERVICE_AREA_MAP = buildTexasCountyMap({
+  primaryCounties: PRIMARY_SERVICE_COUNTIES,
+  extendedCounties: EXTENDED_SERVICE_COUNTIES,
+});

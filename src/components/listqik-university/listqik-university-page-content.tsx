@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Container } from "@/components/container";
 import { useSiteLocale } from "@/components/site-locale-provider";
 import { getListqikUniversityCopy } from "@/i18n/listqik-university-copy";
@@ -10,7 +10,6 @@ type ListqikUniversityPageContentProps = {
   feed: YouTubeChannelFeed;
 };
 
-const ALL_LANGUAGES = "all";
 const OTHER_LANGUAGE = "other";
 
 const SPANISH_CHAR_RE = /[¿¡ñáéíóúü]/i;
@@ -107,24 +106,7 @@ function detectVideoLanguage(video: YouTubeChannelVideo): string {
   return detectLanguageByScript(text) ?? detectLanguageByLatinHints(text) ?? OTHER_LANGUAGE;
 }
 
-function sortLanguageCodes(codes: string[], locale: "en" | "es") {
-  const priority = new Map<string, number>([
-    [locale, 0],
-    [locale === "en" ? "es" : "en", 1],
-    ["vi", 2],
-    [OTHER_LANGUAGE, 99],
-  ]);
-
-  return [...codes].sort((a, b) => {
-    const rankA = priority.get(a) ?? 10;
-    const rankB = priority.get(b) ?? 10;
-    if (rankA !== rankB) return rankA - rankB;
-    return a.localeCompare(b);
-  });
-}
-
 function buttonCodeLabel(code: string) {
-  if (code === ALL_LANGUAGES) return "ALL";
   if (code === OTHER_LANGUAGE) return "OTHER";
   return code.toUpperCase();
 }
@@ -133,9 +115,7 @@ function languageDisplayLabel(
   code: string,
   locale: "en" | "es",
   fallbackOther: string,
-  fallbackAll: string,
 ) {
-  if (code === ALL_LANGUAGES) return fallbackAll;
   if (code === OTHER_LANGUAGE) return fallbackOther;
   try {
     const displayNames = new Intl.DisplayNames([locale === "es" ? "es" : "en"], {
@@ -150,23 +130,17 @@ function languageDisplayLabel(
 export function ListqikUniversityPageContent({ feed }: ListqikUniversityPageContentProps) {
   const { locale, ready } = useSiteLocale();
   const copy = getListqikUniversityCopy(locale);
-  const [languageFilter, setLanguageFilter] = useState<string>("en");
+  const selectedVideoLanguage = locale;
 
   const languageByVideoId = useMemo(() => {
     return new Map(feed.videos.map((video) => [video.id, detectVideoLanguage(video)]));
   }, [feed.videos]);
 
-  const availableLanguages = useMemo(() => {
-    return sortLanguageCodes(
-      Array.from(new Set(feed.videos.map((video) => languageByVideoId.get(video.id) ?? OTHER_LANGUAGE))),
-      locale,
-    );
-  }, [feed.videos, languageByVideoId, locale]);
-
   const filteredVideos = useMemo(() => {
-    if (languageFilter === ALL_LANGUAGES) return feed.videos;
-    return feed.videos.filter((video) => (languageByVideoId.get(video.id) ?? OTHER_LANGUAGE) === languageFilter);
-  }, [feed.videos, languageByVideoId, languageFilter]);
+    return feed.videos.filter(
+      (video) => (languageByVideoId.get(video.id) ?? OTHER_LANGUAGE) === selectedVideoLanguage,
+    );
+  }, [feed.videos, languageByVideoId, selectedVideoLanguage]);
 
   return (
     <div
@@ -227,46 +201,6 @@ export function ListqikUniversityPageContent({ feed }: ListqikUniversityPageCont
             <div>
               <h2 className="text-xl font-semibold text-white">{copy.latestTitle}</h2>
               <p className="mt-1 text-sm text-muted">{copy.latestHint}</p>
-              {availableLanguages.length > 1 ? (
-                <div className="mt-4 space-y-2">
-                  <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">
-                    {copy.languageFilterLabel}
-                  </div>
-                  <div
-                    className="inline-flex flex-wrap rounded-full border border-emerald-500/35 bg-black/50 p-0.5 font-mono text-[10px] font-bold tracking-wider"
-                    role="group"
-                    aria-label={copy.languageFilterLabel}
-                  >
-                    {[ALL_LANGUAGES, ...availableLanguages].map((code) => {
-                      const active = languageFilter === code;
-                      const fullLabel = languageDisplayLabel(
-                        code,
-                        locale,
-                        copy.otherLanguagesLabel,
-                        copy.allLanguagesLabel,
-                      );
-
-                      return (
-                        <button
-                          key={code}
-                          type="button"
-                          onClick={() => setLanguageFilter(code)}
-                          className={[
-                            "min-w-[2.5rem] rounded-full px-2.5 py-1 transition",
-                            active
-                              ? "bg-emerald-500/30 text-emerald-100"
-                              : "text-emerald-200/55 hover:text-emerald-100/90",
-                          ].join(" ")}
-                          aria-pressed={active}
-                          title={fullLabel}
-                        >
-                          {buttonCodeLabel(code)}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              ) : null}
             </div>
 
             {filteredVideos.length > 0 ? (
@@ -277,7 +211,6 @@ export function ListqikUniversityPageContent({ feed }: ListqikUniversityPageCont
                     videoLanguage,
                     locale,
                     copy.otherLanguagesLabel,
-                    copy.allLanguagesLabel,
                   );
 
                   return (
@@ -326,6 +259,19 @@ export function ListqikUniversityPageContent({ feed }: ListqikUniversityPageCont
                   </article>
                   );
                 })}
+              </div>
+            ) : feed.videos.length > 0 ? (
+              <div className="glass-surface p-8 text-center">
+                <div className="text-lg font-semibold text-white">{copy.noLanguageMatchTitle}</div>
+                <p className="mt-2 text-sm text-muted">{copy.noLanguageMatchBody}</p>
+                <a
+                  href={feed.channelUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-6 inline-flex min-h-[40px] items-center rounded-full border border-emerald-400/70 bg-emerald-500/20 px-4 text-sm font-semibold tracking-wide text-emerald-100 transition hover:bg-emerald-400/30"
+                >
+                  {copy.subscribe}
+                </a>
               </div>
             ) : (
               <div className="glass-surface p-8 text-center">

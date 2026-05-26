@@ -10,6 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import {
+  detectBrowserHomeLocale,
   readStoredHomeLocale,
   storeHomeLocale,
   type HomeLocale,
@@ -46,7 +47,10 @@ export function HomeLocaleProvider({ children }: { children: ReactNode }) {
       document.documentElement.lang = stored;
       setShowLanguageModal(false);
     } else {
-      setShowLanguageModal(true);
+      const detected = detectBrowserHomeLocale();
+      setLocaleState(detected);
+      storeHomeLocale(detected);
+      setShowLanguageModal(false);
     }
     setReady(true);
   }, []);

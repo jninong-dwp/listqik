@@ -1,4 +1,7 @@
-import { TEXAS_SERVICE_AREA_MAP } from "@/lib/service-area";
+import {
+  TEXAS_SERVICE_AREA_MAP,
+  type TexasCountyMapData,
+} from "@/lib/service-area";
 
 const TIER_FILL: Record<"primary" | "extended" | "other", string> = {
   primary: "#8BE6A7",
@@ -12,16 +15,22 @@ const TIER_STROKE: Record<"primary" | "extended" | "other", string> = {
   other: "#2A4661",
 };
 
-export function TexasServiceAreaMap() {
-  const { width, height, statePath, counties } = TEXAS_SERVICE_AREA_MAP;
+export function TexasServiceAreaMap({
+  map = TEXAS_SERVICE_AREA_MAP,
+  ariaLabel = "Texas county map showing primary and extended service areas",
+}: {
+  map?: TexasCountyMapData;
+  ariaLabel?: string;
+}) {
+  const { width, height, statePath, counties } = map;
 
   return (
-    <div className="rounded-[1.75rem] border border-white/10 bg-[radial-gradient(circle_at_top,rgba(16,185,129,0.08),rgba(4,10,19,0.98)_70%)] p-4 shadow-[0_18px_60px_rgba(0,0,0,0.28)]">
+    <div className="rounded-[1.35rem] border border-white/10 bg-[radial-gradient(circle_at_top,rgba(16,185,129,0.08),rgba(4,10,19,0.98)_70%)] p-3 shadow-[0_18px_60px_rgba(0,0,0,0.28)] sm:rounded-[1.75rem] sm:p-4">
       <svg
         viewBox={`0 0 ${width} ${height}`}
-        className="h-auto w-full"
+        className="block h-auto w-full"
         role="img"
-        aria-label="Texas county map showing primary and extended service areas"
+        aria-label={ariaLabel}
       >
         <rect width={width} height={height} fill="transparent" />
         {counties.map((county) => (

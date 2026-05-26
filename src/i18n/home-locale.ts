@@ -23,6 +23,24 @@ export function readStoredHomeLocale(): HomeLocale | null {
   }
 }
 
+export function detectBrowserHomeLocale(): HomeLocale {
+  if (typeof navigator === "undefined") return "en";
+
+  const preferredLocales = [
+    ...(Array.isArray(navigator.languages) ? navigator.languages : []),
+    navigator.language,
+  ]
+    .filter((value): value is string => typeof value === "string" && value.trim().length > 0)
+    .map((value) => value.toLowerCase());
+
+  for (const locale of preferredLocales) {
+    if (locale.startsWith("es")) return "es";
+    if (locale.startsWith("en")) return "en";
+  }
+
+  return "en";
+}
+
 export function storeHomeLocale(locale: HomeLocale): void {
   if (typeof window === "undefined") return;
   try {

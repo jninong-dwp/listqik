@@ -11,6 +11,7 @@ import {
   type ReactNode,
 } from "react";
 import {
+  detectBrowserHomeLocale,
   HOME_LOCALE_STORAGE_KEY,
   isHomeLocale,
   readStoredHomeLocale,
@@ -63,7 +64,11 @@ export function SiteLocaleProvider({ children }: { children: ReactNode }) {
     if (stored) {
       setLocaleState(stored);
       document.documentElement.lang = stored;
+      setReady(true);
+      return;
     }
+
+    applyLocale(detectBrowserHomeLocale());
     setReady(true);
   }, [searchParams, applyLocale]);
 
@@ -80,6 +85,7 @@ export function SiteLocaleProvider({ children }: { children: ReactNode }) {
       const detail = (event as CustomEvent<{ locale?: string }>).detail?.locale;
       if (isHomeLocale(detail)) {
         setLocaleState(detail);
+        document.documentElement.lang = detail;
       }
     };
 

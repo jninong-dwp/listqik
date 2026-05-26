@@ -18,6 +18,9 @@ export type ListqikUniversityCopy = {
   languageFilterLabel: string;
   allLanguagesLabel: string;
   otherLanguagesLabel: string;
+  showingLanguageLabel: string;
+  noLanguageMatchTitle: string;
+  noLanguageMatchBody: string;
 };
 
 const COPY: Record<HomeLocale, ListqikUniversityCopy> = {
@@ -48,7 +51,7 @@ const COPY: Record<HomeLocale, ListqikUniversityCopy> = {
       },
     ],
     latestTitle: "Latest videos",
-    latestHint: "New uploads from @ListQuick sync here about every hour.",
+    latestHint: "Browse recent uploads from @ListQuick.",
     emptyTitle: "Videos are on the way",
     emptyBody:
       "The channel is live but has no public uploads in the feed yet. Subscribe on YouTube to get notified when the first lessons drop.",
@@ -58,6 +61,10 @@ const COPY: Record<HomeLocale, ListqikUniversityCopy> = {
     languageFilterLabel: "Filter by video language",
     allLanguagesLabel: "All languages",
     otherLanguagesLabel: "Other",
+    showingLanguageLabel: "Showing videos in",
+    noLanguageMatchTitle: "No videos yet in your selected language",
+    noLanguageMatchBody:
+      "We are only showing videos that match your current site language. Switch EN/ES at the top of the site or visit the channel to browse everything on YouTube.",
   },
   es: {
     eyebrow: "UNIVERSIDAD LISTQIK",
@@ -86,7 +93,7 @@ const COPY: Record<HomeLocale, ListqikUniversityCopy> = {
       },
     ],
     latestTitle: "Videos recientes",
-    latestHint: "Las subidas nuevas de @ListQuick se sincronizan aquí aproximadamente cada hora.",
+    latestHint: "Explore las publicaciones recientes de @ListQuick.",
     emptyTitle: "Los videos están en camino",
     emptyBody:
       "El canal está activo pero aún no hay subidas públicas en el feed. Suscríbase en YouTube para recibir aviso cuando salgan las primeras lecciones.",
@@ -96,6 +103,10 @@ const COPY: Record<HomeLocale, ListqikUniversityCopy> = {
     languageFilterLabel: "Filtrar por idioma del video",
     allLanguagesLabel: "Todos los idiomas",
     otherLanguagesLabel: "Otros",
+    showingLanguageLabel: "Mostrando videos en",
+    noLanguageMatchTitle: "Todavia no hay videos en el idioma seleccionado",
+    noLanguageMatchBody:
+      "Solo mostramos videos que coinciden con el idioma actual del sitio. Cambie EN/ES en la parte superior del sitio o visite el canal para ver todo en YouTube.",
   },
 };
 

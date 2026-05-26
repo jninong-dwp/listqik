@@ -31,9 +31,7 @@ export function SiteHeaderChrome({ isAuthenticated }: SiteHeaderChromeProps) {
                 LQ
               </span>
             </span>
-            <span className="text-sm font-semibold tracking-wide text-emerald-100">
-              ListQik.com
-            </span>
+            <span className="text-sm font-semibold tracking-wide text-emerald-100">ListQik</span>
           </Link>
         </div>
 
