@@ -1,9 +1,16 @@
 "use client";
 
+import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { GoogleAdsPurchaseConversion } from "@/components/analytics/google-ads-purchase-conversion";
 import { staticWizardUpgrades } from "@/data/pricing-static-upgrades";
+import {
+  clearPendingUpgradeSlugs,
+  readPendingUpgradeSlugs,
+  storePendingUpgradeSlugs,
+} from "@/lib/pending-upgrades-cache";
 
 type ListingItem = {
   id: string;
@@ -40,13 +47,15 @@ function addressLine(listing: ListingItem) {
 }
 
 export function UpgradesConsole() {
+  const { status: authStatus } = useSession();
   const searchParams = useSearchParams();
   const checkoutState = searchParams.get("checkout")?.trim() || "";
   const querySessionId = searchParams.get("session_id")?.trim() || "";
   const [listings, setListings] = useState<ListingItem[]>([]);
+  const [hasActivePlan, setHasActivePlan] = useState(false);
+  const [listingsLoading, setListingsLoading] = useState(false);
   const [selectedListingId, setSelectedListingId] = useState("");
   const [selectedSlugs, setSelectedSlugs] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
   const [submitting, setSubmitting] = useState(false);
   const [checkoutStatus, setCheckoutStatus] = useState<UpgradeCheckoutStatus>({
@@ -61,20 +70,43 @@ export function UpgradesConsole() {
   });
 
   useEffect(() => {
+    const cached = readPendingUpgradeSlugs();
+    if (cached.length > 0) {
+      setSelectedSlugs(cached);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (authStatus !== "authenticated") {
+      setListings([]);
+      setSelectedListingId("");
+      setHasActivePlan(false);
+      setListingsLoading(false);
+      return;
+    }
+
     let cancelled = false;
-    setLoading(true);
+    setListingsLoading(true);
     setError("");
     fetch("/api/dashboard/listings", { cache: "no-store" })
       .then(async (res) => {
         const data = (await res.json().catch(() => null)) as
-          | { ok?: boolean; listings?: ListingItem[]; error?: string }
+          | {
+              ok?: boolean;
+              listings?: ListingItem[];
+              effectivePlan?: { entitlements?: { hasActivePlan?: boolean } };
+              error?: string;
+            }
           | null;
-        if (!res.ok || !data?.ok || !Array.isArray(data.listings)) {
+        if (!res.ok || !data?.ok) {
+          if (res.status === 401) return;
           throw new Error(data?.error || "Could not load your listings.");
         }
         if (!cancelled) {
-          setListings(data.listings);
-          setSelectedListingId(data.listings[0]?.id || "");
+          const rows = Array.isArray(data.listings) ? data.listings : [];
+          setListings(rows);
+          setSelectedListingId(rows[0]?.id || "");
+          setHasActivePlan(Boolean(data.effectivePlan?.entitlements?.hasActivePlan));
         }
       })
       .catch((err: unknown) => {
@@ -83,12 +115,13 @@ export function UpgradesConsole() {
         }
       })
       .finally(() => {
-        if (!cancelled) setLoading(false);
+        if (!cancelled) setListingsLoading(false);
       });
+
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [authStatus]);
 
   const selectedTotal = useMemo(
     () =>
@@ -205,6 +238,10 @@ export function UpgradesConsole() {
           });
         }
 
+        if (paid && hasPurchaseData) {
+          clearPendingUpgradeSlugs();
+        }
+
         if ((!paid || !hasPurchaseData) && attempts < 14) {
           attempts += 1;
           window.setTimeout(() => {
@@ -236,18 +273,33 @@ export function UpgradesConsole() {
   }, [checkoutState, querySessionId]);
 
   function toggleSlug(slug: string) {
-    setSelectedSlugs((prev) => (prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug]));
+    setSelectedSlugs((prev) => {
+      const next = prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug];
+      storePendingUpgradeSlugs(next);
+      return next;
+    });
   }
 
   async function startCheckout() {
-    if (!selectedListingId) {
-      setError("Select a listing first.");
-      return;
-    }
     if (selectedSlugs.length === 0) {
       setError("Select at least one upgrade.");
       return;
     }
+
+    storePendingUpgradeSlugs(selectedSlugs);
+
+    if (authStatus !== "authenticated" || !hasActivePlan) {
+      window.location.href = "/pricing?planRequired=1";
+      return;
+    }
+
+    if (!selectedListingId) {
+      setError(
+        "You need an active listing on your account before checkout. Finish plan intake from your dashboard, then return here.",
+      );
+      return;
+    }
+
     setSubmitting(true);
     setError("");
     try {
@@ -256,16 +308,28 @@ export function UpgradesConsole() {
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ slugs: selectedSlugs }),
       });
-      const data = (await res.json().catch(() => null)) as { ok?: boolean; error?: string; checkoutUrl?: string } | null;
+      const data = (await res.json().catch(() => null)) as {
+        ok?: boolean;
+        error?: string;
+        checkoutUrl?: string;
+        checkoutSessionId?: string | null;
+      } | null;
+
+      if (res.status === 403 && data?.error?.toLowerCase().includes("plan")) {
+        window.location.href = "/pricing?planRequired=1";
+        return;
+      }
+
       if (!res.ok || !data?.ok || !data.checkoutUrl) {
         setError(data?.error || "Could not start Stripe checkout.");
         return;
       }
+
       try {
-        if ((data as { checkoutSessionId?: string | null }).checkoutSessionId) {
+        if (data.checkoutSessionId) {
           window.sessionStorage.setItem(
             "latestUpgradeCheckoutSessionId",
-            String((data as { checkoutSessionId?: string | null }).checkoutSessionId),
+            String(data.checkoutSessionId),
           );
         }
       } catch {
@@ -278,6 +342,9 @@ export function UpgradesConsole() {
       setSubmitting(false);
     }
   }
+
+  const showCatalog = checkoutState !== "success" || !checkoutStatus.paid;
+  const sessionLoading = authStatus === "loading";
 
   return (
     <div className="space-y-5">
@@ -292,7 +359,8 @@ export function UpgradesConsole() {
       <header className="rounded-2xl border border-emerald-500/25 bg-black/40 p-5">
         <h1 className="text-2xl font-semibold text-white">Listing Upgrades</h1>
         <p className="mt-2 text-sm text-white/75">
-          Choose a listing, select add-ons, and pay with Stripe Checkout.
+          Browse optional add-ons for your listing. Select what you want, then checkout when you are
+          ready.
         </p>
       </header>
 
@@ -335,33 +403,58 @@ export function UpgradesConsole() {
         </div>
       ) : null}
 
-      {loading ? (
-        <div className="rounded-2xl border border-white/15 bg-black/30 p-5 text-sm text-white/75">Loading your listings...</div>
-      ) : listings.length === 0 ? (
-        <div className="rounded-2xl border border-amber-300/35 bg-amber-950/20 p-5 text-sm text-amber-100">
-          No listings found on your account yet.
-        </div>
-      ) : (
+      {showCatalog ? (
         <>
-          <section className="rounded-2xl border border-white/15 bg-black/30 p-5">
-            <label className="grid gap-1.5">
-              <span className="text-xs font-semibold uppercase tracking-widest text-white/65">Listing</span>
-              <select
-                value={selectedListingId}
-                onChange={(e) => setSelectedListingId(e.target.value)}
-                className="w-full rounded-xl border border-white/15 bg-black/35 px-3 py-2 text-sm text-white outline-none focus:border-white/25"
-              >
-                {listings.map((listing) => (
-                  <option key={listing.id} value={listing.id}>
-                    {addressLine(listing)} ({listing.status})
-                  </option>
-                ))}
-              </select>
-            </label>
-          </section>
+          {authStatus === "unauthenticated" ? (
+            <div className="rounded-2xl border border-sky-400/30 bg-sky-950/20 p-4 text-sm text-sky-100/90">
+              You can browse and select upgrades without signing in. Checkout requires an active
+              listing plan — we will send you to pricing first if needed.
+            </div>
+          ) : null}
+
+          {authStatus === "authenticated" && !listingsLoading && !hasActivePlan ? (
+            <div className="rounded-2xl border border-amber-300/35 bg-amber-950/20 p-4 text-sm text-amber-100">
+              Purchase a listing plan before checkout.{" "}
+              <Link href="/pricing?planRequired=1" className="font-semibold text-white underline">
+                View pricing
+              </Link>
+            </div>
+          ) : null}
+
+          {authStatus === "authenticated" && !listingsLoading && hasActivePlan && listings.length === 0 ? (
+            <div className="rounded-2xl border border-amber-300/35 bg-amber-950/20 p-4 text-sm text-amber-100">
+              Your plan is active, but no listing is on file yet. Finish intake from your{" "}
+              <Link href="/dashboard" className="font-semibold text-white underline">
+                dashboard
+              </Link>{" "}
+              before paying for upgrades.
+            </div>
+          ) : null}
+
+          {listings.length > 0 ? (
+            <section className="rounded-2xl border border-white/15 bg-black/30 p-5">
+              <label className="grid gap-1.5">
+                <span className="text-xs font-semibold uppercase tracking-widest text-white/65">Listing</span>
+                <select
+                  value={selectedListingId}
+                  onChange={(e) => setSelectedListingId(e.target.value)}
+                  className="w-full rounded-xl border border-white/15 bg-black/35 px-3 py-2 text-sm text-white outline-none focus:border-white/25"
+                >
+                  {listings.map((listing) => (
+                    <option key={listing.id} value={listing.id}>
+                      {addressLine(listing)} ({listing.status})
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </section>
+          ) : null}
 
           <section className="rounded-2xl border border-white/15 bg-black/30 p-5">
             <p className="text-xs font-semibold uppercase tracking-widest text-white/65">Upgrade catalog</p>
+            {sessionLoading || listingsLoading ? (
+              <p className="mt-3 text-sm text-white/60">Loading account details...</p>
+            ) : null}
             <div className="mt-3 grid gap-2">
               {staticWizardUpgrades.map((upgrade) => {
                 const checked = selectedSlugs.includes(upgrade.slug);
@@ -398,17 +491,17 @@ export function UpgradesConsole() {
             </p>
             <button
               type="button"
-              disabled={submitting || selectedSlugs.length === 0 || !selectedListingId}
+              disabled={submitting || selectedSlugs.length === 0 || sessionLoading}
               onClick={() => {
                 void startCheckout();
               }}
               className="rounded-full border border-emerald-400/60 bg-emerald-500/20 px-4 py-2 text-sm font-semibold text-emerald-100 transition hover:bg-emerald-400/30 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {submitting ? "Redirecting..." : "Checkout with Stripe"}
+              {submitting ? "Redirecting..." : "Continue to checkout"}
             </button>
           </section>
         </>
-      )}
+      ) : null}
 
       {error ? (
         <div className="rounded-xl border border-rose-400/40 bg-rose-950/35 p-3 text-sm text-rose-100">{error}</div>
@@ -416,4 +509,3 @@ export function UpgradesConsole() {
     </div>
   );
 }
-

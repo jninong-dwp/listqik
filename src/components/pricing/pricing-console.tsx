@@ -26,6 +26,7 @@ import {
   type PricingPlan,
   type PricingPropertyTypeId,
 } from "@/i18n/pricing-copy";
+import { hasPendingUpgradeSlugs } from "@/lib/pending-upgrades-cache";
 
 type WizardState = {
   step: 1 | 2 | 3;
@@ -69,6 +70,7 @@ function parseDisplayedUsdAmount(raw: string | null | undefined): number | null 
 
 export function PricingConsole() {
   const searchParams = useSearchParams();
+  const planRequired = searchParams.get("planRequired") === "1";
   const { locale, ready } = useSiteLocale();
   const copy = useMemo(() => getPricingCopy(locale), [locale]);
   const plans = copy.plans;
@@ -92,6 +94,11 @@ export function PricingConsole() {
   const [planPaymentRecorded, setPlanPaymentRecorded] = useState(false);
   const [, setPlanAutoAdvanced] = useState(false);
   const [handoffBusy, setHandoffBusy] = useState<"listing-setup" | "upgrades" | null>(null);
+  const [pendingUpgradesWaiting, setPendingUpgradesWaiting] = useState(false);
+
+  useEffect(() => {
+    setPendingUpgradesWaiting(hasPendingUpgradeSlugs());
+  }, []);
 
   const advanceToUpgradesIfReady = useCallback(() => {
     setPlanAutoAdvanced((alreadyAdvanced) => {
@@ -374,6 +381,11 @@ export function PricingConsole() {
       ].join(" ")}
     >
       <Container className="space-y-8 sm:space-y-10">
+        {planRequired ? (
+          <div className="rounded-2xl border border-amber-300/40 bg-amber-950/25 p-4 text-sm text-amber-100">
+            {copy.banner.planRequired}
+          </div>
+        ) : null}
         <div className={landingIntakeActive ? "sr-only" : undefined} aria-hidden={landingIntakeActive}>
         <header className="cockpit-hud-frame p-4 sm:p-6">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-emerald-500/20 pb-4">
@@ -774,9 +786,18 @@ export function PricingConsole() {
                 />
               ) : null}
               <h2 className="text-xl font-semibold text-white">{copy.wizard.step3Title}</h2>
+              {pendingUpgradesWaiting && planPaymentRecorded ? (
+                <div className="rounded-2xl border border-sky-400/35 bg-sky-950/25 p-4 text-sm text-sky-100/90">
+                  {copy.banner.pendingUpgradesSuccess}
+                </div>
+              ) : null}
               <div className="rounded-2xl border border-emerald-400/35 bg-emerald-950/20 p-4 text-sm text-emerald-100/90">
                 <p className="font-semibold text-emerald-100">{copy.wizard.successTitle}</p>
-                <p className="mt-2">{copy.wizard.successBody}</p>
+                <p className="mt-2">
+                  {pendingUpgradesWaiting && planPaymentRecorded
+                    ? copy.banner.pendingUpgradesSaved
+                    : copy.wizard.successBody}
+                </p>
               </div>
               <div className="rounded-2xl border border-white/10 bg-black/25 p-4 text-sm text-white/85">
                 <p>
@@ -809,7 +830,11 @@ export function PricingConsole() {
                       void continueAfterPayment("upgrades");
                     }}
                     disabled={handoffBusy !== null}
-                    className="btn-secondary disabled:opacity-50"
+                    className={
+                      pendingUpgradesWaiting
+                        ? "btn-primary disabled:opacity-50"
+                        : "btn-secondary disabled:opacity-50"
+                    }
                   >
                     {handoffBusy === "upgrades" ? copy.wizard.preparing : copy.wizard.addUpgrades}
                   </button>
@@ -819,7 +844,11 @@ export function PricingConsole() {
                       void continueAfterPayment("listing-setup");
                     }}
                     disabled={handoffBusy !== null}
-                    className="btn-primary disabled:opacity-50"
+                    className={
+                      pendingUpgradesWaiting
+                        ? "btn-secondary disabled:opacity-50"
+                        : "btn-primary disabled:opacity-50"
+                    }
                   >
                     {handoffBusy === "listing-setup"
                       ? copy.wizard.preparing

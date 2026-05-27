@@ -86,6 +86,11 @@ export type PricingCopy = {
     continueListingSetup: string;
     preparing: string;
   };
+  banner: {
+    planRequired: string;
+    pendingUpgradesSaved: string;
+    pendingUpgradesSuccess: string;
+  };
   errors: {
     paymentStatusConnection: string;
     paymentStatus: string;
@@ -165,6 +170,14 @@ const COPY: Record<HomeLocale, PricingCopy> = {
       addUpgrades: "Add upgrades",
       continueListingSetup: "Continue to listing setup",
       preparing: "Preparing...",
+    },
+    banner: {
+      planRequired:
+        "Choose a listing plan below to continue. Your selected upgrades are saved and will be waiting after checkout.",
+      pendingUpgradesSaved:
+        "Your upgrade selections are saved. After plan checkout, use Add upgrades to return and pay for them.",
+      pendingUpgradesSuccess:
+        "Plan checkout complete. Continue to pay for your saved upgrades, or proceed to listing setup first.",
     },
     errors: {
       paymentStatusConnection:
@@ -361,6 +374,14 @@ const COPY: Record<HomeLocale, PricingCopy> = {
       addUpgrades: "Agregar mejoras",
       continueListingSetup: "Continuar a configuración del listado",
       preparing: "Preparando...",
+    },
+    banner: {
+      planRequired:
+        "Elija un plan de listado abajo para continuar. Sus mejoras seleccionadas están guardadas y estarán listas después del pago.",
+      pendingUpgradesSaved:
+        "Sus mejoras están guardadas. Después del pago del plan, use Agregar mejoras para regresar y pagarlas.",
+      pendingUpgradesSuccess:
+        "Pago del plan completo. Continúe para pagar sus mejoras guardadas, o pase primero a la configuración del listado.",
     },
     errors: {
       paymentStatusConnection:
