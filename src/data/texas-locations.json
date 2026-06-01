@@ -1,0 +1,7527 @@
+{
+  "generatedAt": "2026-06-01T13:07:05.772Z",
+  "countyCount": 254,
+  "cityCount": 1499,
+  "locations": [
+    {
+      "county": "Anderson",
+      "countySlug": "anderson-county",
+      "cities": [
+        {
+          "name": "Frankston",
+          "slug": "frankston"
+        },
+        {
+          "name": "Montalba",
+          "slug": "montalba"
+        },
+        {
+          "name": "Palestine",
+          "slug": "palestine"
+        },
+        {
+          "name": "Slocum",
+          "slug": "slocum"
+        },
+        {
+          "name": "Tennessee colony",
+          "slug": "tennessee-colony"
+        }
+      ]
+    },
+    {
+      "county": "Andrews",
+      "countySlug": "andrews-county",
+      "cities": [
+        {
+          "name": "Andrews",
+          "slug": "andrews"
+        }
+      ]
+    },
+    {
+      "county": "Angelina",
+      "countySlug": "angelina-county",
+      "cities": [
+        {
+          "name": "Diboll",
+          "slug": "diboll"
+        },
+        {
+          "name": "Huntington",
+          "slug": "huntington"
+        },
+        {
+          "name": "Keltys",
+          "slug": "keltys"
+        },
+        {
+          "name": "Lufkin",
+          "slug": "lufkin"
+        },
+        {
+          "name": "Pollok",
+          "slug": "pollok"
+        },
+        {
+          "name": "Zavalla",
+          "slug": "zavalla"
+        },
+        {
+          "name": "Zcta 759hh",
+          "slug": "zcta-759hh"
+        }
+      ]
+    },
+    {
+      "county": "Aransas",
+      "countySlug": "aransas-county",
+      "cities": [
+        {
+          "name": "Fulton",
+          "slug": "fulton"
+        },
+        {
+          "name": "Rockport",
+          "slug": "rockport"
+        },
+        {
+          "name": "Zcta 783hh",
+          "slug": "zcta-783hh"
+        }
+      ]
+    },
+    {
+      "county": "Archer",
+      "countySlug": "archer-county",
+      "cities": [
+        {
+          "name": "Archer city",
+          "slug": "archer-city"
+        },
+        {
+          "name": "Holliday",
+          "slug": "holliday"
+        },
+        {
+          "name": "Megargel",
+          "slug": "megargel"
+        },
+        {
+          "name": "Scotland",
+          "slug": "scotland"
+        },
+        {
+          "name": "Windthorst",
+          "slug": "windthorst"
+        },
+        {
+          "name": "Zcta 763hh",
+          "slug": "zcta-763hh"
+        },
+        {
+          "name": "Zcta 763xx",
+          "slug": "zcta-763xx"
+        }
+      ]
+    },
+    {
+      "county": "Armstrong",
+      "countySlug": "armstrong-county",
+      "cities": [
+        {
+          "name": "Claude",
+          "slug": "claude"
+        }
+      ]
+    },
+    {
+      "county": "Atascosa",
+      "countySlug": "atascosa-county",
+      "cities": [
+        {
+          "name": "Campbellton",
+          "slug": "campbellton"
+        },
+        {
+          "name": "Charlotte",
+          "slug": "charlotte"
+        },
+        {
+          "name": "Christine",
+          "slug": "christine"
+        },
+        {
+          "name": "Jourdanton",
+          "slug": "jourdanton"
+        },
+        {
+          "name": "Leming",
+          "slug": "leming"
+        },
+        {
+          "name": "Lytle",
+          "slug": "lytle"
+        },
+        {
+          "name": "Mc coy",
+          "slug": "mc-coy"
+        },
+        {
+          "name": "Pleasanton",
+          "slug": "pleasanton"
+        },
+        {
+          "name": "Poteet",
+          "slug": "poteet"
+        },
+        {
+          "name": "Somerset",
+          "slug": "somerset"
+        }
+      ]
+    },
+    {
+      "county": "Austin",
+      "countySlug": "austin-county",
+      "cities": [
+        {
+          "name": "Bellville",
+          "slug": "bellville"
+        },
+        {
+          "name": "Industry",
+          "slug": "industry"
+        },
+        {
+          "name": "New ulm",
+          "slug": "new-ulm"
+        },
+        {
+          "name": "San felipe",
+          "slug": "san-felipe"
+        },
+        {
+          "name": "Sealy",
+          "slug": "sealy"
+        },
+        {
+          "name": "Wallis",
+          "slug": "wallis"
+        }
+      ]
+    },
+    {
+      "county": "Bailey",
+      "countySlug": "bailey-county",
+      "cities": [
+        {
+          "name": "Bula",
+          "slug": "bula"
+        },
+        {
+          "name": "Enochs",
+          "slug": "enochs"
+        },
+        {
+          "name": "Maple",
+          "slug": "maple"
+        },
+        {
+          "name": "Muleshoe",
+          "slug": "muleshoe"
+        }
+      ]
+    },
+    {
+      "county": "Bandera",
+      "countySlug": "bandera-county",
+      "cities": [
+        {
+          "name": "Bandera",
+          "slug": "bandera"
+        },
+        {
+          "name": "Lakehills",
+          "slug": "lakehills"
+        },
+        {
+          "name": "Medina",
+          "slug": "medina"
+        },
+        {
+          "name": "Tarpley",
+          "slug": "tarpley"
+        },
+        {
+          "name": "Vanderpool",
+          "slug": "vanderpool"
+        },
+        {
+          "name": "Zcta 780hh",
+          "slug": "zcta-780hh"
+        }
+      ]
+    },
+    {
+      "county": "Bastrop",
+      "countySlug": "bastrop-county",
+      "cities": [
+        {
+          "name": "Bastrop",
+          "slug": "bastrop"
+        },
+        {
+          "name": "Cedar creek",
+          "slug": "cedar-creek"
+        },
+        {
+          "name": "Elgin",
+          "slug": "elgin"
+        },
+        {
+          "name": "Mc dade",
+          "slug": "mc-dade"
+        },
+        {
+          "name": "Paige",
+          "slug": "paige"
+        },
+        {
+          "name": "Red rock",
+          "slug": "red-rock"
+        },
+        {
+          "name": "Rosanky",
+          "slug": "rosanky"
+        },
+        {
+          "name": "Smithville",
+          "slug": "smithville"
+        },
+        {
+          "name": "Zcta 786hh",
+          "slug": "zcta-786hh"
+        },
+        {
+          "name": "Zcta 789hh",
+          "slug": "zcta-789hh"
+        }
+      ]
+    },
+    {
+      "county": "Baylor",
+      "countySlug": "baylor-county",
+      "cities": [
+        {
+          "name": "Seymour",
+          "slug": "seymour"
+        }
+      ]
+    },
+    {
+      "county": "Bee",
+      "countySlug": "bee-county",
+      "cities": [
+        {
+          "name": "Beeville",
+          "slug": "beeville"
+        },
+        {
+          "name": "Mineral",
+          "slug": "mineral"
+        },
+        {
+          "name": "Normanna",
+          "slug": "normanna"
+        },
+        {
+          "name": "Pawnee",
+          "slug": "pawnee"
+        },
+        {
+          "name": "Pettus",
+          "slug": "pettus"
+        },
+        {
+          "name": "Skidmore",
+          "slug": "skidmore"
+        },
+        {
+          "name": "Tynan",
+          "slug": "tynan"
+        },
+        {
+          "name": "Zcta 781xx",
+          "slug": "zcta-781xx"
+        }
+      ]
+    },
+    {
+      "county": "Bell",
+      "countySlug": "bell-county",
+      "cities": [
+        {
+          "name": "Belton",
+          "slug": "belton"
+        },
+        {
+          "name": "Fort hood",
+          "slug": "fort-hood"
+        },
+        {
+          "name": "Harker heights",
+          "slug": "harker-heights"
+        },
+        {
+          "name": "Holland",
+          "slug": "holland"
+        },
+        {
+          "name": "Killeen",
+          "slug": "killeen"
+        },
+        {
+          "name": "Little river",
+          "slug": "little-river"
+        },
+        {
+          "name": "Nolanville",
+          "slug": "nolanville"
+        },
+        {
+          "name": "Rogers",
+          "slug": "rogers"
+        },
+        {
+          "name": "Salado",
+          "slug": "salado"
+        },
+        {
+          "name": "Temple",
+          "slug": "temple"
+        },
+        {
+          "name": "Troy",
+          "slug": "troy"
+        },
+        {
+          "name": "Zcta 76548",
+          "slug": "zcta-76548"
+        },
+        {
+          "name": "Zcta 76549",
+          "slug": "zcta-76549"
+        },
+        {
+          "name": "Zcta 765hh",
+          "slug": "zcta-765hh"
+        },
+        {
+          "name": "Zcta 765xx",
+          "slug": "zcta-765xx"
+        }
+      ]
+    },
+    {
+      "county": "Bexar",
+      "countySlug": "bexar-county",
+      "cities": [
+        {
+          "name": "Adkins",
+          "slug": "adkins"
+        },
+        {
+          "name": "Alamo heights",
+          "slug": "alamo-heights"
+        },
+        {
+          "name": "Atascosa",
+          "slug": "atascosa"
+        },
+        {
+          "name": "Balcones heights",
+          "slug": "balcones-heights"
+        },
+        {
+          "name": "Brooks a f b",
+          "slug": "brooks-a-f-b"
+        },
+        {
+          "name": "Castle hills",
+          "slug": "castle-hills"
+        },
+        {
+          "name": "Converse",
+          "slug": "converse"
+        },
+        {
+          "name": "Elmendorf",
+          "slug": "elmendorf"
+        },
+        {
+          "name": "Fort sam houston",
+          "slug": "fort-sam-houston"
+        },
+        {
+          "name": "Grey forest",
+          "slug": "grey-forest"
+        },
+        {
+          "name": "Hollywood park",
+          "slug": "hollywood-park"
+        },
+        {
+          "name": "Kirby",
+          "slug": "kirby"
+        },
+        {
+          "name": "Leon valley",
+          "slug": "leon-valley"
+        },
+        {
+          "name": "Live oak",
+          "slug": "live-oak"
+        },
+        {
+          "name": "Olmos park",
+          "slug": "olmos-park"
+        },
+        {
+          "name": "Randolph a f b",
+          "slug": "randolph-a-f-b"
+        },
+        {
+          "name": "Saint hedwig",
+          "slug": "saint-hedwig"
+        },
+        {
+          "name": "San antonio",
+          "slug": "san-antonio"
+        },
+        {
+          "name": "Shavano park",
+          "slug": "shavano-park"
+        },
+        {
+          "name": "Von ormy",
+          "slug": "von-ormy"
+        },
+        {
+          "name": "Wetmore",
+          "slug": "wetmore"
+        },
+        {
+          "name": "Wilford hall u s",
+          "slug": "wilford-hall-u-s"
+        },
+        {
+          "name": "Windcrest",
+          "slug": "windcrest"
+        },
+        {
+          "name": "Zcta 78015",
+          "slug": "zcta-78015"
+        },
+        {
+          "name": "Zcta 782hh",
+          "slug": "zcta-782hh"
+        },
+        {
+          "name": "Zcta 782xx",
+          "slug": "zcta-782xx"
+        }
+      ]
+    },
+    {
+      "county": "Blanco",
+      "countySlug": "blanco-county",
+      "cities": [
+        {
+          "name": "Blanco",
+          "slug": "blanco"
+        },
+        {
+          "name": "Hye",
+          "slug": "hye"
+        },
+        {
+          "name": "Johnson city",
+          "slug": "johnson-city"
+        },
+        {
+          "name": "Round mountain",
+          "slug": "round-mountain"
+        }
+      ]
+    },
+    {
+      "county": "Borden",
+      "countySlug": "borden-county",
+      "cities": [
+        {
+          "name": "Gail",
+          "slug": "gail"
+        },
+        {
+          "name": "Zcta 795hh",
+          "slug": "zcta-795hh"
+        },
+        {
+          "name": "Zcta 795xx",
+          "slug": "zcta-795xx"
+        }
+      ]
+    },
+    {
+      "county": "Bosque",
+      "countySlug": "bosque-county",
+      "cities": [
+        {
+          "name": "Cranfills gap",
+          "slug": "cranfills-gap"
+        },
+        {
+          "name": "Iredell",
+          "slug": "iredell"
+        },
+        {
+          "name": "Kopperl",
+          "slug": "kopperl"
+        },
+        {
+          "name": "Laguna park",
+          "slug": "laguna-park"
+        },
+        {
+          "name": "Meridian",
+          "slug": "meridian"
+        },
+        {
+          "name": "Morgan",
+          "slug": "morgan"
+        },
+        {
+          "name": "Valley mills",
+          "slug": "valley-mills"
+        },
+        {
+          "name": "Walnut springs",
+          "slug": "walnut-springs"
+        },
+        {
+          "name": "Zcta 766hh",
+          "slug": "zcta-766hh"
+        }
+      ]
+    },
+    {
+      "county": "Bowie",
+      "countySlug": "bowie-county",
+      "cities": [
+        {
+          "name": "Boston",
+          "slug": "boston"
+        },
+        {
+          "name": "De kalb",
+          "slug": "de-kalb"
+        },
+        {
+          "name": "Leary",
+          "slug": "leary"
+        },
+        {
+          "name": "Maud",
+          "slug": "maud"
+        },
+        {
+          "name": "Nash",
+          "slug": "nash"
+        },
+        {
+          "name": "Redwater",
+          "slug": "redwater"
+        },
+        {
+          "name": "Simms",
+          "slug": "simms"
+        },
+        {
+          "name": "Texarkana",
+          "slug": "texarkana"
+        },
+        {
+          "name": "Wake village",
+          "slug": "wake-village"
+        },
+        {
+          "name": "Zcta 755hh",
+          "slug": "zcta-755hh"
+        },
+        {
+          "name": "Zcta 755xx",
+          "slug": "zcta-755xx"
+        }
+      ]
+    },
+    {
+      "county": "Brazoria",
+      "countySlug": "brazoria-county",
+      "cities": [
+        {
+          "name": "Alvin",
+          "slug": "alvin"
+        },
+        {
+          "name": "Angleton",
+          "slug": "angleton"
+        },
+        {
+          "name": "Brazoria",
+          "slug": "brazoria"
+        },
+        {
+          "name": "Clute",
+          "slug": "clute"
+        },
+        {
+          "name": "Damon",
+          "slug": "damon"
+        },
+        {
+          "name": "Danbury",
+          "slug": "danbury"
+        },
+        {
+          "name": "Lake jackson",
+          "slug": "lake-jackson"
+        },
+        {
+          "name": "Liverpool",
+          "slug": "liverpool"
+        },
+        {
+          "name": "Manvel",
+          "slug": "manvel"
+        },
+        {
+          "name": "Old ocean",
+          "slug": "old-ocean"
+        },
+        {
+          "name": "Pearland",
+          "slug": "pearland"
+        },
+        {
+          "name": "Quintana",
+          "slug": "quintana"
+        },
+        {
+          "name": "Rosharon",
+          "slug": "rosharon"
+        },
+        {
+          "name": "Sweeny",
+          "slug": "sweeny"
+        },
+        {
+          "name": "West columbia",
+          "slug": "west-columbia"
+        },
+        {
+          "name": "Zcta 774hh",
+          "slug": "zcta-774hh"
+        },
+        {
+          "name": "Zcta 775hh",
+          "slug": "zcta-775hh"
+        }
+      ]
+    },
+    {
+      "county": "Brazos",
+      "countySlug": "brazos-county",
+      "cities": [
+        {
+          "name": "Bryan",
+          "slug": "bryan"
+        },
+        {
+          "name": "College station",
+          "slug": "college-station"
+        },
+        {
+          "name": "Millican",
+          "slug": "millican"
+        },
+        {
+          "name": "Zcta 778hh",
+          "slug": "zcta-778hh"
+        }
+      ]
+    },
+    {
+      "county": "Brewster",
+      "countySlug": "brewster-county",
+      "cities": [
+        {
+          "name": "Alpine",
+          "slug": "alpine"
+        },
+        {
+          "name": "Big bend nationa",
+          "slug": "big-bend-nationa"
+        },
+        {
+          "name": "Marathon",
+          "slug": "marathon"
+        },
+        {
+          "name": "Terlingua",
+          "slug": "terlingua"
+        }
+      ]
+    },
+    {
+      "county": "Briscoe",
+      "countySlug": "briscoe-county",
+      "cities": [
+        {
+          "name": "Quitaque",
+          "slug": "quitaque"
+        },
+        {
+          "name": "Silverton",
+          "slug": "silverton"
+        },
+        {
+          "name": "Zcta 792hh",
+          "slug": "zcta-792hh"
+        }
+      ]
+    },
+    {
+      "county": "Brooks",
+      "countySlug": "brooks-county",
+      "cities": [
+        {
+          "name": "Encino",
+          "slug": "encino"
+        },
+        {
+          "name": "Falfurrias",
+          "slug": "falfurrias"
+        }
+      ]
+    },
+    {
+      "county": "Brown",
+      "countySlug": "brown-county",
+      "cities": [
+        {
+          "name": "Bangs",
+          "slug": "bangs"
+        },
+        {
+          "name": "Blanket",
+          "slug": "blanket"
+        },
+        {
+          "name": "Brookesmith",
+          "slug": "brookesmith"
+        },
+        {
+          "name": "Early",
+          "slug": "early"
+        },
+        {
+          "name": "May",
+          "slug": "may"
+        },
+        {
+          "name": "Zcta 76802",
+          "slug": "zcta-76802"
+        },
+        {
+          "name": "Zcta 768hh",
+          "slug": "zcta-768hh"
+        },
+        {
+          "name": "Zephyr",
+          "slug": "zephyr"
+        }
+      ]
+    },
+    {
+      "county": "Burleson",
+      "countySlug": "burleson-county",
+      "cities": [
+        {
+          "name": "Caldwell",
+          "slug": "caldwell"
+        },
+        {
+          "name": "Snook",
+          "slug": "snook"
+        },
+        {
+          "name": "Somerville",
+          "slug": "somerville"
+        }
+      ]
+    },
+    {
+      "county": "Burnet",
+      "countySlug": "burnet-county",
+      "cities": [
+        {
+          "name": "Bertram",
+          "slug": "bertram"
+        },
+        {
+          "name": "Briggs",
+          "slug": "briggs"
+        },
+        {
+          "name": "Burnet",
+          "slug": "burnet"
+        },
+        {
+          "name": "Cypress mill",
+          "slug": "cypress-mill"
+        }
+      ]
+    },
+    {
+      "county": "Caldwell",
+      "countySlug": "caldwell-county",
+      "cities": [
+        {
+          "name": "Dale",
+          "slug": "dale"
+        },
+        {
+          "name": "Fentress",
+          "slug": "fentress"
+        },
+        {
+          "name": "Lockhart",
+          "slug": "lockhart"
+        },
+        {
+          "name": "Luling",
+          "slug": "luling"
+        },
+        {
+          "name": "Martindale",
+          "slug": "martindale"
+        },
+        {
+          "name": "Maxwell",
+          "slug": "maxwell"
+        },
+        {
+          "name": "Prairie lea",
+          "slug": "prairie-lea"
+        }
+      ]
+    },
+    {
+      "county": "Calhoun",
+      "countySlug": "calhoun-county",
+      "cities": [
+        {
+          "name": "Point comfort",
+          "slug": "point-comfort"
+        },
+        {
+          "name": "Port lavaca",
+          "slug": "port-lavaca"
+        },
+        {
+          "name": "Port o connor",
+          "slug": "port-o-connor"
+        },
+        {
+          "name": "Seadrift",
+          "slug": "seadrift"
+        },
+        {
+          "name": "Zcta 779hh",
+          "slug": "zcta-779hh"
+        },
+        {
+          "name": "Zcta 779xx",
+          "slug": "zcta-779xx"
+        }
+      ]
+    },
+    {
+      "county": "Callahan",
+      "countySlug": "callahan-county",
+      "cities": [
+        {
+          "name": "Baird",
+          "slug": "baird"
+        },
+        {
+          "name": "Clyde",
+          "slug": "clyde"
+        },
+        {
+          "name": "Cross plains",
+          "slug": "cross-plains"
+        },
+        {
+          "name": "Putnam",
+          "slug": "putnam"
+        }
+      ]
+    },
+    {
+      "county": "Cameron",
+      "countySlug": "cameron-county",
+      "cities": [
+        {
+          "name": "Bayview",
+          "slug": "bayview"
+        },
+        {
+          "name": "Brownsville",
+          "slug": "brownsville"
+        },
+        {
+          "name": "Harlingen",
+          "slug": "harlingen"
+        },
+        {
+          "name": "La feria",
+          "slug": "la-feria"
+        },
+        {
+          "name": "Olmito",
+          "slug": "olmito"
+        },
+        {
+          "name": "Port isabel",
+          "slug": "port-isabel"
+        },
+        {
+          "name": "Rio hondo",
+          "slug": "rio-hondo"
+        },
+        {
+          "name": "San benito",
+          "slug": "san-benito"
+        },
+        {
+          "name": "Santa maria",
+          "slug": "santa-maria"
+        },
+        {
+          "name": "Santa rosa",
+          "slug": "santa-rosa"
+        },
+        {
+          "name": "South padre isla",
+          "slug": "south-padre-isla"
+        },
+        {
+          "name": "Zcta 785hh",
+          "slug": "zcta-785hh"
+        }
+      ]
+    },
+    {
+      "county": "Camp",
+      "countySlug": "camp-county",
+      "cities": [
+        {
+          "name": "Leesburg",
+          "slug": "leesburg"
+        },
+        {
+          "name": "Pittsburg",
+          "slug": "pittsburg"
+        },
+        {
+          "name": "Zcta 754hh",
+          "slug": "zcta-754hh"
+        },
+        {
+          "name": "Zcta 756hh",
+          "slug": "zcta-756hh"
+        }
+      ]
+    },
+    {
+      "county": "Carson",
+      "countySlug": "carson-county",
+      "cities": [
+        {
+          "name": "Groom",
+          "slug": "groom"
+        },
+        {
+          "name": "Panhandle",
+          "slug": "panhandle"
+        },
+        {
+          "name": "Skellytown",
+          "slug": "skellytown"
+        },
+        {
+          "name": "White deer",
+          "slug": "white-deer"
+        }
+      ]
+    },
+    {
+      "county": "Cass",
+      "countySlug": "cass-county",
+      "cities": [
+        {
+          "name": "Atlanta",
+          "slug": "atlanta"
+        },
+        {
+          "name": "Bivins",
+          "slug": "bivins"
+        },
+        {
+          "name": "Bloomburg",
+          "slug": "bloomburg"
+        },
+        {
+          "name": "Douglassville",
+          "slug": "douglassville"
+        },
+        {
+          "name": "Hughes springs",
+          "slug": "hughes-springs"
+        },
+        {
+          "name": "Kildare",
+          "slug": "kildare"
+        },
+        {
+          "name": "Linden",
+          "slug": "linden"
+        },
+        {
+          "name": "Marietta",
+          "slug": "marietta"
+        },
+        {
+          "name": "Mc leod",
+          "slug": "mc-leod"
+        },
+        {
+          "name": "Queen city",
+          "slug": "queen-city"
+        }
+      ]
+    },
+    {
+      "county": "Castro",
+      "countySlug": "castro-county",
+      "cities": [
+        {
+          "name": "Dimmitt",
+          "slug": "dimmitt"
+        },
+        {
+          "name": "Hart",
+          "slug": "hart"
+        },
+        {
+          "name": "Nazareth",
+          "slug": "nazareth"
+        }
+      ]
+    },
+    {
+      "county": "Chambers",
+      "countySlug": "chambers-county",
+      "cities": [
+        {
+          "name": "Hankamer",
+          "slug": "hankamer"
+        },
+        {
+          "name": "Monroe city",
+          "slug": "monroe-city"
+        },
+        {
+          "name": "Wallisville",
+          "slug": "wallisville"
+        },
+        {
+          "name": "Winnie",
+          "slug": "winnie"
+        },
+        {
+          "name": "Zcta 775xx",
+          "slug": "zcta-775xx"
+        },
+        {
+          "name": "Zcta 776hh",
+          "slug": "zcta-776hh"
+        },
+        {
+          "name": "Zcta 776xx",
+          "slug": "zcta-776xx"
+        }
+      ]
+    },
+    {
+      "county": "Cherokee",
+      "countySlug": "cherokee-county",
+      "cities": [
+        {
+          "name": "Cuney",
+          "slug": "cuney"
+        },
+        {
+          "name": "Dialville",
+          "slug": "dialville"
+        },
+        {
+          "name": "Forest",
+          "slug": "forest"
+        },
+        {
+          "name": "Gallatin",
+          "slug": "gallatin"
+        },
+        {
+          "name": "Jacksonville",
+          "slug": "jacksonville"
+        },
+        {
+          "name": "Wells",
+          "slug": "wells"
+        },
+        {
+          "name": "Zcta 757hh",
+          "slug": "zcta-757hh"
+        }
+      ]
+    },
+    {
+      "county": "Childress",
+      "countySlug": "childress-county",
+      "cities": [
+        {
+          "name": "Kirkland",
+          "slug": "kirkland"
+        },
+        {
+          "name": "Tell",
+          "slug": "tell"
+        }
+      ]
+    },
+    {
+      "county": "Clay",
+      "countySlug": "clay-county",
+      "cities": [
+        {
+          "name": "Bellevue",
+          "slug": "bellevue"
+        },
+        {
+          "name": "Byers",
+          "slug": "byers"
+        },
+        {
+          "name": "Henrietta",
+          "slug": "henrietta"
+        },
+        {
+          "name": "Petrolia",
+          "slug": "petrolia"
+        }
+      ]
+    },
+    {
+      "county": "Cochran",
+      "countySlug": "cochran-county",
+      "cities": [
+        {
+          "name": "Bledsoe",
+          "slug": "bledsoe"
+        },
+        {
+          "name": "Morton",
+          "slug": "morton"
+        },
+        {
+          "name": "Whiteface",
+          "slug": "whiteface"
+        }
+      ]
+    },
+    {
+      "county": "Coke",
+      "countySlug": "coke-county",
+      "cities": [
+        {
+          "name": "Bronte",
+          "slug": "bronte"
+        },
+        {
+          "name": "Robert lee",
+          "slug": "robert-lee"
+        },
+        {
+          "name": "Silver",
+          "slug": "silver"
+        },
+        {
+          "name": "Tennyson",
+          "slug": "tennyson"
+        },
+        {
+          "name": "Zcta 769hh",
+          "slug": "zcta-769hh"
+        }
+      ]
+    },
+    {
+      "county": "Coleman",
+      "countySlug": "coleman-county",
+      "cities": [
+        {
+          "name": "Burkett",
+          "slug": "burkett"
+        },
+        {
+          "name": "Coleman",
+          "slug": "coleman"
+        },
+        {
+          "name": "Goldsboro",
+          "slug": "goldsboro"
+        },
+        {
+          "name": "Gouldbusk",
+          "slug": "gouldbusk"
+        },
+        {
+          "name": "Leaday",
+          "slug": "leaday"
+        },
+        {
+          "name": "Novice",
+          "slug": "novice"
+        },
+        {
+          "name": "Rockwood",
+          "slug": "rockwood"
+        },
+        {
+          "name": "Santa anna",
+          "slug": "santa-anna"
+        },
+        {
+          "name": "Talpa",
+          "slug": "talpa"
+        },
+        {
+          "name": "Valera",
+          "slug": "valera"
+        }
+      ]
+    },
+    {
+      "county": "Collin",
+      "countySlug": "collin-county",
+      "cities": [
+        {
+          "name": "Allen",
+          "slug": "allen"
+        },
+        {
+          "name": "Anna",
+          "slug": "anna"
+        },
+        {
+          "name": "Blue ridge",
+          "slug": "blue-ridge"
+        },
+        {
+          "name": "Celina",
+          "slug": "celina"
+        },
+        {
+          "name": "Copeville",
+          "slug": "copeville"
+        },
+        {
+          "name": "Dallas",
+          "slug": "dallas"
+        },
+        {
+          "name": "Farmersville",
+          "slug": "farmersville"
+        },
+        {
+          "name": "Frisco",
+          "slug": "frisco"
+        },
+        {
+          "name": "Josephine",
+          "slug": "josephine"
+        },
+        {
+          "name": "Lavon",
+          "slug": "lavon"
+        },
+        {
+          "name": "Mc kinney",
+          "slug": "mc-kinney"
+        },
+        {
+          "name": "Melissa",
+          "slug": "melissa"
+        },
+        {
+          "name": "Murphy",
+          "slug": "murphy"
+        },
+        {
+          "name": "Nevada",
+          "slug": "nevada"
+        },
+        {
+          "name": "Plano",
+          "slug": "plano"
+        },
+        {
+          "name": "Princeton",
+          "slug": "princeton"
+        },
+        {
+          "name": "Prosper",
+          "slug": "prosper"
+        },
+        {
+          "name": "Richardson",
+          "slug": "richardson"
+        },
+        {
+          "name": "Westminster",
+          "slug": "westminster"
+        },
+        {
+          "name": "Wylie",
+          "slug": "wylie"
+        },
+        {
+          "name": "Zcta 75013",
+          "slug": "zcta-75013"
+        },
+        {
+          "name": "Zcta 75035",
+          "slug": "zcta-75035"
+        },
+        {
+          "name": "Zcta 750hh",
+          "slug": "zcta-750hh"
+        },
+        {
+          "name": "Zcta 751hh",
+          "slug": "zcta-751hh"
+        }
+      ]
+    },
+    {
+      "county": "Collingsworth",
+      "countySlug": "collingsworth-county",
+      "cities": [
+        {
+          "name": "Dodson",
+          "slug": "dodson"
+        },
+        {
+          "name": "Quail",
+          "slug": "quail"
+        },
+        {
+          "name": "Wellington",
+          "slug": "wellington"
+        }
+      ]
+    },
+    {
+      "county": "Colorado",
+      "countySlug": "colorado-county",
+      "cities": [
+        {
+          "name": "Alleyton",
+          "slug": "alleyton"
+        },
+        {
+          "name": "Altair",
+          "slug": "altair"
+        },
+        {
+          "name": "Cat spring",
+          "slug": "cat-spring"
+        },
+        {
+          "name": "Columbus",
+          "slug": "columbus"
+        },
+        {
+          "name": "Eagle lake",
+          "slug": "eagle-lake"
+        },
+        {
+          "name": "Garwood",
+          "slug": "garwood"
+        },
+        {
+          "name": "Glidden",
+          "slug": "glidden"
+        },
+        {
+          "name": "Rock island",
+          "slug": "rock-island"
+        },
+        {
+          "name": "Sheridan",
+          "slug": "sheridan"
+        },
+        {
+          "name": "Weimar",
+          "slug": "weimar"
+        }
+      ]
+    },
+    {
+      "county": "Comal",
+      "countySlug": "comal-county",
+      "cities": [
+        {
+          "name": "Canyon lake",
+          "slug": "canyon-lake"
+        },
+        {
+          "name": "Fischer",
+          "slug": "fischer"
+        },
+        {
+          "name": "Garden ridge",
+          "slug": "garden-ridge"
+        },
+        {
+          "name": "Spring branch",
+          "slug": "spring-branch"
+        },
+        {
+          "name": "Wetmore",
+          "slug": "wetmore"
+        },
+        {
+          "name": "Zcta 781hh",
+          "slug": "zcta-781hh"
+        }
+      ]
+    },
+    {
+      "county": "Comanche",
+      "countySlug": "comanche-county",
+      "cities": [
+        {
+          "name": "Comanche",
+          "slug": "comanche"
+        },
+        {
+          "name": "De leon",
+          "slug": "de-leon"
+        },
+        {
+          "name": "Energy",
+          "slug": "energy"
+        },
+        {
+          "name": "Gustine",
+          "slug": "gustine"
+        },
+        {
+          "name": "Proctor",
+          "slug": "proctor"
+        },
+        {
+          "name": "Sidney",
+          "slug": "sidney"
+        },
+        {
+          "name": "Zcta 764hh",
+          "slug": "zcta-764hh"
+        }
+      ]
+    },
+    {
+      "county": "Concho",
+      "countySlug": "concho-county",
+      "cities": [
+        {
+          "name": "Eden",
+          "slug": "eden"
+        },
+        {
+          "name": "Eola",
+          "slug": "eola"
+        },
+        {
+          "name": "Millersview",
+          "slug": "millersview"
+        },
+        {
+          "name": "Paint rock",
+          "slug": "paint-rock"
+        }
+      ]
+    },
+    {
+      "county": "Cooke",
+      "countySlug": "cooke-county",
+      "cities": [
+        {
+          "name": "Era",
+          "slug": "era"
+        },
+        {
+          "name": "Lake kiowa",
+          "slug": "lake-kiowa"
+        },
+        {
+          "name": "Lindsay",
+          "slug": "lindsay"
+        },
+        {
+          "name": "Muenster",
+          "slug": "muenster"
+        },
+        {
+          "name": "Myra",
+          "slug": "myra"
+        },
+        {
+          "name": "Valley view",
+          "slug": "valley-view"
+        },
+        {
+          "name": "Zcta 762hh",
+          "slug": "zcta-762hh"
+        }
+      ]
+    },
+    {
+      "county": "Coryell",
+      "countySlug": "coryell-county",
+      "cities": [
+        {
+          "name": "Bee house",
+          "slug": "bee-house"
+        },
+        {
+          "name": "Izoro",
+          "slug": "izoro"
+        },
+        {
+          "name": "Jonesboro",
+          "slug": "jonesboro"
+        },
+        {
+          "name": "Oglesby",
+          "slug": "oglesby"
+        },
+        {
+          "name": "Purmela",
+          "slug": "purmela"
+        },
+        {
+          "name": "Turnersville",
+          "slug": "turnersville"
+        }
+      ]
+    },
+    {
+      "county": "Cottle",
+      "countySlug": "cottle-county",
+      "cities": [
+        {
+          "name": "Cee vee",
+          "slug": "cee-vee"
+        },
+        {
+          "name": "Chalk",
+          "slug": "chalk"
+        }
+      ]
+    },
+    {
+      "county": "Crane",
+      "countySlug": "crane-county",
+      "cities": [
+        {
+          "name": "Crane",
+          "slug": "crane"
+        }
+      ]
+    },
+    {
+      "county": "Crockett",
+      "countySlug": "crockett-county",
+      "cities": [
+        {
+          "name": "Ozona",
+          "slug": "ozona"
+        },
+        {
+          "name": "Zcta 769xx",
+          "slug": "zcta-769xx"
+        }
+      ]
+    },
+    {
+      "county": "Crosby",
+      "countySlug": "crosby-county",
+      "cities": [
+        {
+          "name": "Cone",
+          "slug": "cone"
+        },
+        {
+          "name": "Crosbyton",
+          "slug": "crosbyton"
+        },
+        {
+          "name": "Lorenzo",
+          "slug": "lorenzo"
+        },
+        {
+          "name": "Zcta 793hh",
+          "slug": "zcta-793hh"
+        }
+      ]
+    },
+    {
+      "county": "Culberson",
+      "countySlug": "culberson-county",
+      "cities": [
+        {
+          "name": "Kent",
+          "slug": "kent"
+        }
+      ]
+    },
+    {
+      "county": "Dallam",
+      "countySlug": "dallam-county",
+      "cities": [
+        {
+          "name": "Dalhart",
+          "slug": "dalhart"
+        },
+        {
+          "name": "Texline",
+          "slug": "texline"
+        }
+      ]
+    },
+    {
+      "county": "Dallas",
+      "countySlug": "dallas-county",
+      "cities": [
+        {
+          "name": "Addison",
+          "slug": "addison"
+        },
+        {
+          "name": "Balch springs",
+          "slug": "balch-springs"
+        },
+        {
+          "name": "Carrollton",
+          "slug": "carrollton"
+        },
+        {
+          "name": "Cedar hill",
+          "slug": "cedar-hill"
+        },
+        {
+          "name": "Cockrell hill",
+          "slug": "cockrell-hill"
+        },
+        {
+          "name": "Coppell",
+          "slug": "coppell"
+        },
+        {
+          "name": "Dallas",
+          "slug": "dallas"
+        },
+        {
+          "name": "De soto",
+          "slug": "de-soto"
+        },
+        {
+          "name": "Duncanville",
+          "slug": "duncanville"
+        },
+        {
+          "name": "Farmers branch",
+          "slug": "farmers-branch"
+        },
+        {
+          "name": "Garland",
+          "slug": "garland"
+        },
+        {
+          "name": "Grand prairie",
+          "slug": "grand-prairie"
+        },
+        {
+          "name": "Hutchins",
+          "slug": "hutchins"
+        },
+        {
+          "name": "Irving",
+          "slug": "irving"
+        },
+        {
+          "name": "Lancaster",
+          "slug": "lancaster"
+        },
+        {
+          "name": "Mesquite",
+          "slug": "mesquite"
+        },
+        {
+          "name": "Richardson",
+          "slug": "richardson"
+        },
+        {
+          "name": "Rowlett",
+          "slug": "rowlett"
+        },
+        {
+          "name": "Sachse",
+          "slug": "sachse"
+        },
+        {
+          "name": "Seagoville",
+          "slug": "seagoville"
+        },
+        {
+          "name": "Village",
+          "slug": "village"
+        },
+        {
+          "name": "Wilmer",
+          "slug": "wilmer"
+        },
+        {
+          "name": "Zcta 75089",
+          "slug": "zcta-75089"
+        },
+        {
+          "name": "Zcta 752hh",
+          "slug": "zcta-752hh"
+        }
+      ]
+    },
+    {
+      "county": "Dawson",
+      "countySlug": "dawson-county",
+      "cities": [
+        {
+          "name": "Lamesa",
+          "slug": "lamesa"
+        },
+        {
+          "name": "Welch",
+          "slug": "welch"
+        }
+      ]
+    },
+    {
+      "county": "Deaf Smith",
+      "countySlug": "deaf-smith-county",
+      "cities": [
+        {
+          "name": "Dawn",
+          "slug": "dawn"
+        },
+        {
+          "name": "Hereford",
+          "slug": "hereford"
+        }
+      ]
+    },
+    {
+      "county": "Delta",
+      "countySlug": "delta-county",
+      "cities": [
+        {
+          "name": "Ben franklin",
+          "slug": "ben-franklin"
+        },
+        {
+          "name": "Cooper",
+          "slug": "cooper"
+        },
+        {
+          "name": "Enloe",
+          "slug": "enloe"
+        },
+        {
+          "name": "Klondike",
+          "slug": "klondike"
+        },
+        {
+          "name": "Lake creek",
+          "slug": "lake-creek"
+        },
+        {
+          "name": "Pecan gap",
+          "slug": "pecan-gap"
+        }
+      ]
+    },
+    {
+      "county": "Denton",
+      "countySlug": "denton-county",
+      "cities": [
+        {
+          "name": "Argyle",
+          "slug": "argyle"
+        },
+        {
+          "name": "Aubrey",
+          "slug": "aubrey"
+        },
+        {
+          "name": "Carrollton",
+          "slug": "carrollton"
+        },
+        {
+          "name": "Denton",
+          "slug": "denton"
+        },
+        {
+          "name": "Flower mound",
+          "slug": "flower-mound"
+        },
+        {
+          "name": "Highland village",
+          "slug": "highland-village"
+        },
+        {
+          "name": "Justin",
+          "slug": "justin"
+        },
+        {
+          "name": "Krum",
+          "slug": "krum"
+        },
+        {
+          "name": "Lake dallas",
+          "slug": "lake-dallas"
+        },
+        {
+          "name": "Lakewood village",
+          "slug": "lakewood-village"
+        },
+        {
+          "name": "Lewisville",
+          "slug": "lewisville"
+        },
+        {
+          "name": "Pilot point",
+          "slug": "pilot-point"
+        },
+        {
+          "name": "Ponder",
+          "slug": "ponder"
+        },
+        {
+          "name": "Sanger",
+          "slug": "sanger"
+        },
+        {
+          "name": "The colony",
+          "slug": "the-colony"
+        },
+        {
+          "name": "Trophy club",
+          "slug": "trophy-club"
+        },
+        {
+          "name": "Zcta 75022",
+          "slug": "zcta-75022"
+        },
+        {
+          "name": "Zcta 75077",
+          "slug": "zcta-75077"
+        }
+      ]
+    },
+    {
+      "county": "DeWitt",
+      "countySlug": "dewitt-county",
+      "cities": [
+        {
+          "name": "Cuero",
+          "slug": "cuero"
+        },
+        {
+          "name": "Meyersville",
+          "slug": "meyersville"
+        },
+        {
+          "name": "Nordheim",
+          "slug": "nordheim"
+        },
+        {
+          "name": "Westhoff",
+          "slug": "westhoff"
+        },
+        {
+          "name": "Yorktown",
+          "slug": "yorktown"
+        }
+      ]
+    },
+    {
+      "county": "Dickens",
+      "countySlug": "dickens-county",
+      "cities": [
+        {
+          "name": "Afton",
+          "slug": "afton"
+        },
+        {
+          "name": "Dickens",
+          "slug": "dickens"
+        },
+        {
+          "name": "Mcadoo",
+          "slug": "mcadoo"
+        },
+        {
+          "name": "Spur",
+          "slug": "spur"
+        }
+      ]
+    },
+    {
+      "county": "Dimmit",
+      "countySlug": "dimmit-county",
+      "cities": [
+        {
+          "name": "Asherton",
+          "slug": "asherton"
+        },
+        {
+          "name": "Big wells",
+          "slug": "big-wells"
+        },
+        {
+          "name": "Carrizo springs",
+          "slug": "carrizo-springs"
+        },
+        {
+          "name": "Catarina",
+          "slug": "catarina"
+        }
+      ]
+    },
+    {
+      "county": "Donley",
+      "countySlug": "donley-county",
+      "cities": [
+        {
+          "name": "Clarendon",
+          "slug": "clarendon"
+        },
+        {
+          "name": "Hedley",
+          "slug": "hedley"
+        },
+        {
+          "name": "Lelia lake",
+          "slug": "lelia-lake"
+        }
+      ]
+    },
+    {
+      "county": "Duval",
+      "countySlug": "duval-county",
+      "cities": [
+        {
+          "name": "Concepcion",
+          "slug": "concepcion"
+        },
+        {
+          "name": "Freer",
+          "slug": "freer"
+        },
+        {
+          "name": "Realitos",
+          "slug": "realitos"
+        },
+        {
+          "name": "San diego",
+          "slug": "san-diego"
+        }
+      ]
+    },
+    {
+      "county": "Eastland",
+      "countySlug": "eastland-county",
+      "cities": [
+        {
+          "name": "Carbon",
+          "slug": "carbon"
+        },
+        {
+          "name": "Cisco",
+          "slug": "cisco"
+        },
+        {
+          "name": "Desdemona",
+          "slug": "desdemona"
+        },
+        {
+          "name": "Eastland",
+          "slug": "eastland"
+        },
+        {
+          "name": "Gorman",
+          "slug": "gorman"
+        },
+        {
+          "name": "Olden",
+          "slug": "olden"
+        },
+        {
+          "name": "Ranger",
+          "slug": "ranger"
+        },
+        {
+          "name": "Rising star",
+          "slug": "rising-star"
+        }
+      ]
+    },
+    {
+      "county": "Ector",
+      "countySlug": "ector-county",
+      "cities": [
+        {
+          "name": "Gardendale",
+          "slug": "gardendale"
+        },
+        {
+          "name": "Goldsmith",
+          "slug": "goldsmith"
+        },
+        {
+          "name": "Notrees",
+          "slug": "notrees"
+        },
+        {
+          "name": "Odessa",
+          "slug": "odessa"
+        },
+        {
+          "name": "Penwell",
+          "slug": "penwell"
+        }
+      ]
+    },
+    {
+      "county": "Edwards",
+      "countySlug": "edwards-county",
+      "cities": [
+        {
+          "name": "Barksdale",
+          "slug": "barksdale"
+        },
+        {
+          "name": "Rocksprings",
+          "slug": "rocksprings"
+        }
+      ]
+    },
+    {
+      "county": "El Paso",
+      "countySlug": "el-paso-county",
+      "cities": [
+        {
+          "name": "Anthony",
+          "slug": "anthony"
+        },
+        {
+          "name": "Canutillo",
+          "slug": "canutillo"
+        },
+        {
+          "name": "Clint",
+          "slug": "clint"
+        },
+        {
+          "name": "El paso",
+          "slug": "el-paso"
+        },
+        {
+          "name": "Fabens",
+          "slug": "fabens"
+        },
+        {
+          "name": "Fort bliss",
+          "slug": "fort-bliss"
+        },
+        {
+          "name": "Horizon city",
+          "slug": "horizon-city"
+        },
+        {
+          "name": "San elizario",
+          "slug": "san-elizario"
+        },
+        {
+          "name": "Tornillo",
+          "slug": "tornillo"
+        },
+        {
+          "name": "Zcta 798xx",
+          "slug": "zcta-798xx"
+        }
+      ]
+    },
+    {
+      "county": "Ellis",
+      "countySlug": "ellis-county",
+      "cities": [
+        {
+          "name": "Bardwell",
+          "slug": "bardwell"
+        },
+        {
+          "name": "Ennis",
+          "slug": "ennis"
+        },
+        {
+          "name": "Ferris",
+          "slug": "ferris"
+        },
+        {
+          "name": "Forreston",
+          "slug": "forreston"
+        },
+        {
+          "name": "Italy",
+          "slug": "italy"
+        },
+        {
+          "name": "Maypearl",
+          "slug": "maypearl"
+        },
+        {
+          "name": "Midlothian",
+          "slug": "midlothian"
+        },
+        {
+          "name": "Milford",
+          "slug": "milford"
+        },
+        {
+          "name": "Ovilla",
+          "slug": "ovilla"
+        },
+        {
+          "name": "Palmer",
+          "slug": "palmer"
+        },
+        {
+          "name": "Waxahachie",
+          "slug": "waxahachie"
+        },
+        {
+          "name": "Zcta 75167",
+          "slug": "zcta-75167"
+        }
+      ]
+    },
+    {
+      "county": "Erath",
+      "countySlug": "erath-county",
+      "cities": [
+        {
+          "name": "Bluff dale",
+          "slug": "bluff-dale"
+        },
+        {
+          "name": "Dublin",
+          "slug": "dublin"
+        },
+        {
+          "name": "Mingus",
+          "slug": "mingus"
+        },
+        {
+          "name": "Stephenville",
+          "slug": "stephenville"
+        }
+      ]
+    },
+    {
+      "county": "Falls",
+      "countySlug": "falls-county",
+      "cities": [
+        {
+          "name": "Chilton",
+          "slug": "chilton"
+        },
+        {
+          "name": "Lott",
+          "slug": "lott"
+        },
+        {
+          "name": "Marlin",
+          "slug": "marlin"
+        },
+        {
+          "name": "Otto",
+          "slug": "otto"
+        },
+        {
+          "name": "Reagan",
+          "slug": "reagan"
+        },
+        {
+          "name": "Rosebud",
+          "slug": "rosebud"
+        },
+        {
+          "name": "Satin",
+          "slug": "satin"
+        }
+      ]
+    },
+    {
+      "county": "Fannin",
+      "countySlug": "fannin-county",
+      "cities": [
+        {
+          "name": "Bailey",
+          "slug": "bailey"
+        },
+        {
+          "name": "Bonham",
+          "slug": "bonham"
+        },
+        {
+          "name": "Dodd city",
+          "slug": "dodd-city"
+        },
+        {
+          "name": "Ector",
+          "slug": "ector"
+        },
+        {
+          "name": "Honey grove",
+          "slug": "honey-grove"
+        },
+        {
+          "name": "Ivanhoe",
+          "slug": "ivanhoe"
+        },
+        {
+          "name": "Ladonia",
+          "slug": "ladonia"
+        },
+        {
+          "name": "Leonard",
+          "slug": "leonard"
+        },
+        {
+          "name": "Randolph",
+          "slug": "randolph"
+        },
+        {
+          "name": "Ravenna",
+          "slug": "ravenna"
+        },
+        {
+          "name": "Savoy",
+          "slug": "savoy"
+        },
+        {
+          "name": "Telephone",
+          "slug": "telephone"
+        },
+        {
+          "name": "Trenton",
+          "slug": "trenton"
+        },
+        {
+          "name": "Windom",
+          "slug": "windom"
+        }
+      ]
+    },
+    {
+      "county": "Fayette",
+      "countySlug": "fayette-county",
+      "cities": [
+        {
+          "name": "Carmine",
+          "slug": "carmine"
+        },
+        {
+          "name": "Ellinger",
+          "slug": "ellinger"
+        },
+        {
+          "name": "Fayetteville",
+          "slug": "fayetteville"
+        },
+        {
+          "name": "Flatonia",
+          "slug": "flatonia"
+        },
+        {
+          "name": "La grange",
+          "slug": "la-grange"
+        },
+        {
+          "name": "Muldoon",
+          "slug": "muldoon"
+        },
+        {
+          "name": "Round top",
+          "slug": "round-top"
+        },
+        {
+          "name": "Schulenburg",
+          "slug": "schulenburg"
+        },
+        {
+          "name": "Warda",
+          "slug": "warda"
+        },
+        {
+          "name": "West point",
+          "slug": "west-point"
+        }
+      ]
+    },
+    {
+      "county": "Fisher",
+      "countySlug": "fisher-county",
+      "cities": [
+        {
+          "name": "Mc caulley",
+          "slug": "mc-caulley"
+        },
+        {
+          "name": "Roby",
+          "slug": "roby"
+        },
+        {
+          "name": "Rotan",
+          "slug": "rotan"
+        },
+        {
+          "name": "Sylvester",
+          "slug": "sylvester"
+        }
+      ]
+    },
+    {
+      "county": "Floyd",
+      "countySlug": "floyd-county",
+      "cities": [
+        {
+          "name": "Dougherty",
+          "slug": "dougherty"
+        },
+        {
+          "name": "Floydada",
+          "slug": "floydada"
+        },
+        {
+          "name": "Lockney",
+          "slug": "lockney"
+        }
+      ]
+    },
+    {
+      "county": "Foard",
+      "countySlug": "foard-county",
+      "cities": [
+        {
+          "name": "Crowell",
+          "slug": "crowell"
+        }
+      ]
+    },
+    {
+      "county": "Fort Bend",
+      "countySlug": "fort-bend-county",
+      "cities": [
+        {
+          "name": "Beasley",
+          "slug": "beasley"
+        },
+        {
+          "name": "Clodine",
+          "slug": "clodine"
+        },
+        {
+          "name": "Fresno",
+          "slug": "fresno"
+        },
+        {
+          "name": "Fulshear",
+          "slug": "fulshear"
+        },
+        {
+          "name": "Guy",
+          "slug": "guy"
+        },
+        {
+          "name": "Houston",
+          "slug": "houston"
+        },
+        {
+          "name": "Kendleton",
+          "slug": "kendleton"
+        },
+        {
+          "name": "Missouri city",
+          "slug": "missouri-city"
+        },
+        {
+          "name": "Needville",
+          "slug": "needville"
+        },
+        {
+          "name": "Orchard",
+          "slug": "orchard"
+        },
+        {
+          "name": "Park row",
+          "slug": "park-row"
+        },
+        {
+          "name": "Rosenberg",
+          "slug": "rosenberg"
+        },
+        {
+          "name": "Simonton",
+          "slug": "simonton"
+        },
+        {
+          "name": "Stafford",
+          "slug": "stafford"
+        },
+        {
+          "name": "Sugar land",
+          "slug": "sugar-land"
+        },
+        {
+          "name": "Thompsons",
+          "slug": "thompsons"
+        }
+      ]
+    },
+    {
+      "county": "Franklin",
+      "countySlug": "franklin-county",
+      "cities": [
+        {
+          "name": "Mount vernon",
+          "slug": "mount-vernon"
+        },
+        {
+          "name": "Scroggins",
+          "slug": "scroggins"
+        }
+      ]
+    },
+    {
+      "county": "Freestone",
+      "countySlug": "freestone-county",
+      "cities": [
+        {
+          "name": "Donie",
+          "slug": "donie"
+        },
+        {
+          "name": "Fairfield",
+          "slug": "fairfield"
+        },
+        {
+          "name": "Kirvin",
+          "slug": "kirvin"
+        },
+        {
+          "name": "Streetman",
+          "slug": "streetman"
+        },
+        {
+          "name": "Teague",
+          "slug": "teague"
+        },
+        {
+          "name": "Wortham",
+          "slug": "wortham"
+        },
+        {
+          "name": "Zcta 758hh",
+          "slug": "zcta-758hh"
+        }
+      ]
+    },
+    {
+      "county": "Frio",
+      "countySlug": "frio-county",
+      "cities": [
+        {
+          "name": "Bigfoot",
+          "slug": "bigfoot"
+        },
+        {
+          "name": "Dilley",
+          "slug": "dilley"
+        },
+        {
+          "name": "Moore",
+          "slug": "moore"
+        },
+        {
+          "name": "Pearsall",
+          "slug": "pearsall"
+        }
+      ]
+    },
+    {
+      "county": "Gaines",
+      "countySlug": "gaines-county",
+      "cities": [
+        {
+          "name": "Loop",
+          "slug": "loop"
+        },
+        {
+          "name": "Seagraves",
+          "slug": "seagraves"
+        },
+        {
+          "name": "Seminole",
+          "slug": "seminole"
+        }
+      ]
+    },
+    {
+      "county": "Galveston",
+      "countySlug": "galveston-county",
+      "cities": [
+        {
+          "name": "Alta loma",
+          "slug": "alta-loma"
+        },
+        {
+          "name": "Arcadia",
+          "slug": "arcadia"
+        },
+        {
+          "name": "Bacliff",
+          "slug": "bacliff"
+        },
+        {
+          "name": "Clear lake shore",
+          "slug": "clear-lake-shore"
+        },
+        {
+          "name": "Crystal beach",
+          "slug": "crystal-beach"
+        },
+        {
+          "name": "Friendswood",
+          "slug": "friendswood"
+        },
+        {
+          "name": "Galveston",
+          "slug": "galveston"
+        },
+        {
+          "name": "Gilchrist",
+          "slug": "gilchrist"
+        },
+        {
+          "name": "High island",
+          "slug": "high-island"
+        },
+        {
+          "name": "Hitchcock",
+          "slug": "hitchcock"
+        },
+        {
+          "name": "La marque",
+          "slug": "la-marque"
+        },
+        {
+          "name": "League city",
+          "slug": "league-city"
+        },
+        {
+          "name": "San leon",
+          "slug": "san-leon"
+        },
+        {
+          "name": "Texas city",
+          "slug": "texas-city"
+        }
+      ]
+    },
+    {
+      "county": "Garza",
+      "countySlug": "garza-county",
+      "cities": [
+        {
+          "name": "Justiceburg",
+          "slug": "justiceburg"
+        },
+        {
+          "name": "Post",
+          "slug": "post"
+        }
+      ]
+    },
+    {
+      "county": "Gillespie",
+      "countySlug": "gillespie-county",
+      "cities": [
+        {
+          "name": "Albert",
+          "slug": "albert"
+        },
+        {
+          "name": "Doss",
+          "slug": "doss"
+        },
+        {
+          "name": "Fredericksburg",
+          "slug": "fredericksburg"
+        },
+        {
+          "name": "Harper",
+          "slug": "harper"
+        },
+        {
+          "name": "Willow city",
+          "slug": "willow-city"
+        }
+      ]
+    },
+    {
+      "county": "Glasscock",
+      "countySlug": "glasscock-county",
+      "cities": [
+        {
+          "name": "Garden city",
+          "slug": "garden-city"
+        }
+      ]
+    },
+    {
+      "county": "Goliad",
+      "countySlug": "goliad-county",
+      "cities": [
+        {
+          "name": "Berclair",
+          "slug": "berclair"
+        },
+        {
+          "name": "Fannin",
+          "slug": "fannin"
+        },
+        {
+          "name": "Goliad",
+          "slug": "goliad"
+        }
+      ]
+    },
+    {
+      "county": "Gonzales",
+      "countySlug": "gonzales-county",
+      "cities": [
+        {
+          "name": "Cost",
+          "slug": "cost"
+        },
+        {
+          "name": "Gonzales",
+          "slug": "gonzales"
+        },
+        {
+          "name": "Harwood",
+          "slug": "harwood"
+        },
+        {
+          "name": "Leesville",
+          "slug": "leesville"
+        },
+        {
+          "name": "Nixon",
+          "slug": "nixon"
+        },
+        {
+          "name": "Ottine",
+          "slug": "ottine"
+        },
+        {
+          "name": "Smiley",
+          "slug": "smiley"
+        },
+        {
+          "name": "Waelder",
+          "slug": "waelder"
+        }
+      ]
+    },
+    {
+      "county": "Gray",
+      "countySlug": "gray-county",
+      "cities": [
+        {
+          "name": "Alanreed",
+          "slug": "alanreed"
+        },
+        {
+          "name": "Kellerville",
+          "slug": "kellerville"
+        },
+        {
+          "name": "Lefors",
+          "slug": "lefors"
+        },
+        {
+          "name": "Pampa",
+          "slug": "pampa"
+        }
+      ]
+    },
+    {
+      "county": "Grayson",
+      "countySlug": "grayson-county",
+      "cities": [
+        {
+          "name": "Bells",
+          "slug": "bells"
+        },
+        {
+          "name": "Collinsville",
+          "slug": "collinsville"
+        },
+        {
+          "name": "Denison",
+          "slug": "denison"
+        },
+        {
+          "name": "Gordonville",
+          "slug": "gordonville"
+        },
+        {
+          "name": "Gunter",
+          "slug": "gunter"
+        },
+        {
+          "name": "Howe",
+          "slug": "howe"
+        },
+        {
+          "name": "Pottsboro",
+          "slug": "pottsboro"
+        },
+        {
+          "name": "Sadler",
+          "slug": "sadler"
+        },
+        {
+          "name": "Sherman",
+          "slug": "sherman"
+        },
+        {
+          "name": "Southmayd",
+          "slug": "southmayd"
+        },
+        {
+          "name": "Tioga",
+          "slug": "tioga"
+        },
+        {
+          "name": "Tom bean",
+          "slug": "tom-bean"
+        },
+        {
+          "name": "Van alstyne",
+          "slug": "van-alstyne"
+        },
+        {
+          "name": "Whitesboro",
+          "slug": "whitesboro"
+        },
+        {
+          "name": "Whitewright",
+          "slug": "whitewright"
+        }
+      ]
+    },
+    {
+      "county": "Gregg",
+      "countySlug": "gregg-county",
+      "cities": [
+        {
+          "name": "Clarksville city",
+          "slug": "clarksville-city"
+        },
+        {
+          "name": "Easton",
+          "slug": "easton"
+        },
+        {
+          "name": "Gladewater",
+          "slug": "gladewater"
+        },
+        {
+          "name": "Kilgore",
+          "slug": "kilgore"
+        },
+        {
+          "name": "Longview",
+          "slug": "longview"
+        }
+      ]
+    },
+    {
+      "county": "Grimes",
+      "countySlug": "grimes-county",
+      "cities": [
+        {
+          "name": "Anderson",
+          "slug": "anderson"
+        },
+        {
+          "name": "Iola",
+          "slug": "iola"
+        },
+        {
+          "name": "Navasota",
+          "slug": "navasota"
+        },
+        {
+          "name": "Plantersville",
+          "slug": "plantersville"
+        },
+        {
+          "name": "Richards",
+          "slug": "richards"
+        },
+        {
+          "name": "Singleton",
+          "slug": "singleton"
+        }
+      ]
+    },
+    {
+      "county": "Guadalupe",
+      "countySlug": "guadalupe-county",
+      "cities": [
+        {
+          "name": "Cibolo",
+          "slug": "cibolo"
+        },
+        {
+          "name": "Kingsbury",
+          "slug": "kingsbury"
+        },
+        {
+          "name": "Marion",
+          "slug": "marion"
+        },
+        {
+          "name": "Mc queeney",
+          "slug": "mc-queeney"
+        },
+        {
+          "name": "Seguin",
+          "slug": "seguin"
+        },
+        {
+          "name": "Selma",
+          "slug": "selma"
+        },
+        {
+          "name": "Staples",
+          "slug": "staples"
+        }
+      ]
+    },
+    {
+      "county": "Hale",
+      "countySlug": "hale-county",
+      "cities": [
+        {
+          "name": "Abernathy",
+          "slug": "abernathy"
+        },
+        {
+          "name": "Cotton center",
+          "slug": "cotton-center"
+        },
+        {
+          "name": "Edmonson",
+          "slug": "edmonson"
+        },
+        {
+          "name": "Hale center",
+          "slug": "hale-center"
+        },
+        {
+          "name": "Petersburg",
+          "slug": "petersburg"
+        },
+        {
+          "name": "Plainview",
+          "slug": "plainview"
+        }
+      ]
+    },
+    {
+      "county": "Hall",
+      "countySlug": "hall-county",
+      "cities": [
+        {
+          "name": "Estelline",
+          "slug": "estelline"
+        },
+        {
+          "name": "Lakeview",
+          "slug": "lakeview"
+        },
+        {
+          "name": "Memphis",
+          "slug": "memphis"
+        },
+        {
+          "name": "Turkey",
+          "slug": "turkey"
+        }
+      ]
+    },
+    {
+      "county": "Hamilton",
+      "countySlug": "hamilton-county",
+      "cities": [
+        {
+          "name": "Carlton",
+          "slug": "carlton"
+        },
+        {
+          "name": "Hamilton",
+          "slug": "hamilton"
+        },
+        {
+          "name": "Hico",
+          "slug": "hico"
+        },
+        {
+          "name": "Pottsville",
+          "slug": "pottsville"
+        }
+      ]
+    },
+    {
+      "county": "Hansford",
+      "countySlug": "hansford-county",
+      "cities": [
+        {
+          "name": "Gruver",
+          "slug": "gruver"
+        },
+        {
+          "name": "Morse",
+          "slug": "morse"
+        },
+        {
+          "name": "Spearman",
+          "slug": "spearman"
+        }
+      ]
+    },
+    {
+      "county": "Hardeman",
+      "countySlug": "hardeman-county",
+      "cities": [
+        {
+          "name": "Chillicothe",
+          "slug": "chillicothe"
+        },
+        {
+          "name": "Quanah",
+          "slug": "quanah"
+        }
+      ]
+    },
+    {
+      "county": "Hardin",
+      "countySlug": "hardin-county",
+      "cities": [
+        {
+          "name": "Batson",
+          "slug": "batson"
+        },
+        {
+          "name": "Kountze",
+          "slug": "kountze"
+        },
+        {
+          "name": "Saratoga",
+          "slug": "saratoga"
+        },
+        {
+          "name": "Silsbee",
+          "slug": "silsbee"
+        },
+        {
+          "name": "Sour lake",
+          "slug": "sour-lake"
+        },
+        {
+          "name": "Thicket",
+          "slug": "thicket"
+        },
+        {
+          "name": "Village mills",
+          "slug": "village-mills"
+        },
+        {
+          "name": "Votaw",
+          "slug": "votaw"
+        },
+        {
+          "name": "Zcta 77657",
+          "slug": "zcta-77657"
+        }
+      ]
+    },
+    {
+      "county": "Harris",
+      "countySlug": "harris-county",
+      "cities": [
+        {
+          "name": "Barrett",
+          "slug": "barrett"
+        },
+        {
+          "name": "Baytown",
+          "slug": "baytown"
+        },
+        {
+          "name": "Bellaire",
+          "slug": "bellaire"
+        },
+        {
+          "name": "Channelview",
+          "slug": "channelview"
+        },
+        {
+          "name": "Cypress",
+          "slug": "cypress"
+        },
+        {
+          "name": "Deer park",
+          "slug": "deer-park"
+        },
+        {
+          "name": "El lago",
+          "slug": "el-lago"
+        },
+        {
+          "name": "Galena park",
+          "slug": "galena-park"
+        },
+        {
+          "name": "Highlands",
+          "slug": "highlands"
+        },
+        {
+          "name": "Hockley",
+          "slug": "hockley"
+        },
+        {
+          "name": "Houston",
+          "slug": "houston"
+        },
+        {
+          "name": "Huffman",
+          "slug": "huffman"
+        },
+        {
+          "name": "Humble",
+          "slug": "humble"
+        },
+        {
+          "name": "Jacinto city",
+          "slug": "jacinto-city"
+        },
+        {
+          "name": "Jersey village",
+          "slug": "jersey-village"
+        },
+        {
+          "name": "Klein",
+          "slug": "klein"
+        },
+        {
+          "name": "Park row",
+          "slug": "park-row"
+        },
+        {
+          "name": "Pasadena",
+          "slug": "pasadena"
+        },
+        {
+          "name": "Shoreacres",
+          "slug": "shoreacres"
+        },
+        {
+          "name": "South houston",
+          "slug": "south-houston"
+        },
+        {
+          "name": "Spring",
+          "slug": "spring"
+        },
+        {
+          "name": "Tomball",
+          "slug": "tomball"
+        },
+        {
+          "name": "V a hospital",
+          "slug": "v-a-hospital"
+        },
+        {
+          "name": "Webster",
+          "slug": "webster"
+        },
+        {
+          "name": "Zcta 773hh",
+          "slug": "zcta-773hh"
+        }
+      ]
+    },
+    {
+      "county": "Harrison",
+      "countySlug": "harrison-county",
+      "cities": [
+        {
+          "name": "Hallsville",
+          "slug": "hallsville"
+        },
+        {
+          "name": "Harleton",
+          "slug": "harleton"
+        },
+        {
+          "name": "Karnack",
+          "slug": "karnack"
+        },
+        {
+          "name": "Marshall",
+          "slug": "marshall"
+        },
+        {
+          "name": "Waskom",
+          "slug": "waskom"
+        },
+        {
+          "name": "Zcta 75672",
+          "slug": "zcta-75672"
+        }
+      ]
+    },
+    {
+      "county": "Hartley",
+      "countySlug": "hartley-county",
+      "cities": [
+        {
+          "name": "Channing",
+          "slug": "channing"
+        },
+        {
+          "name": "Hartley",
+          "slug": "hartley"
+        }
+      ]
+    },
+    {
+      "county": "Haskell",
+      "countySlug": "haskell-county",
+      "cities": [
+        {
+          "name": "Haskell",
+          "slug": "haskell"
+        },
+        {
+          "name": "O brien",
+          "slug": "o-brien"
+        },
+        {
+          "name": "Rochester",
+          "slug": "rochester"
+        },
+        {
+          "name": "Rule",
+          "slug": "rule"
+        },
+        {
+          "name": "Sagerton",
+          "slug": "sagerton"
+        },
+        {
+          "name": "Weinert",
+          "slug": "weinert"
+        }
+      ]
+    },
+    {
+      "county": "Hays",
+      "countySlug": "hays-county",
+      "cities": [
+        {
+          "name": "Austin",
+          "slug": "austin"
+        },
+        {
+          "name": "Buda",
+          "slug": "buda"
+        },
+        {
+          "name": "Driftwood",
+          "slug": "driftwood"
+        },
+        {
+          "name": "Dripping springs",
+          "slug": "dripping-springs"
+        },
+        {
+          "name": "San marcos",
+          "slug": "san-marcos"
+        },
+        {
+          "name": "Uhland",
+          "slug": "uhland"
+        },
+        {
+          "name": "Wimberley",
+          "slug": "wimberley"
+        }
+      ]
+    },
+    {
+      "county": "Hemphill",
+      "countySlug": "hemphill-county",
+      "cities": [
+        {
+          "name": "Glazier",
+          "slug": "glazier"
+        }
+      ]
+    },
+    {
+      "county": "Henderson",
+      "countySlug": "henderson-county",
+      "cities": [
+        {
+          "name": "Athens",
+          "slug": "athens"
+        },
+        {
+          "name": "Chandler",
+          "slug": "chandler"
+        },
+        {
+          "name": "Edom",
+          "slug": "edom"
+        },
+        {
+          "name": "Eustace",
+          "slug": "eustace"
+        },
+        {
+          "name": "Gun barrel city",
+          "slug": "gun-barrel-city"
+        },
+        {
+          "name": "Larue",
+          "slug": "larue"
+        },
+        {
+          "name": "Malakoff",
+          "slug": "malakoff"
+        },
+        {
+          "name": "Murchison",
+          "slug": "murchison"
+        },
+        {
+          "name": "Poynor",
+          "slug": "poynor"
+        },
+        {
+          "name": "Seven points",
+          "slug": "seven-points"
+        },
+        {
+          "name": "Trinidad",
+          "slug": "trinidad"
+        }
+      ]
+    },
+    {
+      "county": "Hidalgo",
+      "countySlug": "hidalgo-county",
+      "cities": [
+        {
+          "name": "Alamo",
+          "slug": "alamo"
+        },
+        {
+          "name": "Alton",
+          "slug": "alton"
+        },
+        {
+          "name": "Donna",
+          "slug": "donna"
+        },
+        {
+          "name": "Edinburg",
+          "slug": "edinburg"
+        },
+        {
+          "name": "Elsa",
+          "slug": "elsa"
+        },
+        {
+          "name": "Hargill",
+          "slug": "hargill"
+        },
+        {
+          "name": "Hidalgo",
+          "slug": "hidalgo"
+        },
+        {
+          "name": "La blanca",
+          "slug": "la-blanca"
+        },
+        {
+          "name": "La joya",
+          "slug": "la-joya"
+        },
+        {
+          "name": "La villa",
+          "slug": "la-villa"
+        },
+        {
+          "name": "Linn",
+          "slug": "linn"
+        },
+        {
+          "name": "Los ebanos",
+          "slug": "los-ebanos"
+        },
+        {
+          "name": "Mcallen",
+          "slug": "mcallen"
+        },
+        {
+          "name": "Mercedes",
+          "slug": "mercedes"
+        },
+        {
+          "name": "Monte alto",
+          "slug": "monte-alto"
+        },
+        {
+          "name": "Penitas",
+          "slug": "penitas"
+        },
+        {
+          "name": "Pharr",
+          "slug": "pharr"
+        },
+        {
+          "name": "Progreso",
+          "slug": "progreso"
+        },
+        {
+          "name": "San juan",
+          "slug": "san-juan"
+        },
+        {
+          "name": "Sullivan city",
+          "slug": "sullivan-city"
+        },
+        {
+          "name": "Weslaco",
+          "slug": "weslaco"
+        },
+        {
+          "name": "Zcta 785xx",
+          "slug": "zcta-785xx"
+        }
+      ]
+    },
+    {
+      "county": "Hill",
+      "countySlug": "hill-county",
+      "cities": [
+        {
+          "name": "Abbott",
+          "slug": "abbott"
+        },
+        {
+          "name": "Aquilla",
+          "slug": "aquilla"
+        },
+        {
+          "name": "Blum",
+          "slug": "blum"
+        },
+        {
+          "name": "Bonanza",
+          "slug": "bonanza"
+        },
+        {
+          "name": "Brandon",
+          "slug": "brandon"
+        },
+        {
+          "name": "Bynum",
+          "slug": "bynum"
+        },
+        {
+          "name": "Covington",
+          "slug": "covington"
+        },
+        {
+          "name": "Hillsboro",
+          "slug": "hillsboro"
+        },
+        {
+          "name": "Hubbard",
+          "slug": "hubbard"
+        },
+        {
+          "name": "Itasca",
+          "slug": "itasca"
+        },
+        {
+          "name": "Malone",
+          "slug": "malone"
+        },
+        {
+          "name": "Mertens",
+          "slug": "mertens"
+        },
+        {
+          "name": "Mount calm",
+          "slug": "mount-calm"
+        },
+        {
+          "name": "Penelope",
+          "slug": "penelope"
+        }
+      ]
+    },
+    {
+      "county": "Hockley",
+      "countySlug": "hockley-county",
+      "cities": [
+        {
+          "name": "Anton",
+          "slug": "anton"
+        },
+        {
+          "name": "Levelland",
+          "slug": "levelland"
+        },
+        {
+          "name": "Pep",
+          "slug": "pep"
+        },
+        {
+          "name": "Ropesville",
+          "slug": "ropesville"
+        },
+        {
+          "name": "Smyer",
+          "slug": "smyer"
+        },
+        {
+          "name": "Sundown",
+          "slug": "sundown"
+        },
+        {
+          "name": "Whitharral",
+          "slug": "whitharral"
+        }
+      ]
+    },
+    {
+      "county": "Hood",
+      "countySlug": "hood-county",
+      "cities": [
+        {
+          "name": "Cresson",
+          "slug": "cresson"
+        },
+        {
+          "name": "Granbury",
+          "slug": "granbury"
+        },
+        {
+          "name": "Lipan",
+          "slug": "lipan"
+        },
+        {
+          "name": "Tolar",
+          "slug": "tolar"
+        },
+        {
+          "name": "Zcta 760hh",
+          "slug": "zcta-760hh"
+        }
+      ]
+    },
+    {
+      "county": "Hopkins",
+      "countySlug": "hopkins-county",
+      "cities": [
+        {
+          "name": "Brashear",
+          "slug": "brashear"
+        },
+        {
+          "name": "Como",
+          "slug": "como"
+        },
+        {
+          "name": "Cumby",
+          "slug": "cumby"
+        },
+        {
+          "name": "Dike",
+          "slug": "dike"
+        },
+        {
+          "name": "Pickton",
+          "slug": "pickton"
+        },
+        {
+          "name": "Saltillo",
+          "slug": "saltillo"
+        },
+        {
+          "name": "Sulphur bluff",
+          "slug": "sulphur-bluff"
+        },
+        {
+          "name": "Sulphur springs",
+          "slug": "sulphur-springs"
+        }
+      ]
+    },
+    {
+      "county": "Houston",
+      "countySlug": "houston-county",
+      "cities": [
+        {
+          "name": "Austonio",
+          "slug": "austonio"
+        },
+        {
+          "name": "Grapeland",
+          "slug": "grapeland"
+        },
+        {
+          "name": "Kennard",
+          "slug": "kennard"
+        },
+        {
+          "name": "Latexo",
+          "slug": "latexo"
+        },
+        {
+          "name": "Lovelady",
+          "slug": "lovelady"
+        },
+        {
+          "name": "Ratcliff",
+          "slug": "ratcliff"
+        }
+      ]
+    },
+    {
+      "county": "Howard",
+      "countySlug": "howard-county",
+      "cities": [
+        {
+          "name": "Coahoma",
+          "slug": "coahoma"
+        },
+        {
+          "name": "Forsan",
+          "slug": "forsan"
+        },
+        {
+          "name": "Knott",
+          "slug": "knott"
+        },
+        {
+          "name": "Vealmoor",
+          "slug": "vealmoor"
+        }
+      ]
+    },
+    {
+      "county": "Hudspeth",
+      "countySlug": "hudspeth-county",
+      "cities": [
+        {
+          "name": "Dell city",
+          "slug": "dell-city"
+        },
+        {
+          "name": "Fort hancock",
+          "slug": "fort-hancock"
+        },
+        {
+          "name": "Salt flat",
+          "slug": "salt-flat"
+        },
+        {
+          "name": "Sierra blanca",
+          "slug": "sierra-blanca"
+        },
+        {
+          "name": "Zcta 799xx",
+          "slug": "zcta-799xx"
+        }
+      ]
+    },
+    {
+      "county": "Hunt",
+      "countySlug": "hunt-county",
+      "cities": [
+        {
+          "name": "Caddo mills",
+          "slug": "caddo-mills"
+        },
+        {
+          "name": "Campbell",
+          "slug": "campbell"
+        },
+        {
+          "name": "Celeste",
+          "slug": "celeste"
+        },
+        {
+          "name": "Commerce",
+          "slug": "commerce"
+        },
+        {
+          "name": "Greenville",
+          "slug": "greenville"
+        },
+        {
+          "name": "Lone oak",
+          "slug": "lone-oak"
+        },
+        {
+          "name": "Quinlan",
+          "slug": "quinlan"
+        },
+        {
+          "name": "Wolfe city",
+          "slug": "wolfe-city"
+        }
+      ]
+    },
+    {
+      "county": "Hutchinson",
+      "countySlug": "hutchinson-county",
+      "cities": [
+        {
+          "name": "Fritch",
+          "slug": "fritch"
+        },
+        {
+          "name": "Phillips",
+          "slug": "phillips"
+        },
+        {
+          "name": "Sanford",
+          "slug": "sanford"
+        },
+        {
+          "name": "Stinnett",
+          "slug": "stinnett"
+        },
+        {
+          "name": "Zcta 790hh",
+          "slug": "zcta-790hh"
+        }
+      ]
+    },
+    {
+      "county": "Irion",
+      "countySlug": "irion-county",
+      "cities": [
+        {
+          "name": "Barnhart",
+          "slug": "barnhart"
+        },
+        {
+          "name": "Mertzon",
+          "slug": "mertzon"
+        }
+      ]
+    },
+    {
+      "county": "Jack",
+      "countySlug": "jack-county",
+      "cities": [
+        {
+          "name": "Bryson",
+          "slug": "bryson"
+        },
+        {
+          "name": "Jacksboro",
+          "slug": "jacksboro"
+        },
+        {
+          "name": "Jermyn",
+          "slug": "jermyn"
+        },
+        {
+          "name": "Perrin",
+          "slug": "perrin"
+        }
+      ]
+    },
+    {
+      "county": "Jackson",
+      "countySlug": "jackson-county",
+      "cities": [
+        {
+          "name": "Edna",
+          "slug": "edna"
+        },
+        {
+          "name": "Francitas",
+          "slug": "francitas"
+        },
+        {
+          "name": "Ganado",
+          "slug": "ganado"
+        },
+        {
+          "name": "La salle",
+          "slug": "la-salle"
+        },
+        {
+          "name": "La ward",
+          "slug": "la-ward"
+        },
+        {
+          "name": "Lolita",
+          "slug": "lolita"
+        },
+        {
+          "name": "Vanderbilt",
+          "slug": "vanderbilt"
+        }
+      ]
+    },
+    {
+      "county": "Jasper",
+      "countySlug": "jasper-county",
+      "cities": [
+        {
+          "name": "Bon ami",
+          "slug": "bon-ami"
+        },
+        {
+          "name": "Brookeland",
+          "slug": "brookeland"
+        },
+        {
+          "name": "Buna",
+          "slug": "buna"
+        },
+        {
+          "name": "Evadale",
+          "slug": "evadale"
+        },
+        {
+          "name": "Sam rayburn",
+          "slug": "sam-rayburn"
+        }
+      ]
+    },
+    {
+      "county": "Jeff Davis",
+      "countySlug": "jeff-davis-county",
+      "cities": [
+        {
+          "name": "Fort davis",
+          "slug": "fort-davis"
+        },
+        {
+          "name": "Valentine",
+          "slug": "valentine"
+        }
+      ]
+    },
+    {
+      "county": "Jefferson",
+      "countySlug": "jefferson-county",
+      "cities": [
+        {
+          "name": "Beaumont",
+          "slug": "beaumont"
+        },
+        {
+          "name": "China",
+          "slug": "china"
+        },
+        {
+          "name": "Groves",
+          "slug": "groves"
+        },
+        {
+          "name": "Hamshire",
+          "slug": "hamshire"
+        },
+        {
+          "name": "Nederland",
+          "slug": "nederland"
+        },
+        {
+          "name": "Nome",
+          "slug": "nome"
+        },
+        {
+          "name": "Port acres",
+          "slug": "port-acres"
+        },
+        {
+          "name": "Port arthur",
+          "slug": "port-arthur"
+        },
+        {
+          "name": "Port neches",
+          "slug": "port-neches"
+        },
+        {
+          "name": "Sabine pass",
+          "slug": "sabine-pass"
+        },
+        {
+          "name": "Zcta 777hh",
+          "slug": "zcta-777hh"
+        },
+        {
+          "name": "Zcta 777xx",
+          "slug": "zcta-777xx"
+        }
+      ]
+    },
+    {
+      "county": "Jim Hogg",
+      "countySlug": "jim-hogg-county",
+      "cities": [
+        {
+          "name": "Hebbronville",
+          "slug": "hebbronville"
+        }
+      ]
+    },
+    {
+      "county": "Jim Wells",
+      "countySlug": "jim-wells-county",
+      "cities": [
+        {
+          "name": "Alice",
+          "slug": "alice"
+        },
+        {
+          "name": "Orange grove",
+          "slug": "orange-grove"
+        },
+        {
+          "name": "Premont",
+          "slug": "premont"
+        }
+      ]
+    },
+    {
+      "county": "Johnson",
+      "countySlug": "johnson-county",
+      "cities": [
+        {
+          "name": "Alvarado",
+          "slug": "alvarado"
+        },
+        {
+          "name": "Burleson",
+          "slug": "burleson"
+        },
+        {
+          "name": "Cleburne",
+          "slug": "cleburne"
+        },
+        {
+          "name": "Godley",
+          "slug": "godley"
+        },
+        {
+          "name": "Grandview",
+          "slug": "grandview"
+        },
+        {
+          "name": "Joshua",
+          "slug": "joshua"
+        },
+        {
+          "name": "Keene",
+          "slug": "keene"
+        },
+        {
+          "name": "Lillian",
+          "slug": "lillian"
+        },
+        {
+          "name": "Rio vista",
+          "slug": "rio-vista"
+        },
+        {
+          "name": "Venus",
+          "slug": "venus"
+        }
+      ]
+    },
+    {
+      "county": "Jones",
+      "countySlug": "jones-county",
+      "cities": [
+        {
+          "name": "Anson",
+          "slug": "anson"
+        },
+        {
+          "name": "Avoca",
+          "slug": "avoca"
+        },
+        {
+          "name": "Hamlin",
+          "slug": "hamlin"
+        },
+        {
+          "name": "Hawley",
+          "slug": "hawley"
+        },
+        {
+          "name": "Lueders",
+          "slug": "lueders"
+        },
+        {
+          "name": "Stamford",
+          "slug": "stamford"
+        }
+      ]
+    },
+    {
+      "county": "Karnes",
+      "countySlug": "karnes-county",
+      "cities": [
+        {
+          "name": "Falls city",
+          "slug": "falls-city"
+        },
+        {
+          "name": "Gillett",
+          "slug": "gillett"
+        },
+        {
+          "name": "Hobson",
+          "slug": "hobson"
+        },
+        {
+          "name": "Karnes city",
+          "slug": "karnes-city"
+        },
+        {
+          "name": "Kenedy",
+          "slug": "kenedy"
+        },
+        {
+          "name": "Panna maria",
+          "slug": "panna-maria"
+        },
+        {
+          "name": "Runge",
+          "slug": "runge"
+        }
+      ]
+    },
+    {
+      "county": "Kaufman",
+      "countySlug": "kaufman-county",
+      "cities": [
+        {
+          "name": "Crandall",
+          "slug": "crandall"
+        },
+        {
+          "name": "Forney",
+          "slug": "forney"
+        },
+        {
+          "name": "Kaufman",
+          "slug": "kaufman"
+        },
+        {
+          "name": "Scurry",
+          "slug": "scurry"
+        },
+        {
+          "name": "Terrell",
+          "slug": "terrell"
+        },
+        {
+          "name": "Zcta 75161",
+          "slug": "zcta-75161"
+        }
+      ]
+    },
+    {
+      "county": "Kendall",
+      "countySlug": "kendall-county",
+      "cities": [
+        {
+          "name": "Bergheim",
+          "slug": "bergheim"
+        },
+        {
+          "name": "Comfort",
+          "slug": "comfort"
+        },
+        {
+          "name": "Kendalia",
+          "slug": "kendalia"
+        },
+        {
+          "name": "Sisterdale",
+          "slug": "sisterdale"
+        },
+        {
+          "name": "Waring",
+          "slug": "waring"
+        }
+      ]
+    },
+    {
+      "county": "Kenedy",
+      "countySlug": "kenedy-county",
+      "cities": [
+        {
+          "name": "Armstrong",
+          "slug": "armstrong"
+        },
+        {
+          "name": "Sarita",
+          "slug": "sarita"
+        }
+      ]
+    },
+    {
+      "county": "Kent",
+      "countySlug": "kent-county",
+      "cities": [
+        {
+          "name": "Girard",
+          "slug": "girard"
+        },
+        {
+          "name": "Jayton",
+          "slug": "jayton"
+        }
+      ]
+    },
+    {
+      "county": "Kerr",
+      "countySlug": "kerr-county",
+      "cities": [
+        {
+          "name": "Camp verde",
+          "slug": "camp-verde"
+        },
+        {
+          "name": "Hunt",
+          "slug": "hunt"
+        },
+        {
+          "name": "Ingram",
+          "slug": "ingram"
+        },
+        {
+          "name": "Kerrville",
+          "slug": "kerrville"
+        },
+        {
+          "name": "Mountain home",
+          "slug": "mountain-home"
+        }
+      ]
+    },
+    {
+      "county": "Kimble",
+      "countySlug": "kimble-county",
+      "cities": [
+        {
+          "name": "Junction",
+          "slug": "junction"
+        },
+        {
+          "name": "London",
+          "slug": "london"
+        },
+        {
+          "name": "Roosevelt",
+          "slug": "roosevelt"
+        }
+      ]
+    },
+    {
+      "county": "King",
+      "countySlug": "king-county",
+      "cities": [
+        {
+          "name": "Dumont",
+          "slug": "dumont"
+        },
+        {
+          "name": "Guthrie",
+          "slug": "guthrie"
+        },
+        {
+          "name": "Zcta 792xx",
+          "slug": "zcta-792xx"
+        }
+      ]
+    },
+    {
+      "county": "Kinney",
+      "countySlug": "kinney-county",
+      "cities": [
+        {
+          "name": "Brackettville",
+          "slug": "brackettville"
+        }
+      ]
+    },
+    {
+      "county": "Kleberg",
+      "countySlug": "kleberg-county",
+      "cities": [
+        {
+          "name": "Kingsville",
+          "slug": "kingsville"
+        },
+        {
+          "name": "Kingsville naval",
+          "slug": "kingsville-naval"
+        },
+        {
+          "name": "Riviera",
+          "slug": "riviera"
+        }
+      ]
+    },
+    {
+      "county": "Knox",
+      "countySlug": "knox-county",
+      "cities": [
+        {
+          "name": "Benjamin",
+          "slug": "benjamin"
+        },
+        {
+          "name": "Goree",
+          "slug": "goree"
+        },
+        {
+          "name": "Knox city",
+          "slug": "knox-city"
+        },
+        {
+          "name": "Munday",
+          "slug": "munday"
+        }
+      ]
+    },
+    {
+      "county": "La Salle",
+      "countySlug": "la-salle-county",
+      "cities": [
+        {
+          "name": "Artesia wells",
+          "slug": "artesia-wells"
+        },
+        {
+          "name": "Cotulla",
+          "slug": "cotulla"
+        },
+        {
+          "name": "Encinal",
+          "slug": "encinal"
+        },
+        {
+          "name": "Fowlerton",
+          "slug": "fowlerton"
+        }
+      ]
+    },
+    {
+      "county": "Lamar",
+      "countySlug": "lamar-county",
+      "cities": [
+        {
+          "name": "Arthur city",
+          "slug": "arthur-city"
+        },
+        {
+          "name": "Blossom",
+          "slug": "blossom"
+        },
+        {
+          "name": "Brookston",
+          "slug": "brookston"
+        },
+        {
+          "name": "Cunningham",
+          "slug": "cunningham"
+        },
+        {
+          "name": "Deport",
+          "slug": "deport"
+        },
+        {
+          "name": "Paris",
+          "slug": "paris"
+        },
+        {
+          "name": "Pattonville",
+          "slug": "pattonville"
+        },
+        {
+          "name": "Petty",
+          "slug": "petty"
+        },
+        {
+          "name": "Powderly",
+          "slug": "powderly"
+        },
+        {
+          "name": "Reno",
+          "slug": "reno"
+        },
+        {
+          "name": "Roxton",
+          "slug": "roxton"
+        },
+        {
+          "name": "Sumner",
+          "slug": "sumner"
+        }
+      ]
+    },
+    {
+      "county": "Lamb",
+      "countySlug": "lamb-county",
+      "cities": [
+        {
+          "name": "Amherst",
+          "slug": "amherst"
+        },
+        {
+          "name": "Earth",
+          "slug": "earth"
+        },
+        {
+          "name": "Fieldton",
+          "slug": "fieldton"
+        },
+        {
+          "name": "Littlefield",
+          "slug": "littlefield"
+        },
+        {
+          "name": "Olton",
+          "slug": "olton"
+        },
+        {
+          "name": "Spade",
+          "slug": "spade"
+        },
+        {
+          "name": "Springlake",
+          "slug": "springlake"
+        },
+        {
+          "name": "Sudan",
+          "slug": "sudan"
+        },
+        {
+          "name": "Zcta 790xx",
+          "slug": "zcta-790xx"
+        },
+        {
+          "name": "Zcta 793xx",
+          "slug": "zcta-793xx"
+        }
+      ]
+    },
+    {
+      "county": "Lampasas",
+      "countySlug": "lampasas-county",
+      "cities": [
+        {
+          "name": "Bend",
+          "slug": "bend"
+        },
+        {
+          "name": "Kempner",
+          "slug": "kempner"
+        },
+        {
+          "name": "Lampasas",
+          "slug": "lampasas"
+        },
+        {
+          "name": "Lometa",
+          "slug": "lometa"
+        }
+      ]
+    },
+    {
+      "county": "Lavaca",
+      "countySlug": "lavaca-county",
+      "cities": [
+        {
+          "name": "Hallettsville",
+          "slug": "hallettsville"
+        },
+        {
+          "name": "Moulton",
+          "slug": "moulton"
+        },
+        {
+          "name": "Shiner",
+          "slug": "shiner"
+        },
+        {
+          "name": "Yoakum",
+          "slug": "yoakum"
+        }
+      ]
+    },
+    {
+      "county": "Lee",
+      "countySlug": "lee-county",
+      "cities": [
+        {
+          "name": "Dime box",
+          "slug": "dime-box"
+        },
+        {
+          "name": "Giddings",
+          "slug": "giddings"
+        },
+        {
+          "name": "Ledbetter",
+          "slug": "ledbetter"
+        },
+        {
+          "name": "Lexington",
+          "slug": "lexington"
+        },
+        {
+          "name": "Lincoln",
+          "slug": "lincoln"
+        }
+      ]
+    },
+    {
+      "county": "Leon",
+      "countySlug": "leon-county",
+      "cities": [
+        {
+          "name": "Centerville",
+          "slug": "centerville"
+        },
+        {
+          "name": "Flynn",
+          "slug": "flynn"
+        },
+        {
+          "name": "Freestone",
+          "slug": "freestone"
+        },
+        {
+          "name": "Hilltop lakes",
+          "slug": "hilltop-lakes"
+        },
+        {
+          "name": "Jewett",
+          "slug": "jewett"
+        },
+        {
+          "name": "Leona",
+          "slug": "leona"
+        },
+        {
+          "name": "Marquez",
+          "slug": "marquez"
+        },
+        {
+          "name": "Oakwood",
+          "slug": "oakwood"
+        }
+      ]
+    },
+    {
+      "county": "Liberty",
+      "countySlug": "liberty-county",
+      "cities": [
+        {
+          "name": "Ames",
+          "slug": "ames"
+        },
+        {
+          "name": "Cleveland",
+          "slug": "cleveland"
+        },
+        {
+          "name": "Daisetta",
+          "slug": "daisetta"
+        },
+        {
+          "name": "Dayton",
+          "slug": "dayton"
+        },
+        {
+          "name": "Devers",
+          "slug": "devers"
+        },
+        {
+          "name": "Hardin",
+          "slug": "hardin"
+        },
+        {
+          "name": "Hull",
+          "slug": "hull"
+        },
+        {
+          "name": "Raywood",
+          "slug": "raywood"
+        },
+        {
+          "name": "Romayor",
+          "slug": "romayor"
+        },
+        {
+          "name": "Rye",
+          "slug": "rye"
+        }
+      ]
+    },
+    {
+      "county": "Limestone",
+      "countySlug": "limestone-county",
+      "cities": [
+        {
+          "name": "Coolidge",
+          "slug": "coolidge"
+        },
+        {
+          "name": "Groesbeck",
+          "slug": "groesbeck"
+        },
+        {
+          "name": "Kosse",
+          "slug": "kosse"
+        },
+        {
+          "name": "Mexia",
+          "slug": "mexia"
+        },
+        {
+          "name": "Prairie hill",
+          "slug": "prairie-hill"
+        },
+        {
+          "name": "Tehuacana",
+          "slug": "tehuacana"
+        },
+        {
+          "name": "Thornton",
+          "slug": "thornton"
+        }
+      ]
+    },
+    {
+      "county": "Lipscomb",
+      "countySlug": "lipscomb-county",
+      "cities": [
+        {
+          "name": "Booker",
+          "slug": "booker"
+        },
+        {
+          "name": "Darrouzett",
+          "slug": "darrouzett"
+        },
+        {
+          "name": "Follett",
+          "slug": "follett"
+        },
+        {
+          "name": "Higgins",
+          "slug": "higgins"
+        },
+        {
+          "name": "Lipscomb",
+          "slug": "lipscomb"
+        }
+      ]
+    },
+    {
+      "county": "Live Oak",
+      "countySlug": "live-oak-county",
+      "cities": [
+        {
+          "name": "George west",
+          "slug": "george-west"
+        },
+        {
+          "name": "Sandia",
+          "slug": "sandia"
+        },
+        {
+          "name": "Three rivers",
+          "slug": "three-rivers"
+        },
+        {
+          "name": "Whitsett",
+          "slug": "whitsett"
+        }
+      ]
+    },
+    {
+      "county": "Llano",
+      "countySlug": "llano-county",
+      "cities": [
+        {
+          "name": "Bluffton",
+          "slug": "bluffton"
+        },
+        {
+          "name": "Buchanan dam",
+          "slug": "buchanan-dam"
+        },
+        {
+          "name": "Castell",
+          "slug": "castell"
+        },
+        {
+          "name": "Kingsland",
+          "slug": "kingsland"
+        },
+        {
+          "name": "Sunrise beach",
+          "slug": "sunrise-beach"
+        },
+        {
+          "name": "Tow",
+          "slug": "tow"
+        },
+        {
+          "name": "Valley spring",
+          "slug": "valley-spring"
+        },
+        {
+          "name": "Zcta 78657",
+          "slug": "zcta-78657"
+        }
+      ]
+    },
+    {
+      "county": "Loving",
+      "countySlug": "loving-county",
+      "cities": [
+        {
+          "name": "Mentone",
+          "slug": "mentone"
+        },
+        {
+          "name": "Zcta 797hh",
+          "slug": "zcta-797hh"
+        }
+      ]
+    },
+    {
+      "county": "Lubbock",
+      "countySlug": "lubbock-county",
+      "cities": [
+        {
+          "name": "Idalou",
+          "slug": "idalou"
+        },
+        {
+          "name": "Lubbock",
+          "slug": "lubbock"
+        },
+        {
+          "name": "New deal",
+          "slug": "new-deal"
+        },
+        {
+          "name": "Ransom canyon",
+          "slug": "ransom-canyon"
+        },
+        {
+          "name": "Shallowater",
+          "slug": "shallowater"
+        },
+        {
+          "name": "Wolfforth",
+          "slug": "wolfforth"
+        }
+      ]
+    },
+    {
+      "county": "Lynn",
+      "countySlug": "lynn-county",
+      "cities": [
+        {
+          "name": "New home",
+          "slug": "new-home"
+        },
+        {
+          "name": "Odonnell",
+          "slug": "odonnell"
+        },
+        {
+          "name": "Tahoka",
+          "slug": "tahoka"
+        },
+        {
+          "name": "Wilson",
+          "slug": "wilson"
+        }
+      ]
+    },
+    {
+      "county": "Madison",
+      "countySlug": "madison-county",
+      "cities": [
+        {
+          "name": "Madisonville",
+          "slug": "madisonville"
+        },
+        {
+          "name": "Midway",
+          "slug": "midway"
+        },
+        {
+          "name": "North zulch",
+          "slug": "north-zulch"
+        }
+      ]
+    },
+    {
+      "county": "Marion",
+      "countySlug": "marion-county",
+      "cities": [
+        {
+          "name": "Avinger",
+          "slug": "avinger"
+        },
+        {
+          "name": "Lodi",
+          "slug": "lodi"
+        },
+        {
+          "name": "Smithland",
+          "slug": "smithland"
+        }
+      ]
+    },
+    {
+      "county": "Martin",
+      "countySlug": "martin-county",
+      "cities": [
+        {
+          "name": "Ackerly",
+          "slug": "ackerly"
+        },
+        {
+          "name": "Lenorah",
+          "slug": "lenorah"
+        },
+        {
+          "name": "Stanton",
+          "slug": "stanton"
+        },
+        {
+          "name": "Tarzan",
+          "slug": "tarzan"
+        },
+        {
+          "name": "Zcta 797xx",
+          "slug": "zcta-797xx"
+        }
+      ]
+    },
+    {
+      "county": "Mason",
+      "countySlug": "mason-county",
+      "cities": [
+        {
+          "name": "Fredonia",
+          "slug": "fredonia"
+        },
+        {
+          "name": "Mason",
+          "slug": "mason"
+        },
+        {
+          "name": "Pontotoc",
+          "slug": "pontotoc"
+        }
+      ]
+    },
+    {
+      "county": "Matagorda",
+      "countySlug": "matagorda-county",
+      "cities": [
+        {
+          "name": "Blessing",
+          "slug": "blessing"
+        },
+        {
+          "name": "Cedar lane",
+          "slug": "cedar-lane"
+        },
+        {
+          "name": "Collegeport",
+          "slug": "collegeport"
+        },
+        {
+          "name": "Elmaton",
+          "slug": "elmaton"
+        },
+        {
+          "name": "Markham",
+          "slug": "markham"
+        },
+        {
+          "name": "Matagorda",
+          "slug": "matagorda"
+        },
+        {
+          "name": "Midfield",
+          "slug": "midfield"
+        },
+        {
+          "name": "Palacios",
+          "slug": "palacios"
+        },
+        {
+          "name": "Pledger",
+          "slug": "pledger"
+        },
+        {
+          "name": "Sargent",
+          "slug": "sargent"
+        },
+        {
+          "name": "Van vleck",
+          "slug": "van-vleck"
+        },
+        {
+          "name": "Wadsworth",
+          "slug": "wadsworth"
+        },
+        {
+          "name": "Zcta 774xx",
+          "slug": "zcta-774xx"
+        }
+      ]
+    },
+    {
+      "county": "Maverick",
+      "countySlug": "maverick-county",
+      "cities": [
+        {
+          "name": "Eagle pass",
+          "slug": "eagle-pass"
+        },
+        {
+          "name": "El indio",
+          "slug": "el-indio"
+        },
+        {
+          "name": "Spofford",
+          "slug": "spofford"
+        },
+        {
+          "name": "Zcta 788hh",
+          "slug": "zcta-788hh"
+        }
+      ]
+    },
+    {
+      "county": "McCulloch",
+      "countySlug": "mcculloch-county",
+      "cities": [
+        {
+          "name": "Fife",
+          "slug": "fife"
+        },
+        {
+          "name": "Lohn",
+          "slug": "lohn"
+        },
+        {
+          "name": "Melvin",
+          "slug": "melvin"
+        },
+        {
+          "name": "Rochelle",
+          "slug": "rochelle"
+        },
+        {
+          "name": "Voca",
+          "slug": "voca"
+        },
+        {
+          "name": "Zcta 768xx",
+          "slug": "zcta-768xx"
+        }
+      ]
+    },
+    {
+      "county": "McLennan",
+      "countySlug": "mclennan-county",
+      "cities": [
+        {
+          "name": "Axtell",
+          "slug": "axtell"
+        },
+        {
+          "name": "Bellmead",
+          "slug": "bellmead"
+        },
+        {
+          "name": "Beverly hills",
+          "slug": "beverly-hills"
+        },
+        {
+          "name": "Bruceville",
+          "slug": "bruceville"
+        },
+        {
+          "name": "China spring",
+          "slug": "china-spring"
+        },
+        {
+          "name": "Crawford",
+          "slug": "crawford"
+        },
+        {
+          "name": "Eddy",
+          "slug": "eddy"
+        },
+        {
+          "name": "Elm mott",
+          "slug": "elm-mott"
+        },
+        {
+          "name": "Hewitt",
+          "slug": "hewitt"
+        },
+        {
+          "name": "Lorena",
+          "slug": "lorena"
+        },
+        {
+          "name": "Mart",
+          "slug": "mart"
+        },
+        {
+          "name": "Mc gregor",
+          "slug": "mc-gregor"
+        },
+        {
+          "name": "Moody",
+          "slug": "moody"
+        },
+        {
+          "name": "Riesel",
+          "slug": "riesel"
+        },
+        {
+          "name": "Waco",
+          "slug": "waco"
+        },
+        {
+          "name": "West",
+          "slug": "west"
+        },
+        {
+          "name": "Woodway",
+          "slug": "woodway"
+        },
+        {
+          "name": "Zcta 767hh",
+          "slug": "zcta-767hh"
+        }
+      ]
+    },
+    {
+      "county": "McMullen",
+      "countySlug": "mcmullen-county",
+      "cities": [
+        {
+          "name": "Calliham",
+          "slug": "calliham"
+        },
+        {
+          "name": "Tilden",
+          "slug": "tilden"
+        }
+      ]
+    },
+    {
+      "county": "Medina",
+      "countySlug": "medina-county",
+      "cities": [
+        {
+          "name": "Castroville",
+          "slug": "castroville"
+        },
+        {
+          "name": "D hanis",
+          "slug": "d-hanis"
+        },
+        {
+          "name": "Devine",
+          "slug": "devine"
+        },
+        {
+          "name": "Dunlay",
+          "slug": "dunlay"
+        },
+        {
+          "name": "La coste",
+          "slug": "la-coste"
+        },
+        {
+          "name": "Mico",
+          "slug": "mico"
+        },
+        {
+          "name": "Natalia",
+          "slug": "natalia"
+        },
+        {
+          "name": "Riomedina",
+          "slug": "riomedina"
+        },
+        {
+          "name": "Yancey",
+          "slug": "yancey"
+        }
+      ]
+    },
+    {
+      "county": "Menard",
+      "countySlug": "menard-county",
+      "cities": [
+        {
+          "name": "Fort mc kavett",
+          "slug": "fort-mc-kavett"
+        },
+        {
+          "name": "Hext",
+          "slug": "hext"
+        },
+        {
+          "name": "Menard",
+          "slug": "menard"
+        }
+      ]
+    },
+    {
+      "county": "Midland",
+      "countySlug": "midland-county",
+      "cities": [
+        {
+          "name": "Midland",
+          "slug": "midland"
+        }
+      ]
+    },
+    {
+      "county": "Milam",
+      "countySlug": "milam-county",
+      "cities": [
+        {
+          "name": "Buckholts",
+          "slug": "buckholts"
+        },
+        {
+          "name": "Burlington",
+          "slug": "burlington"
+        },
+        {
+          "name": "Cameron",
+          "slug": "cameron"
+        },
+        {
+          "name": "Davilla",
+          "slug": "davilla"
+        },
+        {
+          "name": "Gause",
+          "slug": "gause"
+        },
+        {
+          "name": "Milano",
+          "slug": "milano"
+        },
+        {
+          "name": "Rockdale",
+          "slug": "rockdale"
+        },
+        {
+          "name": "Thorndale",
+          "slug": "thorndale"
+        }
+      ]
+    },
+    {
+      "county": "Mills",
+      "countySlug": "mills-county",
+      "cities": [
+        {
+          "name": "Goldthwaite",
+          "slug": "goldthwaite"
+        },
+        {
+          "name": "Mullin",
+          "slug": "mullin"
+        },
+        {
+          "name": "Priddy",
+          "slug": "priddy"
+        }
+      ]
+    },
+    {
+      "county": "Mitchell",
+      "countySlug": "mitchell-county",
+      "cities": [
+        {
+          "name": "Colorado city",
+          "slug": "colorado-city"
+        },
+        {
+          "name": "Loraine",
+          "slug": "loraine"
+        },
+        {
+          "name": "Westbrook",
+          "slug": "westbrook"
+        }
+      ]
+    },
+    {
+      "county": "Montague",
+      "countySlug": "montague-county",
+      "cities": [
+        {
+          "name": "Bowie",
+          "slug": "bowie"
+        },
+        {
+          "name": "Forestburg",
+          "slug": "forestburg"
+        },
+        {
+          "name": "Montague",
+          "slug": "montague"
+        },
+        {
+          "name": "Nocona",
+          "slug": "nocona"
+        },
+        {
+          "name": "Ringgold",
+          "slug": "ringgold"
+        },
+        {
+          "name": "Saint jo",
+          "slug": "saint-jo"
+        },
+        {
+          "name": "Sunset",
+          "slug": "sunset"
+        }
+      ]
+    },
+    {
+      "county": "Montgomery",
+      "countySlug": "montgomery-county",
+      "cities": [
+        {
+          "name": "Conroe",
+          "slug": "conroe"
+        },
+        {
+          "name": "Cut and shoot",
+          "slug": "cut-and-shoot"
+        },
+        {
+          "name": "Dobbin",
+          "slug": "dobbin"
+        },
+        {
+          "name": "Grangerland",
+          "slug": "grangerland"
+        },
+        {
+          "name": "Magnolia",
+          "slug": "magnolia"
+        },
+        {
+          "name": "Montgomery",
+          "slug": "montgomery"
+        },
+        {
+          "name": "New caney",
+          "slug": "new-caney"
+        },
+        {
+          "name": "Panorama village",
+          "slug": "panorama-village"
+        },
+        {
+          "name": "Pinehurst",
+          "slug": "pinehurst"
+        },
+        {
+          "name": "Porter",
+          "slug": "porter"
+        },
+        {
+          "name": "Splendora",
+          "slug": "splendora"
+        },
+        {
+          "name": "Spring",
+          "slug": "spring"
+        },
+        {
+          "name": "The woodlands",
+          "slug": "the-woodlands"
+        },
+        {
+          "name": "Willis",
+          "slug": "willis"
+        },
+        {
+          "name": "Zcta 77306",
+          "slug": "zcta-77306"
+        },
+        {
+          "name": "Zcta 77316",
+          "slug": "zcta-77316"
+        },
+        {
+          "name": "Zcta 77318",
+          "slug": "zcta-77318"
+        },
+        {
+          "name": "Zcta 77354",
+          "slug": "zcta-77354"
+        }
+      ]
+    },
+    {
+      "county": "Moore",
+      "countySlug": "moore-county",
+      "cities": [
+        {
+          "name": "Cactus",
+          "slug": "cactus"
+        },
+        {
+          "name": "Dumas",
+          "slug": "dumas"
+        },
+        {
+          "name": "Sunray",
+          "slug": "sunray"
+        }
+      ]
+    },
+    {
+      "county": "Morris",
+      "countySlug": "morris-county",
+      "cities": [
+        {
+          "name": "Cason",
+          "slug": "cason"
+        },
+        {
+          "name": "Daingerfield",
+          "slug": "daingerfield"
+        },
+        {
+          "name": "Lone star",
+          "slug": "lone-star"
+        },
+        {
+          "name": "Naples",
+          "slug": "naples"
+        },
+        {
+          "name": "Omaha",
+          "slug": "omaha"
+        }
+      ]
+    },
+    {
+      "county": "Motley",
+      "countySlug": "motley-county",
+      "cities": [
+        {
+          "name": "Flomot",
+          "slug": "flomot"
+        },
+        {
+          "name": "Matador",
+          "slug": "matador"
+        },
+        {
+          "name": "Roaring springs",
+          "slug": "roaring-springs"
+        }
+      ]
+    },
+    {
+      "county": "Nacogdoches",
+      "countySlug": "nacogdoches-county",
+      "cities": [
+        {
+          "name": "Appleby",
+          "slug": "appleby"
+        },
+        {
+          "name": "Chireno",
+          "slug": "chireno"
+        },
+        {
+          "name": "Cushing",
+          "slug": "cushing"
+        },
+        {
+          "name": "Douglass",
+          "slug": "douglass"
+        },
+        {
+          "name": "Etoile",
+          "slug": "etoile"
+        },
+        {
+          "name": "Garrison",
+          "slug": "garrison"
+        },
+        {
+          "name": "Nacogdoches",
+          "slug": "nacogdoches"
+        },
+        {
+          "name": "Sacul",
+          "slug": "sacul"
+        },
+        {
+          "name": "Woden",
+          "slug": "woden"
+        }
+      ]
+    },
+    {
+      "county": "Navarro",
+      "countySlug": "navarro-county",
+      "cities": [
+        {
+          "name": "Barry",
+          "slug": "barry"
+        },
+        {
+          "name": "Blooming grove",
+          "slug": "blooming-grove"
+        },
+        {
+          "name": "Chatfield",
+          "slug": "chatfield"
+        },
+        {
+          "name": "Corsicana",
+          "slug": "corsicana"
+        },
+        {
+          "name": "Dawson",
+          "slug": "dawson"
+        },
+        {
+          "name": "Frost",
+          "slug": "frost"
+        },
+        {
+          "name": "Kerens",
+          "slug": "kerens"
+        },
+        {
+          "name": "Powell",
+          "slug": "powell"
+        },
+        {
+          "name": "Purdon",
+          "slug": "purdon"
+        },
+        {
+          "name": "Rice",
+          "slug": "rice"
+        },
+        {
+          "name": "Richland",
+          "slug": "richland"
+        }
+      ]
+    },
+    {
+      "county": "Newton",
+      "countySlug": "newton-county",
+      "cities": [
+        {
+          "name": "Bon wier",
+          "slug": "bon-wier"
+        },
+        {
+          "name": "Burkeville",
+          "slug": "burkeville"
+        },
+        {
+          "name": "Call",
+          "slug": "call"
+        },
+        {
+          "name": "Deweyville",
+          "slug": "deweyville"
+        },
+        {
+          "name": "Newton",
+          "slug": "newton"
+        },
+        {
+          "name": "Wiergate",
+          "slug": "wiergate"
+        }
+      ]
+    },
+    {
+      "county": "Nolan",
+      "countySlug": "nolan-county",
+      "cities": [
+        {
+          "name": "Blackwell",
+          "slug": "blackwell"
+        },
+        {
+          "name": "Maryneal",
+          "slug": "maryneal"
+        },
+        {
+          "name": "Nolan",
+          "slug": "nolan"
+        },
+        {
+          "name": "Roscoe",
+          "slug": "roscoe"
+        },
+        {
+          "name": "Sweetwater",
+          "slug": "sweetwater"
+        }
+      ]
+    },
+    {
+      "county": "Nueces",
+      "countySlug": "nueces-county",
+      "cities": [
+        {
+          "name": "Agua dulce",
+          "slug": "agua-dulce"
+        },
+        {
+          "name": "Banquete",
+          "slug": "banquete"
+        },
+        {
+          "name": "Bishop",
+          "slug": "bishop"
+        },
+        {
+          "name": "Chapman ranch",
+          "slug": "chapman-ranch"
+        },
+        {
+          "name": "Corpus christi",
+          "slug": "corpus-christi"
+        },
+        {
+          "name": "Driscoll",
+          "slug": "driscoll"
+        },
+        {
+          "name": "Port aransas",
+          "slug": "port-aransas"
+        },
+        {
+          "name": "Robstown",
+          "slug": "robstown"
+        },
+        {
+          "name": "Zcta 784hh",
+          "slug": "zcta-784hh"
+        }
+      ]
+    },
+    {
+      "county": "Ochiltree",
+      "countySlug": "ochiltree-county",
+      "cities": [
+        {
+          "name": "Farnsworth",
+          "slug": "farnsworth"
+        },
+        {
+          "name": "Perryton",
+          "slug": "perryton"
+        },
+        {
+          "name": "Waka",
+          "slug": "waka"
+        }
+      ]
+    },
+    {
+      "county": "Oldham",
+      "countySlug": "oldham-county",
+      "cities": [
+        {
+          "name": "Adrian",
+          "slug": "adrian"
+        },
+        {
+          "name": "Boys ranch",
+          "slug": "boys-ranch"
+        },
+        {
+          "name": "Vega",
+          "slug": "vega"
+        },
+        {
+          "name": "Wildorado",
+          "slug": "wildorado"
+        }
+      ]
+    },
+    {
+      "county": "Orange",
+      "countySlug": "orange-county",
+      "cities": [
+        {
+          "name": "Bridge city",
+          "slug": "bridge-city"
+        },
+        {
+          "name": "Orange",
+          "slug": "orange"
+        },
+        {
+          "name": "Vidor",
+          "slug": "vidor"
+        },
+        {
+          "name": "West orange",
+          "slug": "west-orange"
+        }
+      ]
+    },
+    {
+      "county": "Palo Pinto",
+      "countySlug": "palo-pinto-county",
+      "cities": [
+        {
+          "name": "Gordon",
+          "slug": "gordon"
+        },
+        {
+          "name": "Graford",
+          "slug": "graford"
+        },
+        {
+          "name": "Mineral wells",
+          "slug": "mineral-wells"
+        },
+        {
+          "name": "Palo pinto",
+          "slug": "palo-pinto"
+        },
+        {
+          "name": "Santo",
+          "slug": "santo"
+        },
+        {
+          "name": "Strawn",
+          "slug": "strawn"
+        }
+      ]
+    },
+    {
+      "county": "Panola",
+      "countySlug": "panola-county",
+      "cities": [
+        {
+          "name": "Beckville",
+          "slug": "beckville"
+        },
+        {
+          "name": "Carthage",
+          "slug": "carthage"
+        },
+        {
+          "name": "De berry",
+          "slug": "de-berry"
+        },
+        {
+          "name": "Gary",
+          "slug": "gary"
+        },
+        {
+          "name": "Long branch",
+          "slug": "long-branch"
+        }
+      ]
+    },
+    {
+      "county": "Parker",
+      "countySlug": "parker-county",
+      "cities": [
+        {
+          "name": "Aledo",
+          "slug": "aledo"
+        },
+        {
+          "name": "Millsap",
+          "slug": "millsap"
+        },
+        {
+          "name": "Poolville",
+          "slug": "poolville"
+        },
+        {
+          "name": "Springtown",
+          "slug": "springtown"
+        },
+        {
+          "name": "Weatherford",
+          "slug": "weatherford"
+        },
+        {
+          "name": "Whitt",
+          "slug": "whitt"
+        },
+        {
+          "name": "Zcta 76088",
+          "slug": "zcta-76088"
+        }
+      ]
+    },
+    {
+      "county": "Parmer",
+      "countySlug": "parmer-county",
+      "cities": [
+        {
+          "name": "Black",
+          "slug": "black"
+        },
+        {
+          "name": "Bovina",
+          "slug": "bovina"
+        },
+        {
+          "name": "Farwell",
+          "slug": "farwell"
+        },
+        {
+          "name": "Lazbuddie",
+          "slug": "lazbuddie"
+        }
+      ]
+    },
+    {
+      "county": "Pecos",
+      "countySlug": "pecos-county",
+      "cities": [
+        {
+          "name": "Coyanosa",
+          "slug": "coyanosa"
+        },
+        {
+          "name": "Fort stockton",
+          "slug": "fort-stockton"
+        },
+        {
+          "name": "Girvin",
+          "slug": "girvin"
+        },
+        {
+          "name": "Imperial",
+          "slug": "imperial"
+        },
+        {
+          "name": "Iraan",
+          "slug": "iraan"
+        },
+        {
+          "name": "Sheffield",
+          "slug": "sheffield"
+        }
+      ]
+    },
+    {
+      "county": "Polk",
+      "countySlug": "polk-county",
+      "cities": [
+        {
+          "name": "Ace",
+          "slug": "ace"
+        },
+        {
+          "name": "Barnum",
+          "slug": "barnum"
+        },
+        {
+          "name": "Camden",
+          "slug": "camden"
+        },
+        {
+          "name": "Goodrich",
+          "slug": "goodrich"
+        },
+        {
+          "name": "Moscow",
+          "slug": "moscow"
+        },
+        {
+          "name": "Onalaska",
+          "slug": "onalaska"
+        },
+        {
+          "name": "Segno",
+          "slug": "segno"
+        },
+        {
+          "name": "Zcta 759xx",
+          "slug": "zcta-759xx"
+        },
+        {
+          "name": "Zcta 773xx",
+          "slug": "zcta-773xx"
+        }
+      ]
+    },
+    {
+      "county": "Potter",
+      "countySlug": "potter-county",
+      "cities": [
+        {
+          "name": "Amarillo",
+          "slug": "amarillo"
+        },
+        {
+          "name": "Bushland",
+          "slug": "bushland"
+        },
+        {
+          "name": "Zcta 791xx",
+          "slug": "zcta-791xx"
+        }
+      ]
+    },
+    {
+      "county": "Presidio",
+      "countySlug": "presidio-county",
+      "cities": [
+        {
+          "name": "Marfa",
+          "slug": "marfa"
+        },
+        {
+          "name": "Presidio",
+          "slug": "presidio"
+        },
+        {
+          "name": "Redford",
+          "slug": "redford"
+        }
+      ]
+    },
+    {
+      "county": "Rains",
+      "countySlug": "rains-county",
+      "cities": [
+        {
+          "name": "Emory",
+          "slug": "emory"
+        },
+        {
+          "name": "Point",
+          "slug": "point"
+        }
+      ]
+    },
+    {
+      "county": "Randall",
+      "countySlug": "randall-county",
+      "cities": [
+        {
+          "name": "Amarillo",
+          "slug": "amarillo"
+        },
+        {
+          "name": "Canyon",
+          "slug": "canyon"
+        },
+        {
+          "name": "Umbarger",
+          "slug": "umbarger"
+        },
+        {
+          "name": "Zcta 791hh",
+          "slug": "zcta-791hh"
+        }
+      ]
+    },
+    {
+      "county": "Reagan",
+      "countySlug": "reagan-county",
+      "cities": [
+        {
+          "name": "Best",
+          "slug": "best"
+        }
+      ]
+    },
+    {
+      "county": "Real",
+      "countySlug": "real-county",
+      "cities": [
+        {
+          "name": "Camp wood",
+          "slug": "camp-wood"
+        },
+        {
+          "name": "Leakey",
+          "slug": "leakey"
+        },
+        {
+          "name": "Rio frio",
+          "slug": "rio-frio"
+        }
+      ]
+    },
+    {
+      "county": "Red River",
+      "countySlug": "red-river-county",
+      "cities": [
+        {
+          "name": "Annona",
+          "slug": "annona"
+        },
+        {
+          "name": "Avery",
+          "slug": "avery"
+        },
+        {
+          "name": "Bagwell",
+          "slug": "bagwell"
+        },
+        {
+          "name": "Bogata",
+          "slug": "bogata"
+        },
+        {
+          "name": "Clarksville",
+          "slug": "clarksville"
+        },
+        {
+          "name": "Detroit",
+          "slug": "detroit"
+        }
+      ]
+    },
+    {
+      "county": "Reeves",
+      "countySlug": "reeves-county",
+      "cities": [
+        {
+          "name": "Balmorhea",
+          "slug": "balmorhea"
+        },
+        {
+          "name": "Saragosa",
+          "slug": "saragosa"
+        },
+        {
+          "name": "Toyah",
+          "slug": "toyah"
+        },
+        {
+          "name": "Verhalen",
+          "slug": "verhalen"
+        }
+      ]
+    },
+    {
+      "county": "Refugio",
+      "countySlug": "refugio-county",
+      "cities": [
+        {
+          "name": "Austwell",
+          "slug": "austwell"
+        },
+        {
+          "name": "Bayside",
+          "slug": "bayside"
+        },
+        {
+          "name": "Refugio",
+          "slug": "refugio"
+        },
+        {
+          "name": "Tivoli",
+          "slug": "tivoli"
+        },
+        {
+          "name": "Woodsboro",
+          "slug": "woodsboro"
+        }
+      ]
+    },
+    {
+      "county": "Roberts",
+      "countySlug": "roberts-county",
+      "cities": [
+        {
+          "name": "Miami",
+          "slug": "miami"
+        }
+      ]
+    },
+    {
+      "county": "Robertson",
+      "countySlug": "robertson-county",
+      "cities": [
+        {
+          "name": "Bremond",
+          "slug": "bremond"
+        },
+        {
+          "name": "Calvert",
+          "slug": "calvert"
+        },
+        {
+          "name": "Franklin",
+          "slug": "franklin"
+        },
+        {
+          "name": "Hearne",
+          "slug": "hearne"
+        },
+        {
+          "name": "Mumford",
+          "slug": "mumford"
+        },
+        {
+          "name": "New baden",
+          "slug": "new-baden"
+        },
+        {
+          "name": "Wheelock",
+          "slug": "wheelock"
+        }
+      ]
+    },
+    {
+      "county": "Rockwall",
+      "countySlug": "rockwall-county",
+      "cities": [
+        {
+          "name": "Fate",
+          "slug": "fate"
+        },
+        {
+          "name": "Heath",
+          "slug": "heath"
+        },
+        {
+          "name": "Royse city",
+          "slug": "royse-city"
+        },
+        {
+          "name": "Zcta 75032",
+          "slug": "zcta-75032"
+        }
+      ]
+    },
+    {
+      "county": "Runnels",
+      "countySlug": "runnels-county",
+      "cities": [
+        {
+          "name": "Ballinger",
+          "slug": "ballinger"
+        },
+        {
+          "name": "Miles",
+          "slug": "miles"
+        },
+        {
+          "name": "Norton",
+          "slug": "norton"
+        },
+        {
+          "name": "Rowena",
+          "slug": "rowena"
+        },
+        {
+          "name": "Wingate",
+          "slug": "wingate"
+        },
+        {
+          "name": "Winters",
+          "slug": "winters"
+        }
+      ]
+    },
+    {
+      "county": "Rusk",
+      "countySlug": "rusk-county",
+      "cities": [
+        {
+          "name": "Henderson",
+          "slug": "henderson"
+        },
+        {
+          "name": "Laneville",
+          "slug": "laneville"
+        },
+        {
+          "name": "Minden",
+          "slug": "minden"
+        },
+        {
+          "name": "Mount enterprise",
+          "slug": "mount-enterprise"
+        },
+        {
+          "name": "Overton",
+          "slug": "overton"
+        },
+        {
+          "name": "Reklaw",
+          "slug": "reklaw"
+        },
+        {
+          "name": "Tatum",
+          "slug": "tatum"
+        },
+        {
+          "name": "Zcta 75654",
+          "slug": "zcta-75654"
+        }
+      ]
+    },
+    {
+      "county": "Sabine",
+      "countySlug": "sabine-county",
+      "cities": [
+        {
+          "name": "Bronson",
+          "slug": "bronson"
+        },
+        {
+          "name": "Hemphill",
+          "slug": "hemphill"
+        },
+        {
+          "name": "Milam",
+          "slug": "milam"
+        },
+        {
+          "name": "Pineland",
+          "slug": "pineland"
+        }
+      ]
+    },
+    {
+      "county": "San Augustine",
+      "countySlug": "san-augustine-county",
+      "cities": [
+        {
+          "name": "Broaddus",
+          "slug": "broaddus"
+        },
+        {
+          "name": "San augustine",
+          "slug": "san-augustine"
+        }
+      ]
+    },
+    {
+      "county": "San Jacinto",
+      "countySlug": "san-jacinto-county",
+      "cities": [
+        {
+          "name": "Coldspring",
+          "slug": "coldspring"
+        },
+        {
+          "name": "Oakhurst",
+          "slug": "oakhurst"
+        },
+        {
+          "name": "Pointblank",
+          "slug": "pointblank"
+        },
+        {
+          "name": "Shepherd",
+          "slug": "shepherd"
+        }
+      ]
+    },
+    {
+      "county": "San Patricio",
+      "countySlug": "san-patricio-county",
+      "cities": [
+        {
+          "name": "Aransas pass",
+          "slug": "aransas-pass"
+        },
+        {
+          "name": "Edroy",
+          "slug": "edroy"
+        },
+        {
+          "name": "Gregory",
+          "slug": "gregory"
+        },
+        {
+          "name": "Ingleside",
+          "slug": "ingleside"
+        },
+        {
+          "name": "Mathis",
+          "slug": "mathis"
+        },
+        {
+          "name": "Odem",
+          "slug": "odem"
+        },
+        {
+          "name": "Portland",
+          "slug": "portland"
+        },
+        {
+          "name": "Sinton",
+          "slug": "sinton"
+        },
+        {
+          "name": "Taft",
+          "slug": "taft"
+        }
+      ]
+    },
+    {
+      "county": "San Saba",
+      "countySlug": "san-saba-county",
+      "cities": [
+        {
+          "name": "Cherokee",
+          "slug": "cherokee"
+        },
+        {
+          "name": "Richland springs",
+          "slug": "richland-springs"
+        },
+        {
+          "name": "San saba",
+          "slug": "san-saba"
+        }
+      ]
+    },
+    {
+      "county": "Schleicher",
+      "countySlug": "schleicher-county",
+      "cities": [
+        {
+          "name": "Eldorado",
+          "slug": "eldorado"
+        }
+      ]
+    },
+    {
+      "county": "Scurry",
+      "countySlug": "scurry-county",
+      "cities": [
+        {
+          "name": "Dermott",
+          "slug": "dermott"
+        },
+        {
+          "name": "Fluvanna",
+          "slug": "fluvanna"
+        },
+        {
+          "name": "Hermleigh",
+          "slug": "hermleigh"
+        },
+        {
+          "name": "Ira",
+          "slug": "ira"
+        }
+      ]
+    },
+    {
+      "county": "Shackelford",
+      "countySlug": "shackelford-county",
+      "cities": [
+        {
+          "name": "Albany",
+          "slug": "albany"
+        },
+        {
+          "name": "Moran",
+          "slug": "moran"
+        },
+        {
+          "name": "Zcta 764xx",
+          "slug": "zcta-764xx"
+        },
+        {
+          "name": "Zcta 796xx",
+          "slug": "zcta-796xx"
+        }
+      ]
+    },
+    {
+      "county": "Shelby",
+      "countySlug": "shelby-county",
+      "cities": [
+        {
+          "name": "Center",
+          "slug": "center"
+        },
+        {
+          "name": "Joaquin",
+          "slug": "joaquin"
+        },
+        {
+          "name": "Shelbyville",
+          "slug": "shelbyville"
+        },
+        {
+          "name": "Tenaha",
+          "slug": "tenaha"
+        },
+        {
+          "name": "Timpson",
+          "slug": "timpson"
+        }
+      ]
+    },
+    {
+      "county": "Sherman",
+      "countySlug": "sherman-county",
+      "cities": [
+        {
+          "name": "Stratford",
+          "slug": "stratford"
+        }
+      ]
+    },
+    {
+      "county": "Smith",
+      "countySlug": "smith-county",
+      "cities": [
+        {
+          "name": "Arp",
+          "slug": "arp"
+        },
+        {
+          "name": "East texas cente",
+          "slug": "east-texas-cente"
+        },
+        {
+          "name": "Flint",
+          "slug": "flint"
+        },
+        {
+          "name": "Mount selman",
+          "slug": "mount-selman"
+        },
+        {
+          "name": "Mt sylvan",
+          "slug": "mt-sylvan"
+        },
+        {
+          "name": "Troup",
+          "slug": "troup"
+        },
+        {
+          "name": "Tyler",
+          "slug": "tyler"
+        },
+        {
+          "name": "Whitehouse",
+          "slug": "whitehouse"
+        },
+        {
+          "name": "Winona",
+          "slug": "winona"
+        }
+      ]
+    },
+    {
+      "county": "Somervell",
+      "countySlug": "somervell-county",
+      "cities": [
+        {
+          "name": "Glen rose",
+          "slug": "glen-rose"
+        },
+        {
+          "name": "Nemo",
+          "slug": "nemo"
+        },
+        {
+          "name": "Rainbow",
+          "slug": "rainbow"
+        }
+      ]
+    },
+    {
+      "county": "Starr",
+      "countySlug": "starr-county",
+      "cities": [
+        {
+          "name": "Falcon heights",
+          "slug": "falcon-heights"
+        },
+        {
+          "name": "Garciasville",
+          "slug": "garciasville"
+        },
+        {
+          "name": "Grulla",
+          "slug": "grulla"
+        },
+        {
+          "name": "Rio grande city",
+          "slug": "rio-grande-city"
+        },
+        {
+          "name": "Roma",
+          "slug": "roma"
+        },
+        {
+          "name": "San isidro",
+          "slug": "san-isidro"
+        }
+      ]
+    },
+    {
+      "county": "Stephens",
+      "countySlug": "stephens-county",
+      "cities": [
+        {
+          "name": "Breckenridge",
+          "slug": "breckenridge"
+        },
+        {
+          "name": "Caddo",
+          "slug": "caddo"
+        }
+      ]
+    },
+    {
+      "county": "Sterling",
+      "countySlug": "sterling-county",
+      "cities": [
+        {
+          "name": "Sterling city",
+          "slug": "sterling-city"
+        }
+      ]
+    },
+    {
+      "county": "Stonewall",
+      "countySlug": "stonewall-county",
+      "cities": [
+        {
+          "name": "Aspermont",
+          "slug": "aspermont"
+        },
+        {
+          "name": "Old glory",
+          "slug": "old-glory"
+        }
+      ]
+    },
+    {
+      "county": "Sutton",
+      "countySlug": "sutton-county",
+      "cities": [
+        {
+          "name": "Sonora",
+          "slug": "sonora"
+        }
+      ]
+    },
+    {
+      "county": "Swisher",
+      "countySlug": "swisher-county",
+      "cities": [
+        {
+          "name": "Happy",
+          "slug": "happy"
+        },
+        {
+          "name": "Kress",
+          "slug": "kress"
+        },
+        {
+          "name": "Vigo park",
+          "slug": "vigo-park"
+        }
+      ]
+    },
+    {
+      "county": "Tarrant",
+      "countySlug": "tarrant-county",
+      "cities": [
+        {
+          "name": "Arlington",
+          "slug": "arlington"
+        },
+        {
+          "name": "Azle",
+          "slug": "azle"
+        },
+        {
+          "name": "Bedford",
+          "slug": "bedford"
+        },
+        {
+          "name": "Benbrook",
+          "slug": "benbrook"
+        },
+        {
+          "name": "Carswell afb",
+          "slug": "carswell-afb"
+        },
+        {
+          "name": "Colleyville",
+          "slug": "colleyville"
+        },
+        {
+          "name": "Crowley",
+          "slug": "crowley"
+        },
+        {
+          "name": "Euless",
+          "slug": "euless"
+        },
+        {
+          "name": "Everman",
+          "slug": "everman"
+        },
+        {
+          "name": "Fort worth",
+          "slug": "fort-worth"
+        },
+        {
+          "name": "Grapevine",
+          "slug": "grapevine"
+        },
+        {
+          "name": "Haltom city",
+          "slug": "haltom-city"
+        },
+        {
+          "name": "Haslet",
+          "slug": "haslet"
+        },
+        {
+          "name": "Hurst",
+          "slug": "hurst"
+        },
+        {
+          "name": "Keller",
+          "slug": "keller"
+        },
+        {
+          "name": "Kennedale",
+          "slug": "kennedale"
+        },
+        {
+          "name": "Mansfield",
+          "slug": "mansfield"
+        },
+        {
+          "name": "North richland h",
+          "slug": "north-richland-h"
+        },
+        {
+          "name": "River oaks",
+          "slug": "river-oaks"
+        },
+        {
+          "name": "Saginaw",
+          "slug": "saginaw"
+        },
+        {
+          "name": "Watauga",
+          "slug": "watauga"
+        },
+        {
+          "name": "White settlement",
+          "slug": "white-settlement"
+        },
+        {
+          "name": "Zcta 76001",
+          "slug": "zcta-76001"
+        },
+        {
+          "name": "Zcta 76002",
+          "slug": "zcta-76002"
+        },
+        {
+          "name": "Zcta 761hh",
+          "slug": "zcta-761hh"
+        }
+      ]
+    },
+    {
+      "county": "Taylor",
+      "countySlug": "taylor-county",
+      "cities": [
+        {
+          "name": "Abilene",
+          "slug": "abilene"
+        },
+        {
+          "name": "Buffalo gap",
+          "slug": "buffalo-gap"
+        },
+        {
+          "name": "Dyess afb",
+          "slug": "dyess-afb"
+        },
+        {
+          "name": "Lawn",
+          "slug": "lawn"
+        },
+        {
+          "name": "Merkel",
+          "slug": "merkel"
+        },
+        {
+          "name": "Ovalo",
+          "slug": "ovalo"
+        },
+        {
+          "name": "Trent",
+          "slug": "trent"
+        },
+        {
+          "name": "Tuscola",
+          "slug": "tuscola"
+        },
+        {
+          "name": "Tye",
+          "slug": "tye"
+        }
+      ]
+    },
+    {
+      "county": "Terrell",
+      "countySlug": "terrell-county",
+      "cities": [
+        {
+          "name": "Dryden",
+          "slug": "dryden"
+        },
+        {
+          "name": "Sanderson",
+          "slug": "sanderson"
+        }
+      ]
+    },
+    {
+      "county": "Terry",
+      "countySlug": "terry-county",
+      "cities": [
+        {
+          "name": "Brownfield",
+          "slug": "brownfield"
+        },
+        {
+          "name": "Meadow",
+          "slug": "meadow"
+        },
+        {
+          "name": "Wellman",
+          "slug": "wellman"
+        }
+      ]
+    },
+    {
+      "county": "Throckmorton",
+      "countySlug": "throckmorton-county",
+      "cities": [
+        {
+          "name": "Throckmorton",
+          "slug": "throckmorton"
+        },
+        {
+          "name": "Woodson",
+          "slug": "woodson"
+        }
+      ]
+    },
+    {
+      "county": "Titus",
+      "countySlug": "titus-county",
+      "cities": [
+        {
+          "name": "Cookville",
+          "slug": "cookville"
+        },
+        {
+          "name": "Mount pleasant",
+          "slug": "mount-pleasant"
+        },
+        {
+          "name": "Talco",
+          "slug": "talco"
+        },
+        {
+          "name": "Winfield",
+          "slug": "winfield"
+        }
+      ]
+    },
+    {
+      "county": "Tom Green",
+      "countySlug": "tom-green-county",
+      "cities": [
+        {
+          "name": "Carlsbad",
+          "slug": "carlsbad"
+        },
+        {
+          "name": "Christoval",
+          "slug": "christoval"
+        },
+        {
+          "name": "Mereta",
+          "slug": "mereta"
+        },
+        {
+          "name": "San angelo",
+          "slug": "san-angelo"
+        },
+        {
+          "name": "Vancourt",
+          "slug": "vancourt"
+        },
+        {
+          "name": "Water valley",
+          "slug": "water-valley"
+        }
+      ]
+    },
+    {
+      "county": "Travis",
+      "countySlug": "travis-county",
+      "cities": [
+        {
+          "name": "Austin",
+          "slug": "austin"
+        },
+        {
+          "name": "Creedmoor",
+          "slug": "creedmoor"
+        },
+        {
+          "name": "Del valle",
+          "slug": "del-valle"
+        },
+        {
+          "name": "Jonestown",
+          "slug": "jonestown"
+        },
+        {
+          "name": "Lakeway",
+          "slug": "lakeway"
+        },
+        {
+          "name": "Manchaca",
+          "slug": "manchaca"
+        },
+        {
+          "name": "Manor",
+          "slug": "manor"
+        },
+        {
+          "name": "Pflugerville",
+          "slug": "pflugerville"
+        },
+        {
+          "name": "Spicewood",
+          "slug": "spicewood"
+        },
+        {
+          "name": "West lake hills",
+          "slug": "west-lake-hills"
+        },
+        {
+          "name": "Zcta 787hh",
+          "slug": "zcta-787hh"
+        }
+      ]
+    },
+    {
+      "county": "Trinity",
+      "countySlug": "trinity-county",
+      "cities": [
+        {
+          "name": "Apple springs",
+          "slug": "apple-springs"
+        },
+        {
+          "name": "Groveton",
+          "slug": "groveton"
+        },
+        {
+          "name": "Pennington",
+          "slug": "pennington"
+        },
+        {
+          "name": "Trinity",
+          "slug": "trinity"
+        }
+      ]
+    },
+    {
+      "county": "Tyler",
+      "countySlug": "tyler-county",
+      "cities": [
+        {
+          "name": "Chester",
+          "slug": "chester"
+        },
+        {
+          "name": "Dogwood",
+          "slug": "dogwood"
+        },
+        {
+          "name": "Doucette",
+          "slug": "doucette"
+        },
+        {
+          "name": "Fred",
+          "slug": "fred"
+        },
+        {
+          "name": "Hillister",
+          "slug": "hillister"
+        },
+        {
+          "name": "Rockland",
+          "slug": "rockland"
+        },
+        {
+          "name": "Spurger",
+          "slug": "spurger"
+        },
+        {
+          "name": "Warren",
+          "slug": "warren"
+        }
+      ]
+    },
+    {
+      "county": "Upshur",
+      "countySlug": "upshur-county",
+      "cities": [
+        {
+          "name": "Big sandy",
+          "slug": "big-sandy"
+        },
+        {
+          "name": "Gilmer",
+          "slug": "gilmer"
+        },
+        {
+          "name": "New diana",
+          "slug": "new-diana"
+        },
+        {
+          "name": "Ore city",
+          "slug": "ore-city"
+        }
+      ]
+    },
+    {
+      "county": "Upton",
+      "countySlug": "upton-county",
+      "cities": [
+        {
+          "name": "Mc camey",
+          "slug": "mc-camey"
+        },
+        {
+          "name": "Midkiff",
+          "slug": "midkiff"
+        },
+        {
+          "name": "Rankin",
+          "slug": "rankin"
+        }
+      ]
+    },
+    {
+      "county": "Uvalde",
+      "countySlug": "uvalde-county",
+      "cities": [
+        {
+          "name": "Concan",
+          "slug": "concan"
+        },
+        {
+          "name": "Knippa",
+          "slug": "knippa"
+        },
+        {
+          "name": "Sabinal",
+          "slug": "sabinal"
+        },
+        {
+          "name": "Utopia",
+          "slug": "utopia"
+        },
+        {
+          "name": "Uvalde",
+          "slug": "uvalde"
+        }
+      ]
+    },
+    {
+      "county": "Val Verde",
+      "countySlug": "val-verde-county",
+      "cities": [
+        {
+          "name": "Comstock",
+          "slug": "comstock"
+        },
+        {
+          "name": "Laughlin a f b",
+          "slug": "laughlin-a-f-b"
+        },
+        {
+          "name": "Zcta 788xx",
+          "slug": "zcta-788xx"
+        }
+      ]
+    },
+    {
+      "county": "Van Zandt",
+      "countySlug": "van-zandt-county",
+      "cities": [
+        {
+          "name": "Ben wheeler",
+          "slug": "ben-wheeler"
+        },
+        {
+          "name": "Canton",
+          "slug": "canton"
+        },
+        {
+          "name": "Edgewood",
+          "slug": "edgewood"
+        },
+        {
+          "name": "Fruitvale",
+          "slug": "fruitvale"
+        },
+        {
+          "name": "Grand saline",
+          "slug": "grand-saline"
+        },
+        {
+          "name": "Van",
+          "slug": "van"
+        },
+        {
+          "name": "Wills point",
+          "slug": "wills-point"
+        }
+      ]
+    },
+    {
+      "county": "Victoria",
+      "countySlug": "victoria-county",
+      "cities": [
+        {
+          "name": "Bloomington",
+          "slug": "bloomington"
+        },
+        {
+          "name": "Inez",
+          "slug": "inez"
+        },
+        {
+          "name": "Mcfaddin",
+          "slug": "mcfaddin"
+        },
+        {
+          "name": "Placedo",
+          "slug": "placedo"
+        },
+        {
+          "name": "Telferner",
+          "slug": "telferner"
+        },
+        {
+          "name": "Victoria",
+          "slug": "victoria"
+        }
+      ]
+    },
+    {
+      "county": "Walker",
+      "countySlug": "walker-county",
+      "cities": [
+        {
+          "name": "Dodge",
+          "slug": "dodge"
+        },
+        {
+          "name": "Huntsville",
+          "slug": "huntsville"
+        },
+        {
+          "name": "New waverly",
+          "slug": "new-waverly"
+        },
+        {
+          "name": "Riverside",
+          "slug": "riverside"
+        },
+        {
+          "name": "Shiro",
+          "slug": "shiro"
+        },
+        {
+          "name": "Zcta 77320",
+          "slug": "zcta-77320"
+        }
+      ]
+    },
+    {
+      "county": "Waller",
+      "countySlug": "waller-county",
+      "cities": [
+        {
+          "name": "Brookshire",
+          "slug": "brookshire"
+        },
+        {
+          "name": "Hempstead",
+          "slug": "hempstead"
+        },
+        {
+          "name": "Pattison",
+          "slug": "pattison"
+        },
+        {
+          "name": "Prairie view",
+          "slug": "prairie-view"
+        },
+        {
+          "name": "Waller",
+          "slug": "waller"
+        }
+      ]
+    },
+    {
+      "county": "Ward",
+      "countySlug": "ward-county",
+      "cities": [
+        {
+          "name": "Barstow",
+          "slug": "barstow"
+        },
+        {
+          "name": "Grandfalls",
+          "slug": "grandfalls"
+        },
+        {
+          "name": "Monahans",
+          "slug": "monahans"
+        },
+        {
+          "name": "Pyote",
+          "slug": "pyote"
+        },
+        {
+          "name": "Wickett",
+          "slug": "wickett"
+        }
+      ]
+    },
+    {
+      "county": "Washington",
+      "countySlug": "washington-county",
+      "cities": [
+        {
+          "name": "Brenham",
+          "slug": "brenham"
+        },
+        {
+          "name": "Burton",
+          "slug": "burton"
+        },
+        {
+          "name": "Chappell hill",
+          "slug": "chappell-hill"
+        },
+        {
+          "name": "Washington",
+          "slug": "washington"
+        }
+      ]
+    },
+    {
+      "county": "Webb",
+      "countySlug": "webb-county",
+      "cities": [
+        {
+          "name": "Bruni",
+          "slug": "bruni"
+        },
+        {
+          "name": "Laredo",
+          "slug": "laredo"
+        },
+        {
+          "name": "Mirando city",
+          "slug": "mirando-city"
+        },
+        {
+          "name": "Oilton",
+          "slug": "oilton"
+        },
+        {
+          "name": "Rio bravo",
+          "slug": "rio-bravo"
+        },
+        {
+          "name": "Zcta 78045",
+          "slug": "zcta-78045"
+        },
+        {
+          "name": "Zcta 78046",
+          "slug": "zcta-78046"
+        },
+        {
+          "name": "Zcta 780xx",
+          "slug": "zcta-780xx"
+        },
+        {
+          "name": "Zcta 783xx",
+          "slug": "zcta-783xx"
+        }
+      ]
+    },
+    {
+      "county": "Wharton",
+      "countySlug": "wharton-county",
+      "cities": [
+        {
+          "name": "Boling",
+          "slug": "boling"
+        },
+        {
+          "name": "Danevang",
+          "slug": "danevang"
+        },
+        {
+          "name": "East bernard",
+          "slug": "east-bernard"
+        },
+        {
+          "name": "El campo",
+          "slug": "el-campo"
+        },
+        {
+          "name": "Glen flora",
+          "slug": "glen-flora"
+        },
+        {
+          "name": "Hungerford",
+          "slug": "hungerford"
+        },
+        {
+          "name": "Lissie",
+          "slug": "lissie"
+        },
+        {
+          "name": "Louise",
+          "slug": "louise"
+        },
+        {
+          "name": "Pierce",
+          "slug": "pierce"
+        },
+        {
+          "name": "Wharton",
+          "slug": "wharton"
+        }
+      ]
+    },
+    {
+      "county": "Wheeler",
+      "countySlug": "wheeler-county",
+      "cities": [
+        {
+          "name": "Allison",
+          "slug": "allison"
+        },
+        {
+          "name": "Briscoe",
+          "slug": "briscoe"
+        },
+        {
+          "name": "Mobeetie",
+          "slug": "mobeetie"
+        },
+        {
+          "name": "Twitty",
+          "slug": "twitty"
+        },
+        {
+          "name": "Wheeler",
+          "slug": "wheeler"
+        }
+      ]
+    },
+    {
+      "county": "Wichita",
+      "countySlug": "wichita-county",
+      "cities": [
+        {
+          "name": "Burkburnett",
+          "slug": "burkburnett"
+        },
+        {
+          "name": "Electra",
+          "slug": "electra"
+        },
+        {
+          "name": "Iowa park",
+          "slug": "iowa-park"
+        },
+        {
+          "name": "Sheppard afb",
+          "slug": "sheppard-afb"
+        },
+        {
+          "name": "Wichita falls",
+          "slug": "wichita-falls"
+        }
+      ]
+    },
+    {
+      "county": "Wilbarger",
+      "countySlug": "wilbarger-county",
+      "cities": [
+        {
+          "name": "Harrold",
+          "slug": "harrold"
+        },
+        {
+          "name": "Odell",
+          "slug": "odell"
+        },
+        {
+          "name": "Oklaunion",
+          "slug": "oklaunion"
+        },
+        {
+          "name": "Vernon",
+          "slug": "vernon"
+        }
+      ]
+    },
+    {
+      "county": "Willacy",
+      "countySlug": "willacy-county",
+      "cities": [
+        {
+          "name": "Lyford",
+          "slug": "lyford"
+        },
+        {
+          "name": "Port mansfield",
+          "slug": "port-mansfield"
+        },
+        {
+          "name": "Raymondville",
+          "slug": "raymondville"
+        },
+        {
+          "name": "Sebastian",
+          "slug": "sebastian"
+        }
+      ]
+    },
+    {
+      "county": "Williamson",
+      "countySlug": "williamson-county",
+      "cities": [
+        {
+          "name": "Andice",
+          "slug": "andice"
+        },
+        {
+          "name": "Austin",
+          "slug": "austin"
+        },
+        {
+          "name": "Bartlett",
+          "slug": "bartlett"
+        },
+        {
+          "name": "Cedar park",
+          "slug": "cedar-park"
+        },
+        {
+          "name": "Coupland",
+          "slug": "coupland"
+        },
+        {
+          "name": "Florence",
+          "slug": "florence"
+        },
+        {
+          "name": "Georgetown",
+          "slug": "georgetown"
+        },
+        {
+          "name": "Granger",
+          "slug": "granger"
+        },
+        {
+          "name": "Hutto",
+          "slug": "hutto"
+        },
+        {
+          "name": "Jarrell",
+          "slug": "jarrell"
+        },
+        {
+          "name": "Leander",
+          "slug": "leander"
+        },
+        {
+          "name": "Liberty hill",
+          "slug": "liberty-hill"
+        },
+        {
+          "name": "Round rock",
+          "slug": "round-rock"
+        },
+        {
+          "name": "Taylor",
+          "slug": "taylor"
+        },
+        {
+          "name": "Thrall",
+          "slug": "thrall"
+        }
+      ]
+    },
+    {
+      "county": "Wilson",
+      "countySlug": "wilson-county",
+      "cities": [
+        {
+          "name": "Floresville",
+          "slug": "floresville"
+        },
+        {
+          "name": "La vernia",
+          "slug": "la-vernia"
+        },
+        {
+          "name": "Pandora",
+          "slug": "pandora"
+        },
+        {
+          "name": "Poth",
+          "slug": "poth"
+        },
+        {
+          "name": "Stockdale",
+          "slug": "stockdale"
+        },
+        {
+          "name": "Sutherland sprin",
+          "slug": "sutherland-sprin"
+        }
+      ]
+    },
+    {
+      "county": "Winkler",
+      "countySlug": "winkler-county",
+      "cities": [
+        {
+          "name": "Kermit",
+          "slug": "kermit"
+        },
+        {
+          "name": "Wink",
+          "slug": "wink"
+        }
+      ]
+    },
+    {
+      "county": "Wise",
+      "countySlug": "wise-county",
+      "cities": [
+        {
+          "name": "Alvord",
+          "slug": "alvord"
+        },
+        {
+          "name": "Boyd",
+          "slug": "boyd"
+        },
+        {
+          "name": "Bridgeport",
+          "slug": "bridgeport"
+        },
+        {
+          "name": "Chico",
+          "slug": "chico"
+        },
+        {
+          "name": "Decatur",
+          "slug": "decatur"
+        },
+        {
+          "name": "Greenwood",
+          "slug": "greenwood"
+        },
+        {
+          "name": "Newark",
+          "slug": "newark"
+        },
+        {
+          "name": "Paradise",
+          "slug": "paradise"
+        },
+        {
+          "name": "Rhome",
+          "slug": "rhome"
+        }
+      ]
+    },
+    {
+      "county": "Wood",
+      "countySlug": "wood-county",
+      "cities": [
+        {
+          "name": "Alba",
+          "slug": "alba"
+        },
+        {
+          "name": "Golden",
+          "slug": "golden"
+        },
+        {
+          "name": "Hawkins",
+          "slug": "hawkins"
+        },
+        {
+          "name": "Mineola",
+          "slug": "mineola"
+        },
+        {
+          "name": "Quitman",
+          "slug": "quitman"
+        },
+        {
+          "name": "Winnsboro",
+          "slug": "winnsboro"
+        },
+        {
+          "name": "Yantis",
+          "slug": "yantis"
+        }
+      ]
+    },
+    {
+      "county": "Yoakum",
+      "countySlug": "yoakum-county",
+      "cities": [
+        {
+          "name": "Denver city",
+          "slug": "denver-city"
+        },
+        {
+          "name": "Plains",
+          "slug": "plains"
+        },
+        {
+          "name": "Tokio",
+          "slug": "tokio"
+        }
+      ]
+    },
+    {
+      "county": "Young",
+      "countySlug": "young-county",
+      "cities": [
+        {
+          "name": "Graham",
+          "slug": "graham"
+        },
+        {
+          "name": "Loving",
+          "slug": "loving"
+        },
+        {
+          "name": "Newcastle",
+          "slug": "newcastle"
+        },
+        {
+          "name": "Olney",
+          "slug": "olney"
+        },
+        {
+          "name": "South bend",
+          "slug": "south-bend"
+        }
+      ]
+    },
+    {
+      "county": "Zapata",
+      "countySlug": "zapata-county",
+      "cities": [
+        {
+          "name": "San ygnacio",
+          "slug": "san-ygnacio"
+        },
+        {
+          "name": "Zapata",
+          "slug": "zapata"
+        }
+      ]
+    },
+    {
+      "county": "Zavala",
+      "countySlug": "zavala-county",
+      "cities": [
+        {
+          "name": "Batesville",
+          "slug": "batesville"
+        },
+        {
+          "name": "Crystal city",
+          "slug": "crystal-city"
+        },
+        {
+          "name": "La pryor",
+          "slug": "la-pryor"
+        }
+      ]
+    }
+  ]
+}

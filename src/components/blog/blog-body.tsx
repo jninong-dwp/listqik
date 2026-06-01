@@ -1,4 +1,53 @@
+import Link from "next/link";
+import type { ReactNode } from "react";
+
 const IMAGE_LINE_RE = /^!\[([^\]]*)\]\(([^)]+)\)$/;
+const INLINE_LINK_RE = /\[([^\]]+)\]\(([^)]+)\)/g;
+
+function renderInlineMarkdown(text: string, keyPrefix: string) {
+  const parts: ReactNode[] = [];
+  let lastIndex = 0;
+  let matchIndex = 0;
+  for (const match of text.matchAll(INLINE_LINK_RE)) {
+    const index = match.index ?? 0;
+    if (index > lastIndex) {
+      parts.push(text.slice(lastIndex, index));
+    }
+    const label = match[1] ?? "";
+    const href = match[2]?.trim() ?? "";
+    if (href.startsWith("/")) {
+      parts.push(
+        <Link
+          key={`${keyPrefix}-link-${matchIndex}`}
+          href={href}
+          className="text-emerald-300 underline underline-offset-2 hover:text-emerald-200"
+        >
+          {label}
+        </Link>,
+      );
+    } else if (href) {
+      parts.push(
+        <a
+          key={`${keyPrefix}-link-${matchIndex}`}
+          href={href}
+          className="text-emerald-300 underline underline-offset-2 hover:text-emerald-200"
+          rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+          target={href.startsWith("http") ? "_blank" : undefined}
+        >
+          {label}
+        </a>,
+      );
+    } else {
+      parts.push(match[0]);
+    }
+    lastIndex = index + match[0].length;
+    matchIndex += 1;
+  }
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex));
+  }
+  return parts.length > 0 ? parts : text;
+}
 
 /** Renders admin-authored blog body (lightweight markdown-style). */
 export function BlogBody({ body }: { body: string }) {
@@ -57,7 +106,7 @@ export function BlogBody({ body }: { body: string }) {
               className="list-disc space-y-1 pl-5 text-white/80 marker:text-emerald-300/70"
             >
               {lines.map((line, j) => (
-                <li key={j}>{line.slice(2).trim()}</li>
+                <li key={j}>{renderInlineMarkdown(line.slice(2).trim(), `li-${i}-${j}`)}</li>
               ))}
             </ul>
           );
@@ -68,7 +117,7 @@ export function BlogBody({ body }: { body: string }) {
             {lines.map((line, j) => (
               <span key={j}>
                 {j > 0 ? <br /> : null}
-                {line}
+                {renderInlineMarkdown(line, `p-${i}-${j}`)}
               </span>
             ))}
           </p>

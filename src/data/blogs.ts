@@ -2,6 +2,15 @@ import type { BlogPost } from "./types";
 
 export const blogs: BlogPost[] = [
   {
+    slug: "discovering-texas-diverse-counties-guide",
+    title: "Discovering Texas: A Guide to the Lone Star State's Diverse Counties",
+    publishedAt: "2026-05-28",
+    readingMinutes: 9,
+    category: "marketing",
+    summary:
+      "From Houston and DFW to the Hill Country and Gulf Coast, explore why Texas counties attract residents, investors, and businesses—and how to find the right market for your goals.",
+  },
+  {
     slug: "deploy-listing-in-4-hours",
     title: "Deploy a Listing in 4 Hours: The Controller Workflow",
     publishedAt: "2026-03-01",

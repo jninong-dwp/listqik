@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/container";
+import { ServiceAreaHubJsonLd } from "@/components/service-area/service-area-hub-json-ld";
 import { TexasServiceAreaMap } from "@/components/service-area/texas-service-area-map";
+import { TEXAS_LOCATION_STATS } from "@/lib/texas-location-seo";
 import {
   buildTexasCountyMap,
   EXTENDED_SERVICE_COUNT,
@@ -12,11 +14,16 @@ import {
 } from "@/lib/service-area";
 
 export const metadata: Metadata = {
-  title: "Service Area",
+  title: "Texas Service Area | ListQik Home Listings",
   description:
-    "See ListQik's current Texas service coverage, including primary DFW counties, extended Texas county support, and Houston HAR market reference counties.",
+    "ListQik Texas service coverage for home sellers: DFW primary counties, extended statewide support, Houston HAR market counties, and dedicated pages for every Texas county and city.",
   alternates: {
     canonical: "/service-area",
+  },
+  openGraph: {
+    title: "Texas Service Area | ListQik",
+    description:
+      "Broker-backed MLS listing support across Texas. Explore DFW, Houston HAR, and county-by-city coverage pages.",
   },
 };
 
@@ -206,6 +213,7 @@ export default function ServiceAreaPage() {
 
   return (
     <div className="py-10 sm:py-14">
+      <ServiceAreaHubJsonLd />
       <Container>
         <div className="mx-auto max-w-7xl space-y-8">
           <header className="space-y-4">
@@ -226,6 +234,13 @@ export default function ServiceAreaPage() {
               <StatPill label="Additional Counties" value={EXTENDED_SERVICE_COUNT} />
               <StatPill label="Total Counties" value={TOTAL_SERVICE_COUNT} />
             </div>
+            <p className="text-sm text-white/55">
+              Local SEO index:{" "}
+              <Link href="/service-area/texas" className="text-emerald-300 underline">
+                {TEXAS_LOCATION_STATS.countyCount} Texas counties
+              </Link>{" "}
+              and {TEXAS_LOCATION_STATS.cityCount} cities with dedicated listing pages for search and ads.
+            </p>
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="rounded-2xl border border-emerald-500/20 bg-emerald-950/12 p-4">
                 <div className="text-xs font-semibold tracking-widest text-emerald-200/70">
