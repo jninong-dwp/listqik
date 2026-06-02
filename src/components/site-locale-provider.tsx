@@ -1,6 +1,6 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   createContext,
   useCallback,
@@ -42,7 +42,19 @@ function readLocaleFromStorage(): HomeLocale | null {
   return readStoredHomeLocale();
 }
 
+function localeFromPathname(pathname: string): HomeLocale | null {
+  return pathname === "/es" || pathname.startsWith("/es/") ? "es" : null;
+}
+
+function stripEsPrefix(pathname: string): string {
+  if (pathname === "/es") return "/";
+  if (pathname.startsWith("/es/")) return pathname.slice(3) || "/";
+  return pathname;
+}
+
 export function SiteLocaleProvider({ children }: { children: ReactNode }) {
+  const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const [locale, setLocaleState] = useState<HomeLocale>("en");
   const [ready, setReady] = useState(false);
@@ -53,6 +65,13 @@ export function SiteLocaleProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
+    const pathLocale = localeFromPathname(pathname);
+    if (pathLocale) {
+      applyLocale(pathLocale);
+      setReady(true);
+      return;
+    }
+
     const langParam = searchParams.get("lang");
     if (isHomeLocale(langParam)) {
       applyLocale(langParam);
@@ -70,7 +89,7 @@ export function SiteLocaleProvider({ children }: { children: ReactNode }) {
 
     applyLocale(detectBrowserHomeLocale());
     setReady(true);
-  }, [searchParams, applyLocale]);
+  }, [pathname, searchParams, applyLocale]);
 
   useEffect(() => {
     const onStorage = (event: StorageEvent) => {
@@ -100,8 +119,19 @@ export function SiteLocaleProvider({ children }: { children: ReactNode }) {
   const setLocale = useCallback(
     (next: HomeLocale) => {
       applyLocale(next);
+
+      const wantsEs = next === "es";
+      const isEsPath = pathname === "/es" || pathname.startsWith("/es/");
+      if (wantsEs === isEsPath) return;
+
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete("lang");
+      const qs = params.toString();
+
+      const nextPathname = wantsEs ? `/es${stripEsPrefix(pathname)}`.replace(/\/$/, "") || "/es" : stripEsPrefix(pathname);
+      router.push(qs ? `${nextPathname}?${qs}` : nextPathname);
     },
-    [applyLocale],
+    [applyLocale, pathname, router, searchParams],
   );
 
   const chrome = useMemo(() => getSiteChromeCopy(locale), [locale]);
